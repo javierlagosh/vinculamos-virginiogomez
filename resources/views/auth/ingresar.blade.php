@@ -18,7 +18,7 @@
     {{-- <body style="background-image: url({{asset('img/logos/twk-fondo.jpeg')}})"> --}}
     <body>
         <div class="container">
-            <img src="{{ '/img/logos/twk-tag-right-big-azul.png' }}" alt="Imagen" class="img-fluid">
+            <img src="{{ '/img/logos/logo_vg_color.png' }}" alt="Imagen" class="img-fluid">
             <form action="{{ route('auth.ingresar') }}" class="signin-form" method="POST">
                 @csrf
                 <!-- Mensajes de Error -->

@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>VINCULAMOS - TWK</title>
+    <title>VINCULAMOS - IP Virgio Gómez</title>
     <!-- General CSS Files -->
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/social.css') }}" rel="stylesheet">
@@ -19,7 +19,7 @@
     <link href="{{ asset('/css/components.css') }}" rel="stylesheet">
     <!-- Custom style CSS -->
     <link href="{{ asset('/css/custom.css') }}" rel="stylesheet">
-    <link rel='shortcut icon' type='image/x-icon' href={{ '/img/logos/twk-cuadrado-fondo-azul.png' }} />
+    <link rel='shortcut icon' type='image/x-icon' href={{ '/img/logos/logo.png' }} />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
@@ -65,7 +65,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="navbar-brand d-flex align-items-center" href="javascript:void(0)">
-                            <img alt="Logo" src="{{ asset('/img/logos/twk-tag-right-big-azul.png')}}" class="header-logo" style="max-height: 40px; margin-right: 10px;">
+                            <img alt="Logo" src="{{ asset('/img/logos/logo_vg_color.png')}}" class="header-logo" style="max-height: 40px; margin-right: 10px;">
                             <span class="logo-name" style="font-size: 15px;"></span>
                         </a>
                     </li>

@@ -20,7 +20,7 @@
 
 <body>
     <div style="text-align: center;">
-        <img src="https://twk.vinculamos.org/img/logos/twk-tag-right-big-azul.png" alt="logo twk" style="width:293px;heigh:81px;">
+        <img src="https://twk.vinculamos.org/img/logos/logo_vg_color.png" alt="logo twk" style="width:293px;heigh:81px;">
       </div>
 
     {{-- {{dd($odsValues)}} --}}
