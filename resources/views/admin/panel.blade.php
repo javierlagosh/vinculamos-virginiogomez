@@ -57,7 +57,8 @@
                         data-feather="command"></i><span>Parámetros</span></a>
                 <ul class="dropdown-menu">
                     <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.sedes') }}">Sedes</a></li>
-                    <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.escuelas') }}">Carrera</a>
+                    <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.escuelas') }}">Escuelas</a></li>
+                    <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.carreras') }}">Carrera</a>
                     </li>
                     {{-- <li><a style="font-size: 90%;" class="nav-link" href="{{route("admin.listar.carreras")}}">Carreras</a></li> --}}
                     <li><a style="font-size: 90%;" class="nav-link"

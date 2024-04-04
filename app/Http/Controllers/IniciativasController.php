@@ -1666,6 +1666,7 @@ class IniciativasController extends Controller
     // FUNCIONES PARA EL PASO 3
     public function editarPaso3($inic_codigo)
     {
+        
         $iniciativa = Iniciativas::where('inic_codigo', $inic_codigo)->first();
         // $inicEditar = Iniciativas::where('inic_codigo', $inic_codigo)->first();
         // $listarRegiones = Regiones::select('regi_codigo', 'regi_nombre')->orderBy('regi_codigo')->get();

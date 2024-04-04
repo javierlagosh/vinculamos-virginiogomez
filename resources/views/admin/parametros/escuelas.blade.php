@@ -44,7 +44,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h4>Listado de Carreras</h4>
+                            <h4>Listado de Escuelas</h4>
                             <div class="card-header-action">
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
                                     data-target="#modalCrearEscuela"><i class="fas fa-plus"></i> Nueva carrera</button>

@@ -400,9 +400,9 @@
                                                     class="fas fa-chevron-left"></i>
                                                 Paso anterior</a>
                                         </strong>
-                                        <a href="{{ route($role . '.editar.paso3', $iniciativa->inic_codigo) }}"
+                                        <a href="{{ route($role . '.iniciativas.detalles', $iniciativa->inic_codigo) }}"
                                             type="button" class="btn btn-primary mr-1 waves-effect">
-                                            Paso siguiente <i class="fas fa-chevron-right"></i></a>
+                                            Finalizar y volver a detalles <i class="fas fa-chevron-right"></i></a>
                                     </div>
                                 </div>
                             </div>

@@ -122,21 +122,17 @@ Route::middleware('verificar.admin')->group(function () {
     Route::put('admin/actualizar/sedes/{sede_codigo}', [ParametrosController::class, 'actualizarSedes'])->name('admin.actualizar.sedes');
 
     //Carreras
-    Route::get('admin/listar-carrerasS', [ParametrosController::class, 'listarCarreras'])->name('admin.listar.carreras');
-    Route::delete('admin/eliminar-carrerasS/', [ParametrosController::class, 'eliminarCarreras'])->name('admin.eliminar.carreras');
-    Route::put('admin/editar-carrerasS/{care_codigo}', [ParametrosController::class, 'actualizarCarreras'])->name('admin.actualizar.carreras');
-    Route::post('admin/crear-carrerasS/', [ParametrosController::class, 'crearCarreras'])->name('admin.crear.carreras');
+    Route::get('admin/listar-carreras', [ParametrosController::class, 'listarCarreras'])->name('admin.listar.carreras');
+    Route::delete('admin/eliminar-carreras/', [ParametrosController::class, 'eliminarCarreras'])->name('admin.eliminar.carreras');
+    Route::put('admin/editar-carreras/{care_codigo}', [ParametrosController::class, 'actualizarCarreras'])->name('admin.actualizar.carreras');
+    Route::post('admin/crear-carreras/', [ParametrosController::class, 'crearCarreras'])->name('admin.crear.carreras');
 
     // TODO: ESCUELAS SE UTILIZA PARA CARRERAS
-    //Route::get('admin/listar-escuelas', [ParametrosController::class, 'listarEscuelas'])->name('admin.listar.escuelas');
-    //Route::delete('admin/eliminar-escuelas/', [ParametrosController::class, 'eliminarEscuelas'])->name('admin.eliminar.escuelas');
-    //Route::put('escuelas/{escu_codigo}/actualizar', [ParametrosController::class, 'actualizarEscuelas'])->name('admin.actualizar.escuelas');
-    //Route::post('admin/crear-escuelas/', [ParametrosController::class, 'crearEscuelas'])->name('admin.crear.escuelas');
     //Escuelas
-    Route::get('admin/listar-carreras', [ParametrosController::class, 'listarEscuelas'])->name('admin.listar.escuelas');
-    Route::delete('admin/eliminar-carreras/', [ParametrosController::class, 'eliminarEscuelas'])->name('admin.eliminar.escuelas');
-    Route::put('carreras/{escu_codigo}/actualizar', [ParametrosController::class, 'actualizarEscuelas'])->name('admin.actualizar.escuelas');
-    Route::post('admin/crear-carreras/', [ParametrosController::class, 'crearEscuelas'])->name('admin.crear.escuelas');
+    Route::get('admin/listar-escuelas', [ParametrosController::class, 'listarEscuelas'])->name('admin.listar.escuelas');
+    Route::delete('admin/eliminar-escuelas/', [ParametrosController::class, 'eliminarEscuelas'])->name('admin.eliminar.escuelas');
+    Route::put('escuelas/{escu_codigo}/actualizar', [ParametrosController::class, 'actualizarEscuelas'])->name('admin.actualizar.escuelas');
+    Route::post('admin/crear-escuelas/', [ParametrosController::class, 'crearEscuelas'])->name('admin.crear.escuelas');
 
     //Socios Comunitarios
     Route::get('admin/listar-socios', [ParametrosController::class, 'listarSocios'])->name('admin.listar.socios');
