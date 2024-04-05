@@ -8,7 +8,7 @@
                     <div class="row">
                         <div class="col-3"></div>
                         <div class="col-6">
-                            @if ($errors->has('care_nombre') || $errors->has('care_director') || $errors->has('escu_codigo'))
+                            @if ($errors->has('care_nombre') || $errors->has('care_director') || $errors->has('sede_codigo'))
                                 <div class="alert alert-warning alert-dismissible show fade mb-4 text-center">
                                     <div class="alert-body">
                                         <button class="close" data-dismiss="alert"><span>&times;</span></button>
@@ -18,8 +18,8 @@
                                         @if ($errors->has('care_director'))
                                             <strong>{{ $errors->first('care_director') }}</strong><br>
                                         @endif
-                                        @if ($errors->has('escu_codigo'))
-                                            <strong>{{ $errors->first('escu_codigo') }}</strong><br>
+                                        @if ($errors->has('sede_codigo'))
+                                            <strong>{{ $errors->first('sede_codigo') }}</strong><br>
                                         @endif
                                     </div>
                                 </div>
@@ -154,18 +154,18 @@
                             </div>
                         </div> --}}
                             <div class="form-group">
-                                <label>Escuela</label>
+                                <label>Sede</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <i class="fas fa-building"></i>
                                         </div>
                                     </div>
-                                    <select class="form-control" id="escu_codigo" name="escu_codigo">
-                                        @foreach ($escuelas as $escuela)
-                                            <option value="{{ $escuela->escu_codigo }}"
-                                                {{ $care->escu_codigo == $escuela->escu_codigo ? 'selected' : '' }}>
-                                                {{ $escuela->escu_nombre }}
+                                    <select class="form-control" id="sede_codigo" name="sede_codigo">
+                                        @foreach ($sedes as $sede)
+                                            <option value="{{ $sede->sede_codigo }}"
+                                                {{ $care->sede_codigo == $sede->sede_codigo ? 'selected' : '' }}>
+                                                {{ $sede->sede_nombre }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -372,25 +372,25 @@
                             </div>
                         </div> --}}
                         <div class="form-group">
-                            <label>Escuela</label>
+                            <label>Sede</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
                                         <i class="fas fa-building"></i>
                                     </div>
                                 </div>
-                                <select class="form-control" id="escu_codigo" name="escu_codigo">
-                                    @foreach ($escuelas as $escuela)
-                                        <option value="{{ $escuela->escu_codigo }}">{{ $escuela->escu_nombre }}</option>
+                                <select class="form-control" id="sede_codigo" name="sede_codigo">
+                                    @foreach ($sedes as $sede)
+                                        <option value="{{ $sede->sede_codigo }}">{{ $sede->sede_nombre }}</option>
                                     @endforeach
                                 </select>
 
-                                @if ($errors->has('escu_codigo'))
+                                @if ($errors->has('sede_codigo'))
                                     <div class="alert alert-warning alert-dismissible show fade mt-2 text-center"
                                         style="width:100%">
                                         <div class="alert-body">
                                             <button class="close" data-dismiss="alert"><span>&times;</span></button>
-                                            <strong>{{ $errors->first('escu_codigo') }}</strong>
+                                            <strong>{{ $errors->first('sede_codigo') }}</strong>
                                         </div>
                                     </div>
                                 @endif

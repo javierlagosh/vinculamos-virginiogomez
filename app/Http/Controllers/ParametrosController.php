@@ -732,10 +732,12 @@ class ParametrosController extends Controller
     {
         $carreras = Carreras::orderBy('care_codigo', 'asc')->get();
         $escuelas = Escuelas::orderBy('escu_codigo', 'asc')->get();
+        $sedes = Sedes::orderBy('sede_codigo', 'asc')->get();
 
         return view('admin.parametros.carreras', [
             'carreras' => $carreras,
-            'escuelas' => $escuelas
+            'escuelas' => $escuelas,
+            'sedes' => $sedes
         ]);
     }
 
@@ -773,7 +775,7 @@ class ParametrosController extends Controller
             'care_nombre' => 'required|max:255',
             /* 'care_director' => 'required|max:100', */
             /* 'care_institucion' => 'required|max:100', */
-            'escu_codigo' => 'required',
+            'sede_codigo' => 'required',
         ], [
             'care_nombre.required' => 'El nombre es requerido.',
             'care_nombre.max' => 'El nombre excede el máximo de caracteres permitidos (255).',
@@ -781,7 +783,7 @@ class ParametrosController extends Controller
             'care_director.max' => 'El nombre del director excede el máximo de caracteres permitidos (100).', */
             /* 'care_institucion.required' => 'El nombre de la institución es requerido.',
             'care_institucion.max' => 'El nombre de la institución excede el máximo de caracteres permitidos (100).', */
-            'escu_codigo.required' => 'Seleccione una escuela.',
+            'sede_codigo.required' => 'Seleccione una sede.',
         ]);
 
         if (!$validacion) {
@@ -791,7 +793,7 @@ class ParametrosController extends Controller
         // Actualizar los campos de la carrera con los valores del formulario
         $carrera->care_nombre = $request->input('care_nombre');
         $carrera->care_descripcion = $request->input('care_descripcion');
-        $carrera->escu_codigo = $request->input('escu_codigo');
+        $carrera->sede_codigo = $request->input('sede_codigo');
         $carrera->care_meta_estudiantes = $request->input('meta_estudiantes');
         $carrera->care_meta_docentes = $request->input('meta_docentes');
         $carrera->care_meta_soc_comunitarios = $request->input('meta_comunitarios');
@@ -807,11 +809,12 @@ class ParametrosController extends Controller
 
     public function crearCarreras(Request $request)
     {
+        
         $validacion = $request->validate([
             'care_nombre' => 'required|max:255',
             /* 'care_director' => 'required|max:100', */
             /* 'care_institucion' => 'required|max:100', */
-            'escu_codigo' => 'required',
+            'sede_codigo' => 'required',
         ], [
             'care_nombre.required' => 'El nombre es requerido.',
             'care_nombre.max' => 'El nombre excede el máximo de caracteres permitidos (255).',
@@ -819,7 +822,7 @@ class ParametrosController extends Controller
             'care_director.max' => 'El nombre del director excede el máximo de caracteres permitidos (100).', */
             /* 'care_institucion.required' => 'El nombre de la institución es requerido.',
             'care_institucion.max' => 'El nombre de la institución excede el máximo de caracteres permitidos (100).', */
-            'escu_codigo.required' => 'Seleccione una escuela.',
+            'sede_codigo.required' => 'Seleccione una sede.',
         ]);
 
         if (!$validacion) {
@@ -829,7 +832,7 @@ class ParametrosController extends Controller
         $carrera = new Carreras();
         $carrera->care_nombre = $request->input('care_nombre');
         $carrera->care_descripcion = $request->input('care_descripcion');
-        $carrera->escu_codigo = $request->input('escu_codigo');
+        $carrera->sede_codigo = $request->input('sede_codigo');
         $carrera->care_meta_estudiantes = $request->input('meta_estudiantes');
         $carrera->care_meta_docentes = $request->input('meta_docentes');
         $carrera->care_meta_soc_comunitarios = $request->input('meta_comunitarios');
@@ -1410,19 +1413,31 @@ class ParametrosController extends Controller
             'tiac_codigo' => 'required|numeric',
         ]);
 
-        $tipoact = TipoActividades::find($request->input('tiac_codigo'));
+        try {
+            $tipoact = TipoActividades::find($request->input('tiac_codigo'));
         if (!$tipoact) {
             return redirect()->route('admin.listar.tipoact')->with('error', 'Tipo de actividad no encontrado.');
         }
 
-        $predrop = Mecanismos::where('tiac_codigo', $request->tiac_codigo)->first();
+        $predrop = MecanismosActividades::where('tiac_codigo', $request->tiac_codigo)->first();
         if ($predrop) {
-            return redirect()->route('admin.listar.tipoact')->with('error', 'El Tipo de actividad está siendo ocupada en un mecanismo.');
+            $predrop->tiac_codigo = null;
+            $predrop->save();
         }
 
-        $pre_drop = Iniciativas::where('tiac_codigo', $request->tiac_codigo)->first();
+        
+        } catch (\Throwable $th) {
+            //
+        }
+
+        try {
+            $pre_drop = Iniciativas::where('tiac_codigo', $request->tiac_codigo)->first();
         if ($pre_drop) {
-            return redirect()->route('admin.listar.tipoact')->with('error', 'El Tipo de actividad está siendo ocupada en una iniciativa.');
+            $predrop->tiac_codigo = null;
+            $predrop->save();
+        }
+        } catch (\Throwable $th) {
+            //
         }
 
         $tipoact->delete();
