@@ -54,6 +54,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Nombre</th>
+                                            <th>Tipo</th>
 
                                             <th>Acciones</th>
                                         </tr>
@@ -70,7 +71,15 @@
                                             <tr>
                                                 <td>{{ $contador }}</td>
                                                 <td>{{ $grin->grin_nombre }}</td>
-
+                                                <td>
+                                                    @if ($grin->grin_tipo == 1)
+                                                        Interno
+                                                    @elseif ($grin->grin_tipo == 2)
+                                                        Externo
+                                                    @else
+                                                        No definido
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     <a href="javascript:void(0)" class="btn btn-icon btn-danger"
                                                         onclick="eliminarGrupo({{ $grin->grin_codigo }})"
@@ -127,6 +136,14 @@
                                 @enderror
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="grin_tipo">Tipo</label>
+                            <select name="grin_tipo" class="form-control" id="grin_tipo">
+                                <option value="1">Interno</option>
+                                <option value="2">Externo</option>
+                            </select>
+                            
+                        </div>
 
 
                         <div class="text-center">
@@ -172,6 +189,15 @@
                                         </div>
                                     @enderror
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="grin_tipo">Tipo</label>
+                                <select name="grin_tipo" class="form-control" id="grin_tipo">
+                                    <option value="">Seleccione...</option>
+                                    <option value="1" @if ($grin->grin_tipo == 1) selected @endif>Interno</option>
+                                    <option value="2" @if ($grin->grin_tipo == 2) selected @endif>Externo</option>
+                                </select>
+                                
                             </div>
 
 

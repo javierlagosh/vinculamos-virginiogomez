@@ -14,12 +14,12 @@
                     ? 'dropdown active'
                     : 'dropdown' }}">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
-                        data-feather="book-open"></i><span>Iniciativas</span></a>
+                        data-feather="book-open"></i><span>Actividades</span></a>
                 <ul class="dropdown-menu">
                     <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.iniciativa.listar') }}">Listado de
-                            iniciativas</a></li>
+                            actividades</a></li>
                     <li><a style="font-size: 90%;" class="nav-link"
-                            href="{{ route('admin.inicitiativas.crear.primero') }}">Crear iniciativa</a></li>
+                            href="{{ route('admin.inicitiativas.crear.primero') }}">Crear actividad</a></li>
                 </ul>
             </li>
             <li class="dropdown">
@@ -27,7 +27,7 @@
                         data-feather="clipboard"></i><span>Bitácora</span></a>
                 <ul class="dropdown-menu">
                     <li><a style="font-size: 90%;" class="nav-link"
-                            href="{{ route('admin.listar.actividades') }}">Actividades</a></li>
+                            href="{{ route('admin.listar.actividades') }}">Reuniones</a></li>
                     {{-- <li><a style="font-size: 90%;" class="nav-link" href="{{route('admin.listar.donaciones')}}">Listar donación</a></li>
                     <li><a style="font-size: 90%;" class="nav-link" href="{{route('admin.ingresar.donaciones')}}">Ingresar donación</a></li> --}}
                 </ul>

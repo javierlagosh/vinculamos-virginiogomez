@@ -132,7 +132,7 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" hidden>
                             <label>Dirección de la sede</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -141,7 +141,7 @@
                                     </div>
                                 </div>
                                 <input type="text" class="form-control" id="direccion" name="direccion"
-                                    value="{{ old('direccion') }}" autocomplete="off">
+                                    value="0" autocomplete="off">
                             </div>
                             @error('direccion')
                                 <div class="text-danger">{{ $message }}</div>
@@ -157,7 +157,7 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div> --}}
-                        <div class="form-group">
+                        <div class="form-group" hidden>
                             <label>Meta Estudiantes</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -166,14 +166,14 @@
                                     </div>
                                 </div>
                                 <input type="number" class="form-control" id="sede_meta_estudiantes"
-                                    name="sede_meta_estudiantes" value="{{ old('sede_meta_estudiantes') }}"
+                                    name="sede_meta_estudiantes" value="0"
                                     autocomplete="off">
                             </div>
                             @error('sede_meta_estudiantes')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" hidden>
                             <label>Meta Docentes</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -182,7 +182,7 @@
                                     </div>
                                 </div>
                                 <input type="number" class="form-control" id="sede_meta_docentes" name="sede_meta_docentes"
-                                    value="{{ old('sede_meta_docentes') }}" autocomplete="off">
+                                    value="0" autocomplete="off">
                             </div>
                             @error('sede_meta_docentes')
                                 <div class="text-danger">{{ $message }}</div>
@@ -204,7 +204,7 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div> --}}
-                        <div class="form-group">
+                        <div class="form-group" hidden>
                             <label>Meta Iniciativas</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
@@ -213,7 +213,7 @@
                                     </div>
                                 </div>
                                 <input type="text" class="form-control" id="sede_meta_iniciativas"
-                                    name="sede_meta_iniciativas" value="{{ old('sede_meta_iniciativas') }}"
+                                    name="sede_meta_iniciativas" value="0"
                                     autocomplete="off">
                             </div>
                             @error('sede_meta_iniciativas')
@@ -261,7 +261,7 @@
                                         value="{{ $sede->sede_nombre }}" autocomplete="off">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" hidden>
                                 <label>Dirección de la sede</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -280,7 +280,7 @@
                                     <textarea rows="6" class="form-control" id="sede_descripcion" name="sede_descripcion">{{ $sede->sede_descripcion }}</textarea>
                                 </div>
                             </div> --}}
-                            <div class="form-group">
+                            <div class="form-group" hidden>
                                 <label>Meta Estudiantes</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -293,7 +293,7 @@
                                         autocomplete="off">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" hidden>
                                 <label>Meta Docentes</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -319,7 +319,7 @@
                                         autocomplete="off">
                                 </div>
                             </div>--}}
-                            <div class="form-group">
+                            <div class="form-group" hidden>
                                 <label>Meta Iniciativas</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">

@@ -15,33 +15,56 @@
         $role = 'supervisor';
     @endphp
 @endif
-
 @extends('admin.panel')
-
 @section('contenido')
     <section class="section">
         <div class="section-body">
             <div class="row">
                 <div class="col-xl-3"></div>
                 <div class="col-xl-6">
-                    @foreach ([
-            'exitoPaso1' => 'alert-success',
-            'ExisteSocio' => 'alert-warning',
-            'errorPaso2' => 'alert-danger',
-            'socoError' => 'alert-danger',
-            'socoExito' => 'alert-success',
-        ] as $sessionKey => $alertClass)
-                        @if (Session::has($sessionKey))
-                            <div class="alert {{ $alertClass }} alert-dismissible show fade mb-4 text-center">
-                                <div class="alert-body">
-                                    <strong>{{ Session::get($sessionKey) }}</strong>
-                                    <button class="close" data-dismiss="alert"><span>&times;</span></button>
-                                </div>
+                    @if (Session::has('exitoPaso1'))
+                        <div class="alert alert-success alert-dismissible show fade mb-4 text-center">
+                            <div class="alert-body">
+                                <strong>{{ Session::get('exitoPaso1') }}</strong>
+                                <button class="close" data-dismiss="alert"><span>&times;</span></button>
                             </div>
-                        @endif
-                    @endforeach
-                </div>
+                        </div>
+                    @endif
+                    @if (Session::has('ExisteSocio'))
+                        <div class="alert alert-warning alert-dismissible show fade mb-4 text-center">
+                            <div class="alert-body">
+                                <strong>{{ Session::get('ExisteSocio') }}</strong>
+                                <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                            </div>
+                        </div>
+                    @endif
 
+                    @if (Session::has('errorPaso2'))
+                        <div class="alert alert-danger alert-dismissible show fade mb-4 text-center">
+                            <div class="alert-body">
+                                <strong>{{ Session::get('errorPaso2') }}</strong>
+                                <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if (Session::has('socoError'))
+                        <div class="alert alert-danger alert-dismissible show fade mb-4 text-center">
+                            <div class="alert-body">
+                                <strong>{{ Session::get('socoError') }}</strong>
+                                <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                            </div>
+                        </div>
+                    @endif
+                    @if (Session::has('socoExito'))
+                        <div class="alert alert-success alert-dismissible show fade mb-4 text-center">
+                            <div class="alert-body">
+                                <strong>{{ Session::get('socoExito') }}</strong>
+                                <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                            </div>
+                        </div>
+                    @endif
+                </div>
             </div>
 
             <div class="row">
@@ -53,44 +76,46 @@
                             @if (isset($iniciativa))
                                 <div class="card-header-action">
                                     <div class="dropdown d-inline">
-                                        <button class="btn btn-info dropdown-toggle" id="dropdownMenuButton2"
-                                            data-toggle="dropdown">Iniciativas</button>
-                                        <div class="dropdown-menu dropright">
-                                            <a href="{{ route('admin.iniciativas.detalles', $iniciativa->inic_codigo) }}"
-                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
-                                                title="Ver detalles de la iniciativa"><i class="fas fa-eye"></i>Ver
-                                                detalle</a>
+                                        <a href="{{ route('admin.iniciativas.detalles', $iniciativa->inic_codigo) }}"
+                                            class="btn btn-icon btn-warning icon-left" data-toggle="tooltip"
+                                            data-placement="top" title="Ver detalles de la iniciativa"><i
+                                                class="fas fa-eye"></i>Ver detalle</a>
 
-                                            <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
-                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
-                                                title="Adjuntar evidencia"><i class="fas fa-paperclip"></i>Evidencias</a>
-                                        </div>
+                                        {{-- <a href="{{ route('admin.editar.paso1', $iniciativa->inic_codigo) }}"
+                                            class="btn btn-icon btn-primary icon-left" data-toggle="tooltip"
+                                            data-placement="top" title="Editar iniciativa"><i
+                                                class="fas fa-edit"></i>Editar Iniciativa</a> --}}
 
+                                        <a href="javascript:void(0)" class="btn btn-icon btn-info icon-left"
+                                            data-toggle="tooltip" data-placement="top" title="Calcular INVI"
+                                            onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i
+                                                class="fas fa-tachometer-alt"></i>INVI</a>
 
+                                        <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
+                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
+                                            data-placement="top" title="Adjuntar evidencia"><i
+                                                class="fas fa-paperclip"></i>Evidencias</a>
 
+                                        <a href="{{ route('admin.cobertura.index', $iniciativa->inic_codigo) }}"
+                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
+                                            data-placement="top" title="Ingresar cobertura"><i
+                                                class="fas fa-users"></i>Cobertura</a>
+
+                                        <a href="{{ route('admin.resultados.listado', $iniciativa->inic_codigo) }}"
+                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
+                                            data-placement="top" title="Ingresar resultado"><i
+                                                class="fas fa-flag"></i>Resultado/s</a>
+
+                                        <a href="{{ route($role . '.evaluar.iniciativa', $iniciativa->inic_codigo) }}"
+                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
+                                            data-placement="top" title="Evaluar iniciativa"><i
+                                                class="fas fa-file-signature"></i>Evaluar</a>
+
+                                        <a href="{{ route('admin.iniciativa.listar') }}"
+                                            class="btn btn-primary mr-1 waves-effect icon-left" type="button">
+                                            <i class="fas fa-angle-left"></i> Volver a listado
+                                        </a>
                                     </div>
-
-                                    <div class="dropdown d-inline">
-                                        <button class="btn btn-success dropdown-toggle" id="dropdownMenuButton2"
-                                            data-toggle="dropdown" title="ingresar"><i class="fas fa-plus-circle"></i>
-                                            Ingresar</button>
-                                        <div class="dropdown-menu dropright">
-                                            <a href="{{ route('admin.cobertura.index', $iniciativa->inic_codigo) }}"
-                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
-                                                title="Ingresar cobertura"><i class="fas fa-users"></i> Ingresar
-                                                cobertura</a>
-
-                                            <a href="{{ route('admin.resultados.listado', $iniciativa->inic_codigo) }}"
-                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
-                                                title="Ingresar resultado"><i class="fas fa-flag"></i> Ingresar
-                                                resultado/s</a>
-                                        </div>
-                                    </div>
-
-                                    <a href="{{ route('admin.iniciativa.listar') }}"
-                                        class="btn btn-primary mr-1 waves-effect icon-left" type="button">
-                                        <i class="fas fa-angle-left"></i> Volver a listado
-                                    </a>
                                 </div>
                             @endif
                         </div>
@@ -102,7 +127,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xl-2 col-md-2 col-lg-3">
+                                <div class="col-2 col-md-2 col-lg-3">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Subgrupos</label> <label for=""
                                             style="color: red;">*</label>
@@ -156,7 +181,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-3 col-md-3 col-lg-3">
+                                <div class="col-xl-2 col-md-2 col-lg-2">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Personas beneficiarias</label>
                                         <input type="number" class="form-control" id="npersonas" name="npersonas"
@@ -176,7 +201,7 @@
 
                                 <div class="col-xl-2 col-md-2 col-lg-2" style="position: relative;">
 
-                                    <button class="btn btn-primary waves-effect"
+                                    <button class="btn btn-primary mr-1 waves-effect"
                                         onclick="AgregarParticipantesExternos()"><i class="fas fa-plus"></i>
                                         Agregar</button>
 
@@ -184,8 +209,8 @@
 
                             </div>
                             <div class="row">
-                                <div class="col-2"></div>
-                                <div class="col-8">
+                                <div class="col-xl-2"></div>
+                                <div class="col-xl-8">
                                     <div class="card">
                                         <div class="card-body p-0">
                                             <div class="table-responsive">
@@ -209,19 +234,18 @@
 
 
                             <div class="row">
-                                <div class="col-6 col-md-6 col-lg-6">
+                                <div class="col-xl-6 col-md-6 col-lg-6">
                                     <h5>Sección 3 - Participantes internos</h5>
                                 </div>
                             </div>
                             <div class="row">
-
-                                <div class="col-2 div-col-md-2 col-lg-3">
+                                <div class="col-xl-2 col-md-2 col-lg-2">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Sedes</label> <label for=""
                                             style="color: red;">*</label>
-                                        <select class="form-control select2" id="carreras" name="carreras"
+                                        <select class="form-control select2" id="sedes" name="sedes"
                                             style="width: 100%">
-                                            <option value="" disabled selected>Seleccione...</option>
+                                            <option value="" selected disabled>Seleccione...</option>
                                             @forelse ($sedes as $sede)
                                                 <option value="{{ $sede->sede_codigo }}">
                                                     {{ $sede->sede_nombre }}
@@ -229,13 +253,13 @@
                                             @empty
                                                 <option value="-1">No existen registros</option>
                                             @endforelse
+
                                         </select>
                                     </div>
                                 </div>
-
-                                <div class="col-4 col-md-4 col-lg-3">
+                                <div class="col-xl-2 col-md-2 col-lg-2">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Carreras</label> <label for=""
+                                        <label style="font-size: 110%">Áreas</label> <label for=""
                                             style="color: red;">*</label>
                                         <select class="form-control select2" id="escuelas" name="escuelas"
                                             style="width: 100%">
@@ -251,10 +275,27 @@
                                         </select>
                                     </div>
                                 </div>
-
+                                <div class="col-xl-2 div-col-md-2 col-lg-3">
+                                    <div class="form-group">
+                                        <label style="font-size: 110%">Carreras</label> <label for=""
+                                            style="color: red;">*</label>
+                                        <select class="form-control select2" id="carreras" name="carreras"
+                                            style="width: 100%">
+                                            <option value="" disabled selected>Seleccione...</option>
+                                            @forelse ($carreras as $carrera)
+                                                <option value="{{ $carrera->care_codigo }}">
+                                                    {{ $carrera->care_nombre }}
+                                                </option>
+                                            @empty
+                                                <option value="-1">No existen registros</option>
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="col-xl-2 col-md-2 col-lg-2">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Estudiantes</label>
+                                        <label style="font-size: 110%">Estudiantes</label> <label for=""
+                                            style="color: red;">*</label>
                                         <input type="number" class="form-control" id="nestudiantes"
                                             name="nestudiantes">
 
@@ -272,7 +313,8 @@
 
                                 <div class="col-xl-2 col-md-2 col-lg-2">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Docentes</label>
+                                        <label style="font-size: 110%">Docentes</label> <label for=""
+                                            style="color: red;">*</label>
                                         <input type="number" class="form-control" id="ndocentes" name="ndocentes">
 
                                         @if ($errors->has('ndocentes'))
@@ -289,7 +331,8 @@
 
                                 <div class="col-xl-2 col-md-2 col-lg-2">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Funcionarios/as</label>
+                                        <label style="font-size: 110%">Funcionarios/as</label> <label for=""
+                                            style="color: red;">*</label>
                                         <input type="number" class="form-control" id="nfuncionarios"
                                             name="nfuncionarios">
 
@@ -305,8 +348,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="text-align: center; ">
-                                <div class="col-4"></div>
+                            <div class="row" style="text-align: ">
+                                <div class="col-xl-4"></div>
                                 <div class="col-xl-4">
 
                                     <button onclick="modificar()" class="btn btn-primary mr-1 waves-effect"><i
@@ -317,7 +360,7 @@
                                 <div class="col-4"></div>
                             </div>
 
-                            <div class="row" style="margin-top:1cm">
+                            <div class="row" style="margin-top:75px">
                                 <div class="col-xl-2"></div>
                                 <div class="col-xl-8">
                                     <div class="card">
@@ -326,7 +369,8 @@
                                                 <table class="table table-bored table-md">
                                                     <thead>
                                                         <th>Sedes</th>
-                                                        <th>Escuelas</th>
+                                                        <th>Áreas</th>
+                                                        <th>Carreras</th>
                                                         <th>Estudiantes</th>
                                                         <th>Docentes</th>
                                                         <th>Funcionarios/as</th>
@@ -346,7 +390,7 @@
                                 <div class="col-xl-6 col-md-6 col-lg-6">
                                     <h6>Resultados esperados</h6>
                                     <div class="row mt-3">
-                                        <div class="col-4 col-md-4 col-lg-4">
+                                        <div class="col-3 col-md-3 col-lg-3">
                                             <div class="form-group">
                                                 <label>Cuantificación</label> <label for=""
                                                     style="color: red;">*</label>
@@ -354,7 +398,7 @@
                                                     name="cuantificacion" autocomplete="off" min="0">
                                             </div>
                                         </div>
-                                        <div class="col-6 col-md-6 col-lg-6">
+                                        <div class="col-xl-7 col-md-7 col-lg-7">
                                             <div class="form-group">
                                                 <label>Resultado esperado</label> <label for=""
                                                     style="color: red;">*</label>
@@ -362,12 +406,11 @@
                                                     name="resultado" autocomplete="off">
                                             </div>
                                         </div>
-                                        <div class="col-2 col-md-2 col-lg-2" style="position: relative;">
-                                            <button style="position: absolute; top: 50%; transform: translateY(-50%);"
-                                                type="button" class="btn btn-primary waves-effect"
+                                        <div class="col-xl-2 col-md-2 col-lg-2" style="position: relative;">
+                                            <button type="button" class="btn btn-primary waves-effect"
                                                 onclick="agregarResultado()"><i class="fas fa-plus"></i></button>
                                         </div>
-                                        <div class="col-12 col-md-12 col-lg-12 text-center" id="div-alert-resultado">
+                                        <div class="col-xl-12 col-md-12 col-lg-12 text-center" id="div-alert-resultado">
                                         </div>
                                     </div>
                                     <div class="card" id="card-tabla-resultados" style="display: none;">
@@ -394,15 +437,15 @@
                                 <div class="col-xl-12 col-md-12 col-log-12">
                                     <div class="text-right">
                                         <strong>
-                                            <a href="{{ route($role . '.editar.paso1', $iniciativa->inic_codigo) }}"
+                                            <a href="{{ route('admin.editar.paso1', $iniciativa->inic_codigo) }}"
                                                 type="button" class="btn mr-1 waves-effect"
                                                 style="background-color:#042344; color:white"><i
                                                     class="fas fa-chevron-left"></i>
                                                 Paso anterior</a>
                                         </strong>
-                                        <a href="{{ route($role . '.iniciativas.detalles', $iniciativa->inic_codigo) }}"
+                                        <a href="{{ route('admin.editar.paso3', $iniciativa->inic_codigo) }}"
                                             type="button" class="btn btn-primary mr-1 waves-effect">
-                                            Finalizar y volver a detalles <i class="fas fa-chevron-right"></i></a>
+                                            Paso siguiente <i class="fas fa-chevron-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -425,7 +468,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route($role . '.iniciativas.crear.socio') }} " method="POST">
+                    <form action="{{ route('admin.iniciativas.crear.socio') }} " method="POST">
                         @csrf
 
                         <div class="form-group">
@@ -530,7 +573,7 @@
                                 @endif
                             </div>
 
-                            <label>Escuelas Asociadas</label>
+                            <label>Áreas Asociadas</label>
                             <div class="input-group">
                                 <select class="form-control select2" style="width: 100%" id="escuelasT"
                                     name="escuelasT[]" style="width: 100%" multiple>
@@ -560,8 +603,65 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalINVI" tabindex="-1" role="dialog" aria-labelledby="formModal"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModal">Índice de vinculación INVI</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-md" id="table-1"
+                            style="border-top: 1px ghostwhite solid;">
+                            <tbody>
+                                <tr>
+                                    <td><strong>Mecanismo</strong></td>
+                                    <td id="mecanismo-nombre"></td>
+                                    <td id="mecanismo-puntaje"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Frecuencia</strong></td>
+                                    <td id="frecuencia-nombre"></td>
+                                    <td id="frecuencia-puntaje"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Resultados</strong></td>
+                                    <td id="resultados-nombre"></td>
+                                    <td id="resultados-puntaje"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Cobertura</strong></td>
+                                    <td id="cobertura-nombre"></td>
+                                    <td id="cobertura-puntaje"></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Evaluación</strong></td>
+                                    <td id="evaluacion-nombre"></td>
+                                    <td id="evaluacion-puntaje"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <h6>Índice de vinculación INVI</h6>
+                                    </td>
+                                    <td id="valor-indice"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="{{ asset('/js/admin/iniciativas/INVI.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#idIniciativa').hide();
@@ -774,8 +874,9 @@
                 data: {
                     _token: '{{ csrf_token() }}',
                     inic_codigo: $("#idIniciativa").text(),
+                    sede_codigo: $("#sedes").val(),
                     escu_codigo: $("#escuelas").val(),
-                    sede_codigo: $("#carreras").val(),
+                    care_codigo: $("#carreras").val(),
                     pain_docentes: $("#ndocentes").val(),
                     pain_estudiantes: $("#nestudiantes").val(),
                     pain_funcionarios: $("#nfuncionarios").val(),
@@ -805,6 +906,7 @@
                         fila = `<tr>
                                 <td>${registro.sede_nombre}</td>
                                 <td>${registro.escu_nombre}</td>
+                                <td>${registro.care_nombre}</td>
                                 <td>${registro.pain_estudiantes}</td>
                                 <td>${registro.pain_docentes}</td>
                                 <td>${registro.pain_funcionarios}</td>
@@ -917,13 +1019,14 @@
                         if (registro.pain_estudiantes == null) {
                             registro.pain_estudiantes = 0
                         }
-                        if (registro.pain_funcionarios == null) {
-                            registro.pain_funcionarios = 0
-                        }
+                        // if (registro.pain_total == null) {
+                        //     registro.pain_total = 0
+                        // }
                         // <td>${registro.pain_total}</td>
                         fila = `<tr>
                                     <td>${registro.sede_nombre}</td>
                                     <td>${registro.escu_nombre}</td>
+                                    <td>${registro.care_nombre}</td>
                                     <td>${registro.pain_estudiantes}</td>
                                     <td>${registro.pain_docentes}</td>
                                     <td>${registro.pain_funcionarios}</td>
@@ -934,4 +1037,5 @@
             })
         }
     </script>
+    <script src="{{ asset('/js/admin/iniciativas/INVI.js') }}"></script>
 @endsection

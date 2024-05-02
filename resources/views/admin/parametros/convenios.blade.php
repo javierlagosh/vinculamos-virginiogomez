@@ -64,7 +64,7 @@
                                             <th>#</th>
                                             <th>Nombre</th>
                                             <th>Descripción</th>
-                                            <th>Convenio</th>
+                                            <th>Documento de colaboración</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
@@ -138,13 +138,13 @@
                                         value="{{ $conv->conv_nombre }}" autocomplete="off">
                                 </div>
                             </div>
-                            {{-- <div class="form-group">
+                            <div class="form-group">
                                 <label>Descripción del Convenio</label>
                                 <div class="input-group">
                                     <textarea rows="6" class="formbold-form-input" id="descripcion" name="descripcion" autocomplete="off"
                                         style="width:100%">{{ $conv->conv_descripcion }}</textarea>
                                 </div>
-                            </div> --}}
+                            </div>
                             <div class="form-group">
                                 <label>Tipo del Convenio</label>
                                 <div class="input-group">
@@ -240,6 +240,11 @@
                                         </div>
                                     </div>
                                 @endif
+                            </div>
+                            <div class="form-group">
+                                <label for="Descripcion">Descripcion</label>
+                                <textarea class="form-control" id="descripcion" name="descripcion" rows="3"></textarea>
+
                             </div>
                         </div>
 

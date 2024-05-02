@@ -838,7 +838,7 @@
 
 <div class="row">
 
-    <div class="col-xl-6 col-md-6 col-lg-6">
+    <div class="col-xl-4 col-md-4 col-lg-4">
         <div class="form-group">
             <label style="font-size: 110%">Sedes</label> <label for=""
                 style="color: red;">*</label><input type="checkbox" id="selectAllCarreras"
@@ -880,10 +880,9 @@
 
         </div>
     </div>
-
-    <div class="col-xl-6 col-md-6 col-lg-6">
+    <div class="col-xl-4 col-md-4 col-lg-4">
         <div class="form-group">
-            <label style="font-size: 110%">Carreras</label> <label for=""
+            <label style="font-size: 110%">Escuelas</label> <label for=""
                 style="color: red;">*</label>
             <input type="checkbox" id="selectAllEscuelas" style="margin-left: 60%"> <label
                 for="selectAllEscuelas">Todas</label>
@@ -916,6 +915,49 @@
                     </div>
                 </div>
             @endif
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-md-4 col-lg-4">
+        <div class="form-group">
+            <label style="font-size: 110%">Carreras</label> <label for=""
+                style="color: red;">*</label><input type="checkbox" id="selectAllCarreras"
+                style="margin-left: 60%"> <label for="selectAllCarreras">Todas</label>
+
+            <select class="form-control select2" multiple="" id="carreras"
+                name="carreras[]" style="width: 100%">
+                @if (isset($iniciativa) && $editar)
+                    estoy aca
+                    {{-- <select class="form-control select2" name="sedes[]" multiple id="sedes"> --}}
+                    @forelse ($carreras as $carrera)
+                        <option value="{{ $carrera->care_codigo }}"
+                            {{ in_array($carrera->care_codigo, old('carreras', [])) || in_array($carrera->care_codigo, $careSec) ? 'selected' : '' }}>
+                            {{ $carrera->care_nombre }}</option>
+                    @empty
+                        <option value="-1">No existen registros</option>
+                    @endforelse
+                @else
+                    {{-- <select class="form-control select2" name="sedes[]" multiple id="sedes"> --}}
+                    @forelse ($carreras as $carrera)
+                        <option value="{{ $carrera->care_codigo }}"
+                            {{ collect(old('carreras'))->contains($carrera->care_codigo) ? 'selected' : '' }}>
+                            {{ $carrera->care_nombre }}</option>
+                    @empty
+                        <option value="-1">No existen registros</option>
+                    @endforelse
+                @endif
+            </select>
+
+            @if ($errors->has('carreras'))
+                <div class="alert alert-warning alert-dismissible show fade mt-2">
+                    <div class="alert-body">
+                        <button class="close"
+                            data-dismiss="alert"><span>&times;</span></button>
+                        <strong>{{ $errors->first('carreras') }}</strong>
+                    </div>
+                </div>
+            @endif
+
         </div>
     </div>
 

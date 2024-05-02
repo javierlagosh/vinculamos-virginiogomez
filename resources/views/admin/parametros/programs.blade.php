@@ -243,7 +243,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" hidden>
                             <div class="col-6 col-md-6 col-lg-6">
                                 <div class="form-group">
                                     <a class="btn btn-primary btn-socios" data-toggle="collapse" href="#div_socios"
@@ -259,7 +259,7 @@
                                             </div>
                                         </div>
                                         <input type="number" class="form-control" id="meta_socios" name="meta_socios"
-                                            value="{{ old('meta_socios') }}" autocomplete="off"
+                                            value="0" autocomplete="off"
                                             placeholder="N° de socios/as">
                                     </div>
                                     @error('meta_socios')
@@ -282,7 +282,7 @@
                                             </div>
                                         </div>
                                         <input type="number" class="form-control" id="meta_iniciativas"
-                                            name="meta_iniciativas" value="{{ old('meta_iniciativas') }}"
+                                            name="meta_iniciativas" value="0"
                                             autocomplete="off" placeholder="N° de iniciativas">
                                     </div>
                                     @error('meta_iniciativas')
@@ -291,7 +291,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" hidden>
                             <div class="col-6 col-md-6 col-lg-6">
                                 <div class="form-group">
                                     <a class="btn btn-primary" data-toggle="collapse" href="#div_carreras"
@@ -307,7 +307,7 @@
                                             </div>
                                         </div>
                                         <input type="number" class="form-control" id="meta_n_carreras"
-                                            name="meta_n_carreras" value="{{ old('meta_n_carreras') }}"
+                                            name="meta_n_carreras" value="0"
                                             autocomplete="off" placeholder="N° de carreras">
                                     </div>
                                     @error('meta_n_carreras')
@@ -330,7 +330,7 @@
                                             </div>
                                         </div>
                                         <input type="number" class="form-control" id="meta_n_asignaturas"
-                                            name="meta_n_asignaturas" value="{{ old('meta_n_asignaturas') }}"
+                                            name="meta_n_asignaturas" value="0"
                                             autocomplete="off" placeholder="N° de asignaturas">
                                     </div>
                                     @error('meta_n_asignaturas')
@@ -339,7 +339,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" hidden>
                             <div class="col-6 col-md-6 col-lg-6">
                                 <div class="form-group">
                                     <a class="btn btn-primary" data-toggle="collapse" href="#div_estudiantes"
@@ -355,7 +355,7 @@
                                             </div>
                                         </div>
                                         <input type="number" class="form-control" id="meta_estudiantes"
-                                            name="meta_estudiantes" value="{{ old('meta_estudiantes') }}"
+                                            name="meta_estudiantes" value="0"
                                             autocomplete="off" placeholder="N° de estudiantes">
                                     </div>
                                     @error('meta_estudiantes')
@@ -379,7 +379,7 @@
                                             </div>
                                         </div>
                                         <input type="number" class="form-control" id="meta_docentes"
-                                            name="meta_docentes" value="{{ old('meta_docentes') }}" autocomplete="off"
+                                            name="meta_docentes" value="0" autocomplete="off"
                                             placeholder="N° de docentes">
                                     </div>
                                     @error('meta_docentes')
@@ -388,7 +388,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" hidden>
                             <div class="col-8 col-md-8 col-lg-8">
                                 <div class="form-group">
                                     <a class="btn btn-primary" data-toggle="collapse" href="#div_beneficiarios"
@@ -404,7 +404,7 @@
                                             </div>
                                         </div>
                                         <input type="number" class="form-control" id="meta_beneficiarios"
-                                            name="meta_beneficiarios" value="{{ old('meta_beneficiarios') }}"
+                                            name="meta_beneficiarios" value="0"
                                             autocomplete="off" placeholder="N° de beneficiarios/as">
                                     </div>
                                     @error('meta_beneficiarios')
@@ -560,7 +560,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" hidden>
                                 <div class="col-6 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label>Meta N° Socios</label>
@@ -612,7 +612,7 @@
 
                             </div> --}}
 
-                            <div class="row">
+                            <div class="row" hidden>
                                 <div class="col-6 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label>Meta de Carreras</label>
@@ -651,7 +651,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row" hidden>
                                 <div class="col-6 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label>Meta de Estudiantes</label>
@@ -689,7 +689,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" hidden>
                                 <div class="col-6 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label>Meta de Beneficiarios/as</label>

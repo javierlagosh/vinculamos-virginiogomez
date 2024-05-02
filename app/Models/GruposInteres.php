@@ -18,6 +18,7 @@ class GruposInteres extends Model
     protected $fillable = [
         'grin_codigo',
         'grin_nombre',
+        'grin_tipo',
         'grin_visible',
         'grin_creado',
         'grin_actualizado',

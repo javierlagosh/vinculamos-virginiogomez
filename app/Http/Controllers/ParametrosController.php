@@ -913,6 +913,10 @@ class ParametrosController extends Controller
         $escuela->escu_nombre = $request->input('escu_nombre');
         $escuela->escu_descripcion = $request->input('descripcion');
         $escuela->escu_director = $request->input('escu_director');
+        $escuela->meta_iniciativas = $request->meta_iniciativas;
+        $escuela->meta_docentes = $request->meta_docentes;
+        $escuela->meta_titulados = $request->meta_titulados;
+        $escuela->meta_externos = $request->meta_externos;
 
         // Guardar los cambios en la escuela
         $escuela->save();
@@ -981,6 +985,10 @@ class ParametrosController extends Controller
             'escu_nombre' => $request->nombre,
             'escu_descripcion' => $request->descripcion,
             'escu_director' => $request->director,
+            'meta_iniciativas' => $request->meta_iniciativas,
+            'meta_docentes' => $request->meta_docentes,
+            'meta_titulados' => $request->meta_titulados,
+            'meta_externos' => $request->meta_externos,
             'escu_creado' => Carbon::now()->format('Y-m-d H:i:s'),
             'escu_actualizado' => Carbon::now()->format('Y-m-d H:i:s'),
             'escu_nickname_mod' => Session::get('admin')->usua_nickname,
@@ -1314,6 +1322,7 @@ class ParametrosController extends Controller
 
         $grupo = new GruposInteres();
         $grupo->grin_nombre = $request->input('grin_nombre');
+        $grupo->grin_tipo = $request->input('grin_tipo');
         // Añade el resto de los campos del modelo si son necesarios.
         $grupo->save();
 
@@ -1360,6 +1369,7 @@ class ParametrosController extends Controller
         }
 
         $grupo->grin_nombre = $request->input('grin_nombre');
+        $grupo->grin_tipo = $request->input('grin_tipo');
         // Añade el resto de los campos del modelo si son necesarios.
         $grupo->save();
 

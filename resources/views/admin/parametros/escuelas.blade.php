@@ -109,7 +109,7 @@
                     <form action="{{ route('admin.crear.escuelas') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label>Nombre de la carrera</label>
+                            <label>Nombre de la escuela</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -173,6 +173,81 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Meta Iniciativas</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-calendar-check"></i>
+                                            </div>
+                                        </div>
+                                        <input type="number" class="form-control" id="meta_iniciativas"
+                                            name="meta_iniciativas" value="0"
+                                            autocomplete="off">
+                                    </div>
+                                    @error('meta_iniciativas')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Meta Docentes</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-calendar-check"></i>
+                                            </div>
+                                        </div>
+                                        <input type="number" class="form-control" id="meta_docentes"
+                                            name="meta_docentes" value="0" autocomplete="off">
+                                    </div>
+                                    @error('meta_docentes')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Meta Titulados</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-calendar-check"></i>
+                                            </div>
+                                        </div>
+                                        <input type="number" class="form-control" id="meta_titulados"
+                                            name="meta_titulados" value="0"
+                                            autocomplete="off">
+                                    </div>
+                                    @error('meta_titulados')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>Meta Externos</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-calendar-check"></i>
+                                            </div>
+                                        </div>
+                                        <input type="number" class="form-control" id="meta_externos"
+                                            name="meta_externos" value="0" autocomplete="off">
+                                    </div>
+                                    @error('meta_externos')
+                                        <div class="text-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary waves-effect">Guardar</button>
@@ -189,7 +264,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalEditarEscuela">Editar carrera</h5>
+                        <h5 class="modal-title" id="modalEditarEscuela">Editar Escuela</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -200,7 +275,7 @@
                             @csrf
 
                             <div class="form-group">
-                                <label>Nombre de la carrera</label>
+                                <label>Nombre de la Escuela</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
@@ -211,6 +286,7 @@
                                         value="{{ $escu->escu_nombre }}" autocomplete="off">
                                 </div>
                             </div>
+                            
                             {{-- <div class="form-group">
                                 <label>Descripción de la escuela</label>
                                 <div class="input-group">
@@ -263,6 +339,82 @@
                                     @endif
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Meta Iniciativas</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-calendar-check"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control" id="meta_iniciativas"
+                                                name="meta_iniciativas" value="{{ $escu->meta_iniciativas }}"
+                                                autocomplete="off">
+                                        </div>
+                                        @error('meta_iniciativas')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Meta Docentes</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-calendar-check"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control" id="meta_docentes"
+                                                name="meta_docentes" value="{{ $escu->meta_docentes }}" autocomplete="off">
+                                        </div>
+                                        @error('meta_docentes')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="row">
+                                <div class="col-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Meta Titulados</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-calendar-check"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control" id="meta_titulados"
+                                                name="meta_titulados" value="{{ $escu->meta_titulados }}"
+                                                autocomplete="off">
+                                        </div>
+                                        @error('meta_titulados')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Meta Externos</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-calendar-check"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control" id="meta_externos"
+                                                name="meta_externos" value="{{ $escu->meta_externos }}" autocomplete="off">
+                                        </div>
+                                        @error('meta_externos')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+    
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary waves-effect">Actualizar</button>
                             </div>

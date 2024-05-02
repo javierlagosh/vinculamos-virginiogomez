@@ -50,7 +50,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h4>Listado de Iniciativas</h4>
+                            <h4>Listado de Actividades</h4>
                         </div>
                         <div class="card-body">
                             <form action="{{ route($role . '.iniciativa.listar') }}" method="GET">
