@@ -80,8 +80,8 @@
                             de interés</a></li>
                     <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.tipoact') }}">Tipos de
                             iniciativa</a></li>
-                    <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.rrhh') }}">Tipos de
-                            RRHH</a></li>
+                    {{-- <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.rrhh') }}">Tipos de
+                            RRHH</a></li> --}}
                     {{-- <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.tipoinfra') }}">Tipos de
                             Infraestructuras</a></li> --}}
                     {{-- <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.tipounidad') }}">Tipos de --}}
