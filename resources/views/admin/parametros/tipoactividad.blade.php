@@ -44,7 +44,7 @@
                             <h4>Listado de Tipos de iniciativa</h4>
                             <div class="card-header-action">
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#modalCrearTipoact"><i class="fas fa-plus"></i> Nuevo Tipo de actividad</button>
+                                    data-target="#modalCrearTipoact"><i class="fas fa-plus"></i> Nuevo Tipo de iniciativa</button>
                             </div>
                         </div>
                         <div class="card-body">
@@ -110,7 +110,7 @@
                     <form action="{{ route('admin.crear.tipoact') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label>Nombre del tipo de actividad</label>
+                            <label>Nombre del tipo de iniciativa</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -145,7 +145,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalEditartiac">Editar tipo de actividad</h5>
+                        <h5 class="modal-title" id="modalEditartiac">Editar tipo de iniciativa</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -156,7 +156,7 @@
                             @csrf
 
                             <div class="form-group">
-                                <label>Nombre del Tipo de actividad</label>
+                                <label>Nombre del Tipo de iniciativa</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
@@ -196,14 +196,14 @@
                     @method('DELETE')
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalEliminar">Eliminar Tipo de actividad</h5>
+                        <h5 class="modal-title" id="modalEliminar">Eliminar Tipo de iniciativa</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body text-center">
                         <i class="fas fa-ban text-danger" style="font-size: 50px; color"></i>
-                        <h6 class="mt-2">El Tipo de actividad dejará de existir dentro del sistema. <br> ¿Desea continuar
+                        <h6 class="mt-2">El Tipo de iniciativa dejará de existir dentro del sistema. <br> ¿Desea continuar
                             de todos
                             modos?</h6>
                         <input type="hidden" id="tiac_codigo" name="tiac_codigo" value="">
