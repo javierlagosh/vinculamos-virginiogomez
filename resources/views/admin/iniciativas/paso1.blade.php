@@ -137,7 +137,7 @@
                             <div class="row">
                                 <div class="col-xl-3 col-md-3 col-lg-3">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Nombre de iniciativa</label> <label for=""
+                                        <label style="font-size: 110%">Nombre de la actividad</label> <label for=""
                                             style="color: red;">*</label>
                                         @if (isset($iniciativa) && $editar)
                                             <input type="text" class="form-control" id="nombre" name="nombre"
