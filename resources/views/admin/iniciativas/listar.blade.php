@@ -196,7 +196,7 @@
                                                                     class="fas fa-user-edit"></i>Evaluar Iniciativa</a> --}}
                                                             <a href="{{ route($role . '.editar.paso1', $iniciativa->inic_codigo) }}"
                                                                 class="dropdown-item has-icon"><i
-                                                                    class="fas fa-edit"></i>Editar Iniciativa</a>
+                                                                    class="fas fa-edit"></i>Editar actividad</a>
 
                                                             <a href="{{ route($role . '.iniciativas.detalles', $iniciativa->inic_codigo) }}"
                                                                 class="dropdown-item has-icon" data-toggle="tooltip"
