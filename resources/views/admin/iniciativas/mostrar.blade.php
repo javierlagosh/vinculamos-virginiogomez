@@ -27,7 +27,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h4>Información de la iniciativa</h4>
+                            <h4>Información de la actividad</h4>
                             <div class="card-header-action">
                                 {{-- <div class="dropdown d-inline">
                                     <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton2"
@@ -46,12 +46,12 @@
 
                                 <div class="dropdown d-inline">
                                     <button class="btn btn-info dropdown-toggle" id="dropdownMenuButton2"
-                                        data-toggle="dropdown">Iniciativas</button>
+                                        data-toggle="dropdown">Actividades</button>
                                     <div class="dropdown-menu dropright">
                                         <a href="{{ route('admin.editar.paso1', $iniciativa->inic_codigo) }}"
                                             class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
-                                            title="Editar iniciativa"><i class="fas fa-edit"></i> Editar
-                                            Iniciativa</a>
+                                            title="Editar actividad"><i class="fas fa-edit"></i> Editar
+                                            actividad</a>
                                             <a href="{{ route('admin.iniciativas.agendaods', $iniciativa->inic_codigo) }}"
                                                 class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                                 title="Revisar ODS "><i class="fas fa-recycle"></i> Agenda 2030</a>
@@ -97,7 +97,7 @@
                                             <input type="hidden" name="state" value="3">
                                             <a href="javascript:void(0);" onclick="this.closest('form').submit();"
                                                 class="dropdown-item has-icon" style="display: flex; align-items: center;">
-                                                <i class="fas fa-check" style="margin-right: 8px;"></i> Aprobar iniciativa
+                                                <i class="fas fa-check" style="margin-right: 8px;"></i> Aprobar actividad
                                             </a>
                                         </form>
 
@@ -128,7 +128,7 @@
                                             <input type="hidden" name="state" value="5">
                                             <a href="javascript:void(0);" onclick="this.closest('form').submit();"
                                                 class="dropdown-item has-icon" style="display: flex; align-items: center;">
-                                                <i class="fas fa-lock" style="margin-right: 8px;"></i> Cerrar iniciativa
+                                                <i class="fas fa-lock" style="margin-right: 8px;"></i> Cerrar actividad
                                             </a>
                                         </form>
 
@@ -140,7 +140,7 @@
                                                 class="dropdown-item has-icon"
                                                 style="display: flex; align-items: center;">
                                                 <i class="fas fa-check-double" style="margin-right: 8px;"></i> Finalizar
-                                                Iniciativa
+                                                actividad
                                             </a>
                                         </form>
 
@@ -163,7 +163,7 @@
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <strong>Nombre de la iniciativa</strong>
+                                                    <strong>Nombre de la actividad</strong>
                                                 </td>
                                                 <td>
                                                     {{ $iniciativa->inic_nombre }}
@@ -560,14 +560,14 @@
                     @method('DELETE')
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalEliminar">Eliminar Iniciativa</h5>
+                        <h5 class="modal-title" id="modalEliminar">Eliminar actividad</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body text-center">
                         <i class="fas fa-ban text-danger" style="font-size: 50px; color"></i>
-                        <h6 class="mt-2">La iniciativa dejará de existir dentro del sistema. <br> ¿Desea continuar de
+                        <h6 class="mt-2">La actividad dejará de existir dentro del sistema. <br> ¿Desea continuar de
                             todos
                             modos?</h6>
                         <input type="hidden" id="inic_codigo" name="inic_codigo" value="">
