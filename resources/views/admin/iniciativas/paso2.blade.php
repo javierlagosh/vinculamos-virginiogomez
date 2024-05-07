@@ -314,8 +314,8 @@
                                     <div class="form-group">
                                         <label style="font-size: 110%">Titulados</label> <label for=""
                                             style="color: red;">*</label>
-                                        <input type="number" class="form-control" id="nestudiantes"
-                                            name="nestudiantes">
+                                        <input type="number" class="form-control" id=""
+                                            name="">
 
                                         
                                     </div>
