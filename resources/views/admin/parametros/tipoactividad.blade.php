@@ -75,7 +75,7 @@
                                                     <a href="javascript:void(0)" class="btn btn-icon btn-danger"
                                                         onclick="eliminarTipoact({{ $tiac->tiac_codigo }})"
                                                         data-toggle="tooltip" data-placement="top"
-                                                        title="Eliminar grupos de interés"><i class="fas fa-trash"></i></a>
+                                                        title="Eliminar tipo de iniciativa"><i class="fas fa-trash"></i></a>
 
 
                                                     <a href="javascript:void(0)" class="btn btn-icon btn-warning"
