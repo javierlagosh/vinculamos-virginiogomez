@@ -202,7 +202,7 @@
                                                     {{ $iniciativa->inic_formato == 'Online' ? 'selected' : '' }}>Online
                                                 </option>
                                                 <option value="Mixto"
-                                                    {{ $iniciativa->inic_formato == 'Mixto' ? 'selected' : '' }}>Mixto
+                                                    {{ $iniciativa->inic_formato == 'Mixto' ? 'selected' : '' }}>Hibrido
                                                 </option>
                                             @else
                                                 <option value="Presencial" {{ old('formato') == '1' ? 'selected' : '' }}>
@@ -210,7 +210,7 @@
                                                 </option>
                                                 <option value="Online" {{ old('formato') == '2' ? 'selected' : '' }}>Online
                                                 </option>
-                                                <option value="Mixto" {{ old('formato') == '3' ? 'selected' : '' }}>Mixto
+                                                <option value="Mixto" {{ old('formato') == '3' ? 'selected' : '' }}>Hibrido
                                                 </option>
                                             @endif
                                         </select>
