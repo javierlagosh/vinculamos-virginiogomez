@@ -216,7 +216,7 @@
                                                             <a href="javascript:void(0)" class="dropdown-item has-icon"
                                                                 onclick="eliminarIniciativa({{ $iniciativa->inic_codigo }})"
                                                                 data-toggle="tooltip" data-placement="top"
-                                                                title="Eliminar">Eliminar Iniciativa<i
+                                                                title="Eliminar">Eliminar actividad<i
                                                                     class="fas fa-trash"></i></a>
                                                         </div>
                                                     </div>
