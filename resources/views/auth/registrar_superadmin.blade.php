@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/components.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/custom.css') }}">
-    <link rel='shortcut icon' type='image/x-icon' href={{ '/img/logos/twk-cuadrado-fondo-azul.png' }} />
+    <link rel='shortcut icon' type='image/x-icon' href={{ '/img/logos/logo_vg_color.png' }} />
 </head>
 
 <body class="light light-sidebar theme-white sidebar-gone">

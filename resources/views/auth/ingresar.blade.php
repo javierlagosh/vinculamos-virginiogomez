@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="{{ asset('/css/reset.password.css') }}">
         <link rel="stylesheet" href="{{ asset('/css/estilos.css') }}">
-        <link rel='shortcut icon' type='image/x-icon' href={{ '/img/logos/twk-cuadrado-fondo-azul.png' }} />
+        <link rel='shortcut icon' type='image/x-icon' href={{ '/img/logos/logo_vg_color.png' }} />
         <link rel="stylesheet" href="{{ asset('/css/login.css') }}">
     </head>
 

@@ -20,7 +20,7 @@
 
 <body>
     <div style="text-align: center;">
-        <img src="https://twk.vinculamos.org/img/logos/logo_vg_color.png" alt="logo twk" style="width:293px;heigh:81px;">
+        <img src="https://ipvirginiogomez.vinculamos.org/img/logos/logo_vg_color.png" alt="logo ipvirginio" style="width:293px;heigh:81px;">
       </div>
 
     {{-- {{dd($odsValues)}} --}}
@@ -35,7 +35,7 @@
         <div class="valor">
             <p style="font-size: 10"><strong>ID: </strong><span>{{$iniciativa->inic_codigo}}</span></p>
             <p style="font-size: 10"><strong>Año: </strong><span>{{$iniciativa->inic_anho}}</span></p>
-            <p style="font-size: 10"><strong>Programas: </strong><span>{{$iniciativa->meca_nombre}}</span></p>
+            <p style="font-size: 10"><strong>Mecanismo: </strong><span>{{$iniciativa->meca_nombre}}</span></p>
             <p style="font-size: 10"><strong>Tipo de actividades: </strong><span>{{$iniciativa->tiac_nombre}}</span></p>
         </div>
         <div class="valor"></div>
@@ -106,7 +106,7 @@
 <br>
 <br>
     <footer>
-        <p>PDF generado en: https://twk.vinculamos.org/ | CFT Teodoro Wickel  </p>
+        <p>PDF generado en: https://ipvirginiogomez.vinculamos.org/ | IP Virginio Gómez  </p>
     </footer>
 </body>
 

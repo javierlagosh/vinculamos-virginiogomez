@@ -13,7 +13,7 @@
     <!-- Custom style CSS -->
     <link rel="stylesheet" href="{{ asset('/css/custom.css') }}">
     {{-- TODO: IMAGEN DE LA PESTAÑA --}}
-    <link rel='shortcut icon' type='image/x-icon' href='{{ asset('/img/logos/twk-cuadrado-fondo-azul.png') }}' />
+    <link rel='shortcut icon' type='image/x-icon' href='{{ asset('/img/logos/logo_vg_color.png') }}' />
 </head>
 
 <body>
