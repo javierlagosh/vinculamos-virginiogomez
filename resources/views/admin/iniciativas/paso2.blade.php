@@ -312,10 +312,10 @@
                                 </div>
                                 <div class="col-xl-2 col-md-2 col-lg-2">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Titulados</label> <label for=""
+                                        <label style="font-size: 110%">Titulados</label> <label for="ntitulados"
                                             style="color: red;">*</label>
-                                        <input type="number" class="form-control" id=""
-                                            name="">
+                                        <input type="number" class="form-control" id="ntitulados"
+                                            name="ntitulados">
 
                                         
                                     </div>
@@ -372,7 +372,7 @@
 
                             <div class="row" style="margin-top:75px">
                                 <div class="col-xl-2"></div>
-                                <div class="col-xl-8">
+                                
                                     <div class="card">
                                         <div class="card-body p-0">
                                             <div class="table-responsive">
@@ -383,6 +383,7 @@
                                                         <th>Carreras</th>
                                                         <th>Estudiantes</th>
                                                         <th>Docentes</th>
+                                                        <th>Titulados</th>
                                                         <th>Funcionarios/as</th>
                                                         {{-- <th>Total</th> --}}
                                                     </thead>
@@ -393,7 +394,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                
                             </div>
 
                             <div class="row">
@@ -453,9 +454,9 @@
                                                     class="fas fa-chevron-left"></i>
                                                 Paso anterior</a>
                                         </strong>
-                                        <a href="{{ route('admin.editar.paso3', $iniciativa->inic_codigo) }}"
+                                        <a href="{{ route('admin.iniciativas.detalles', $iniciativa->inic_codigo) }}"
                                             type="button" class="btn btn-primary mr-1 waves-effect">
-                                            Paso siguiente <i class="fas fa-chevron-right"></i></a>
+                                            Finalizar <i class="fas fa-chevron-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -676,6 +677,7 @@
         $(document).ready(function() {
             $('#idIniciativa').hide();
             escuelasBySedesPaso2();
+            carrerasByEscuelasPaso2();
             listarInterno();
             modificar();
             sociosBySubgrupos();
@@ -833,6 +835,7 @@
                             inic_codigo: $('#idIniciativa').text()
                         },
                         success: function(data) {
+                            console.log('funciona escuelas');
                             $('#escuelas').empty();
                             $.each(data, function(key, value) {
                                 $('#escuelas').append(
@@ -843,6 +846,35 @@
                     });
                 } else {
                     $('#escuelas').empty();
+                }
+            })
+        }
+        function carrerasByEscuelasPaso2(){
+            $('#escuelas').on('change', function() {
+                var escuelasId = $(this).val();
+                if (escuelasId) {
+                    $.ajax({
+                        url: window.location.origin + '/admin/iniciativas/obtener-carreras/paso2',
+                        type: 'POST',
+                        dataType: 'json',
+
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            escuelas: escuelasId,
+                            inic_codigo: $('#idIniciativa').text()
+                        },
+                        success: function(data) {
+                            console.log('funciona carreras');
+                            $('#carreras').empty();
+                            $.each(data, function(key, value) {
+                                $('#carreras').append(
+                                    `<option value="${value.care_codigo}">${value.care_nombre}</option>`
+                                );
+                            });
+                        }
+                    });
+                } else {
+                    $('#carreras').empty();
                 }
             })
         }
@@ -889,6 +921,7 @@
                     care_codigo: $("#carreras").val(),
                     pain_docentes: $("#ndocentes").val(),
                     pain_estudiantes: $("#nestudiantes").val(),
+                    pain_titulados: $("#ntitulados").val(),
                     pain_funcionarios: $("#nfuncionarios").val(),
 
                     // pain_total: $("#ntotal").val()
@@ -908,6 +941,10 @@
                             registro.pain_estudiantes = 0
                         }
 
+                        if (registro.pain_titulados == null) {
+                            registro.pain_titulados = 0
+                        }
+
                         // if (registro.pain_total == null) {
                         //     registro.pain_total = 0
                         // }
@@ -919,6 +956,7 @@
                                 <td>${registro.care_nombre}</td>
                                 <td>${registro.pain_estudiantes}</td>
                                 <td>${registro.pain_docentes}</td>
+                                <td>${registro.pain_titulados}</td>
                                 <td>${registro.pain_funcionarios}</td>
                                 </tr>`
                         $('#body-tabla-internos').append(fila)
@@ -1039,6 +1077,7 @@
                                     <td>${registro.care_nombre}</td>
                                     <td>${registro.pain_estudiantes}</td>
                                     <td>${registro.pain_docentes}</td>
+                                    <td>${registro.pain_titulados}</td>
                                     <td>${registro.pain_funcionarios}</td>
                                 </tr>`
                         $('#body-tabla-internos').append(fila)

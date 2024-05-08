@@ -449,7 +449,7 @@
                                                 </td>
                                             </tr>
 
-                                            <tr>
+                                            {{-- <tr>
                                                 <td><strong>Total de recursos invertidos</strong></td>
                                                 <td>
                                                     <div class="table-responsive">
@@ -538,7 +538,7 @@
                                                         </table>
                                                     </div>
                                                 </td>
-                                            </tr>
+                                            </tr> --}}
 
 
 

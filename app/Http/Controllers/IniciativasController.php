@@ -685,6 +685,7 @@ class IniciativasController extends Controller
             'inic_actualizado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
             'inic_nickname_mod' => Session::get($rolePrefix)->usua_nickname,
             'inic_rol_mod' => Session::get($rolePrefix)->rous_codigo,
+            'inic_escuela_ejecutora' => $request->inic_escuela_ejecutora,
         ]);
 
         if (!$inicCrear)
@@ -1528,6 +1529,14 @@ class IniciativasController extends Controller
         return response()->json($escuelas);
     }
 
+    public function carrerasByEscuelasPaso2(Request $request)
+    {
+        $carreras = ParticipantesInternos::where(['escu_codigo' => $request->escuelas, 'inic_codigo' => $request->inic_codigo])
+            ->join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
+            ->get();
+        return response()->json($carreras);
+    }
+
     public function agregarExternos(Request $request)
     {
         if (Session::has('admin')) {
@@ -1638,6 +1647,7 @@ class IniciativasController extends Controller
                     'pain_docentes' => $request->pain_docentes,
                     'pain_estudiantes' => $request->pain_estudiantes,
                     'pain_funcionarios' => $request->pain_funcionarios,
+                    'pain_titulados' => $request->pain_titulados,
                     'pain_total' => $request->pain_total
                 ]);
 

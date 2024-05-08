@@ -162,6 +162,7 @@
                                                 <option value="" disabled selected>Seleccione...</option>
                                                 <option value="1">Evaluador interno - Estudiante</option>
                                                 <option value="2">Evaluador interno - Docente/Directivo</option>
+                                                <option value="4">Evaluador interno - Titulado</option>
                                                 <option value="3">Evaluador externo</option>
                                                 {{-- <option value="4">Limpiar</option> --}}
                                             </select>
@@ -1088,7 +1089,7 @@
             } else {
                 divAMostrar.style.display = "block";
             }
-            if (selectedValue === "4") {
+            if (selectedValue === "5") {
                 MostrarSiempre.style.display = "none";
                 MostrarTabla.style.display = "none";
             }
