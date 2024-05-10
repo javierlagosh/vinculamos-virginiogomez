@@ -901,7 +901,6 @@ class IniciativasController extends Controller
 
     public function editarPaso1($inic_codigo)
     {
-        return $inic_codigo;
         $iniciativa = Iniciativas::where('inic_codigo', $inic_codigo)->first();
 
         $iniciativaData = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', '=', 'iniciativas.meca_codigo')
@@ -960,6 +959,7 @@ class IniciativasController extends Controller
             'escuSec' => $escuSecCod,
             'sedeSec' => $sedeSecCod,
             'careSec' => $careSec,
+            'inic_codigo' => $inic_codigo
         ]);
 
     }
@@ -1240,7 +1240,6 @@ class IniciativasController extends Controller
 
     public function editarPaso2($inic_codigo)
     {
-        return $inic_codigo;
         $iniciativaActual = Iniciativas::where('inic_codigo', $inic_codigo)->first();
 
         $escuelas = ParticipantesInternos::where('inic_codigo', $inic_codigo)

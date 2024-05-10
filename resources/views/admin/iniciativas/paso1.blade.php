@@ -126,7 +126,7 @@
                         </div>
                         <div class="card-body">
                             @if (isset($iniciativa) && $editar)
-                                <form id="iniciativas-paso1"     action="{{ route('admin.actualizar.paso1', $iniciativa->inic_codigo) }}"
+                                <form id="iniciativas-paso1"     action="{{ route('admin.actualizar.paso1', $inic_codigo) }}"
                                     method="POST">
                                     @method('PUT')
                                     @csrf
