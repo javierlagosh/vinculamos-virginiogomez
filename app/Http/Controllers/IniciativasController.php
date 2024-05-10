@@ -1017,6 +1017,7 @@ class IniciativasController extends Controller
             'conv_codigo' => $request->convenio,
             'prog_codigo' => $request->programa,
             'meca_codigo' => $request->mecanismos,
+            'inic_escuela_ejecutora' => $request->inic_escuela_ejecutora,
             'tiac_codigo' => $request->tactividad,
             'inic_territorio' => $request->territorio,
             'inic_visible' => 1,
