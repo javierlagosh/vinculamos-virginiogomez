@@ -901,6 +901,7 @@ class IniciativasController extends Controller
 
     public function editarPaso1($inic_codigo)
     {
+        
         $iniciativa = Iniciativas::where('inic_codigo', $inic_codigo)->first();
 
         $iniciativaData = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', '=', 'iniciativas.meca_codigo')
