@@ -1231,8 +1231,7 @@ class IniciativasController extends Controller
             return redirect()->back()->with('comuError', 'Ocurrió un error durante el registro de las comunas, intente más tarde.')->withInput();
         }
 
-        $ThisRuta = $rolePrefix . '.editar.paso2';
-        return redirect()->route($ThisRuta, $inic_codigo)->with('exitoPaso1', 'Los datos de la iniciativa se actualizaron correctamente');
+        return redirect()->route('admin.editar.paso2', $inic_codigo)->with('exitoPaso1', 'Los datos de la iniciativa se actualizaron correctamente');
 
     }
 
