@@ -48,10 +48,10 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h4>Listado de Actividades</h4>
+                        <h4>Listado de Reuniones</h4>
                         <div class="card-header-action">
                             <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#modalCrearactividad"><i class="fas fa-plus"></i> Nuevas Actividades</button>
+                                data-target="#modalCrearactividad"><i class="fas fa-plus"></i> Nueva reunión</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -104,7 +104,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modaleditaractividadto">Editar Actividades</h5>
+                    <h5 class="modal-title" id="modaleditaractividadto">Editar reunión</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -115,7 +115,7 @@
                         @csrf
 
                         <div class="form-group">
-                            <label>Nombre de la Actividad</label>
+                            <label>Nombre de la reunión</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -240,7 +240,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="formModal">Nuevo Actividades</h5>
+                <h5 class="modal-title" id="formModal">Nueva reunión</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -249,7 +249,7 @@
                 <form action="{{ route('admin.crear.actividades') }} " method="POST">
                     @csrf
                     <div class="form-group">
-                        <label>Nombre de la Actividad</label>
+                        <label>Nombre de la reunión</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">
@@ -357,14 +357,14 @@
                 @method('DELETE')
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalEliminar">Eliminar Actividades</h5>
+                    <h5 class="modal-title" id="modalEliminar">Eliminar Reunión</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body text-center">
                     <i class="fas fa-ban text-danger" style="font-size: 50px; color"></i>
-                    <h6 class="mt-2">La Actividad dejará de existir dentro del sistema. <br> ¿Desea continuar de todos
+                    <h6 class="mt-2">La reunión dejará de existir dentro del sistema. <br> ¿Desea continuar de todos
                         modos?</h6>
                     <input type="hidden" id="acti_codigo" name="acti_codigo" value="">
                 </div>

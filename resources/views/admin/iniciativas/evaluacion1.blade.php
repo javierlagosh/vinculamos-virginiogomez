@@ -25,7 +25,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Evaluacion de la iniciativa N° {{ $iniciativa[0]->inic_codigo }}</h4>
+                            <h4>Evaluación de la actividad N° {{ $iniciativa[0]->inic_codigo }}</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
