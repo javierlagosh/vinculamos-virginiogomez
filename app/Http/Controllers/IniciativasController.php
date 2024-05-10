@@ -966,6 +966,7 @@ class IniciativasController extends Controller
 
     public function actualizarPaso1(Request $request, $inic_codigo)
     {
+        dd($request->inic_codigo_value);
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
@@ -1232,7 +1233,7 @@ class IniciativasController extends Controller
             return redirect()->back()->with('comuError', 'Ocurrió un error durante el registro de las comunas, intente más tarde.')->withInput();
         }
 
-        
+        return $inic_codigo;
         return redirect()->route('admin.editar.paso2', $inic_codigo)->with('exitoPaso1', 'Los datos de la iniciativa se actualizaron correctamente');
 
     }
@@ -1241,6 +1242,7 @@ class IniciativasController extends Controller
     public function editarPaso2($inic_codigo)
     {
         $iniciativaActual = Iniciativas::where('inic_codigo', $inic_codigo)->first();
+        return $iniciativaActual;
 
         $escuelas = ParticipantesInternos::where('inic_codigo', $inic_codigo)
             ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')

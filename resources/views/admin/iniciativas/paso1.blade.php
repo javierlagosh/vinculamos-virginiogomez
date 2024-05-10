@@ -130,6 +130,7 @@
                                     method="POST">
                                     @method('PUT')
                                     @csrf
+                                    <input type="text" hidden name="inic_codigo_value" value="{{$inic_codigo}}">
                                 @else
                                     <form id="iniciativas-paso1" action="{{ route('admin.paso1.verificar') }}" method="POST">
                                         @csrf
