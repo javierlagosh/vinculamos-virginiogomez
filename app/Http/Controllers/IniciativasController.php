@@ -1243,7 +1243,6 @@ class IniciativasController extends Controller
     public function editarPaso2($inic_codigo)
     {
         $iniciativaActual = Iniciativas::where('inic_codigo', $inic_codigo)->first();
-        return $iniciativaActual;
 
         $escuelas = ParticipantesInternos::where('inic_codigo', $inic_codigo)
             ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
