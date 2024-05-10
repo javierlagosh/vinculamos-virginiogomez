@@ -966,7 +966,8 @@ class IniciativasController extends Controller
 
     public function actualizarPaso1(Request $request, $inic_codigo)
     {
-        dd($request->inic_codigo_value);
+
+        $inic_codigo = $request->inic_codigo_value;
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
