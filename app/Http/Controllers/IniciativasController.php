@@ -1230,7 +1230,6 @@ class IniciativasController extends Controller
             IniciativasComunas::where('inic_codigo', $inic_codigo)->delete();
             return redirect()->back()->with('comuError', 'Ocurrió un error durante el registro de las comunas, intente más tarde.')->withInput();
         }
-        return 1;
         return redirect()->route('admin.editar.paso2', $inic_codigo)->with('exitoPaso1', 'Los datos de la iniciativa se actualizaron correctamente');
 
     }
@@ -1238,6 +1237,7 @@ class IniciativasController extends Controller
 
     public function editarPaso2($inic_codigo)
     {
+        return $inic_codigo;
         $iniciativaActual = Iniciativas::where('inic_codigo', $inic_codigo)->first();
 
         $escuelas = ParticipantesInternos::where('inic_codigo', $inic_codigo)
