@@ -1034,7 +1034,8 @@ class ParametrosController extends Controller
     }
     public function subgruposBygrupos(Request $request)
     {
-        $subgrupo = SubGruposInteres::where('grin_codigo', $request->grin_codigo)->get();
+        $subgrupo = SubGruposInteres::where('grin_codigo', $request->grin_codigo)
+        ->orderBy('sugr_nombre', 'asc')->get();
 
         return response()->json($subgrupo);
     }
