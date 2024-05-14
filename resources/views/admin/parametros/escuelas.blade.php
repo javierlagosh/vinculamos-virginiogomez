@@ -232,7 +232,7 @@
                             </div>
                             <div class="col-6 col-md-6 col-lg-6">
                                 <div class="form-group">
-                                    <label>Meta Externos</label>
+                                    <label>Meta Estudiantes</label>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
                                             <div class="input-group-text">
@@ -398,7 +398,7 @@
                                 </div>
                                 <div class="col-6 col-md-6 col-lg-6">
                                     <div class="form-group">
-                                        <label>Meta Externos</label>
+                                        <label>Meta Estudiantes</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
