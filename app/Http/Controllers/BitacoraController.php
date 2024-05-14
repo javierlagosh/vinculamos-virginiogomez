@@ -28,7 +28,7 @@ class BitacoraController extends Controller
             'nombre' => 'required|max:200',
             'fecha' => 'required|date',
             'fecha_cumplimiento' => 'required|date',
-            'acuerdos' => 'required|max:255',
+            'acuerdos' => 'required',
         ], [
             'nombre.required' => 'El nombre de la actividad es requerido.',
             'nombre.max' => 'El nombre de la actividad excede el máximo de caracteres permitidos (100).',
@@ -37,7 +37,6 @@ class BitacoraController extends Controller
             'fecha_cumplimiento.required' => 'La fecha de cumplimiento es requerida.',
             'fecha_cumplimiento.date' => 'La fecha de cumplimiento no tiene un formato válido.',
             'acuerdos.required' => 'Los acuerdos son requeridos.',
-            'acuerdos.max' => 'Los acuerdos exceden el máximo de caracteres permitidos (255).',
         ]);
 
         if ($validacion->fails()) {
@@ -66,7 +65,7 @@ class BitacoraController extends Controller
             'nombre' => 'required|max:200',
             'fecha' => 'required|date',
             'fecha_cumplimiento' => 'required|date',
-            'acuerdos' => 'required|max:255',
+            'acuerdos' => 'required',
         ], [
             'nombre.required' => 'El nombre de la actividad es requerido.',
             'nombre.max' => 'El nombre de la actividad excede el máximo de caracteres permitidos (100).',
@@ -75,7 +74,6 @@ class BitacoraController extends Controller
             'fecha_cumplimiento.required' => 'La fecha de cumplimiento es requerida.',
             'fecha_cumplimiento.date' => 'La fecha de cumplimiento no tiene un formato válido.',
             'acuerdos.required' => 'Los acuerdos son requeridos.',
-            'acuerdos.max' => 'Los acuerdos exceden el máximo de caracteres permitidos (255).',
         ]);
 
         if ($validacion->fails()) {

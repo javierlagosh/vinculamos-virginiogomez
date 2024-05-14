@@ -54,6 +54,16 @@
                                 data-target="#modalCrearactividad"><i class="fas fa-plus"></i> Nueva reunión</button>
                         </div>
                     </div>
+                    <style>
+                        .wrap-text {
+                            white-space: pre-wrap; /* CSS 3 */
+                            white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+                            white-space: -pre-wrap; /* Opera 4-6 */
+                            white-space: -o-pre-wrap; /* Opera 7 */
+                            word-wrap: break-word; /* Internet Explorer 5.5+ */
+                            word-break: break-word; /* Forcing line break after a certain number of characters */
+                        }
+                    </style>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped" id="table-1" style="font-size: 110%;">
@@ -74,7 +84,7 @@
                                         <tr>
                                             <td>{{ $contador }}</td>
                                             <td>{{ $actividad->acti_nombre }}</td>
-                                            <td>{{ $actividad->acti_acuerdos }}</td>
+                                            <td class="wrap-text">{{ $actividad->acti_acuerdos }}</td>
                                             <td>{{ $actividad->acti_fecha_cumplimiento }}</td>
                                             {{-- <td> {{ $actividad->acti_idcampo1 }} </td> --}}
                                             <td>
@@ -134,13 +144,7 @@
                         <div class="form-group">
                             <label>Acuerdos</label>
                             <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i class="fas fa-pen-nib"></i> {{-- ICONO --}}
-                                    </div>
-                                </div>
-                                <input type="text" class="form-control" id="acuerdos" name="acuerdos"
-                                    value="{{ $actividad->acti_acuerdos }}" autocomplete="off">
+                                <textarea class="form-control" id="acuerdos" name="acuerdos" cols="30" rows="10">{{ $actividad->acti_acuerdos }}</textarea>
                             </div>
                         </div>
                         @error('acuerdos')
@@ -269,13 +273,7 @@
                     <div class="form-group">
                         <label>Acuerdos</label>
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <i class="fas fa-pen-nib"></i> {{-- ICONO --}}
-                                </div>
-                            </div>
-                            <input type="text" class="form-control" id="acuerdos" name="acuerdos"
-                                value="{{ old('acuerdos') }}" autocomplete="off">
+                            <textarea class="form-control" id="acuerdos" name="acuerdos" cols="30" rows="10"{{ old('acuerdos') }}></textarea>
                         </div>
                     </div>
                     @error('acuerdos')
