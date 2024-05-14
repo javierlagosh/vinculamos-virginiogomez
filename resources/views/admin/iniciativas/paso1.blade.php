@@ -1044,7 +1044,7 @@
                                 <div class="col-xl-4 col-md-4 col-lg-4">
                                     <div class="form-group">
 
-                                        <label style="font-size: 110%">Tipo de iniciativa</label> <label for=""
+                                        <label style="font-size: 110%">Tipo de actividad</label> <label for=""
                                             style="color: red;">*</label>
                                         <select class="form-control select2" id="tactividad" name="tactividad"
                                             style="width: 100%">

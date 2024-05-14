@@ -385,7 +385,7 @@
                                                 <table class="table table-bored table-md">
                                                     <thead>
                                                         <th>Sedes</th>
-                                                        <th>Áreas</th>
+                                                        <th>Escuelas</th>
                                                         <th>Carreras</th>
                                                         <th>Estudiantes</th>
                                                         <th>Docentes</th>
