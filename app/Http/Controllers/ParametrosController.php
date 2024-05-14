@@ -1165,7 +1165,7 @@ class ParametrosController extends Controller
             'soco_telefono_contraparte' => $request->telefono,
             'soco_email_contraparte' => $request->email,
             'grin_codigo' => $request->grupo,
-            'sugr_codigo' => $request->subgrupo,
+            'sugr_codigo' => $request->subgrupo ?? $request->subgrupo2,
         ]);
 
 

@@ -265,7 +265,7 @@
                                 </div>
                                 <div class="col-xl-2 col-md-2 col-lg-2">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Áreas</label> <label for=""
+                                        <label style="font-size: 110%">Escuelas</label> <label for=""
                                             style="color: red;">*</label>
                                         <select class="form-control select2" id="escuelas" name="escuelas"
                                             style="width: 100%">
@@ -533,7 +533,7 @@
                         <div class="form-group">
                             <label>Subgrupo de interés</label>
                             <div class="input-group">
-                                <select class="form-control select2" style="width: 100%" id="subgrupo" name="subgrupo">
+                                <select class="form-control select2" style="width: 100%" id="subgrupo2" name="subgrupo2">
                                     <option value="" disabled selected>Seleccione...</option>
 
                                 </select>
@@ -743,10 +743,11 @@
                     grin_codigo: grupo
                 },
                 success: function(data) {
+                    console.log('subgrupos');
                     console.log(data)
-                    $('#subgrupo').empty();
+                    $('#subgrupo2').empty();
                     $.each(data, function(key, value) {
-                        $('#subgrupo').append(
+                        $('#subgrupo2').append(
                             `<option value="${value.sugr_codigo}">${value.sugr_nombre}</option>`
                         );
                     });
