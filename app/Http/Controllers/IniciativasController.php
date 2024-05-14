@@ -310,6 +310,7 @@ class IniciativasController extends Controller
                 'mecanismos.meca_nombre',
                 'programas.prog_nombre',
                 'tipo_actividades.tiac_nombre',
+                'convenios.conv_nombre',
             )
             ->where('iniciativas.inic_codigo', $inic_codigo)
             ->first();
