@@ -281,10 +281,26 @@ class IniciativasController extends Controller
         // $ods = Ods::select('nombre_ods')->whereIn('id_ods', $ods)->get();
 
         // dd($ods);
+        // $iniciativa = Iniciativas::leftjoin('convenios', 'convenios.conv_codigo', '=', 'iniciativas.conv_codigo')
+        // ->join('tipo_actividades', 'tipo_actividades.tiac_codigo', '=', 'iniciativas.tiac_codigo')
+        // ->join('mecanismos', 'mecanismos.meca_codigo', '=', 'iniciativas.meca_codigo')
+        // ->leftjoin('programas','programas.prog_codigo','iniciativas.prog_codigo')
+        // ->select(
+        //     'iniciativas.inic_codigo',
+        //     'iniciativas.inic_nombre',
+        //     'iniciativas.inic_descripcion',
+        //     'iniciativas.inic_anho',
+        //     'iniciativas.inic_estado',
+        //     'mecanismos.meca_nombre',
+        //     'programas.prog_nombre',
+        //     'tipo_actividades.tiac_nombre',
+        //     'convenios.conv_nombre',
+        // )
 
         $iniciativa = Iniciativas::leftjoin('convenios', 'convenios.conv_codigo', '=', 'iniciativas.conv_codigo')
             ->leftjoin('tipo_actividades', 'tipo_actividades.tiac_codigo', '=', 'iniciativas.tiac_codigo')
             ->leftjoin('mecanismos', 'mecanismos.meca_codigo', '=', 'iniciativas.meca_codigo')
+            ->leftjoin('programas','programas.prog_codigo','iniciativas.prog_codigo')
             ->select(
                 'iniciativas.inic_codigo',
                 'iniciativas.inic_nombre',
@@ -292,6 +308,7 @@ class IniciativasController extends Controller
                 'iniciativas.inic_anho',
                 'iniciativas.inic_estado',
                 'mecanismos.meca_nombre',
+                'programas.prog_nombre',
                 'tipo_actividades.tiac_nombre',
             )
             ->where('iniciativas.inic_codigo', $inic_codigo)
