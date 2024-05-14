@@ -48,11 +48,11 @@
                                     <button class="btn btn-info dropdown-toggle" id="dropdownMenuButton2"
                                         data-toggle="dropdown">Actividades</button>
                                     <div class="dropdown-menu dropright">
-                                        <a href="javascript:void(0)" class="dropdown-item has-icon"
+                                        {{-- <a href="javascript:void(0)" class="dropdown-item has-icon"
                                 data-toggle="tooltip" data-placement="top"
                                 title="Calcular INVI"
                                 onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i
-                                    class="fas fa-tachometer-alt"></i> Calcular INVI</a>
+                                    class="fas fa-tachometer-alt"></i> Calcular INVI</a> --}}
                                         <a href="{{ route('admin.editar.paso1', $iniciativa->inic_codigo) }}"
                                             class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                             title="Editar actividad"><i class="fas fa-edit"></i> Editar
