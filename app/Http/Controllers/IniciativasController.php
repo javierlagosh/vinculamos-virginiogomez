@@ -274,7 +274,7 @@ class IniciativasController extends Controller
 
     public function mostrarDetalles($inic_codigo)
     {
-        dd($inic_codigo);
+        
         //Obtener las id para los ODS registrados en la tabla pivote_ods
         $ods = pivoteOds::select('id_ods')->where('inic_codigo', $inic_codigo)->get();
         //Con la ID obtener desde la tabla ODS, el nombre del ods que corresponde
@@ -299,7 +299,7 @@ class IniciativasController extends Controller
             )
             ->where('iniciativas.inic_codigo', $inic_codigo)
             ->first();
-
+            dd($iniciativa);
         $participantes = ParticipantesInternos::join('sedes', 'sedes.sede_codigo', 'participantes_internos.sede_codigo')
             ->join('escuelas', 'escuelas.escu_codigo', 'participantes_internos.escu_codigo')
             ->select(
