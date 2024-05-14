@@ -129,7 +129,7 @@
                             </div>
                         </div>
                         <div class="form-group" style="align-items: center;" id="actiAsociadasContainer">
-                            <label>Tipo de Actividades Asociadas</label>
+                            <label>Tipo de Iniciativa asociada</label>
                             <div class="input-group">
                                 <select class="form-control select2" style="width: 100%" id="actividades"
                                     name="actividades[]" multiple @error('actividades') is-invalid @enderror>
