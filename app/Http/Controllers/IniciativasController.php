@@ -296,7 +296,6 @@ class IniciativasController extends Controller
             )
             ->where('iniciativas.inic_codigo', $inic_codigo)
             ->first();
-            dd($iniciativa);
         $participantes = ParticipantesInternos::join('sedes', 'sedes.sede_codigo', 'participantes_internos.sede_codigo')
             ->join('escuelas', 'escuelas.escu_codigo', 'participantes_internos.escu_codigo')
             ->select(
