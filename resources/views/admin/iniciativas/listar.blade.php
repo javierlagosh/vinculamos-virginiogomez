@@ -129,7 +129,7 @@
                                             <th>Mecanismo</th>
                                             <th>Año</th>
                                             <th>Sedes</th>
-                                            <th>Carreras</th>
+                                            <th>Escuelas</th>
                                             <th>Estado</th>
                                             <th>Fecha de creación</th>
                                             <th style="width: 250px">Acciones</th>
