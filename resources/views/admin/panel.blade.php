@@ -86,10 +86,10 @@
                             Infraestructuras</a></li> --}}
                     {{-- <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.tipounidad') }}">Tipos de --}}
                             {{-- Unidades</a></li> --}}
-                    <li><a style="font-size: 90%;" class="nav-link"
+                    {{-- <li><a style="font-size: 90%;" class="nav-link"
                             href="{{ route('admin.listar.unidades') }}">Unidades</a></li>
                     <li><a style="font-size: 90%;" class="nav-link"
-                            href="{{ route('admin.listar.subunidades') }}">SubUnidades</a></li>
+                            href="{{ route('admin.listar.subunidades') }}">SubUnidades</a></li> --}}
                     {{-- <li><a style="font-size: 90%;" class="nav-link" href="{{route("admin.listar.tematica")}}">Tematicas</a></li> --}}
                 </ul>
             </li>

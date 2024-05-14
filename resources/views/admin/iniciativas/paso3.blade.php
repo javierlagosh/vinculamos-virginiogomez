@@ -341,7 +341,7 @@
                         <div class="text-center" id="div-alert-infraestructura">
                         </div>
                         <div class="form-group">
-                            <label>Tipo infraestructura</label>
+                            <label>Tipo infraestructura y equipamiento</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">

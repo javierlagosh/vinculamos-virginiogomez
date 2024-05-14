@@ -48,6 +48,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Mail;
+use App\Models\GruposInteres;
 //evaluacion
 use App\Mail\ContactFormMail;
 use App\Models\Evaluacion;
@@ -653,7 +654,7 @@ class IniciativasController extends Controller
             'inic_formato' => 'required',
             'description' => 'required',
             'sedes' => 'required',
-            'escuelas' => 'required',
+            // 'escuelas' => 'required',
             'carreras' => 'required',
             'mecanismos' => 'required',
             'tactividad' => 'required',
@@ -668,7 +669,6 @@ class IniciativasController extends Controller
             'description.required' => 'La Descripción es requerida.',
             'sedes.required' => 'Es necesario que seleccione al menos una Carrera en donde se ejecutará la iniciativa.',
             'carreras.required' => 'Es necesario que seleccione al menos una Carrera en donde se ejecutará la iniciativa.',
-            'escuelas.required' => 'Es necesario que seleccione al menos una Escuela en donde se ejecutará la iniciativa.',
             'tactividad.required' => 'Es necesario que seleccione un tipo de actividad para la iniciativa.',
             'mecanismos.required' => 'Es necesario que seleccione un programa.',
             /* 'convenio.required' => 'Es necesario que escoja un convenio para asociar la iniciativa.', */
@@ -756,6 +756,10 @@ class IniciativasController extends Controller
         $pain = [];
         $sedes = $request->input('sedes', []);
         $escuelas = $request->input('escuelas', []);
+        // si es un arerglo vacio se le asigna un arreglo "nohay"
+        if (empty($escuelas)) {
+            $escuelas = [$request->inic_escuela_ejecutora];
+        }
         $carreras = $request->input('carreras', []);
 
         //id iniciativa
@@ -986,7 +990,7 @@ class IniciativasController extends Controller
             'inic_formato' => 'required',
             'description' => 'required',
             'sedes' => 'required',
-            'escuelas' => 'required',
+            // 'escuelas' => 'required',
             'carreras' => 'required',
             'mecanismos' => 'required',
             'tactividad' => 'required',
@@ -1001,7 +1005,7 @@ class IniciativasController extends Controller
             'description.required' => 'La Descripción es requerida.',
             'sedes.required' => 'Es necesario que seleccione al menos una Carrera en donde se ejecutará la iniciativa.',
             'carreras.required' => 'Es necesario que seleccione al menos una Carrera en donde se ejecutará la iniciativa.',
-            'escuelas.required' => 'Es necesario que seleccione al menos una Escuela en donde se ejecutará la iniciativa.',
+            // 'escuelas.required' => 'Es necesario que seleccione al menos una Escuela en donde se ejecutará la iniciativa.',
             'mecanismos.required' => 'Es necesario que seleccione un programa.',
             'tactividad.required' => 'Es necesario que seleccione el tipo de actividad a realizar.',
             /* 'convenio.required' => 'Es necesario que escoja un convenio para asociar la iniciativa.', */
@@ -1034,6 +1038,11 @@ class IniciativasController extends Controller
         $pain = [];
         $sedes = $request->input('sedes', []);
         $escuelas = $request->input('escuelas', []);
+        // si está vacío, se asigna un arreglo con un valor "nohay"
+        if (empty($escuelas)) {
+            $escuelas = [$request->inic_escuela_ejecutora];
+        }
+
         $carreras = $request->input('carreras', []);
 
         
@@ -1257,13 +1266,13 @@ class IniciativasController extends Controller
             ->distinct()->get();
 
         $subGrupos = SubGruposInteres::all();
-        $grupos = Grupos::all();
         $gruposIni = IniciativasGrupos::select('grup_codigo')->where('inic_codigo', $inic_codigo)->get();
         $socios = SociosComunitarios::all();
         $escuelasTotales = Escuelas::all();
         $sedesTotales = Sedes::all();
         $carreras = Carreras::all();
-
+        $grupos = GruposInteres::orderBy('grin_codigo', 'asc')->get();
+        $subgrupos = SubGruposInteres::all();
 
         $grupoIniCod = [];
 
@@ -1292,7 +1301,9 @@ class IniciativasController extends Controller
             'escuelasTotales' => $escuelasTotales,
             'sedesTotales' => $sedesTotales,
             'socios' => $socios,
-            'carreras' => $carreras
+            'carreras' => $carreras,
+            'grupos' => $grupos,
+            'subgrupos' => $subgrupos
 
         ]);
 
@@ -1560,18 +1571,20 @@ class IniciativasController extends Controller
             $rolePrefix = 'supervisor';
         }
 
+
         $validar = IniciativasParticipantes::where(
             [
                 "inic_codigo" => $request->inic_codigo,
-                "sugr_codigo" => $request->sugr_codigo,
                 "soco_codigo" => $request->soco_codigo
             ]
         )->first();
+
+        $sugr_codigo = SociosComunitarios::where('soco_codigo', $request->soco_codigo)->value('sugr_codigo');
         if (!$validar) {
             $externosCrear = IniciativasParticipantes::insertGetId([
                 'inic_codigo' => $request->inic_codigo,
-                'sugr_codigo' => $request->sugr_codigo,
                 'soco_codigo' => $request->soco_codigo,
+                'sugr_codigo' => $sugr_codigo,
                 'inpr_total' => $request->inpr_total,
                 'inpr_creado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
                 'inpr_actualizado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),

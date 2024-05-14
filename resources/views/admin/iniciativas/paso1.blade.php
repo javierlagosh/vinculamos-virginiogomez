@@ -924,8 +924,7 @@
     </div>
     <div class="col-xl-4 col-md-4 col-lg-4">
         <div class="form-group">
-            <label style="font-size: 110%">Escuelas colaboradoras</label> <label for=""
-                style="color: red;">*</label>
+            <label style="font-size: 110%">Escuelas colaboradoras</label> 
             <input type="checkbox" id="selectAllEscuelas" style="margin-left: 60%"> <label
                 for="selectAllEscuelas">Todas</label>
             <select class="form-control select2" name="escuelas[]" multiple=""

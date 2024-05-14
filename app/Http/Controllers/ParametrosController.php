@@ -776,6 +776,7 @@ class ParametrosController extends Controller
             /* 'care_director' => 'required|max:100', */
             /* 'care_institucion' => 'required|max:100', */
             'sede_codigo' => 'required',
+            'escu_codigo' => 'required',
         ], [
             'care_nombre.required' => 'El nombre es requerido.',
             'care_nombre.max' => 'El nombre excede el máximo de caracteres permitidos (255).',
@@ -784,6 +785,7 @@ class ParametrosController extends Controller
             /* 'care_institucion.required' => 'El nombre de la institución es requerido.',
             'care_institucion.max' => 'El nombre de la institución excede el máximo de caracteres permitidos (100).', */
             'sede_codigo.required' => 'Seleccione una sede.',
+            'escu_codigo.required' => 'Seleccione una escuela.',
         ]);
 
         if (!$validacion) {
@@ -794,6 +796,7 @@ class ParametrosController extends Controller
         $carrera->care_nombre = $request->input('care_nombre');
         $carrera->care_descripcion = $request->input('care_descripcion');
         $carrera->sede_codigo = $request->input('sede_codigo');
+        $carrera->escu_codigo = $request->input('escu_codigo');
         $carrera->care_meta_estudiantes = $request->input('meta_estudiantes');
         $carrera->care_meta_docentes = $request->input('meta_docentes');
         $carrera->care_meta_soc_comunitarios = $request->input('meta_comunitarios');
@@ -815,6 +818,7 @@ class ParametrosController extends Controller
             /* 'care_director' => 'required|max:100', */
             /* 'care_institucion' => 'required|max:100', */
             'sede_codigo' => 'required',
+            'escu_codigo' => 'required',
         ], [
             'care_nombre.required' => 'El nombre es requerido.',
             'care_nombre.max' => 'El nombre excede el máximo de caracteres permitidos (255).',
@@ -823,6 +827,7 @@ class ParametrosController extends Controller
             /* 'care_institucion.required' => 'El nombre de la institución es requerido.',
             'care_institucion.max' => 'El nombre de la institución excede el máximo de caracteres permitidos (100).', */
             'sede_codigo.required' => 'Seleccione una sede.',
+            'escu_codigo.required' => 'Seleccione una escuela.',
         ]);
 
         if (!$validacion) {
@@ -833,6 +838,7 @@ class ParametrosController extends Controller
         $carrera->care_nombre = $request->input('care_nombre');
         $carrera->care_descripcion = $request->input('care_descripcion');
         $carrera->sede_codigo = $request->input('sede_codigo');
+        $carrera->escu_codigo = $request->input('escu_codigo');
         $carrera->care_meta_estudiantes = $request->input('meta_estudiantes');
         $carrera->care_meta_docentes = $request->input('meta_docentes');
         $carrera->care_meta_soc_comunitarios = $request->input('meta_comunitarios');
