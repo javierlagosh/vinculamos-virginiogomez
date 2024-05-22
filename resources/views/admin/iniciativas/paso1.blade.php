@@ -845,7 +845,7 @@
                 style="color: red;">*</label><input type="checkbox" id="selectAllCarreras"
                 style="margin-left: 60%"> <label for="selectAllCarreras">Todas</label>
 
-            <select class="form-control select2" multiple="" id="carreras"
+            <select class="form-control select2" multiple="" id="sedes"
                 name="sedes[]" style="width: 100%">
                 @if (isset($iniciativa) && $editar)
                     estoy aca
@@ -1044,7 +1044,7 @@
                                 <div class="col-xl-4 col-md-4 col-lg-4">
                                     <div class="form-group">
 
-                                        <label style="font-size: 110%">Tipo de actividad</label> <label for=""
+                                        <label style="font-size: 110%">Tipo de iniciativa</label> <label for=""
                                             style="color: red;">*</label>
                                         <select class="form-control select2" id="tactividad" name="tactividad"
                                             style="width: 100%">
@@ -1323,6 +1323,7 @@
 
         $(document).ready(function() {
             actividadesByMecanismos();
+            carrerasByEscuelas();
             comunasByRegiones();
             selectAllRegiones();
             selectAllComunas();
@@ -1367,6 +1368,33 @@
                 const selectAll = $(this).prop('checked');
                 $('#escuelas option').prop('selected', selectAll);
                 $('#escuelas').trigger('change');
+            });
+        }
+
+        function carrerasByEscuelas(){
+            
+            $('#inic_escuela_ejecutora').on('change', function() {
+                console.log("escuela modificada");
+                $.ajax({
+                    url: window.location.origin + '/admin/iniciativas/obtener-carreras',
+                    type: 'POST',
+                    dataType: 'json',
+
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        escuela: $('#inic_escuela_ejecutora').val()
+                    },
+                    success: function(data) {
+                        //vaciar carreras
+                        $('#carreras').empty();
+                        console.log(data);
+                        $.each(data, function(key, value) {
+                            $('#carreras').append(
+                                `<option value="${value.care_codigo}">${value.care_nombre}</option>`
+                            );
+                        });
+                    }
+                });
             });
         }
 

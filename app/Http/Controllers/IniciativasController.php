@@ -1080,6 +1080,9 @@ class IniciativasController extends Controller
         }
 
         $participantes_delete = ParticipantesInternos::where('inic_codigo', $inic_codigo)->delete();
+
+        
+
         foreach ($sedes as $sede) {
             foreach ($escuelas as $escuela) {
                 foreach ($carreras as $carrera) {
@@ -1740,6 +1743,12 @@ class IniciativasController extends Controller
             ->where('mecanismos_actividades.meca_codigo', '=', $request->mecanismo)
             ->get();
         return response()->json($actividades);
+    }
+
+    public function carrerasByEscuelas1(Request $request)
+    {
+        $carreras = Carreras::where('escu_codigo', $request->escuela)->get();
+        return response()->json($carreras);
     }
 
     public function paisByTerritorio(Request $request)
@@ -2620,32 +2629,32 @@ class IniciativasController extends Controller
     public function eliminarEvaluacion(Request $request)
     {
         # Return Vista
-        $iniciativa = Iniciativas::where('inic_codigo', $request->inic_codigo)->get();
-        $resultados = Resultados::where('inic_codigo', $request->inic_codigo)->get();
-        $evaluaciones = Evaluacion::where('inic_codigo', $request->inic_codigo)->get();
+        $iniciativa = Iniciativas::where('inic_codigo',$request->inic_codigo)->get();
+        $resultados = Resultados::where('inic_codigo',$request->inic_codigo)->get();
+        $evaluaciones = Evaluacion::where('inic_codigo',$request->inic_codigo)->get();
 
-        $mecanismo = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', 'iniciativas.meca_codigo')
-            ->select('mecanismos.meca_nombre', 'iniciativas.inic_codigo')
-            ->where('iniciativas.inic_codigo', $request->inic_codigo)
-            ->get();
+        $mecanismo = Iniciativas::join('mecanismos','mecanismos.meca_codigo','iniciativas.meca_codigo')
+        ->select('mecanismos.meca_nombre','iniciativas.inic_codigo')
+        ->where('iniciativas.inic_codigo',$request->inic_codigo)
+        ->get();
 
         // return $mecanismo[0]->meca_nombre;
-        $ambitos = Programas::join('programas_contribuciones', 'programas_contribuciones.prog_codigo', 'programas.prog_codigo')
-            ->join('ambito', 'ambito.amb_codigo', 'programas_contribuciones.amb_codigo')
-            ->select('ambito.amb_nombre')
-            ->where('prog_nombre', $mecanismo[0]->meca_nombre)
-            ->get();
+        $ambitos = Programas::join('programas_contribuciones','programas_contribuciones.prog_codigo','programas.prog_codigo')
+        ->join('ambito','ambito.amb_codigo','programas_contribuciones.amb_codigo')
+        ->select('ambito.amb_nombre')
+        ->where('prog_nombre',$mecanismo[0]->meca_nombre)
+        ->get();
 
         #####################################################################################
-        $eval = Evaluacion::where('eval_codigo', $request->eval_codigo)->get();
+        $eval = Evaluacion::where('eval_codigo',$request->eval_codigo)->get();
 
         if (!$eval) {
-            return view('admin.iniciativas.evaluacion', compact('iniciativa', 'resultados', 'ambitos', 'evaluaciones'))->with('error', 'La evaluación no se encuentra registrada en el sistema.');
+            return view('admin.iniciativas.evaluacion', compact('iniciativa', 'resultados','ambitos','evaluaciones'))->with('error', 'La evaluación no se encuentra registrada en el sistema.');
         }
 
-        $eval = Evaluacion::where('eval_codigo', $request->eval_codigo)->delete();
-        $evaluaciones = Evaluacion::where('inic_codigo', $request->inic_codigo)->get();
-        return view('admin.iniciativas.evaluacion', compact('iniciativa', 'resultados', 'ambitos', 'evaluaciones'))->with('exito', "Evaluación eliminada correctamente.");
+        $eval = Evaluacion::where('eval_codigo',$request->eval_codigo)->delete();
+        $evaluaciones = Evaluacion::where('inic_codigo',$request->inic_codigo)->get();
+        return view('admin.iniciativas.evaluacion', compact('iniciativa', 'resultados','ambitos','evaluaciones'))->with('exito', "Evaluación eliminada correctamente.");
     }
 
     // TODO: Calculo Evaluación

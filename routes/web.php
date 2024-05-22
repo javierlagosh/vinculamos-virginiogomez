@@ -350,6 +350,7 @@ Route::get('admin/crear/iniciativa/listar-internos', [IniciativasController::cla
 Route::get('admin/crear/iniciativa/listar-externos', [IniciativasController::class, 'listarExternos']);
 Route::post('admin/actualizar/participantes-internos', [IniciativasController::class, 'actualizarInternos']);
 Route::post('admin/iniciativas/agregar/participantes-externos', [IniciativasController::class, 'agregarExternos']);
+Route::post('admin/iniciativas/obtener-carreras', [IniciativasController::class, 'carrerasByEscuelas1']);
 Route::post('admin/iniciativas/obtener-escuelas/paso2', [IniciativasController::class, 'escuelasBySedesPaso2']);
 Route::post('admin/iniciativas/obtener-carreras/paso2', [IniciativasController::class, 'carrerasByEscuelasPaso2']);
 Route::post('admin/iniciativas/obtener-actividades', [IniciativasController::class, 'actividadesByMecanismos']);
