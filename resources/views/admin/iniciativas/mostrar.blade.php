@@ -205,7 +205,7 @@
                                             </tr>
 
                                             <tr>
-                                                <td><strong>Tipo de actividad</strong></td>
+                                                <td><strong>Tipo de iniciativa</strong></td>
                                                 <td>
                                                     {{ $iniciativa->tiac_nombre }}
                                                 </td>
