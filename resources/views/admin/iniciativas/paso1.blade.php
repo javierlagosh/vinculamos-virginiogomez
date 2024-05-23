@@ -248,7 +248,7 @@
                                             </div>
                                         </div>
                                     @endif
-                                    <button id="boton-revisar" class="btn btn-primary mr-1 text-white mt-2">
+                                    <button id="boton-revisar" class="btn btn-primary mr-1 text-white mt-2" hidden>
                                         <span id="plantearObjetivoSpinner" class="" role="status" aria-hidden="true"></span>
                                         <span id="plantearObjetivoTexto">Plantear objetivos</span>
 
@@ -1008,38 +1008,6 @@
 </div>
 
                             <div class="row">
-                                <div class="col-xl-4 col-md-4 col-lg-4">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Mecanismo</label> <label for=""
-                                            style="color: red;">*</label>
-                                        <select class="form-control select2" id="mecanismos" name="mecanismos"
-                                            style="width: 100%">
-                                            <option value="" selected disabled>Seleccione...</option>
-                                            @foreach ($mecanismo as $meca)
-                                                @if ($editar && @isset($iniciativa))
-                                                    <option value="{{ $meca->meca_codigo }}"
-                                                        {{ old('mecanismo', $iniciativa->meca_codigo) == $meca->meca_codigo ? 'selected' : '' }}>
-                                                        {{ $meca->meca_nombre }}</option>
-                                                @else
-                                                    <option value="{{ $meca->meca_codigo }}"
-                                                        {{ old('mecanismo') == $meca->meca_codigo ? 'selected' : '' }}>
-                                                        {{ $meca->meca_nombre }}</option>
-                                                @endif
-                                            @endforeach
-                                        </select>
-
-
-                                        @if ($errors->has('mecanismo'))
-                                            <div class="alert alert-warning alert-dismissible show fade mt-2">
-                                                <div class="alert-body">
-                                                    <strong>{{ $errors->first('mecanismo') }}</strong>
-                                                </div>
-                                            </div>
-                                            <button class="close" data-dismiss="alert"><span>&times;</span></button>
-                                        @endif
-                                    </div>
-                                </div>
-
 
                                 <div class="col-xl-4 col-md-4 col-lg-4">
                                     <div class="form-group">
@@ -1078,6 +1046,41 @@
                                         @endif
                                     </div>
                                 </div>
+
+                                <div class="col-xl-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        <label style="font-size: 110%">Mecanismo</label> <label for=""
+                                            style="color: red;">*</label>
+                                        <select class="form-control select2" id="mecanismos" name="mecanismos"
+                                            style="width: 100%">
+                                            <option value="" selected disabled>Seleccione...</option>
+                                            @foreach ($mecanismo as $meca)
+                                                @if ($editar && @isset($iniciativa))
+                                                    <option value="{{ $meca->meca_codigo }}"
+                                                        {{ old('mecanismo', $iniciativa->meca_codigo) == $meca->meca_codigo ? 'selected' : '' }}>
+                                                        {{ $meca->meca_nombre }}</option>
+                                                @else
+                                                    <option value="{{ $meca->meca_codigo }}"
+                                                        {{ old('mecanismo') == $meca->meca_codigo ? 'selected' : '' }}>
+                                                        {{ $meca->meca_nombre }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+
+
+                                        @if ($errors->has('mecanismo'))
+                                            <div class="alert alert-warning alert-dismissible show fade mt-2">
+                                                <div class="alert-body">
+                                                    <strong>{{ $errors->first('mecanismo') }}</strong>
+                                                </div>
+                                            </div>
+                                            <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                                        @endif
+                                    </div>
+                                </div>
+
+
+                                
 
                                 <div class="col-xl4 col-md-4 col-lg-4">
                                     <div class="form-group">
@@ -1323,6 +1326,7 @@
 
         $(document).ready(function() {
             actividadesByMecanismos();
+            mecanismosByActividades();
             carrerasByEscuelas();
             comunasByRegiones();
             selectAllRegiones();
@@ -1415,6 +1419,32 @@
                         $.each(data, function(key, value) {
                             $('#tactividad').append(
                                 `<option value="${value.tiac_codigo}">${value.tiac_nombre}</option>`
+                            );
+                        });
+                    }
+                });
+
+            })
+        }
+
+        function mecanismosByActividades() {
+            $('#tactividad').on('change', function() {
+                console.log("cambio de actividad");
+                $.ajax({
+                    url: window.location.origin + '/admin/iniciativas/obtener-mecanismos',
+                    type: 'POST',
+                    dataType: 'json',
+
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        tiac: $('#tactividad').val()
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        $('#mecanismos').empty();
+                        $.each(data, function(key, value) {
+                            $('#mecanismos').append(
+                                `<option value="${value.meca_codigo}">${value.meca_nombre}</option>`
                             );
                         });
                     }

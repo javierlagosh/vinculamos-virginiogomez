@@ -1079,20 +1079,49 @@ class IniciativasController extends Controller
             }
         }
 
-        $participantes_delete = ParticipantesInternos::where('inic_codigo', $inic_codigo)->delete();
+        $existentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)->get();
 
-        
+        foreach ($existentes as $existente) {
+            $sedeExistente = in_array($existente->sede_codigo, $sedes);
+            $escuelaExistente = in_array($existente->escu_codigo, $escuelas);
+            $carreraExistente = in_array($existente->care_codigo, $carreras);
 
+            if (!$sedeExistente || !$escuelaExistente || !$carreraExistente) {
+                ParticipantesInternos::where([
+                    'inic_codigo' => $inic_codigo,
+                    'sede_codigo' => $existente->sede_codigo,
+                    'escu_codigo' => $existente->escu_codigo,
+                    'care_codigo' => $existente->care_codigo
+                ])->delete();
+            }
+        }
         foreach ($sedes as $sede) {
             foreach ($escuelas as $escuela) {
                 foreach ($carreras as $carrera) {
-                    // eliminar con participantes_internos con inic_codigo
-                    $participantes_internos = new ParticipantesInternos();
-                    $participantes_internos->inic_codigo = $inic_codigo;
-                    $participantes_internos->sede_codigo = $sede;
-                    $participantes_internos->escu_codigo = $escuela;
-                    $participantes_internos->care_codigo = $carrera;
-                    $participantes_internos->save();
+                    $sede_escuela = SedesEscuelas::where('sede_codigo', $sede)
+                        ->where('escu_codigo', $escuela)
+                        ->exists();
+
+                    $escuela_carrera = Carreras::where(
+                        'escu_codigo',
+                        $escuela
+                    )->where('care_codigo', $carrera)->exists();
+
+                    $escuela_sede = ParticipantesInternos::where([
+                        'sede_codigo' => $sede,
+                        'escu_codigo' => $escuela,
+                        'care_codigo' => $carrera,
+                        'inic_codigo' => $inic_codigo
+                    ])->exists();
+
+                    if ($sede_escuela && !$escuela_sede && $escuela_carrera) {
+                        array_push($pain, [
+                            'inic_codigo' => $inic_codigo,
+                            'sede_codigo' => $sede,
+                            'escu_codigo' => $escuela,
+                            'care_codigo' => $carrera,
+                        ]);
+                    }
                 }
             }
         }
@@ -1288,7 +1317,10 @@ class IniciativasController extends Controller
         $socios = SociosComunitarios::all();
         $escuelasTotales = Escuelas::all();
         $sedesTotales = Sedes::all();
-        $carreras = Carreras::all();
+        $carreras = ParticipantesInternos::where('inic_codigo', $inic_codigo)
+            ->join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
+            ->select('carreras.care_codigo', 'carreras.care_nombre')
+            ->distinct()->get();
         $grupos = GruposInteres::orderBy('grin_codigo', 'asc')->get();
         $subgrupos = SubGruposInteres::all();
 
@@ -1743,6 +1775,20 @@ class IniciativasController extends Controller
             ->where('mecanismos_actividades.meca_codigo', '=', $request->mecanismo)
             ->get();
         return response()->json($actividades);
+    }
+
+    public function mecanismosByActividades(Request $request)
+    {
+
+        // $actividades = DB::table('mecanismos_actividades')
+        //     ->join('tipo_actividades', 'tipo_actividades.tiac_codigo', '=', 'mecanismos_actividades.tiac_codigo')
+        //     ->where('mecanismos_actividades.prog_codigo', '=', $request->programa)
+        //     ->select('tipo_actividades.*')
+        //     ->get();
+        $mecanismos = MecanismosActividades::join('mecanismos', 'mecanismos.meca_codigo', '=', 'mecanismos_actividades.meca_codigo')
+            ->where('mecanismos_actividades.tiac_codigo', '=', $request->tiac)
+            ->get(); 
+        return response()->json($mecanismos);
     }
 
     public function carrerasByEscuelas1(Request $request)

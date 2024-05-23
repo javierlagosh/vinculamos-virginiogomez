@@ -958,6 +958,7 @@
         function carrerasByEscuelasPaso2(){
             $('#escuelas').on('change', function() {
                 var escuelasId = $(this).val();
+                console.log('escuelasId', escuelasId);
                 if (escuelasId) {
                     $.ajax({
                         url: window.location.origin + '/admin/iniciativas/obtener-carreras/paso2',
