@@ -786,16 +786,16 @@ class IniciativasController extends Controller
         $inic_codigo = $inicCrear;
         // insertar sedes escuelas y carreras a participantes internos
         foreach ($sedes as $sede) {
-            foreach ($escuelas as $escuela) {
+            //foreach ($escuelas as $escuela) {
                 foreach ($carreras as $carrera) {
                     $participantes_internos = new ParticipantesInternos();
                     $participantes_internos->inic_codigo = $inic_codigo;
                     $participantes_internos->sede_codigo = $sede;
-                    $participantes_internos->escu_codigo = $escuela;
+                    $participantes_internos->escu_codigo = $request->inic_escuela_ejecutora;
                     $participantes_internos->care_codigo = $carrera;
                     $participantes_internos->save();
                 }
-            }
+            //}
         }
         //$painCrear = ParticipantesInternos::insert($pain);
         
