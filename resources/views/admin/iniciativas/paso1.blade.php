@@ -958,6 +958,7 @@
             @endif
         </div>
     </div>
+    
     <script>
         // si se selecciona la escuela ejecutora, se agrega al select de escuelas colaboradoras
         $(document).ready(function() {
