@@ -22,6 +22,7 @@ class ParticipantesInternos extends Model
         'pain_estudiantes',
         'pain_estudiantes_final',
         'pain_titulados',
+        'pain_titulados_final',
         'pain_funcionarios',
         'pain_funcionarios_final',
         'pain_total',

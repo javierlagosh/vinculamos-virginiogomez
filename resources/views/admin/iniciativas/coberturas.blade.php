@@ -107,6 +107,8 @@
                                                                 <th scope="col">Estudiantes final</th>
                                                                 <th scope="col">Funcionarios/as inicial</th>
                                                                 <th scope="col">Funcionarios/as final</th>
+                                                                <th scope="col">Titulados inicial</th>
+                                                                <th scope="col">Titulados final</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="body-tabla-participantes">
@@ -137,6 +139,14 @@
                                                                             id="cantidad-funcionarios-final-{{ $resultado->pain_codigo }}"
                                                                             name="funcionarios_final[{{ $resultado->pain_codigo }}]"
                                                                             value="{{ $resultado->pain_funcionarios_final }}"
+                                                                            min="0">
+                                                                    </td>
+                                                                    <td>{{ $resultado->pain_titulados }}</td>
+                                                                    <td>
+                                                                        <input type="number" class="form-control"
+                                                                            id="cantidad-titulados-final-{{ $resultado->pain_codigo }}"
+                                                                            name="titulados_final[{{ $resultado->pain_codigo }}]"
+                                                                            value="{{ $resultado->pain_titulados_final }}"
                                                                             min="0">
                                                                     </td>
                                                                 </tr>

@@ -125,7 +125,9 @@ class IniciativasController extends Controller
                 'participantes_internos.pain_estudiantes_final',
                 'participantes_internos.pain_funcionarios',
                 'participantes_internos.pain_funcionarios_final',
-                'participantes_internos.pain_total'
+                'participantes_internos.pain_total',
+                'participantes_internos.pain_titulados',
+                'participantes_internos.pain_titulados_final',
             )
             ->join('sedes', 'participantes_internos.sede_codigo', '=', 'sedes.sede_codigo')
             ->join('escuelas', 'participantes_internos.escu_codigo', '=', 'escuelas.escu_codigo')
@@ -170,6 +172,8 @@ class IniciativasController extends Controller
         $docentes_final = $request->input('docentes_final');
         $estudiantes_final = $request->input('estudiantes_final');
         $funcionarios_final = $request->input('funcionarios_final');
+        $titulados_final = $request->input('titulados_final');
+
         // dd($docentes_final, $estudiantes_final);
 
         foreach ($docentes_final as $pain_codigo => $docentes_final_value) {
@@ -183,6 +187,7 @@ class IniciativasController extends Controller
                 $resultado->pain_docentes_final = $docentes_final_value;
                 $resultado->pain_estudiantes_final = $estudiantes_final[$pain_codigo];
                 $resultado->pain_funcionarios_final = $funcionarios_final[$pain_codigo];
+                $resultado->pain_titulados_final = $titulados_final[$pain_codigo];
                 $resultado->save();
             }
         }
