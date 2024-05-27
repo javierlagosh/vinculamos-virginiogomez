@@ -153,24 +153,39 @@
                                     value="{{ $care->care_institucion }}" autocomplete="off">
                             </div>
                         </div> --}}
-                            <div class="form-group">
-                                <label>Sede</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <i class="fas fa-building"></i>
+                        <div class="form-group" style="align-items: center;" id="sedesAsociadasContainer">
+                            <label>Sedes Asociadas</label>
+                            <div class="input-group">
+                                <select class="form-control select2" style="width: 100%" id="sedesT"
+                                    name="sedesT[]" multiple>
+                                    <option value="" disabled>Seleccione...</option>
+                                    @foreach ($sedesT as $sede)
+                                        @php
+                                            $selected = false;
+                                        @endphp
+                                        @foreach ($SedesCarreras as $sedees)
+                                            @if ($sedees->sede_codigo === $sede->sede_codigo && $sedees->care_codigo === $care->care_codigo)
+                                                @php
+                                                    $selected = true;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+
+                                        <option value="{{ $sede->sede_codigo }}" {{ $selected ? 'selected' : '' }}>
+                                            {{ $sede->sede_nombre }}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('sedesT'))
+                                    <div class="alert alert-warning alert-dismissible show fade mt-2 text-center"
+                                        style="width:100%">
+                                        <div class="alert-body">
+                                            <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                                            <strong>{{ $errors->first('sedesT') }}</strong>
                                         </div>
                                     </div>
-                                    <select class="form-control" id="sede_codigo" name="sede_codigo">
-                                        @foreach ($sedes as $sede)
-                                            <option value="{{ $sede->sede_codigo }}"
-                                                {{ $care->sede_codigo == $sede->sede_codigo ? 'selected' : '' }}>
-                                                {{ $sede->sede_nombre }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                @endif
                             </div>
+                        </div>
                             <div class="form-group">
                                 <label>Escuela</label>
                                 <div class="input-group">
@@ -390,25 +405,21 @@
                             </div>
                         </div> --}}
                         <div class="form-group">
-                            <label>Sede</label>
+                            <label>Sedes Asociadas</label>
                             <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i class="fas fa-building"></i>
-                                    </div>
-                                </div>
-                                <select class="form-control" id="sede_codigo" name="sede_codigo">
-                                    @foreach ($sedes as $sede)
+                                <select class="form-control select2" style="width: 100%" id="sedesT" name="sedesT[]"
+                                    multiple>
+                                    <option value="" disabled>Seleccione...</option>
+                                    @foreach ($sedesT as $sede)
                                         <option value="{{ $sede->sede_codigo }}">{{ $sede->sede_nombre }}</option>
                                     @endforeach
                                 </select>
-
-                                @if ($errors->has('sede_codigo'))
+                                @if ($errors->has('sedesT'))
                                     <div class="alert alert-warning alert-dismissible show fade mt-2 text-center"
                                         style="width:100%">
                                         <div class="alert-body">
                                             <button class="close" data-dismiss="alert"><span>&times;</span></button>
-                                            <strong>{{ $errors->first('sede_codigo') }}</strong>
+                                            <strong>{{ $errors->first('sedesT') }}</strong>
                                         </div>
                                     </div>
                                 @endif

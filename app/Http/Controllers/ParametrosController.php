@@ -29,6 +29,7 @@ use App\Models\ProgramasContribuciones;
 use App\Models\Sedes;
 use App\Models\SedesSocios;
 use App\Models\SedesEscuelas;
+use App\Models\SedesCarreras;
 use App\Models\SedesProgramas;
 use App\Models\TipoIniciativa;
 use App\Models\SociosComunitarios;
@@ -733,11 +734,15 @@ class ParametrosController extends Controller
         $carreras = Carreras::orderBy('care_codigo', 'asc')->get();
         $escuelas = Escuelas::orderBy('escu_codigo', 'asc')->get();
         $sedes = Sedes::orderBy('sede_codigo', 'asc')->get();
+        $sedesT = Sedes::orderBy('sede_codigo', 'asc')->get();
+        $SedesCarreras = SedesCarreras::all();
 
         return view('admin.parametros.carreras', [
             'carreras' => $carreras,
             'escuelas' => $escuelas,
-            'sedes' => $sedes
+            'sedesT' => $sedesT,
+            'SedesCarreras' => $SedesCarreras,
+            'sedes' => $sedes,
         ]);
     }
 
@@ -758,6 +763,13 @@ class ParametrosController extends Controller
             return redirect()->back()->with('error', 'La carrera no se pudo eliminar, intente más tarde.');
         }
 
+        try {
+            $seca = SedesCarreras::where('care_codigo', $request->care_codigo)->delete();
+        } catch (\Throwable $th) {
+            //
+        }
+        
+
         return redirect()->route('admin.listar.carreras')->with('exito', 'La carrera fue eliminada correctamente.');
     }
 
@@ -770,12 +782,12 @@ class ParametrosController extends Controller
         if (!$carrera) {
             return redirect()->back()->with('error', 'La carrera no se encuentra registrada en el sistema.');
         }
+        
 
         $validacion = $request->validate([
             'care_nombre' => 'required|max:255',
             /* 'care_director' => 'required|max:100', */
             /* 'care_institucion' => 'required|max:100', */
-            'sede_codigo' => 'required',
             'escu_codigo' => 'required',
         ], [
             'care_nombre.required' => 'El nombre es requerido.',
@@ -784,7 +796,6 @@ class ParametrosController extends Controller
             'care_director.max' => 'El nombre del director excede el máximo de caracteres permitidos (100).', */
             /* 'care_institucion.required' => 'El nombre de la institución es requerido.',
             'care_institucion.max' => 'El nombre de la institución excede el máximo de caracteres permitidos (100).', */
-            'sede_codigo.required' => 'Seleccione una sede.',
             'escu_codigo.required' => 'Seleccione una escuela.',
         ]);
 
@@ -795,7 +806,7 @@ class ParametrosController extends Controller
         // Actualizar los campos de la carrera con los valores del formulario
         $carrera->care_nombre = $request->input('care_nombre');
         $carrera->care_descripcion = $request->input('care_descripcion');
-        $carrera->sede_codigo = $request->input('sede_codigo');
+        //$carrera->sede_codigo = $request->input('sede_codigo');
         $carrera->escu_codigo = $request->input('escu_codigo');
         $carrera->care_meta_estudiantes = $request->input('meta_estudiantes');
         $carrera->care_meta_docentes = $request->input('meta_docentes');
@@ -805,6 +816,25 @@ class ParametrosController extends Controller
 
         // Guardar los cambios en la carrera
         $carrera->save();
+
+        // id carrera
+        $care_codigo = $carrera->care_codigo;
+        $Drop = SedesCarreras::where('care_codigo', $care_codigo)->delete();
+        $seca = [];
+        $sedes = $request->input('sedesT', []);
+
+        foreach ($sedes as $sede) {
+            array_push($seca, [
+                'sede_codigo' => $sede,
+                'care_codigo' => $care_codigo,
+            ]);
+        }
+
+        $secaCrear = SedesCarreras::insert($seca);
+        if (!$secaCrear) {
+            SedesCarreras::where('care_codigo', $care_codigo)->delete();
+            return redirect()->back()->with('socoError', 'Ocurrió un error durante el registro de las sedes, intente más tarde.')->withInput();
+        }
 
         return redirect()->back()->with('exito', 'La carrera ha sido actualizada correctamente.');
     }
@@ -817,7 +847,7 @@ class ParametrosController extends Controller
             'care_nombre' => 'required|max:255',
             /* 'care_director' => 'required|max:100', */
             /* 'care_institucion' => 'required|max:100', */
-            'sede_codigo' => 'required',
+            'sedesT' => 'required', // 'sedesT' es requerido si 'nacional' no está marcado
             'escu_codigo' => 'required',
         ], [
             'care_nombre.required' => 'El nombre es requerido.',
@@ -826,7 +856,7 @@ class ParametrosController extends Controller
             'care_director.max' => 'El nombre del director excede el máximo de caracteres permitidos (100).', */
             /* 'care_institucion.required' => 'El nombre de la institución es requerido.',
             'care_institucion.max' => 'El nombre de la institución excede el máximo de caracteres permitidos (100).', */
-            'sede_codigo.required' => 'Seleccione una sede.',
+            'sedesT.max' => 'La carrera debe estar en al menos en una sede.',
             'escu_codigo.required' => 'Seleccione una escuela.',
         ]);
 
@@ -849,6 +879,25 @@ class ParametrosController extends Controller
 
         // Guardar la carrera en la base de datos
         $carrera->save();
+
+        //id de la carrera
+        $careCodigo = $carrera->care_codigo;
+
+        $seca = [];
+        $sedes = $request->input('sedesT', []);
+
+        foreach ($sedes as $sede) {
+            array_push($seca, [
+                'sede_codigo' => $sede,
+                'care_codigo' => $careCodigo,
+            ]);
+        }
+
+        $secaCrear = SedesCarreras::insert($seca);
+        if (!$secaCrear) {
+            SedesCarreras::where('care_codigo', $careCodigo)->delete();
+            return redirect()->back()->with('error', 'Ocurrió un error durante el registro de las sedes.')->withInput();
+        }
 
         return redirect()->back()->with('exito', 'Carrera creada exitosamente');
     }
@@ -886,7 +935,7 @@ class ParametrosController extends Controller
         $Drop = Escuelas::where('escu_codigo', $request->escu_codigo)->delete();
 
         if (!$Drop) {
-            return redirect()->back()->with('error', 'La carrera no se pudo eliminar, intente más tarde.');
+            return redirect()->back()->with('error', 'La escuela no se pudo eliminar, intente más tarde.');
         }
 
         return redirect()->route('admin.listar.escuelas')->with('exito', 'La carrera fue eliminada correctamente.');
@@ -899,7 +948,7 @@ class ParametrosController extends Controller
 
         // Verificar si la carrera existe
         if (!$escuela) {
-            return redirect()->back()->with('error', 'La carrera no se encuentra registrada en el sistema.');
+            return redirect()->back()->with('error', 'La escuela no se encuentra registrada en el sistema.');
         }
 
         $Drop = SedesEscuelas::where('escu_codigo', $escu_codigo)->delete();
@@ -947,7 +996,7 @@ class ParametrosController extends Controller
             return redirect()->back()->with('socoError', 'Ocurrió un error durante el registro de las sedes, intente más tarde.')->withInput();
         }
 
-        return redirect()->back()->with('exito', 'La carrera ha sido actualizada correctamente.');
+        return redirect()->back()->with('exito', 'La escuela ha sido actualizada correctamente.');
     }
 
 
