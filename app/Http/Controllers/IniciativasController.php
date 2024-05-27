@@ -790,12 +790,17 @@ class IniciativasController extends Controller
         foreach ($sedes as $sede) {
             foreach ($escuelas as $escuela) {
                 foreach ($carreras as $carrera) {
+                    //si la carrera no pertenece a la escuela no se inserta
+                    $escuela_carrera = Carreras::where('escu_codigo', $escuela)
+                        ->where('care_codigo', $carrera)->exists();
+                    if ($escuela_carrera) {
                     $participantes_internos = new ParticipantesInternos();
                     $participantes_internos->inic_codigo = $inic_codigo;
                     $participantes_internos->sede_codigo = $sede;
                     $participantes_internos->escu_codigo = $escuela;
                     $participantes_internos->care_codigo = $carrera;
                     $participantes_internos->save();
+                    }
                 }
             }
         }
@@ -1125,6 +1130,7 @@ class IniciativasController extends Controller
                     ])->exists();
 
                     if ($sede_escuela && !$escuela_sede && $escuela_carrera) {
+                        //si la carrera no pertenece a la escuela no se inserta
                         array_push($pain, [
                             'inic_codigo' => $inic_codigo,
                             'sede_codigo' => $sede,
