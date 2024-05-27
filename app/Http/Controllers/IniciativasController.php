@@ -1801,10 +1801,15 @@ class IniciativasController extends Controller
     public function carrerasByEscuelas1(Request $request)
     {
         $escuelas = $request->input('escuelas', []);
+        $sedes = $request->input('sedes', []);
         $escuela = $request->escuela;
         //meter $escuela al array $escuela
         array_push($escuelas, $escuela);
-        $carreras = Carreras::whereIn('escu_codigo', $escuelas)->get();
+        //carreras donde no esten en el array $escuelas
+        $carreras = Carreras::whereIn('escu_codigo', $escuelas)
+        ->join('sedes_carreras', 'sedes_carreras.care_codigo', '=', 'carreras.care_codigo')
+        ->whereIn('sedes_carreras.sede_codigo', $sedes)
+        ->get();
         return response()->json($carreras);
     }
 

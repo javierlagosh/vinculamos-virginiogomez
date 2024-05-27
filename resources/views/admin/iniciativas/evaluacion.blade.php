@@ -73,20 +73,20 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
 
-                            <h4>Evaluación de la iniciativa: {{ $iniciativa[0]->inic_nombre }} </h4>
+                            <h4>Evaluación de la Actividad: {{ $iniciativa[0]->inic_nombre }} </h4>
                             
 
                             <div class="card-header-action">
                                 <div class="dropdown d-inline">
 
                                     <button class="btn btn-info dropdown-toggle" id="dropdownMenuButton2"
-                                        data-toggle="dropdown">Iniciativas</button>
+                                        data-toggle="dropdown">Actividades</button>
 
                                     <div class="dropdown-menu dropright">
                                         <a href="{{ route('admin.editar.paso1', $iniciativa[0]->inic_codigo) }}"
                                             class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                             title="Editar iniciativa"><i class="fas fa-edit"></i> Editar
-                                            Iniciativa</a>
+                                            Actividad</a>
 
                                         <a href="{{ route('admin.iniciativas.detalles', $iniciativa[0]->inic_codigo) }}"
                                             class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
@@ -334,7 +334,7 @@
                                                   <div class="col-12 col-md-6 col-lg-6">
                                                       <div class="card card-primary">
                                                           <div class="card-header" style="background-color: rgb(103,119,239);">
-                                                              <h4 style="color:aliceblue">Cumplimiento de la Iniciativa</h4>
+                                                              <h4 style="color:aliceblue">Cumplimiento de la Actividad</h4>
                                                           </div>
                                                           <div class="card-body">
                                                               <div class="table-responsive">
@@ -925,7 +925,7 @@
                                                   <div class="col-12 col-md-6 col-lg-6">
                                                       <div class="card card-primary">
                                                           <div class="card-header" style="background-color: rgb(103,119,239);">
-                                                              <h4 style="color:aliceblue">Cumplimiento de la Iniciativa</h4>
+                                                              <h4 style="color:aliceblue">Cumplimiento de la Actividad</h4>
                                                           </div>
                                                           <div class="card-body">
                                                               <div class="table-responsive">
@@ -1513,7 +1513,7 @@
                                                   <div class="col-12 col-md-6 col-lg-6">
                                                       <div class="card card-primary">
                                                           <div class="card-header" style="background-color: rgb(103,119,239);">
-                                                              <h4 style="color:aliceblue">Cumplimiento de la Iniciativa</h4>
+                                                              <h4 style="color:aliceblue">Cumplimiento de la Actividad</h4>
                                                           </div>
                                                           <div class="card-body">
                                                               <div class="table-responsive">
@@ -2102,7 +2102,7 @@
                                                   <div class="col-12 col-md-6 col-lg-6">
                                                       <div class="card card-primary">
                                                           <div class="card-header" style="background-color: rgb(103,119,239);">
-                                                              <h4 style="color:aliceblue">Cumplimiento de la Iniciativa</h4>
+                                                              <h4 style="color:aliceblue">Cumplimiento de la Actividad</h4>
                                                           </div>
                                                           <div class="card-body">
                                                               <div class="table-responsive">

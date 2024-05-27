@@ -1388,7 +1388,8 @@
                     data: {
                         _token: '{{ csrf_token() }}',
                         escuela: $('#inic_escuela_ejecutora').val(),
-                        escuelas: $('#escuelas').val()
+                        escuelas: $('#escuelas').val(),
+                        sedes: $('#sedes').val()
                     },
                     success: function(data) {
                         //vaciar carreras
