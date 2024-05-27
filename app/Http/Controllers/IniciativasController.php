@@ -2319,6 +2319,7 @@ class IniciativasController extends Controller
         $evaEstudiantesTotal = count(EvaluacionTotal::where('evaluacion_total.evatotal_tipo', 0)->where('evaluacion_total.inic_codigo', $inic_codigo)->get());
         $evaDocentesTotal = count(EvaluacionTotal::where('evaluacion_total.evatotal_tipo', 1)->where('evaluacion_total.inic_codigo', $inic_codigo)->get());
         $evaExternosTotal = count(EvaluacionTotal::where('evaluacion_total.evatotal_tipo', 2)->where('evaluacion_total.inic_codigo', $inic_codigo)->get());
+        $evaTituladosTotal = count(EvaluacionTotal::where('evaluacion_total.evatotal_tipo', 3)->where('evaluacion_total.inic_codigo', $inic_codigo)->get());
         $mecanismo = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', 'iniciativas.meca_codigo')
             ->select('mecanismos.meca_nombre', 'iniciativas.inic_codigo')
             ->where('iniciativas.inic_codigo', $inic_codigo)
@@ -2346,6 +2347,7 @@ class IniciativasController extends Controller
             'evaEstudiantesTotal',
             'evaDocentesTotal',
             'evaExternosTotal',
+            'evaTituladosTotal'
         )
         );
     }
@@ -2500,6 +2502,7 @@ class IniciativasController extends Controller
     }
     public function cargaIndividualEvaluacion(Request $request)
     {
+        
         $evaluacionTotal = EvaluacionTotal::where('evaluacion_total.evatotal_tipo', $request->tipo)
             ->where('evaluacion_total.inic_codigo', $request->inic_codigo)
             ->get()
@@ -2558,7 +2561,7 @@ class IniciativasController extends Controller
     public function verEvaluacion($inic_codigo, $invitado)
     {
         //si invitado no es un numero o no es 0, 1 o 2
-        if (!is_numeric($invitado) || $invitado < 0 || $invitado > 2) {
+        if (!is_numeric($invitado) || $invitado < 0 || $invitado > 3) {
             return redirect()->back();
         }elseif($invitado == 0){
             $invitadoNombre = 'Estudiantes';
@@ -2566,6 +2569,8 @@ class IniciativasController extends Controller
             $invitadoNombre = 'Docentes/Directivos';
         }elseif($invitado == 2){
             $invitadoNombre = 'Externos';
+        }elseif($invitado == 3){
+            $invitadoNombre = 'Titulados';
         }
         $evaluacion = Evaluacion::where('evaluacion.inic_codigo', $inic_codigo)
         ->join('evaluacion_total', 'evaluacion_total.evatotal_codigo', 'evaluacion.evatotal_codigo')
@@ -2823,7 +2828,7 @@ class IniciativasController extends Controller
     public function iniciativaEvaluarInvitar($inic_codigo, $invitado)
     {
         //si invitado no es un numero o no es 0, 1 o 2
-        if (!is_numeric($invitado) || $invitado < 0 || $invitado > 2) {
+        if (!is_numeric($invitado) || $invitado < 0 || $invitado > 3) {
             return redirect()->back();
         }elseif($invitado == 0){
             $invitadoNombre = 'Estudiantes';
@@ -2831,6 +2836,8 @@ class IniciativasController extends Controller
             $invitadoNombre = 'Docentes/Directivos';
         }elseif($invitado == 2){
             $invitadoNombre = 'Externos';
+        }elseif($invitado == 3){
+            $invitadoNombre = 'Titulados';
         }
         $evaluacion = EvaluacionTotal::where('evaluacion_total.evatotal_tipo', $invitado)
         ->where('evaluacion_total.inic_codigo', $inic_codigo)
@@ -2854,7 +2861,7 @@ class IniciativasController extends Controller
         //return $invitado;
         $invitado_rol = $invitado;
         //si invitado no es un numero o no es 0, 1 o 2
-        if (!is_numeric($invitado) || $invitado < 0 || $invitado > 2) {
+        if (!is_numeric($invitado) || $invitado < 0 || $invitado > 3) {
             return redirect()->back();
         }elseif($invitado == 0){
             $invitadoNombre = 'Estudiantes';
@@ -2862,6 +2869,8 @@ class IniciativasController extends Controller
             $invitadoNombre = 'Docentes/Directivos';
         }elseif($invitado == 2){
             $invitadoNombre = 'Externos';
+        }elseif($invitado == 3){
+            $invitadoNombre = 'Titulados';
         }
         $evaluacion = EvaluacionTotal::where('evaluacion_total.evatotal_tipo', $invitado)
         ->where('evaluacion_total.inic_codigo', $inic_codigo)
