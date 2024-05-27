@@ -776,6 +776,8 @@ class IniciativasController extends Controller
         $pain = [];
         $sedes = $request->input('sedes', []);
         $escuelas = $request->input('escuelas', []);
+        //pushear el valor de la escuela ejecutora
+        array_push($escuelas, $request->inic_escuela_ejecutora);
         // si es un arerglo vacio se le asigna un arreglo "nohay"
         if (empty($escuelas)) {
             $escuelas = [$request->inic_escuela_ejecutora];
@@ -1058,12 +1060,15 @@ class IniciativasController extends Controller
         $pain = [];
         $sedes = $request->input('sedes', []);
         $escuelas = $request->input('escuelas', []);
+        //pushear el valor de la escuela ejecutora
+        array_push($escuelas, $request->inic_escuela_ejecutora);
         // si está vacío, se asigna un arreglo con un valor "nohay"
         if (empty($escuelas)) {
             $escuelas = [$request->inic_escuela_ejecutora];
         }
 
         $carreras = $request->input('carreras', []);
+
 
         
         $existentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)->get();
@@ -1604,6 +1609,7 @@ class IniciativasController extends Controller
     {
         $escuelas = ParticipantesInternos::where(['sede_codigo' => $request->sedes, 'inic_codigo' => $request->inic_codigo])
             ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
+            ->groupBy('escuelas.escu_codigo')
             ->get();
         return response()->json($escuelas);
     }
