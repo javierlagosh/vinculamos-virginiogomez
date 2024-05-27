@@ -959,20 +959,7 @@
         </div>
     </div>
     
-    <script>
-        // si se selecciona la escuela ejecutora, se agrega al select de escuelas colaboradoras
-        $(document).ready(function() {
-            $('#inic_escuela_ejecutora').change(function() {
-                var escuelaEjecutora = $('#inic_escuela_ejecutora').val();
-                if (escuelaEjecutora != null) {
-                    $('#escuelas').append('<option value="' + escuelaEjecutora +
-                        '" selected>' + $('#inic_escuela_ejecutora option:selected').text() +
-                        '</option>');
-                    $('#escuelas').select2();
-                }
-            });
-        });
-    </script>
+   
 
     <div class="col-xl-4 col-md-4 col-lg-4">
         <div class="form-group">
@@ -1391,6 +1378,31 @@
         }
 
         function carrerasByEscuelas(){
+            $('#escuelas').on('change', function() {
+                console.log("escuela modificada");
+                $.ajax({
+                    url: window.location.origin + '/admin/iniciativas/obtener-carreras',
+                    type: 'POST',
+                    dataType: 'json',
+
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        escuela: $('#inic_escuela_ejecutora').val(),
+                        escuelas: $('#escuelas').val()
+                    },
+                    success: function(data) {
+                        //vaciar carreras
+                        $('#carreras').empty();
+                        console.log(data);
+                        $.each(data, function(key, value) {
+                            $('#carreras').append(
+                                `<option value="${value.care_codigo}">${value.care_nombre}</option>`
+                            );
+                        });
+                    }
+                });
+            });
+            
             
             $('#inic_escuela_ejecutora').on('change', function() {
                 console.log("escuela modificada");
@@ -1401,7 +1413,8 @@
 
                     data: {
                         _token: '{{ csrf_token() }}',
-                        escuela: $('#inic_escuela_ejecutora').val()
+                        escuela: $('#inic_escuela_ejecutora').val(),
+                        escuelas: $('#escuelas').val()
                     },
                     success: function(data) {
                         //vaciar carreras

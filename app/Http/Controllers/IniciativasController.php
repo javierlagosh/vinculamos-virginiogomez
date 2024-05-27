@@ -1800,7 +1800,11 @@ class IniciativasController extends Controller
 
     public function carrerasByEscuelas1(Request $request)
     {
-        $carreras = Carreras::where('escu_codigo', $request->escuela)->get();
+        $escuelas = $request->input('escuelas', []);
+        $escuela = $request->escuela;
+        //meter $escuela al array $escuela
+        array_push($escuelas, $escuela);
+        $carreras = Carreras::whereIn('escu_codigo', $escuelas)->get();
         return response()->json($carreras);
     }
 
