@@ -89,7 +89,7 @@ class DashboardController extends Controller
                 DB::raw('SUM(COALESCE(pain_estudiantes_final,0)) as total_estudiantes'),
                 DB::raw('COUNT(DISTINCT(inic_codigo)) as total_iniciativas')
             )
-                ->where('sede_codigo', $request->sede_codigo)
+                ->whereIn('sede_codigo', [$request->sede_codigo, 10])
                 ->get();
 
             $sede_meta = Sedes::select(
