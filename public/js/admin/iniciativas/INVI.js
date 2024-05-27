@@ -121,7 +121,7 @@ function calcularIndice(inic_codigo) {
           ptje_interno = dividendo;
           ptje_externo = divisor;
 
-          cobertura_puntaje = Math.round(100 - (ptje_interno + ptje_externo)/2);
+          cobertura_puntaje = Math.round((ptje_interno / ptje_externo) * 100);
           if (cobertura_puntaje > 100) {
             cobertura_puntaje = 100;
           }
