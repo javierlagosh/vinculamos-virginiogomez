@@ -166,7 +166,7 @@ function calcularIndice(inic_codigo) {
       $("#mecanismo-puntaje").text(mecanismo_puntaje);
       $("#mecanismo-nombre").text(mecanismo[0].meca_nombre);
       $("#frecuencia-puntaje").text(frecuencia_puntaje);
-      $("#cobertura-puntaje").text(cobertura_puntaje + "dividendo: " + dividendo + " divisor: " + divisor + " - " + coberturaExt[0].total_externos_final);
+      $("#cobertura-puntaje").text(cobertura_puntaje + "dividendo: " + dividendo + " divisor: " + divisor + " - " + coberturaExt[0].total_externos);
       $("#resultados-puntaje").text(resultados_puntaje);
       $("#evaluacion-puntaje").text(evaluacion_puntaje);
       $("#valor-indice").text(indice);
