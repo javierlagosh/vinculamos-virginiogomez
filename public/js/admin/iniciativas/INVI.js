@@ -111,7 +111,7 @@ function calcularIndice(inic_codigo) {
               ? 0
               : parseInt(coberturaExt[0].total_externos));
 
-            ptje_externos = Math.round((coberturaExt[0].total_externos_final* 100 ) / coberturaExt[0].total_externos);
+            ptje_externos = Math.round((coberturaExt[0].total_externos_final* 100 ) / coberturaExt[0].total_externos, 2);
         }
 
         if (dividendo == null) {
