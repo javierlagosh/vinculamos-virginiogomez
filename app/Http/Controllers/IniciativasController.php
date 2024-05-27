@@ -1800,7 +1800,7 @@ class IniciativasController extends Controller
 
     public function carrerasByEscuelas1(Request $request)
     {
-        $escuelas = $request->input('escuelas', []);
+        $escuelas = $request->input('escuelas', []) ?? [];
         $sedes = $request->input('sedes', []);
         $escuela = $request->escuela;
         //meter $escuela al array $escuela
