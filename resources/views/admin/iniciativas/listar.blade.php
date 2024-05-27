@@ -208,10 +208,7 @@
                                                                 title="Calcular INVI"
                                                                 onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i
                                                                     class="fas fa-tachometer-alt"></i> Calcular INVI</a>
-                                                            <a href="{{ route($role . '.evidencias.listar', $iniciativa->inic_codigo) }}"
-                                                                class="dropdown-item has-icon" data-toggle="tooltip"
-                                                                data-placement="top" title="Adjuntar evidencia"><i
-                                                                    class="fas fa-paperclip"></i>Adjuntar evidencia</a>
+                                                            
 
                                                             <a href="javascript:void(0)" class="dropdown-item has-icon"
                                                                 onclick="eliminarIniciativa({{ $iniciativa->inic_codigo }})"
@@ -236,11 +233,78 @@
                                                                 class="dropdown-item has-icon" data-toggle="tooltip"
                                                                 data-placement="top" title="Ingresar resultado"><i
                                                                     class="fas fa-flag"></i> Ingresar resultados</a>
+                                                            <a href="{{ route($role . '.evidencias.listar', $iniciativa->inic_codigo) }}"
+                                                                class="dropdown-item has-icon" data-toggle="tooltip"
+                                                                data-placement="top" title="Adjuntar evidencia"><i
+                                                                    class="fas fa-paperclip"></i>Adjuntar evidencia</a>
                                                             <a href="{{ route($role . '.evaluar.iniciativa', $iniciativa->inic_codigo) }}"
                                                                 class="dropdown-item has-icon" data-toggle="tooltip"
                                                                 data-placement="top" title="Evaluar iniciativa"><i
                                                                     class="fas fa-file-signature"></i> Evaluar
                                                                 iniciativa</a>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="dropdown d-inline">
+
+                                                        <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton2"
+                                                            data-toggle="dropdown">Estados</button>
+                                                        <div class="dropdown-menu dropright">
+                                                            <form method="POST"
+                                                                action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
+                                                                @csrf
+                                                                <input type="hidden" name="state" value="3">
+                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();"
+                                                                    class="dropdown-item has-icon" style="display: flex; align-items: center;">
+                                                                    <i class="fas fa-check" style="margin-right: 8px;"></i> Aprobar actividad
+                                                                </a>
+                                                            </form>
+                    
+                                                            <form method="POST"
+                                                                action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
+                                                                @csrf
+                                                                <input type="hidden" name="state" value="2">
+                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();"
+                                                                    class="dropdown-item has-icon" style="display: flex; align-items: center;">
+                                                                    <i class="fas fa-cog" style="margin-right: 8px;"></i> En ejecución
+                                                                </a>
+                                                            </form>
+                    
+                                                            <form method="POST"
+                                                                action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
+                                                                @csrf
+                                                                <input type="hidden" name="state" value="4">
+                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();"
+                                                                    class="dropdown-item has-icon" style="display: flex; align-items: center;">
+                                                                    <i class="fas fa-info-circle" style="margin-right: 8px;"></i> Falta
+                                                                    información
+                                                                </a>
+                                                            </form>
+                    
+                                                            <form method="POST"
+                                                                action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
+                                                                @csrf
+                                                                <input type="hidden" name="state" value="5">
+                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();"
+                                                                    class="dropdown-item has-icon" style="display: flex; align-items: center;">
+                                                                    <i class="fas fa-lock" style="margin-right: 8px;"></i> Cerrar actividad
+                                                                </a>
+                                                            </form>
+                    
+                                                            <form method="POST"
+                                                                action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
+                                                                @csrf
+                                                                <input type="hidden" name="state" value="6">
+                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();"
+                                                                    class="dropdown-item has-icon"
+                                                                    style="display: flex; align-items: center;">
+                                                                    <i class="fas fa-check-double" style="margin-right: 8px;"></i> Finalizar
+                                                                    actividad
+                                                                </a>
+                                                            </form>
+                    
+                    
+                    
                                                         </div>
                                                     </div>
 

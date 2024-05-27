@@ -1307,8 +1307,10 @@ class IniciativasController extends Controller
     {
         $iniciativaActual = Iniciativas::where('inic_codigo', $inic_codigo)->first();
 
-        $escuelas = ParticipantesInternos::where('inic_codigo', $inic_codigo)
+        $escuelas = ParticipantesInternos::where('participantes_internos.inic_codigo', $inic_codigo)
             ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
+            ->join('iniciativas', 'iniciativas.inic_codigo', '=', 'participantes_internos.inic_codigo')
+            ->where('iniciativas.inic_escuela_ejecutora', 'escuelas.escu_codigo')
             ->select('escuelas.escu_codigo', 'escuelas.escu_nombre')
             ->distinct()->get();
 
