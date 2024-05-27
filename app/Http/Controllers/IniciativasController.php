@@ -1626,11 +1626,20 @@ class IniciativasController extends Controller
 
     public function carrerasByEscuelasPaso2(Request $request)
     {
-        $carreras = ParticipantesInternos::where(['escu_codigo' => $request->escuelas, 'inic_codigo' => $request->inic_codigo])
-            ->join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
-            ->get();
+        // $carreras = ParticipantesInternos::where(['escu_codigo' => $request->escuelas, 'inic_codigo' => $request->inic_codigo])
+        //     ->join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
+        //     ->get();
+        try {
+            $carreras = ParticipantesInternos::join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
+            ->where('participantes_internos.escu_codigo', $request->escuelas)
+            ->where('participantes_internos.inic_codigo', $request->inic_codigo)
+            ->select('carreras.care_codigo', 'carreras.care_nombre')
+            ->distinct()->get();
             
         return response()->json($carreras);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
     }
 
     public function agregarExternos(Request $request)

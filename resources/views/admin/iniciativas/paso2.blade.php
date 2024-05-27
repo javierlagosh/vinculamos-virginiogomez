@@ -980,6 +980,7 @@
                         },
                         success: function(data) {
                             console.log('funciona carreras');
+                            console.log(data);
                             $('#carreras').empty();
                             $.each(data, function(key, value) {
                                 $('#carreras').append(
