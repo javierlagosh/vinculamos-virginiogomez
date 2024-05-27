@@ -118,6 +118,7 @@ function calcularIndice(inic_codigo) {
         if (divisor == null || divisor == 0 || dividendo == 0) {
           cobertura_puntaje = 0;
         } else {
+          console.log("dividendo" + dividendo + "/ divisor" + divisor + "* 100");
           cobertura_puntaje = Math.round((dividendo / divisor) * 100);
           if (cobertura_puntaje > 100) {
             cobertura_puntaje = 100;

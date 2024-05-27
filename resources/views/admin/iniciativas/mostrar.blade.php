@@ -52,6 +52,7 @@
                                             class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                             title="Editar actividad"><i class="fas fa-edit"></i> Editar
                                             actividad</a>
+                                            
                                             {{-- <a href="{{ route('admin.iniciativas.agendaods', $iniciativa->inic_codigo) }}"
                                                 class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                                 title="Revisar ODS "><i class="fas fa-recycle"></i> Agenda 2030</a>
@@ -82,6 +83,8 @@
                                         <a href="{{ route('admin.resultados.listado', $iniciativa->inic_codigo) }}"
                                             class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
                                             title="Ingresar resultado"><i class="fas fa-flag"></i>Ingresar resultado/s</a>
+                                            <a href="" class="dropdown-item has-icon"><i
+                                                class="fas fa-file-signature"></i>Ingresar evaluación</a>
 
                                     </div>
                                 </div>
