@@ -929,8 +929,11 @@
         function escuelasBySedesPaso2() {
             $('#sedes').on('change', function() {
                 var sedesId = $(this).val();
+                console.log('sede seleccionada:', sedesId);
+                console.log('iniciativa:', $('#idIniciativa').text());
                 if (sedesId) {
-                    $.ajax({
+                    try {
+                        $.ajax({
                         url: window.location.origin + '/admin/iniciativas/obtener-escuelas/paso2',
                         type: 'POST',
                         dataType: 'json',
@@ -942,6 +945,7 @@
                         },
                         success: function(data) {
                             console.log('funciona escuelas');
+                            console.log(data);
                             $('#escuelas').empty();
                             $.each(data, function(key, value) {
                                 $('#escuelas').append(
@@ -950,6 +954,10 @@
                             });
                         }
                     });
+                    } catch (error) {
+                        console.log(error);
+                        
+                    }
                 } else {
                     $('#escuelas').empty();
                 }

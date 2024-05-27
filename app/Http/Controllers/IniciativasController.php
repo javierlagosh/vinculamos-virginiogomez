@@ -1607,11 +1607,21 @@ class IniciativasController extends Controller
 
     public function escuelasBySedesPaso2(Request $request)
     {
-        $escuelas = ParticipantesInternos::where(['sede_codigo' => $request->sedes, 'inic_codigo' => $request->inic_codigo])
-            ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
-            ->groupBy('escuelas.escu_codigo')
-            ->get();
-        return response()->json($escuelas);
+        try {
+            // $escuelas = ParticipantesInternos::where(['sede_codigo' => $request->sedes, 'inic_codigo' => $request->inic_codigo])
+            // ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
+            // ->groupBy('escuelas.escu_codigo')
+            // ->get();
+
+            $escuelas = ParticipantesInternos::join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
+                ->where('sede_codigo', $request->sedes)
+                ->where('inic_codigo', $request->inic_codigo)
+                ->select('escuelas.escu_codigo', 'escuelas.escu_nombre')
+                ->distinct()->get();
+            return response()->json($escuelas);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
     }
 
     public function carrerasByEscuelasPaso2(Request $request)
@@ -1619,6 +1629,7 @@ class IniciativasController extends Controller
         $carreras = ParticipantesInternos::where(['escu_codigo' => $request->escuelas, 'inic_codigo' => $request->inic_codigo])
             ->join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
             ->get();
+            
         return response()->json($carreras);
     }
 
