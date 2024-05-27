@@ -52,12 +52,12 @@
                                             class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                             title="Editar actividad"><i class="fas fa-edit"></i> Editar
                                             actividad</a>
-                                            <a href="{{ route('admin.iniciativas.agendaods', $iniciativa->inic_codigo) }}"
+                                            {{-- <a href="{{ route('admin.iniciativas.agendaods', $iniciativa->inic_codigo) }}"
                                                 class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                                 title="Revisar ODS "><i class="fas fa-recycle"></i> Agenda 2030</a>
                                                 <a href="{{ route('admin.iniciativas.pdf', $iniciativa->inic_codigo) }}"
                                                     class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
-                                                    title="Generar pdf con ODS "><i class="fas fa-file-pdf"></i> Generar pdf con ODS</a>
+                                                    title="Generar pdf con ODS "><i class="fas fa-file-pdf"></i> Generar pdf con ODS</a> --}}
 
                                         <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
                                             class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
@@ -216,25 +216,25 @@
                                                 <td><strong>Convenio</strong></td>
                                                 <td>{{ $iniciativa->conv_nombre }}</td>
                                             </tr>
-                                            <tr>
+                                            {{-- <tr>
 
                                                 {{-- {{json_encode($ods_array)}} --}}
-                                                @if (count($ods_array) > 0)
+                                                {{-- @if (count($ods_array) > 0)
                                                     <td><strong>ODS</strong></td>
                                                 @else
-                                                @endif
+                                                @endif --}}
                                                 <td>
-                                                @forelse ($ods_array as $ods)
+                                                {{-- @forelse ($ods_array as $ods)
                                                 <!-- Código para mostrar ODS -->
                                                     <img src="https://cftpucv.vinculamosvm02.cl/vinculamos_v5_cftpucv/app/img/ods-{{$ods->id_ods}}.png" alt="Ods {{ $ods->id_ods }}" style="width: 100px; height: 100px;">
 
-                                                {{-- <div style="display: inline-block; margin: 0; padding: 0;">
-                                                <td>
+                                                {{-- <div style="display: inline-block; margin: 0; padding: 0;"> --}}
+                                                {{-- <td>
                                                         <img src="https://cftpucv.vinculamosvm02.cl/vinculamos_v5_cftpucv/app/img/ods-{{$ods->id_ods}}.png" alt="Ods {{ $ods->id_ods }}" style="width: 100px; height: 100px;">
                                                 </td>
-                                                </div> --}}
+                                                </div> --}} 
                                                 {{-- @if($ods_array->isEmpty()) --}}
-                                                @empty
+                                                {{-- @empty --}}
                                                     {{-- <!-- Agrega el campo oculto para almacenar la descripción de la iniciativa -->
                                                     <input type="hidden" id="descripcion_iniciativa" value="{{ $iniciativa->inic_descripcion }}">
 
@@ -338,9 +338,9 @@
                                                         }
                                                     });
                                                     </script> --}}
-                                                @endforelse
-                                                </td>
-                                            </tr>
+                                                {{-- @endforelse --}}
+                                                {{-- </td>
+                                            </tr> --}} 
                                             <tr>
                                                 <td><strong>Ubicaciones</strong></td>
                                                 <td>
@@ -415,7 +415,9 @@
                                                                             @if ($interno->pain_docentes != null)
                                                                                 {{ $interno->pain_docentes }}
                                                                             @else
-                                                                                No registrado
+                                                                                @if ($interno->pain_docentes == 0)
+                                                                                0
+                                                                                @endif
                                                                             @endif
                                                                         </td>
 
@@ -423,14 +425,18 @@
                                                                             @if ($interno->pain_docentes_final != null)
                                                                                 {{ $interno->pain_docentes_final }}
                                                                             @else
-                                                                                No registrado
+                                                                            @if ($interno->pain_docentes == 0)
+                                                                            0
+                                                                            @endif
                                                                             @endif
                                                                         </td>
                                                                         <td>
                                                                             @if ($interno->pain_estudiantes != null)
                                                                                 {{ $interno->pain_estudiantes }}
                                                                             @else
-                                                                                No registrado
+                                                                            @if ($interno->pain_docentes == 0)
+                                                                            0
+                                                                            @endif
                                                                             @endif
                                                                         </td>
 
@@ -438,7 +444,9 @@
                                                                             @if ($interno->pain_estudiantes_final != null)
                                                                                 {{ $interno->pain_estudiantes_final }}
                                                                             @else
-                                                                                No registrado
+                                                                            @if ($interno->pain_docentes == 0)
+                                                                            0
+                                                                            @endif
                                                                             @endif
                                                                         </td>
                                                                     </tr>
