@@ -425,7 +425,7 @@
                                                                             @if ($interno->pain_docentes_final != null)
                                                                                 {{ $interno->pain_docentes_final }}
                                                                             @else
-                                                                            @if ($interno->pain_docentes == 0)
+                                                                            @if ($interno->pain_docentes_final == 0)
                                                                             0
                                                                             @endif
                                                                             @endif
@@ -434,7 +434,7 @@
                                                                             @if ($interno->pain_estudiantes != null)
                                                                                 {{ $interno->pain_estudiantes }}
                                                                             @else
-                                                                            @if ($interno->pain_docentes == 0)
+                                                                            @if ($interno->pain_estudiantes == 0)
                                                                             0
                                                                             @endif
                                                                             @endif
@@ -444,7 +444,7 @@
                                                                             @if ($interno->pain_estudiantes_final != null)
                                                                                 {{ $interno->pain_estudiantes_final }}
                                                                             @else
-                                                                            @if ($interno->pain_docentes == 0)
+                                                                            @if ($interno->pain_estudiantes_final == 0)
                                                                             0
                                                                             @endif
                                                                             @endif
