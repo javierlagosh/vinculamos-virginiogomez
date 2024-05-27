@@ -29,7 +29,7 @@
                                                 </h3>
                                                 <h4 class="card-title"
                                                     style="display: flex; justify-content: center; align-items: center;">
-                                                    Iniciativas
+                                                    Actividades
                                                 </h4>
 
                                                 <p class="mb-0 text-sm">
@@ -251,7 +251,7 @@
                                                 <i class="fa fa-award"></i>
                                             </div>
                                             <div class="card-content">
-                                                <h4 class="card-title">Iniciativas</h4>
+                                                <h4 class="card-title">Actividades</h4>
                                                 <h6 id="iniciativas_sedes" class="card-title"></h6>
                                                 {{-- TODO: BARRA DE PROGRESO,es necesario modificar el style: width para que la barra de progreso avance --}}
                                                 <div class="progress mt-1 mb-1" data-height="8" style="height: 8px;">
@@ -277,7 +277,7 @@
                                 <div class="col-xl-6 col-lg-6">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h4 class="card-title">Iniciativas por grupos</h4>
+                                            <h4 class="card-title">Actividades por grupos</h4>
                                         </div>
                                         <div class="card-body">
                                             <h5 id="iniciativaXgrupoError"></h5>
@@ -289,7 +289,7 @@
                                 <div class="col-xl-6 col-lg-6">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h4 class="card-title">Iniciativas por comuna</h4>
+                                            <h4 class="card-title">Actividades por comuna</h4>
                                         </div>
                                         <div class="card-body">
                                             <h5 id="iniciativaXcomunaError"></h5>
@@ -303,7 +303,7 @@
                                 <div class="col-xl-6 col-lg-6">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h4 class="card-title">Iniciativas por estado</h4>
+                                            <h4 class="card-title">Actividades por estado</h4>
                                         </div>
                                         <div class="card-body">
                                             <h5 id="iniciativaXestadoError"></h5>
@@ -315,7 +315,7 @@
                                 <div class="col-xl-6 col-lg-6">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h4 class="card-title">Iniciativas por año</h4>
+                                            <h4 class="card-title">Actividades por año</h4>
                                         </div>
                                         <div class="card-body">
                                             <h5 id="iniciativaXanhoError"></h5>
