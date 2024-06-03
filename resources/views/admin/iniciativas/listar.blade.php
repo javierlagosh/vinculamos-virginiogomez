@@ -95,7 +95,7 @@
                                             <select class="form-control select2" style="width: 100%" id="anho"
                                                 name="anho">
                                                 <option value="" selected>Seleccione...</option>
-                                                <option value="">TODOS</option>
+                                                <option value="todos">Todos los años</option>
                                                 @forelse ($anhos as $ann)
                                                     <option value="{{ $ann->inic_anho }}"
                                                         {{ Request::get('anho') == $ann->inic_anho ? 'selected' : '' }}>

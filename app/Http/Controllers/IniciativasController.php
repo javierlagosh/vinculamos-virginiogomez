@@ -63,6 +63,7 @@ class IniciativasController extends Controller
         $mecanismo = $request->input('mecanismo');
         $estado = $request->input('estados');
         $anho = $request->input('anho');
+        
 
         $iniciativas = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', 'iniciativas.meca_codigo')
             ->leftjoin('participantes_internos', 'participantes_internos.inic_codigo', 'iniciativas.inic_codigo')
@@ -89,8 +90,11 @@ class IniciativasController extends Controller
             $iniciativas = $iniciativas->where('iniciativas.inic_estado', $estado);
         }
 
-        if ($anho != null && $anho != '') {
+
+        if ($anho != 'todos') {
             $iniciativas = $iniciativas->where('iniciativas.inic_anho', $anho);
+        }else{
+            $iniciativas = $iniciativas;
         }
         if ($mecanismo == null && $estado == null && $anho == null) {
             $iniciativas = $iniciativas->where('iniciativas.inic_anho', '2024');
