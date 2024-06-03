@@ -77,6 +77,7 @@
             <div class="row">
                 <div class="col-xl-12 col-md-12 col-lg-12">
                     <div class="card">
+                        @if (isset($iniciativa) && $editar)
                         <div class="card-header">
                             <h4>Sección 1 - Antecedentes generales</h4>
                             <div class="card-header-action">
@@ -210,6 +211,12 @@
 
                             </div>
                         </div>
+                        @else
+                        <div class="card-header">
+                        <h4>Sección 1 - Antecedentes generales</h4>
+                        </div>
+                            
+                        @endif
 
                         <div class="card-body">
                             @if (isset($iniciativa) && $editar)
