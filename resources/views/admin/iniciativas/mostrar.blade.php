@@ -87,8 +87,11 @@
                                         <a href="{{ route('admin.resultados.listado', $iniciativa->inic_codigo) }}"
                                             class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
                                             title="Ingresar resultado"><i class="fas fa-flag"></i>Ingresar resultado/s</a>
-                                            <a href="" class="dropdown-item has-icon"><i
-                                                class="fas fa-file-signature"></i>Ingresar evaluación</a>
+                                            <a href="{{ route('admin.evaluar.iniciativa', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-icon" data-toggle="tooltip"
+                                                data-placement="top" title="Evaluar iniciativa"><i
+                                                    class="fas fa-file-signature"></i> Evaluar
+                                                iniciativa</a>
                                         
 
                                     </div>
