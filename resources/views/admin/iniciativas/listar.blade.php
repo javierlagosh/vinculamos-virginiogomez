@@ -136,11 +136,16 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tabla-iniciativas">
+                                        <?php 
+                                        $num = 1;
+                                        ?>
                                         @foreach ($iniciativas as $iniciativa)
                                             <tr data-meca="{{ $iniciativa->meca_nombre }}"
                                                 data-ano="{{ $iniciativa->inic_anho }}"
                                                 data-filtro1="{{ $iniciativa->inic_estado }}">
-                                                <td>{{ $iniciativa->inic_codigo }}</td>
+                                                <td>
+                                                    {{ $num++ }}
+                                                </td>
                                                 <td>{{ $iniciativa->inic_nombre }}</td>
                                                 <td>{{ $iniciativa->meca_nombre }}</td>
                                                 <td>{{ $iniciativa->inic_anho }}</td>
