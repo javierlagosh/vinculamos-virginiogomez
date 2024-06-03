@@ -111,10 +111,7 @@
                                                     class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                                     title="Generar pdf con ODS "><i class="fas fa-file-pdf"></i> Generar pdf con ODS</a> --}}
 
-                                        <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
-                                            class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
-                                            title="Adjuntar evidencia"><i class="fas fa-paperclip"></i> Adjuntar
-                                            evidencias</a>
+                                        
                                         <a href="javascript:void(0)" class="dropdown-item has-icon" data-toggle="tooltip"
                                             onclick="eliminarIniciativa({{ $iniciativa->inic_codigo }})"
                                             data-placement="top" title="Eliminar iniciativa"><i class="fas fa-trash"></i> Eliminar</a>
@@ -130,7 +127,10 @@
                                         <a href="{{ route('admin.cobertura.index', $iniciativa->inic_codigo) }}"
                                             class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
                                             title="Ingresar cobertura"><i class="fas fa-users"></i> Ingresar cobertura</a>
-
+                                            <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
+                                                title="Adjuntar evidencia"><i class="fas fa-paperclip"></i> Ingresar
+                                                evidencias</a>
                                         <a href="{{ route('admin.resultados.listado', $iniciativa->inic_codigo) }}"
                                             class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
                                             title="Ingresar resultado"><i class="fas fa-flag"></i>Ingresar resultado/s</a>
