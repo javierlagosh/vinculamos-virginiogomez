@@ -52,6 +52,10 @@
                                             class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                             title="Editar actividad"><i class="fas fa-edit"></i> Editar
                                             actividad</a>
+                                            <a href="javascript:void(0)" class="dropdown-item has-icon"
+                                            data-toggle="tooltip" data-placement="top" title="Calcular INVI"
+                                            onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i
+                                                class="fas fa-tachometer-alt"></i> INVI</a>
                                             
                                             {{-- <a href="{{ route('admin.iniciativas.agendaods', $iniciativa->inic_codigo) }}"
                                                 class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
@@ -563,6 +567,62 @@
             </div>
         </div>
     </section>
+    <div class="modal fade" id="modalINVI" tabindex="-1" role="dialog" aria-labelledby="formModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formModal">Índice de vinculación INVI</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-md" id="table-1"
+                        style="border-top: 1px ghostwhite solid;">
+                        <tbody>
+                            <tr>
+                                <td><strong>Mecanismo</strong></td>
+                                <td id="mecanismo-nombre"></td>
+                                <td id="mecanismo-puntaje"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Frecuencia</strong></td>
+                                <td id="frecuencia-nombre"></td>
+                                <td id="frecuencia-puntaje"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Resultados</strong></td>
+                                <td id="resultados-nombre"></td>
+                                <td id="resultados-puntaje"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Cobertura</strong></td>
+                                <td id="cobertura-nombre"></td>
+                                <td id="cobertura-puntaje"></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Evaluación</strong></td>
+                                <td id="evaluacion-nombre"></td>
+                                <td id="evaluacion-puntaje"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h6>Índice de vinculación INVI</h6>
+                                </td>
+                                <td id="valor-indice"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="modal fade" id="modalEliminaIniciativa" tabindex="-1" role="dialog" aria-labelledby="modalEliminar"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -591,7 +651,7 @@
             </div>
         </div>
     </div>
-
+    <script src="{{ asset('/js/admin/iniciativas/INVI.js') }}"></script>
     <script>
         function eliminarIniciativa(inic_codigo) {
             $('#inic_codigo').val(inic_codigo);
