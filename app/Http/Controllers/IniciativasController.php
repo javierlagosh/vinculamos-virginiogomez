@@ -2934,52 +2934,52 @@ class IniciativasController extends Controller
         return view('admin.iniciativas.correoinvitacion', compact('evaluacion', 'inic_codigo', 'iniciativa', 'invitadoNombre', 'invitados', 'destinatarios', 'evaluaciontotal', 'invitado_rol', 'iniciativa'));
     }
     public function iniciativaEvaluarEnviarCorreo(Request $request)
-{
-    // Obtener el nombre de la iniciativa
-    $iniciativa = Iniciativas::where('inic_codigo', $request->iniciativa_codigo)->first();
-    if (!$iniciativa) {
-        return "La iniciativa no fue encontrada";
-    }
-    $iniciativaNombre = $iniciativa->inic_nombre;
-
-    // Obtener los destinatarios y el mensaje del formulario
-    $destinatarios = $request->destinatarios;
-    $mensaje = $request->mensaje;
-    $html = new HtmlString($mensaje);
-    // Verificar si el campo destinatarios está presente y no está vacío
-    if (!empty($destinatarios)) {
-        $destinatarios = explode(',', $destinatarios);
-
-        foreach ($destinatarios as $destinatario) {
-            // Validar cada dirección de correo electrónico antes de enviar el correo
-            $email = trim($destinatario);
-            $invitado = EvaluacionInvitado::where('evainv_correo', $email)
-            ->where('inic_codigo', $request->iniciativa_codigo)
-            ->first();
-            if ($invitado) {
-                if ($invitado->evainv_estado == 0) {
-                    
-                    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                        Mail::to($email)->send(new ContactFormMail($email, 'test', 'test', 'test', 'test', $html));
-                        $invitado->evainv_estado = 1;
-                        $invitado->save();
-                    } else {
-                        // Si la dirección de correo electrónico no es válida, manejar el error adecuadamente
-                        return redirect()->back()->with('error', '¡"La dirección de correo electrónico $email no es válida"!');
+    {
+        // Obtener el nombre de la iniciativa
+        $iniciativa = Iniciativas::where('inic_codigo', $request->iniciativa_codigo)->first();
+        if (!$iniciativa) {
+            return "La iniciativa no fue encontrada";
+        }
+        $iniciativaNombre = $iniciativa->inic_nombre;
+    
+        // Obtener los destinatarios y el mensaje del formulario
+        $destinatarios = $request->destinatarios;
+        $mensaje = $request->mensaje;
+        $html = new HtmlString($mensaje);
+        // Verificar si el campo destinatarios está presente y no está vacío
+        if (!empty($destinatarios)) {
+            $destinatarios = explode(',', $destinatarios);
+    
+            foreach ($destinatarios as $destinatario) {
+                // Validar cada dirección de correo electrónico antes de enviar el correo
+                $email = trim($destinatario);
+                $invitado = EvaluacionInvitado::where('evainv_correo', $email)
+                ->where('inic_codigo', $request->iniciativa_codigo)
+                ->first();
+                if ($invitado) {
+                    if ($invitado->evainv_estado == 0) {
+                        
+                        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                            Mail::to($email)->send(new ContactFormMail($email, 'test', 'test', 'test', 'test', $html));
+                            $invitado->evainv_estado = 1;
+                            $invitado->save();
+                        } else {
+                            // Si la dirección de correo electrónico no es válida, manejar el error adecuadamente
+                            return redirect()->back()->with('error', '¡"La dirección de correo electrónico $email no es válida"!');
+                        }
+                    }else{
+                        // pass 
                     }
-                }else{
-                    // pass 
+                    
                 }
                 
             }
-            
+    
+            return redirect()->back()->with('exito', '¡El correo electrónico fue enviado correctamente a los pendientes!');
+        } else {
+            return "No se proporcionaron destinatarios de correo electrónico";
         }
-
-        return redirect()->back()->with('exito', '¡El correo electrónico fue enviado correctamente a los pendientes!');
-    } else {
-        return "No se proporcionaron destinatarios de correo electrónico";
     }
-}
 public function AutoInvitacionEvaluacion($evatotal_encriptado)
     {
         $evaluacion = EvaluacionTotal::where('evatotal_encriptado', $evatotal_encriptado)->get();
