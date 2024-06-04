@@ -262,7 +262,7 @@
                                                 $selectedYear = isset($iniciativa) && $editar ? $iniciativa->inic_anho : old('anho');
                                                 $currentYear = date('Y');
                                             @endphp
-                                            @for ($year = 2018; $year <= $currentYear; $year++)
+                                            @for ($year = 2022; $year <= $currentYear; $year++)
                                                 <option value="{{ $year }}"
                                                     {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}
                                                 </option>
