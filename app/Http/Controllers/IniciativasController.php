@@ -80,27 +80,8 @@ class IniciativasController extends Controller
                 DB::raw('DATE_FORMAT(iniciativas.inic_creado, "%d/%m/%Y %H:%i:%s") as inic_creado')
             )
             ->groupBy('iniciativas.inic_codigo', 'iniciativas.inic_nombre', 'iniciativas.inic_estado', 'iniciativas.inic_anho', 'mecanismos.meca_nombre', 'inic_creado') // Agregamos inic_creado al GROUP BY
-            ->orderBy('inic_creado', 'desc'); // Ordenar por fecha de creación formateada en orden descendente
-
-            if ($mecanismo == null && $estado == null && $anho == null) {
-                $iniciativas = $iniciativas;
-            }
-        if ($mecanismo != null && $mecanismo != '') {
-            $iniciativas = $iniciativas->where('mecanismos.meca_nombre', $mecanismo);
-        }
-
-        if ($estado != null && $estado != '') {
-            $iniciativas = $iniciativas->where('iniciativas.inic_estado', $estado);
-        }
-
-
-        if ($anho != 'todos' && $anho != null && $anho != '') {
-            $iniciativas = $iniciativas->where('iniciativas.inic_anho', $anho);
-        }
-        
-
-
-        $iniciativas = $iniciativas->get();
+            ->orderBy('inic_creado', 'desc')
+            ->get();
         $mecanismos = Mecanismos::select('meca_codigo', 'meca_nombre')->orderBy('meca_nombre', 'asc')->get();
         $anhos = Iniciativas::select('inic_anho')->distinct('inic_anho')->orderBy('inic_anho', 'asc')->get();
 
