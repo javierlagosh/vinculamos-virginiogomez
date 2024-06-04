@@ -94,8 +94,8 @@ class IniciativasController extends Controller
         }
 
 
-        if ($anho != 'todos' && $anho != null && $anho != '') {
-            $iniciativas = $iniciativas->where('iniciativas.inic_anho', $anho);
+        if ($anho != 'todos' || $anho != null || $anho != '') {
+            $iniciativas = $iniciativas;
         }
         
 
