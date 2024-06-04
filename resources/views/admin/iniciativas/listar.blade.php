@@ -60,7 +60,7 @@
                                             <label>Filtrar por Mecanismo</label>
                                             <select class="form-control select2" style="width: 100%" id="mecanismo" name="mecanismo">
                                                 <option value="" selected>Seleccione...</option>
-                                                <option value="">TODOS</option>
+                                                <option value="">Todos los mecanismos</option>
                                                 @forelse ($mecanismos as $mecanismo)
                                                     <option value="{{ $mecanismo->meca_nombre }}" {{ Request::get('mecanismo') == $mecanismo->meca_nombre ? 'selected' : '' }}>
                                                         {{ $mecanismo->meca_nombre }}
@@ -76,7 +76,7 @@
                                             <label>Filtrar por Estado</label>
                                             <select class="form-control select2" style="width: 100%" id="estados" name="estados">
                                                 <option value="" selected>Seleccione...</option>
-                                                <option value="">TODOS</option>
+                                                <option value="">Todos los estados</option>
                                                 <option value="1" {{ Request::get('estados') == 1 ? 'selected' : '' }}>En revisión</option>
                                                 <option value="2" {{ Request::get('estados') == 2 ? 'selected' : '' }}>En ejecución</option>
                                                 <option value="3" {{ Request::get('estados') == 3 ? 'selected' : '' }}>Aceptada</option>
