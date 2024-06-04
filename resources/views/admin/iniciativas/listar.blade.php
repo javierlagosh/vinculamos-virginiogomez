@@ -58,14 +58,13 @@
                                     <div class="col-xl-4  col-md-4 col-lg-4 mb-2 mb-sm-0">
                                         <div class="form-group">
                                             <label>Filtrar por Mecanismo</label>
-                                            <select class="form-control select2" style="width: 100%" id="mecanismo"
-                                                name="mecanismo">
+                                            <select class="form-control select2" style="width: 100%" id="mecanismo" name="mecanismo">
                                                 <option value="" selected>Seleccione...</option>
                                                 <option value="">TODOS</option>
                                                 @forelse ($mecanismos as $mecanismo)
-                                                    <option value="{{ $mecanismo->meca_nombre }}"
-                                                        {{ Request::get('mecanismo') == $mecanismo->meca_nombre ? 'selected' : '' }}>
-                                                        {{ $mecanismo->meca_nombre }}</option>
+                                                    <option value="{{ $mecanismo->meca_nombre }}" {{ Request::get('mecanismo') == $mecanismo->meca_nombre ? 'selected' : '' }}>
+                                                        {{ $mecanismo->meca_nombre }}
+                                                    </option>
                                                 @empty
                                                     <option value="-1">No existen registros</option>
                                                 @endforelse
@@ -75,51 +74,43 @@
                                     <div class="col-xl-4 col-md-4 col-lg-4">
                                         <div class="form-group">
                                             <label>Filtrar por Estado</label>
-                                            <select class="form-control select2" style="width: 100%" id="estados"
-                                                name="estados">
+                                            <select class="form-control select2" style="width: 100%" id="estados" name="estados">
                                                 <option value="" selected>Seleccione...</option>
                                                 <option value="">TODOS</option>
-                                                <option value="1">En revisión</option>
-                                                <option value="2">En ejecución</option>
-                                                <option value="3">Aceptada</option>
-                                                <option value="4">Falta info</option>
-                                                <option value="5">Cerrada</option>
-                                                <option value="6">Finalizada</option>
+                                                <option value="1" {{ Request::get('estados') == 1 ? 'selected' : '' }}>En revisión</option>
+                                                <option value="2" {{ Request::get('estados') == 2 ? 'selected' : '' }}>En ejecución</option>
+                                                <option value="3" {{ Request::get('estados') == 3 ? 'selected' : '' }}>Aceptada</option>
+                                                <option value="4" {{ Request::get('estados') == 4 ? 'selected' : '' }}>Falta info</option>
+                                                <option value="5" {{ Request::get('estados') == 5 ? 'selected' : '' }}>Cerrada</option>
+                                                <option value="6" {{ Request::get('estados') == 6 ? 'selected' : '' }}>Finalizada</option>
                                             </select>
                                         </div>
-
                                     </div>
                                     <div class="col-xl-4  col-md-4 col-lg-4 mb-2 mb-sm-0">
                                         <div class="form-group">
                                             <label>Filtrar por Año</label>
-                                            <select class="form-control select2" style="width: 100%" id="anho"
-                                                name="anho">
+                                            <select class="form-control select2" style="width: 100%" id="anho" name="anho">
                                                 <option value="" selected>Seleccione...</option>
                                                 <option value="todos">Todos los años</option>
                                                 @forelse ($anhos as $ann)
-                                                    <option value="{{ $ann->inic_anho }}"
-                                                        {{ Request::get('anho') == $ann->inic_anho ? 'selected' : '' }}>
-                                                        {{ $ann->inic_anho }}</option>
+                                                    <option value="{{ $ann->inic_anho }}" {{ Request::get('anho') == $ann->inic_anho ? 'selected' : '' }}>
+                                                        {{ $ann->inic_anho }}
+                                                    </option>
                                                 @empty
                                                     <option value="-1">No existen registros</option>
                                                 @endforelse
                                             </select>
                                         </div>
                                     </div>
-
                                     <div class="col-xl-12 col-sm-4 col-md-4 col-lg-4">
                                         <div class="mb-4 text-right">
-
-                                            <button type="submit" class="btn btn-primary mr-1 waves-effect"
-                                                {{--  onclick="Filtro()" --}}><i class="fas fa-search"></i> Filtrar</button>
-                                            <a href="{{ route($role . '.iniciativa.listar') }}" type="button"
-                                                class="btn btn-primary mr-1 waves-effect"><i class="fas fa-broom"></i>
-                                                Limpiar</a>
+                                            <button type="submit" class="btn btn-primary mr-1 waves-effect"><i class="fas fa-search"></i> Filtrar</button>
+                                            <a href="{{ route($role . '.iniciativa.listar') }}" type="button" class="btn btn-primary mr-1 waves-effect"><i class="fas fa-broom"></i> Limpiar</a>
                                         </div>
                                     </div>
                                 </div>
-
                             </form>
+                            
                             <div class="table-responsive">
                                 <table class="table table-striped" id="table-1">
                                     <thead>
@@ -136,34 +127,23 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tabla-iniciativas">
-                                        <?php 
-                                        $num = 1;
-                                        ?>
+                                        @php $num = 1; @endphp
                                         @foreach ($iniciativas as $iniciativa)
-                                            <tr data-meca="{{ $iniciativa->meca_nombre }}"
-                                                data-ano="{{ $iniciativa->inic_anho }}"
-                                                data-filtro1="{{ $iniciativa->inic_estado }}">
-                                                <td>
-                                                    {{ $num++ }}
-                                                </td>
+                                            <tr>
+                                                <td>{{ $num++ }}</td>
                                                 <td>{{ $iniciativa->inic_nombre }}</td>
                                                 <td>{{ $iniciativa->meca_nombre }}</td>
                                                 <td>{{ $iniciativa->inic_anho }}</td>
                                                 <td>
-                                                    @php
-                                                        $sedesArray = explode(',', $iniciativa->sedes);
-                                                    @endphp
+                                                    @php $sedesArray = explode(',', $iniciativa->sedes); @endphp
                                                     @if (count($sedesArray) > 3)
                                                         Todas
                                                     @else
                                                         {{ $iniciativa->sedes }}
                                                     @endif
                                                 </td>
-                                                {{-- <td>{{ $iniciativa->carreras }}</td> --}}
                                                 <td>
-                                                    @php
-                                                        $carrerasArray = explode(',', $iniciativa->carreras);
-                                                    @endphp
+                                                    @php $carrerasArray = explode(',', $iniciativa->carreras); @endphp
                                                     @if (count($carrerasArray) > 29)
                                                         Todas
                                                     @else
@@ -181,152 +161,80 @@
                                                             6 => ['class' => 'success', 'icon' => 'check-double', 'text' => 'Finalizada'],
                                                         ];
                                                     @endphp
-
-                                                    <div
-                                                        class="badge badge-{{ $estadoBadges[$iniciativa->inic_estado]['class'] }} badge-shadow">
-                                                        <i
-                                                            class="fas fa-{{ $estadoBadges[$iniciativa->inic_estado]['icon'] }}"></i>
-                                                        {{ $estadoBadges[$iniciativa->inic_estado]['text'] }}
+                                                    <div class="badge badge-{{ $estadoBadges[$iniciativa->inic_estado]['class'] }} badge-shadow">
+                                                        <i class="fas fa-{{ $estadoBadges[$iniciativa->inic_estado]['icon'] }}"></i> {{ $estadoBadges[$iniciativa->inic_estado]['text'] }}
                                                     </div>
                                                 </td>
                                                 <td>{{ $iniciativa->inic_creado }}</td>
                                                 <td>
                                                     <div class="dropdown d-inline">
-                                                        <button class="btn btn-primary dropdown-toggle"
-                                                            id="dropdownMenuButton2" data-toggle="dropdown"title="Opciones">
-                                                            <i class="fas fa-cog"></i> </button>
+                                                        <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown" title="Opciones">
+                                                            <i class="fas fa-cog"></i>
+                                                        </button>
                                                         <div class="dropdown-menu dropright">
-                                                            {{-- <a href="{{ route($role . '.evaluar.iniciativa', $iniciativa->inic_codigo) }}"
-                                                                class="dropdown-item has-icon"><i
-                                                                    class="fas fa-user-edit"></i>Evaluar Iniciativa</a> --}}
-                                                            <a href="{{ route($role . '.editar.paso1', $iniciativa->inic_codigo) }}"
-                                                                class="dropdown-item has-icon"><i
-                                                                    class="fas fa-edit"></i>Editar actividad</a>
-
-                                                            <a href="{{ route($role . '.iniciativas.detalles', $iniciativa->inic_codigo) }}"
-                                                                class="dropdown-item has-icon" data-toggle="tooltip"
-                                                                data-placement="top" title="Ver detalles"><i
-                                                                    class="fas fa-eye"></i>Mostrar detalles</a>
-
-                                                            <a href="javascript:void(0)" class="dropdown-item has-icon"
-                                                                data-toggle="tooltip" data-placement="top"
-                                                                title="Calcular INVI"
-                                                                onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i
-                                                                    class="fas fa-tachometer-alt"></i> Calcular INVI</a>
-                                                            
-
-                                                            <a href="javascript:void(0)" class="dropdown-item has-icon"
-                                                                onclick="eliminarIniciativa({{ $iniciativa->inic_codigo }})"
-                                                                data-toggle="tooltip" data-placement="top"
-                                                                title="Eliminar">Eliminar actividad<i
-                                                                    class="fas fa-trash"></i></a>
+                                                            <a href="{{ route($role . '.editar.paso1', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon"><i class="fas fa-edit"></i>Editar actividad</a>
+                                                            <a href="{{ route($role . '.iniciativas.detalles', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Ver detalles"><i class="fas fa-eye"></i>Mostrar detalles</a>
+                                                            <a href="javascript:void(0)" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Calcular INVI" onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i class="fas fa-tachometer-alt"></i> Calcular INVI</a>
+                                                            <a href="javascript:void(0)" class="dropdown-item has-icon" onclick="eliminarIniciativa({{ $iniciativa->inic_codigo }})" data-toggle="tooltip" data-placement="top" title="Eliminar">Eliminar actividad<i class="fas fa-trash"></i></a>
                                                         </div>
                                                     </div>
-
                                                     <div class="dropdown d-inline">
-                                                        <button class="btn btn-primary dropdown-toggle"
-                                                            id="dropdownMenuButton2" data-toggle="dropdown"
-                                                            title="ingresar"><i class="fas fa-plus-circle"></i>
-                                                            Ingresar</button>
+                                                        <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown" title="ingresar">
+                                                            <i class="fas fa-plus-circle"></i> Ingresar
+                                                        </button>
                                                         <div class="dropdown-menu dropright">
-
-                                                            <a href="{{ route($role . '.cobertura.index', $iniciativa->inic_codigo) }}"
-                                                                class="dropdown-item has-icon" data-toggle="tooltip"
-                                                                data-placement="top" title="Ingresar cobertura"><i
-                                                                    class="fas fa-users"></i> Ingresar cobertura</a>
-                                                            <a href="{{ route($role . '.resultados.listado', $iniciativa->inic_codigo) }}"
-                                                                class="dropdown-item has-icon" data-toggle="tooltip"
-                                                                data-placement="top" title="Ingresar resultado"><i
-                                                                    class="fas fa-flag"></i> Ingresar resultados</a>
-                                                            <a href="{{ route($role . '.evidencias.listar', $iniciativa->inic_codigo) }}"
-                                                                class="dropdown-item has-icon" data-toggle="tooltip"
-                                                                data-placement="top" title="Adjuntar evidencia"><i
-                                                                    class="fas fa-paperclip"></i>Adjuntar evidencia</a>
-                                                            <a href="{{ route($role . '.evaluar.iniciativa', $iniciativa->inic_codigo) }}"
-                                                                class="dropdown-item has-icon" data-toggle="tooltip"
-                                                                data-placement="top" title="Evaluar iniciativa"><i
-                                                                    class="fas fa-file-signature"></i> Evaluar
-                                                                iniciativa</a>
+                                                            <a href="{{ route($role . '.cobertura.index', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Ingresar cobertura"><i class="fas fa-users"></i> Ingresar cobertura</a>
+                                                            <a href="{{ route($role . '.resultados.listado', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Ingresar resultado"><i class="fas fa-flag"></i> Ingresar resultados</a>
+                                                            <a href="{{ route($role . '.evidencias.listar', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Adjuntar evidencia"><i class="fas fa-paperclip"></i>Adjuntar evidencia</a>
+                                                            <a href="{{ route($role . '.evaluar.iniciativa', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Evaluar iniciativa"><i class="fas fa-file-signature"></i> Evaluar iniciativa</a>
                                                         </div>
                                                     </div>
-
                                                     <div class="dropdown d-inline">
-
-                                                        <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton2"
-                                                            data-toggle="dropdown">Estados</button>
+                                                        <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown">Estados</button>
                                                         <div class="dropdown-menu dropright">
-                                                            <form method="POST"
-                                                                action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
+                                                            <form method="POST" action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
                                                                 @csrf
                                                                 <input type="hidden" name="state" value="3">
-                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();"
-                                                                    class="dropdown-item has-icon" style="display: flex; align-items: center;">
+                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();" class="dropdown-item has-icon" style="display: flex; align-items: center;">
                                                                     <i class="fas fa-check" style="margin-right: 8px;"></i> Aprobar actividad
                                                                 </a>
                                                             </form>
-                    
-                                                            <form method="POST"
-                                                                action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
+                                                            <form method="POST" action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
                                                                 @csrf
                                                                 <input type="hidden" name="state" value="2">
-                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();"
-                                                                    class="dropdown-item has-icon" style="display: flex; align-items: center;">
+                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();" class="dropdown-item has-icon" style="display: flex; align-items: center;">
                                                                     <i class="fas fa-cog" style="margin-right: 8px;"></i> En ejecución
                                                                 </a>
                                                             </form>
-                    
-                                                            <form method="POST"
-                                                                action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
+                                                            <form method="POST" action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
                                                                 @csrf
                                                                 <input type="hidden" name="state" value="4">
-                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();"
-                                                                    class="dropdown-item has-icon" style="display: flex; align-items: center;">
-                                                                    <i class="fas fa-info-circle" style="margin-right: 8px;"></i> Falta
-                                                                    información
+                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();" class="dropdown-item has-icon" style="display: flex; align-items: center;">
+                                                                    <i class="fas fa-info-circle" style="margin-right: 8px;"></i> Falta información
                                                                 </a>
                                                             </form>
-                    
-                                                            <form method="POST"
-                                                                action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
+                                                            <form method="POST" action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
                                                                 @csrf
                                                                 <input type="hidden" name="state" value="5">
-                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();"
-                                                                    class="dropdown-item has-icon" style="display: flex; align-items: center;">
+                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();" class="dropdown-item has-icon" style="display: flex; align-items: center;">
                                                                     <i class="fas fa-lock" style="margin-right: 8px;"></i> Cerrar actividad
                                                                 </a>
                                                             </form>
-                    
-                                                            <form method="POST"
-                                                                action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
+                                                            <form method="POST" action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
                                                                 @csrf
                                                                 <input type="hidden" name="state" value="6">
-                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();"
-                                                                    class="dropdown-item has-icon"
-                                                                    style="display: flex; align-items: center;">
-                                                                    <i class="fas fa-check-double" style="margin-right: 8px;"></i> Finalizar
-                                                                    actividad
+                                                                <a href="javascript:void(0);" onclick="this.closest('form').submit();" class="dropdown-item has-icon" style="display: flex; align-items: center;">
+                                                                    <i class="fas fa-check-double" style="margin-right: 8px;"></i> Finalizar actividad
                                                                 </a>
                                                             </form>
-                    
-                    
-                    
                                                         </div>
                                                     </div>
-
-
-
-
-                                                    {{-- <a href="" class="btn btn-icon btn-success" data-toggle="tooltip"
-                                                        data-placement="top" title="Ingresar resultado"><i
-                                                            class="fas fa-flag"></i></a> --}}
-
-
-
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
+                                                    
                             </div>
                         </div>
                     </div>

@@ -59,53 +59,46 @@ use Illuminate\Support\HtmlString;
 class IniciativasController extends Controller
 {
     public function listarIniciativas(Request $request)
-    {
-        $mecanismo = $request->input('mecanismo');
-        $estado = $request->input('estados');
-        $anho = $request->input('anho');
-        
+{
+    $mecanismo = $request->input('mecanismo');
+    $estado = $request->input('estados');
+    $anho = $request->input('anho');
 
-        $iniciativas = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', 'iniciativas.meca_codigo')
-            ->leftjoin('participantes_internos', 'participantes_internos.inic_codigo', 'iniciativas.inic_codigo')
-            ->leftjoin('sedes', 'sedes.sede_codigo', 'participantes_internos.sede_codigo')
-            ->leftjoin('escuelas', 'escuelas.escu_codigo', 'participantes_internos.escu_codigo')
-            ->select(
-                'iniciativas.inic_codigo',
-                'iniciativas.inic_nombre',
-                'iniciativas.inic_estado',
-                'iniciativas.inic_anho',
-                'mecanismos.meca_nombre',
-                DB::raw('GROUP_CONCAT(DISTINCT escuelas.escu_nombre SEPARATOR ", ") as carreras'),
-                DB::raw('GROUP_CONCAT(DISTINCT sedes.sede_nombre SEPARATOR ", ") as sedes'),
-                DB::raw('DATE_FORMAT(iniciativas.inic_creado, "%d/%m/%Y %H:%i:%s") as inic_creado')
-            )
-            ->groupBy('iniciativas.inic_codigo', 'iniciativas.inic_nombre', 'iniciativas.inic_estado', 'iniciativas.inic_anho', 'mecanismos.meca_nombre', 'inic_creado') // Agregamos inic_creado al GROUP BY
-            ->orderBy('inic_creado', 'desc'); // Ordenar por fecha de creación formateada en orden descendente
+    $iniciativas = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', 'iniciativas.meca_codigo')
+        ->leftjoin('participantes_internos', 'participantes_internos.inic_codigo', 'iniciativas.inic_codigo')
+        ->leftjoin('sedes', 'sedes.sede_codigo', 'participantes_internos.sede_codigo')
+        ->leftjoin('escuelas', 'escuelas.escu_codigo', 'participantes_internos.escu_codigo')
+        ->select(
+            'iniciativas.inic_codigo',
+            'iniciativas.inic_nombre',
+            'iniciativas.inic_estado',
+            'iniciativas.inic_anho',
+            'mecanismos.meca_nombre',
+            DB::raw('GROUP_CONCAT(DISTINCT escuelas.escu_nombre SEPARATOR ", ") as carreras'),
+            DB::raw('GROUP_CONCAT(DISTINCT sedes.sede_nombre SEPARATOR ", ") as sedes'),
+            DB::raw('DATE_FORMAT(iniciativas.inic_creado, "%d/%m/%Y %H:%i:%s") as inic_creado')
+        )
+        ->groupBy('iniciativas.inic_codigo', 'iniciativas.inic_nombre', 'iniciativas.inic_estado', 'iniciativas.inic_anho', 'mecanismos.meca_nombre', 'inic_creado')
+        ->orderBy('inic_creado', 'desc');
 
-            if ($mecanismo == null && $estado == null && $anho == null) {
-                $iniciativas = $iniciativas;
-            }
-        if ($mecanismo != null && $mecanismo != '') {
-            $iniciativas = $iniciativas->where('mecanismos.meca_nombre', $mecanismo);
-        }
-
-        if ($estado != null && $estado != '') {
-            $iniciativas = $iniciativas->where('iniciativas.inic_estado', $estado);
-        }
-
-
-        if ($anho != 'todos' || $anho != null || $anho != '') {
-            $iniciativas = $iniciativas;
-        }
-        
-
-
-        $iniciativas = $iniciativas->get();
-        $mecanismos = Mecanismos::select('meca_codigo', 'meca_nombre')->orderBy('meca_nombre', 'asc')->get();
-        $anhos = Iniciativas::select('inic_anho')->distinct('inic_anho')->orderBy('inic_anho', 'asc')->get();
-
-        return view('admin.iniciativas.listar', compact('iniciativas', 'mecanismos', 'anhos'));
+    // Aplicar filtros
+    if ($mecanismo) {
+        $iniciativas->where('mecanismos.meca_nombre', $mecanismo);
     }
+    if ($estado) {
+        $iniciativas->where('iniciativas.inic_estado', $estado);
+    }
+    if ($anho && $anho != 'todos') {
+        $iniciativas->where('iniciativas.inic_anho', $anho);
+    }
+
+    $iniciativas = $iniciativas->get();
+    $mecanismos = Mecanismos::select('meca_codigo', 'meca_nombre')->orderBy('meca_nombre', 'asc')->get();
+    $anhos = Iniciativas::select('inic_anho')->distinct('inic_anho')->orderBy('inic_anho', 'asc')->get();
+
+    return view('admin.iniciativas.listar', compact('iniciativas', 'mecanismos', 'anhos'));
+}
+
 
 
     public function completarCobertura($inic_codigo)
