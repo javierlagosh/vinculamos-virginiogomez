@@ -82,6 +82,9 @@ class IniciativasController extends Controller
             ->groupBy('iniciativas.inic_codigo', 'iniciativas.inic_nombre', 'iniciativas.inic_estado', 'iniciativas.inic_anho', 'mecanismos.meca_nombre', 'inic_creado') // Agregamos inic_creado al GROUP BY
             ->orderBy('inic_creado', 'desc'); // Ordenar por fecha de creación formateada en orden descendente
 
+            if ($mecanismo == null && $estado == null && $anho == null) {
+                $iniciativas = $iniciativas;
+            }
         if ($mecanismo != null && $mecanismo != '') {
             $iniciativas = $iniciativas->where('mecanismos.meca_nombre', $mecanismo);
         }
@@ -91,14 +94,10 @@ class IniciativasController extends Controller
         }
 
 
-        if ($anho != 'todos') {
+        if ($anho != 'todos' && $anho != null && $anho != '') {
             $iniciativas = $iniciativas->where('iniciativas.inic_anho', $anho);
-        }else{
-            $iniciativas = $iniciativas;
         }
-        if ($mecanismo == null && $estado == null && $anho == null) {
-            $iniciativas = $iniciativas->where('iniciativas.inic_anho', '2024');
-        }
+        
 
 
         $iniciativas = $iniciativas->get();
