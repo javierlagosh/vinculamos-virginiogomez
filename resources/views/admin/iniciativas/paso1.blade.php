@@ -235,10 +235,10 @@
                                         <label style="font-size: 110%">Nombre de la actividad</label> <label for=""
                                             style="color: red;">*</label>
                                         @if (isset($iniciativa) && $editar)
-                                            <input type="text" class="form-control" id="nombre" name="nombre"
+                                            <input type="text" class="form-control" id="nombre" name="nombre" required
                                                 value="{{ old('nombre') ?? @$iniciativa->inic_nombre }}">
                                         @else
-                                            <input type="text" class="form-control" id="nombre" name="nombre"
+                                            <input type="text" class="form-control" id="nombre" name="nombre" required
                                                 value="{{ old('nombre') }}">
                                         @endif
                                         @if ($errors->has('nombre'))
@@ -256,8 +256,8 @@
                                     <div class="form-group">
                                         <label style="font-size: 110%">Año</label> <label for=""
                                             style="color: red;">*</label>
-                                        <select class="form-control select2" id="anho" name="anho" style="width: 100%">
-                                            <option disabled selected>Seleccione...</option>
+                                        <select class="form-control select2" id="anho" name="anho" style="width: 100%" required>
+                                            <option value="">Seleccione...</option>
                                             @php
                                                 $selectedYear = isset($iniciativa) && $editar ? $iniciativa->inic_anho : old('anho');
                                                 $currentYear = date('Y');
@@ -286,8 +286,8 @@
                                         <label style="font-size: 110%">Formato de implementación</label> <label
                                             for="" style="color: red;">*</label>
 
-                                        <select class="form-control select2" id="inic_formato" name="inic_formato" style="width: 100%">
-                                            <option disabled selected>Seleccione...</option>
+                                        <select class="form-control select2" id="inic_formato" name="inic_formato" style="width: 100%" required>
+                                            <option value="">Seleccione...</option>
                                             @if (isset($iniciativa) && $editar)
                                                 <option value="Presencial"
                                                     {{ $iniciativa->inic_formato == 'Presencial' ? 'selected' : '' }}>
@@ -938,7 +938,7 @@
             <label style="font-size: 110%">Sedes</label> <label for=""
                 style="color: red;">*</label>
 
-            <select class="form-control select2" multiple="" id="sedes"
+            <select class="form-control select2" multiple="" id="sedes" required
                 name="sedes[]" style="width: 100%">
                 @if (isset($iniciativa) && $editar)
                     estoy aca
@@ -980,9 +980,9 @@
             <label style="font-size: 110%">Escuela ejecutora</label> <label
                 for="" style="color: red;">*</label>
 
-            <select class="form-control select2" id="inic_escuela_ejecutora" name="inic_escuela_ejecutora"
+            <select class="form-control select2" id="inic_escuela_ejecutora" name="inic_escuela_ejecutora" required
                 style="width: 100%">
-                <option disabled selected>Seleccione...</option>
+                <option value="">Seleccione...</option>
                 @if (isset($iniciativa) && $editar)
                     @foreach ($escuelas as $escuela)
                         @if ($escuela->escu_codigo == $iniciativa->inic_escuela_ejecutora)
@@ -1021,7 +1021,7 @@
             for="" style="color: red;">*</label>
             <input type="checkbox" id="selectAllEscuelas" style="margin-left: 60%"> <label
                 for="selectAllEscuelas">Todas</label>
-            <select class="form-control select2" name="escuelas[]" multiple=""
+            <select class="form-control select2" name="escuelas[]" multiple="" required
                 style="width: 100%" id="escuelas">
                 @if (isset($iniciativa) && $editar)
                     @forelse ($escuelas as $escuela)
@@ -1061,7 +1061,7 @@
                 style="color: red;">*</label><input type="checkbox" id="selectAllCarreras"
                 style="margin-left: 60%"> <label for="selectAllCarreras">Todas</label>
 
-            <select class="form-control select2" multiple="" id="carreras"
+            <select class="form-control select2" multiple="" id="carreras" required
                 name="carreras[]" style="width: 100%">
                 @if (isset($iniciativa) && $editar)
                     estoy aca
@@ -1110,9 +1110,9 @@
 
                                         <label style="font-size: 110%">Tipo de iniciativa</label> <label for=""
                                             style="color: red;">*</label>
-                                        <select class="form-control select2" id="tactividad" name="tactividad"
+                                        <select class="form-control select2" id="tactividad" name="tactividad" required
                                             style="width: 100%">
-                                            <option value="" selected disabled>Seleccione...</option>
+                                            <option value="" >Seleccione...</option>
                                             @if (isset($iniciativaData) && $editar)
                                                 @forelse ($tipoActividad as $actividad)
                                                     <option value="{{ $actividad->tiac_codigo }}"
@@ -1147,7 +1147,7 @@
                                     <div class="form-group">
                                         <label style="font-size: 110%">Mecanismo</label> <label for=""
                                             style="color: red;">*</label>
-                                        <select class="form-control select2" id="mecanismos" name="mecanismos"
+                                        <select class="form-control select2" id="mecanismos" name="mecanismos" required
                                             style="width: 100%">
                                             <option value="" selected disabled>Seleccione...</option>
                                             @foreach ($mecanismo as $meca)
@@ -1182,7 +1182,7 @@
                                     <div class="form-group">
                                         <label style="font-size: 110%">Programa</label> <label for=""
                                             style="color: red;">*</label>
-                                        <select class="form-control select2" id="programa" name="programa"
+                                        <select class="form-control select2" id="programa" name="programa" required
                                             style="width: 100%">
                                             @if (isset($iniciativa) && $editar)
                                                 <option value="" selected>No Aplica</option>
@@ -1224,7 +1224,7 @@
                                     <div class="form-group">
                                         <label style="font-size: 110%">Convenio</label> <label for=""
                                             style="color: red;">*</label>
-                                        <select class="form-control select2" id="convenio" name="convenio"
+                                        <select class="form-control select2" id="convenio" name="convenio" required
                                             style="width: 100%">
                                             @if (isset($iniciativa) && $editar)
                                                 <option value="" selected>No Aplica</option>
@@ -1269,7 +1269,7 @@
                                         <label style="font-size: 110%">Región</label>
                                         <input type="hidden" id="territorio" name="territorio" value="nacional">
                                         <input type="hidden" id="pais" name="pais" value="1">
-                                        <select class="form-control select2" id="region" multiple=""
+                                        <select class="form-control select2" id="region" multiple="" required
                                             name="region[]" style="width: 100%">
                                             @if (isset($iniciativa) && $editar)
                                                 @forelse ($regiones as $region)
@@ -1309,7 +1309,7 @@
                                 <div class="col-xl-4 col-md-4 col-lg-4">
                                     <div class="form-group" id="comunas_div">
                                         <label style="font-size: 110%">Comuna</label>
-                                        <select class="form-control select2" id="comuna" name="comuna[]"
+                                        <select class="form-control select2" id="comuna" name="comuna[]" required
                                             multiple="" style="width: 100%">
                                             <option value="" disabled>Seleccione...</option>
                                             @if (isset($iniciativa) && $editar)
