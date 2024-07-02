@@ -260,6 +260,8 @@ Route::middleware('verificar.admin')->group(function () {
     Route::post('admin/iniciativa/eliminar-resultado', [IniciativasController::class, 'eliminarResultado'])->name('admin.resultado.eliminar');
     //TODO: Ruta INVI
     Route::get('admin/iniciativa/invi/datos', [IniciativasController::class, 'datosIndice']);
+    Route::post('admin/iniciativa/invi/guardar', [IniciativasController::class, 'guardarDatosIndice']);
+    Route::get('admin/iniciativas/invi/ids',[IniciativasController::class,'obtenerIDs']);
     // TODO: PASO 3
     Route::get('admin/iniciativa/{inic_codigo}/editar/paso3', [IniciativasController::class, 'editarPaso3'])->name('admin.editar.paso3');
     Route::post('admin/crear-iniciativa/guardar-dinero', [IniciativasController::class, 'guardarDinero'])->name('admin.dinero.guardar');

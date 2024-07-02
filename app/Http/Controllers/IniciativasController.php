@@ -1420,6 +1420,7 @@ class IniciativasController extends Controller
         return redirect()->route('admin.iniciativa.listar')->with('exitoIniciativa', 'La iniciativa se registró correctamente');
     }
 
+    //TODO: INVI
     public function datosIndice(Request $request)
     {
         $validacion = Validator::make(
@@ -1431,7 +1432,7 @@ class IniciativasController extends Controller
             return json_encode(['estado' => false, 'resultado' => $validacion->errors()->first()]);
 
         $mecanismoDato = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', 'iniciativas.meca_codigo')
-            ->select('mecanismos.meca_nombre', 'iniciativas.inic_codigo','mecanismos.meca_puntaje')
+            ->select('mecanismos.meca_nombre', 'iniciativas.inic_codigo', 'mecanismos.meca_puntaje')
             ->where('iniciativas.inic_codigo', $request->iniciativa)
             ->get();
 
@@ -1492,19 +1493,40 @@ class IniciativasController extends Controller
             ]
         ]);
     }
-    public function listadoResultados($inic_codigo)
+    public function guardarDatosIndice(Request $request)
     {
-        $resuVerificar = Resultados::where('inic_codigo', $inic_codigo)->count();
-        // return $resuVerificar;
 
-        if ($resuVerificar == 0)
-            return redirect()->back()->with('errorIniciativa', 'La iniciativa no posee resultados esperados.');
 
-        $inicObtener = Iniciativas::where('inic_codigo', $inic_codigo)->first();
+        try {
+            DB::table('invi')->where('inic_codigo', $request->inic_codigo)->delete();
 
-        $participantes = Resultados::where('inic_codigo', $inic_codigo)->get();
 
-        return view('admin.iniciativas.resultados', ['iniciativa' => $inicObtener, 'participantes' => $participantes]);
+            $invi = DB::table('invi')->insert([
+                'inic_codigo' => $request->inic_codigo,
+                'invi_mecanismo_nombre' => $request->mecanismo_nombre,
+                'invi_mecanismo_puntaje' => $request->mecanismo_puntaje,
+                'invi_frecuencia_nombre' => $request->frecuencia_nombre,
+                'invi_frecuencia_puntaje' => $request->frecuencia_puntaje,
+                'invi_resultados_puntaje' => $request->resultados_puntaje,
+                'invi_cobertura_puntaje' => $request->cobertura_puntaje,
+                'invi_evaluacion_puntaje' => $request->evaluacion_puntaje,
+                'invi_valor_indice' => $request->valor_indice,
+            ]);
+
+            if (!$invi) {
+                return response()->json(['state' => false]);
+            }
+
+            return response()->json(['state' => true]);
+        } catch (\Throwable $th) {
+            return response()->json(['state' => false, 'error' => $th->getMessage()]);
+        }
+    }
+
+    public function obtenerIDs()
+    {
+        $inic_codigo = Iniciativas::select('inic_codigo')->get();
+        return response()->json($inic_codigo);
     }
 
     public function eliminarIniciativas(Request $request)
@@ -3214,6 +3236,8 @@ public function AutoInvitacionEvaluacion($evatotal_encriptado)
 
         return redirect()->back()->with('success', 'El correo electrónico ha sido enviado correctamente.');
     }
+
+    
 
     // TODO: Calculo Evaluación
     public function guardarEvaluacion2(Request $request)
