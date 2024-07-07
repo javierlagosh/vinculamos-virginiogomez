@@ -105,8 +105,8 @@
                                                                 <th scope="col">Docentes final</th>
                                                                 <th scope="col">Estudiantes inicial</th>
                                                                 <th scope="col">Estudiantes final</th>
-                                                                <th scope="col">Funcionarios/as inicial</th>
-                                                                <th scope="col">Funcionarios/as final</th>
+                                                                <th scope="col">Directivos/as inicial</th>
+                                                                <th scope="col">Directivos/as final</th>
                                                                 <th scope="col">Titulados inicial</th>
                                                                 <th scope="col">Titulados final</th>
                                                             </tr>

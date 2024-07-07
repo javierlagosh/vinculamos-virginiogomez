@@ -347,7 +347,7 @@
 
                                 <div class="col-xl-2 col-md-2 col-lg-2">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Funcionarios/as</label> <label for=""
+                                        <label style="font-size: 110%">Directivos/as</label> <label for=""
                                             style="color: red;">*</label>
                                         <input type="number" class="form-control" id="nfuncionarios"
                                             name="nfuncionarios">
@@ -390,7 +390,7 @@
                                                         <th>Estudiantes</th>
                                                         <th>Docentes</th>
                                                         <th>Titulados</th>
-                                                        <th>Funcionarios/as</th>
+                                                        <th>Directivos/as</th>
                                                         {{-- <th>Total</th> --}}
                                                     </thead>
                                                     <tbody id="body-tabla-internos">
