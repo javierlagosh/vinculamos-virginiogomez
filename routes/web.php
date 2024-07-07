@@ -354,6 +354,7 @@ Route::post('admin/actualizar/participantes-internos', [IniciativasController::c
 Route::post('admin/iniciativas/agregar/participantes-externos', [IniciativasController::class, 'agregarExternos']);
 Route::post('admin/iniciativas/obtener-carreras', [IniciativasController::class, 'carrerasByEscuelas1']);
 Route::post('admin/iniciativas/obtener-escuelas/paso2', [IniciativasController::class, 'escuelasBySedesPaso2']);
+Route::post('admin/iniciativas/obtener-escuela-by-carrera/paso2', [IniciativasController::class, 'escuelaByCarrreraPaso2']);
 Route::post('admin/iniciativas/obtener-carreras/paso2', [IniciativasController::class, 'carrerasByEscuelasPaso2']);
 Route::post('admin/iniciativas/obtener-actividades', [IniciativasController::class, 'actividadesByMecanismos']);
 Route::post('admin/iniciativas/obtener-mecanismos', [IniciativasController::class, 'mecanismosByActividades']);

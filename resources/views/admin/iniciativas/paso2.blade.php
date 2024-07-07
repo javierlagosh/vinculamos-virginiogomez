@@ -263,7 +263,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-xl-2 col-md-2 col-lg-2">
+                                <div class="col-xl-2 col-md-2 col-lg-2" style="display: none;">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Escuelas</label> <label for=""
                                             style="color: red;">*</label>
@@ -784,6 +784,7 @@
             $('#idIniciativa').hide();
             escuelasBySedesPaso2();
             carrerasByEscuelasPaso2();
+            escuelaByCarreraPaso2();
             listarInterno();
             modificar();
             sociosBySubgrupos();
@@ -963,6 +964,45 @@
                 }
             })
         }
+
+        function escuelaByCarreraPaso2() {
+            $('#carreras').on('change', function() {
+                var carreraId = $(this).val();
+                console.log('carrera seleccionada:', carreraId);
+                console.log('iniciativa:', $('#idIniciativa').text());
+                if (carreraId) {
+                    try {
+                        $.ajax({
+                        url: window.location.origin + '/admin/iniciativas/obtener-escuela-by-carrera/paso2',
+                        type: 'POST',
+                        dataType: 'json',
+
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            carrera: carreraId,
+                            inic_codigo: $('#idIniciativa').text()
+                        },
+                        success: function(data) {
+                            console.log('funciona escuelabycarrera');
+                            console.log(data);
+                            $('#escuelas').empty();
+                            $.each(data, function(key, value) {
+                                $('#escuelas').append(
+                                    `<option selected value="${value.escu_codigo}">${value.escu_nombre}</option>`
+                                );
+                            });
+                        }
+                    });
+                    } catch (error) {
+                        console.log(error);
+                        
+                    }
+                } else {
+                    $('#escuelas').empty();
+                }
+            })
+        }
+
         function carrerasByEscuelasPaso2(){
             $('#escuelas').on('change', function() {
                 var escuelasId = $(this).val();
@@ -994,6 +1034,8 @@
                 }
             })
         }
+
+
 
         function sociosBySubgrupos() {
             $('#subgrupo').on('change', function() {

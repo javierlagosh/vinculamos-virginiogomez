@@ -1648,6 +1648,27 @@ class IniciativasController extends Controller
         }
     }
 
+    public function escuelaByCarrreraPaso2(Request $request)
+    {
+        try {
+            // $escuelas = ParticipantesInternos::where(['sede_codigo' => $request->sedes, 'inic_codigo' => $request->inic_codigo])
+            // ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
+            // ->groupBy('escuelas.escu_codigo')
+            // ->get();
+
+            $escuelas = ParticipantesInternos::join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
+                ->where('care_codigo', $request->carrera)
+                ->where('inic_codigo', $request->inic_codigo)
+                ->select('escuelas.escu_codigo', 'escuelas.escu_nombre')
+                ->distinct()->get();
+            return response()->json($escuelas);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
+    }
+
+    
+
     public function carrerasByEscuelasPaso2(Request $request)
     {
         // $carreras = ParticipantesInternos::where(['escu_codigo' => $request->escuelas, 'inic_codigo' => $request->inic_codigo])
