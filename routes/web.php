@@ -55,6 +55,7 @@ Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPass
 //Evaluacion de las iniciativas
 Route::get('admin/iniciativa/listar-evaluaciones', [IniciativasController::class, 'listarEvaluaciones']);
 Route::delete('admin/eliminar-evaluacion/', [IniciativasController::class, 'eliminarEvaluacion'])->name('admin.eliminar.evaluacion');
+Route::delete('admin/eliminar-evaluacion/', [IniciativasController::class, 'eliminarEvaluacionManual'])->name('admin.eliminar.evaluacion.manual');
 // Route::get('/previsualizar/{rutaArchivo}/{mime_type}', 'Controlador@previsualizarArchivo')->name('ruta.previsualizacion');
 
 Route::middleware('verificar.superadmin')->group(function () {
