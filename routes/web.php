@@ -368,7 +368,7 @@ Route::middleware('verificar.digitador')->group(function () {
     //TODO: Rutas de digitador
     Route::get('digitador/iniciativas/listar', [IniciativasController::class, 'listarIniciativas'])->name('digitador.iniciativa.listar');
     Route::get('digitador/iniciativas/{inic_codigo}/detalles', [IniciativasController::class, 'mostrarDetalles'])->name('digitador.iniciativas.detalles');
-    Route::get('digitador/iniciativas/{inic_codigo}/listar/resultado', [IniciativasController::class, 'listadoResultados'])->name('digitador.resultados.listado');
+    Route::get('digitador/iniciativas/{inic_codigo}/listar/resultado', [IniciativasController::class, 'listarResultadosIniciativa'])->name('digitador.ver.lista.de.resultados');
     Route::post('digitador/iniciativas/{inic_codigo}/resultados', [IniciativasController::class, 'actualizarResultados'])->name('digitador.resultados.actualizar');
     Route::get('digitador/iniciativas/crear/paso1', [IniciativasController::class, 'crearPaso1'])->name('digitador.inicitiativas.crear.primero');
     Route::get('digitador/iniciativas/{inic_codigo}/editar/paso1', [IniciativasController::class, 'editarPaso1'])->name('digitador.editar.paso1');
@@ -414,7 +414,7 @@ Route::middleware('verificar.observador')->group(function () {
     //TODO: Rutas de observador
     Route::get('observador/iniciativas/listar', [IniciativasController::class, 'listarIniciativas'])->name('observador.iniciativa.listar');
     Route::get('observador/iniciativas/{inic_codigo}/detalles', [IniciativasController::class, 'mostrarDetalles'])->name('observador.iniciativas.detalles');
-    Route::get('observador/iniciativas/{inic_codigo}/listar/resultado', [IniciativasController::class, 'listadoResultados'])->name('observador.resultados.listado');
+    Route::get('observador/iniciativas/{inic_codigo}/listar/resultado', [IniciativasController::class, 'listarResultadosIniciativa'])->name('observador.ver.lista.de.resultados');
     Route::post('observador/iniciativas/{inic_codigo}/resultados', [IniciativasController::class, 'actualizarResultados'])->name('observador.resultados.actualizar');
     Route::get('observador/iniciativas/crear/paso1', [IniciativasController::class, 'crearPaso1'])->name('observador.inicitiativas.crear.primero');
     Route::get('observador/iniciativas/{inic_codigo}/editar/paso1', [IniciativasController::class, 'editarPaso1'])->name('observador.editar.paso1');
@@ -460,7 +460,7 @@ Route::middleware('verificar.supervisor')->group(function () {
     //TODO: Rutas de supervisor
     Route::get('supervisor/iniciativas/listar', [IniciativasController::class, 'listarIniciativas'])->name('supervisor.iniciativa.listar');
     Route::get('supervisor/iniciativas/{inic_codigo}/detalles', [IniciativasController::class, 'mostrarDetalles'])->name('supervisor.iniciativas.detalles');
-    Route::get('supervisor/iniciativas/{inic_codigo}/listar/resultado', [IniciativasController::class, 'listadoResultados'])->name('supervisor.resultados.listado');
+    Route::get('supervisor/iniciativas/{inic_codigo}/listar/resultado', [IniciativasController::class, 'listarResultadosIniciativa'])->name('supervisor.ver.lista.de.resultados');
     Route::post('supervisor/iniciativas/{inic_codigo}/resultados', [IniciativasController::class, 'actualizarResultados'])->name('supervisor.resultados.actualizar');
     Route::get('supervisor/iniciativas/crear/paso1', [IniciativasController::class, 'crearPaso1'])->name('supervisor.inicitiativas.crear.primero');
     Route::get('supervisor/iniciativas/{inic_codigo}/editar/paso1', [IniciativasController::class, 'editarPaso1'])->name('supervisor.editar.paso1');

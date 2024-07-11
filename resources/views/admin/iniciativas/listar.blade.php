@@ -191,9 +191,9 @@
                                                         </button>
                                                         <div class="dropdown-menu dropright">
                                                             <a href="{{ route($role . '.cobertura.index', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Ingresar cobertura"><i class="fas fa-users"></i> Ingresar cobertura</a>
-                                                            <a href="{{ route('admin.ver.lista.de.resultados', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Ingresar resultado"><i class="fas fa-flag"></i> Ingresar resultados</a>
+                                                            <a href="{{ route($role . '.ver.lista.de.resultados', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Ingresar resultado"><i class="fas fa-flag"></i> Ingresar resultados</a>
                                                             <a href="{{ route($role . '.evidencias.listar', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Adjuntar evidencia"><i class="fas fa-paperclip"></i>Adjuntar evidencia</a>
-                                                            <a href="{{ route($role . '.evaluar.iniciativa', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Evaluar iniciativa"><i class="fas fa-file-signature"></i> Evaluar iniciativa</a>
+                                                            {{-- <a href="{{ route($role . '.evaluar.iniciativa', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Evaluar iniciativa"><i class="fas fa-file-signature"></i> Evaluar iniciativa</a> --}}
                                                         </div>
                                                     </div>
                                                     <div class="dropdown d-inline">

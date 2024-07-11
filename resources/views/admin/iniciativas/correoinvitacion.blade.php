@@ -117,7 +117,7 @@
                                                 data-placement="top" title="Ingresar cobertura"><i
                                                     class="fas fa-users"></i> Ingresaer cobertura</a>
 
-                                            <a href="{{ route('admin.ver.lista.de.resultados', $iniciativa[0]->inic_codigo) }}"
+                                            <a href="{{ route($role . '.ver.lista.de.resultados', $iniciativa[0]->inic_codigo) }}"
                                                 class="dropdown-item has-item" data-toggle="tooltip"
                                                 data-placement="top" title="Ingresar resultado"><i
                                                     class="fas fa-flag"></i> Ingresar resultado/s</a>

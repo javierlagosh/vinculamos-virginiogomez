@@ -92,7 +92,7 @@
                                                 class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                                 title="Adjuntar evidencia"><i class="fas fa-paperclip"></i> Ingresar
                                                 evidencias</a>
-                                                <a href="{{ route('admin.ver.lista.de.resultados', $iniciativa->inic_codigo) }}"
+                                                <a href="{{ route($role . '.ver.lista.de.resultados', $iniciativa->inic_codigo) }}"
                                                     class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
                                                     title="Ingresar resultado"><i class="fas fa-flag"></i> Ingresar resultado/s</a>
                                             <a href="{{ route('admin.evaluar.iniciativa', $iniciativa->inic_codigo) }}"

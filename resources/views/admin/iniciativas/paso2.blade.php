@@ -92,7 +92,7 @@
                                             onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i
                                                 class="fas fa-tachometer-alt"></i>INVI</a>
 
-                                        <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
+                                        <a href="{{ route($role . '.evidencias.listar', $iniciativa->inic_codigo) }}"
                                             class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
                                             data-placement="top" title="Adjuntar evidencia"><i
                                                 class="fas fa-paperclip"></i>Evidencias</a>
@@ -102,7 +102,7 @@
                                             data-placement="top" title="Ingresar cobertura"><i
                                                 class="fas fa-users"></i>Cobertura</a>
 
-                                        <a href="{{ route('admin.ver.lista.de.resultados', $iniciativa->inic_codigo) }}"
+                                        <a href="{{ route($role . '.ver.lista.de.resultados', $iniciativa->inic_codigo) }}"
                                             class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
                                             data-placement="top" title="Ingresar resultado"><i
                                                 class="fas fa-flag"></i>Resultado/s</a>
@@ -112,7 +112,7 @@
                                             data-placement="top" title="Evaluar iniciativa"><i
                                                 class="fas fa-file-signature"></i>Evaluar</a>
 
-                                        <a href="{{ route('admin.iniciativa.listar') }}"
+                                        <a href="{{ route($role . '.iniciativa.listar') }}"
                                             class="btn btn-primary mr-1 waves-effect icon-left" type="button">
                                             <i class="fas fa-angle-left"></i> Volver a listado
                                         </a>
