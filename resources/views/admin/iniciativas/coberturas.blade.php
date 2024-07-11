@@ -69,7 +69,7 @@
                                         class="btn btn-icon btn-success icon-left" data-toggle="tooltip" data-placement="top"
                                         title="Ingresar cobertura"><i class="fas fa-users"></i>Cobertura</a> --}}
 
-                                    <a href="{{ route('admin.resultados.listado', $iniciativa->inic_codigo) }}"
+                                    <a href="{{ route('admin.ver.lista.de.resultados', $iniciativa->inic_codigo) }}"
                                         class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
                                         data-placement="top" title="Ingresar resultado"><i
                                             class="fas fa-flag"></i>Resultado/s</a>

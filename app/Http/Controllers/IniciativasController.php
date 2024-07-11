@@ -2044,6 +2044,21 @@ class IniciativasController extends Controller
         return json_encode(['estado' => true, 'resultado' => 'El resultado esperado fue registrado correctamente.']);
     }
 
+    public function listarResultadosIniciativa($inic_codigo)
+    {
+        $resuVerificar = Resultados::where('inic_codigo', $inic_codigo)->count();
+        // return $resuVerificar;
+
+        if ($resuVerificar == 0)
+            return redirect()->back()->with('errorIniciativa', 'La iniciativa no posee resultados esperados.');
+
+        $inicObtener = Iniciativas::where('inic_codigo', $inic_codigo)->first();
+
+        $participantes = Resultados::where('inic_codigo', $inic_codigo)->get();
+
+        return view('admin.iniciativas.resultados', ['iniciativa' => $inicObtener, 'participantes' => $participantes]);
+    }
+
     public function listarResultados(Request $request)
     {
         $validacion = Validator::make(

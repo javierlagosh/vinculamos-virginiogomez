@@ -24,11 +24,19 @@
             <div class="row">
                 <div class="col-xl-12">
                     <div class="row"></div>
-
+                    @if (Session::has('errorIniciativa'))
+                    <div class="alert alert-danger alert-dismissible show fade mb-4 text-center">
+                        <div class="alert-body">
+                            <strong>{{ Session::get('errorIniciativa') }}</strong>
+                            <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                        </div>
+                    </div>
+                @endif
                     <div class="card">
                         <div class="card-header">
                             <h4>Información de la actividad</h4>
                             <div class="card-header-action">
+                                
                                 {{-- <div class="dropdown d-inline">
                                     <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton2"
                                         data-toggle="dropdown">Iniciativa</button>
@@ -84,9 +92,9 @@
                                                 class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                                 title="Adjuntar evidencia"><i class="fas fa-paperclip"></i> Ingresar
                                                 evidencias</a>
-                                        <a href="{{ route('admin.resultados.listado', $iniciativa->inic_codigo) }}"
-                                            class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
-                                            title="Ingresar resultado"><i class="fas fa-flag"></i>Ingresar resultado/s</a>
+                                                <a href="{{ route('admin.ver.lista.de.resultados', $iniciativa->inic_codigo) }}"
+                                                    class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                                    title="Ingresar resultado"><i class="fas fa-flag"></i> Ingresar resultado/s</a>
                                             <a href="{{ route('admin.evaluar.iniciativa', $iniciativa->inic_codigo) }}"
                                                 class="dropdown-item has-icon" data-toggle="tooltip"
                                                 data-placement="top" title="Evaluar iniciativa"><i

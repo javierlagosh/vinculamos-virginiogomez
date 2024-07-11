@@ -246,7 +246,7 @@ Route::middleware('verificar.admin')->group(function () {
     Route::get('admin/iniciativas/listar', [IniciativasController::class, 'listarIniciativas'])->name('admin.iniciativa.listar');
     Route::get('admin/iniciativas/{inic_codigo}/detalles', [IniciativasController::class, 'mostrarDetalles'])->name('admin.iniciativas.detalles');
     Route::get('admin/iniciativas/{inic_codigo}/pdf', [IniciativasController::class, 'mostrarPDF'])->name('admin.iniciativas.pdf');
-    Route::get('admin/iniciativas/{inic_codigo}/listar/resultado', [IniciativasController::class, 'listadoResultados'])->name('admin.resultados.listado');
+    Route::get('admin/iniciativas/{inic_codigo}/listar/resultado', [IniciativasController::class, 'listarResultadosIniciativa'])->name('admin.ver.lista.de.resultados');
     Route::post('admin/iniciativas/{inic_codigo}/resultados', [IniciativasController::class, 'actualizarResultados'])->name('admin.resultados.actualizar');
     Route::get('admin/iniciativas/crear/paso1', [IniciativasController::class, 'crearPaso1'])->name('admin.inicitiativas.crear.primero');
     Route::get('admin/iniciativas/{inic_codigo}/editar/paso1', [IniciativasController::class, 'editarPaso1'])->name('admin.editar.paso1');
