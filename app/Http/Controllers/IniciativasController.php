@@ -2953,6 +2953,39 @@ class IniciativasController extends Controller
         ->join('evaluacion_invitado', 'evaluacion_total.evatotal_codigo', '=', 'evaluacion_invitado.evatotal_codigo')
         ->get();
 
+        $revisarEvaluacion = EvaluacionTotal::where('inic_codigo', $inic_codigo)->get();
+        $existe0 = 0;
+        $existe1 = 0;
+        $existe2 = 0;
+        $existe3 = 0;
+        foreach ($revisarEvaluacion as $evaluacion){
+            if($evaluacion->evatotal_tipo == 0){
+                $existe0 = 1;
+            }
+            if($evaluacion->evatotal_tipo == 1){
+                $existe1 = 1;
+            }
+            if($evaluacion->evatotal_tipo == 2){
+                $existe2 = 1;
+            }
+            if($evaluacion->evatotal_tipo == 3){
+                $existe3 = 1;
+            }
+        }
+
+        if($invitado == 0 && $existe0 == 0){
+            return redirect()->back()->with('error', '¡No se ha creado la evaluación para estudiantes!, puedes crearla en la sección de evaluaciones.');
+        }
+        if($invitado == 1 && $existe1 == 0){
+            return redirect()->back()->with('error', '¡No se ha creado la evaluación para docentes/directivos!, puedes crearla en la sección de evaluaciones.');
+        }
+        if($invitado == 2 && $existe2 == 0){
+            return redirect()->back()->with('error', '¡No se ha creado la evaluación para externos!, puedes crearla en la sección de evaluaciones.');
+        }
+        if($invitado == 3 && $existe3 == 0){
+            return redirect()->back()->with('error', '¡No se ha creado la evaluación para titulados!, puedes crearla en la sección de evaluaciones.');
+        }
+
         $evaluaciontotal = EvaluacionTotal::where('inic_codigo', $inic_codigo)
         ->where('evatotal_tipo', $invitado)
         ->first();
