@@ -666,7 +666,7 @@ class IniciativasController extends Controller
         }
         $request->validate([
             'nombre' => 'required|max:255',
-            'anho' => 'required',
+            //'anho' => 'required',
             'inic_formato' => 'required',
             'description' => 'required',
             'sedes' => 'required',
@@ -676,7 +676,8 @@ class IniciativasController extends Controller
             'tactividad' => 'required',
             /* 'convenio' => 'required', */
             'territorio' => 'required',
-            'pais' => 'required'
+            'pais' => 'required',
+            'fecha_inicio' => 'required',
         ], [
             'nombre.required' => 'El nombre de la iniciativa es requerido.',
             'nombre.max' => 'El nombre de la iniciativa no puede superar los 250 carácteres.',
@@ -689,12 +690,13 @@ class IniciativasController extends Controller
             'mecanismos.required' => 'Es necesario que seleccione un programa.',
             /* 'convenio.required' => 'Es necesario que escoja un convenio para asociar la iniciativa.', */
             'territorio.required' => 'Especifique si la iniciativa es a nivel nacional o internacional.',
-            'pais.required' => 'Seleccione el país en donde se ejecutará la iniciativa.'
+            'pais.required' => 'Seleccione el país en donde se ejecutará la iniciativa.',
+            'fecha_inicio.required' => 'La fecha de inicio es requerida.',
         ]);
 
         $inicCrear = Iniciativas::insertGetId([
             'inic_nombre' => $request->nombre,
-            'inic_anho' => $request->anho,
+            //'inic_anho' => $request->anho,
             'inic_formato' => $request->inic_formato,
             'inic_descripcion' => $request->description,
             'conv_codigo' => $request->convenio,
@@ -708,6 +710,7 @@ class IniciativasController extends Controller
             'inic_nickname_mod' => Session::get($rolePrefix)->usua_nickname,
             'inic_rol_mod' => Session::get($rolePrefix)->rous_codigo,
             'inic_escuela_ejecutora' => $request->inic_escuela_ejecutora,
+            'fecha_inicio' => $request->fecha_inicio,
         ]);
 
         if (!$inicCrear)
@@ -1009,7 +1012,7 @@ class IniciativasController extends Controller
 
         $request->validate([
             'nombre' => 'required|max:255',
-            'anho' => 'required',
+            //'anho' => 'required',
             'inic_formato' => 'required',
             'description' => 'required',
             'sedes' => 'required',
@@ -1019,11 +1022,12 @@ class IniciativasController extends Controller
             'tactividad' => 'required',
             /* 'convenio' => 'required', */
             'territorio' => 'required',
-            'pais' => 'required'
+            'pais' => 'required',
+            'fecha_inicio' => 'required',
         ], [
             'nombre.required' => 'El nombre de la iniciativa es requerido.',
             'nombre.max' => 'El nombre de la iniciativa no puede superar los 250 carácteres.',
-            'anho.required' => 'Es necesario ingresar un año para la iniciativa.',
+            //'anho.required' => 'Es necesario ingresar un año para la iniciativa.',
             'inic_formato.required' => 'Es necesario que seleccione un formato para la iniciativa.',
             'description.required' => 'La Descripción es requerida.',
             'sedes.required' => 'Es necesario que seleccione al menos una Carrera en donde se ejecutará la iniciativa.',
@@ -1033,7 +1037,8 @@ class IniciativasController extends Controller
             'tactividad.required' => 'Es necesario que seleccione el tipo de actividad a realizar.',
             /* 'convenio.required' => 'Es necesario que escoja un convenio para asociar la iniciativa.', */
             'territorio.required' => 'Especifique si la iniciativa es a nivel nacional o internacional.',
-            'pais.required' => 'Seleccione el país en donde se ejecutará la iniciativa.'
+            'pais.required' => 'Seleccione el país en donde se ejecutará la iniciativa.',
+            'fecha_inicio.required' => 'La fecha de inicio es requerida.',
         ]);
 
         $inicActualizar = Iniciativas::where('inic_codigo', $inic_codigo)->update([
@@ -1052,6 +1057,7 @@ class IniciativasController extends Controller
             'inic_actualizado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
             'inic_nickname_mod' => Session::get($rolePrefix)->usua_nickname,
             'inic_rol_mod' => Session::get($rolePrefix)->rous_codigo,
+            'fecha_inicio' => $request->fecha_inicio,
         ]);
 
         if (!$inicActualizar)

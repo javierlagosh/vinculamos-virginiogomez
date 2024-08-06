@@ -254,27 +254,20 @@
                                 </div>
                                 <div class="col-xl-3 col-md-3 col-lg-3">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Año</label> <label for=""
-                                            style="color: red;">*</label>
-                                        <select class="form-control select2" id="anho" name="anho" style="width: 100%" required>
-                                            <option value="">Seleccione...</option>
-                                            @php
-                                                $selectedYear = isset($iniciativa) && $editar ? $iniciativa->inic_anho : old('anho');
-                                                $currentYear = date('Y');
-                                            @endphp
-                                            @for ($year = 2022; $year <= $currentYear; $year++)
-                                                <option value="{{ $year }}"
-                                                    {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}
-                                                </option>
-                                            @endfor
-                                        </select>
+                                        <!-- <label style="font-size: 110%">Año</label>  -->
+                                        <label for="fecha_inicio" style="font-size: 110%">Fecha de Inicio</label> 
+                                        <label for="fecha_inicio" style="color: red;">*</label>
+                                        
+                                        <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
+                                            value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
+                                            autocomplete="off"/>
 
-                                        @if ($errors->has('anho'))
+                                        @if ($errors->has('fecha_inicio'))
                                             <div class="alert alert-warning alert-dismissible show fade mt-2">
                                                 <div class="alert-body">
                                                     <button class="close"
                                                         data-dismiss="alert"><span>&times;</span></button>
-                                                    <strong>{{ $errors->first('anho') }}</strong>
+                                                    <strong>{{ $errors->first('fecha_inicio') }}</strong>
                                                 </div>
                                             </div>
                                         @endif
