@@ -51,6 +51,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\GruposInteres;
 use App\Models\Valores;
 use App\Models\SubUnidades;
+use App\Models\IniciativasDepartamentos;
+use App\Models\IniciativasValores;
 //evaluacion
 use App\Mail\ContactFormMail;
 use App\Models\Evaluacion;
@@ -61,47 +63,45 @@ use Illuminate\Support\HtmlString;
 class IniciativasController extends Controller
 {
     public function listarIniciativas(Request $request)
-{
-    $mecanismo = $request->input('mecanismo');
-    $estado = $request->input('estados');
-    $anho = $request->input('anho');
+    {
+        $mecanismo = $request->input('mecanismo');
+        $estado = $request->input('estados');
+        $anho = $request->input('anho');
 
-    $iniciativas = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', 'iniciativas.meca_codigo')
-        ->leftjoin('participantes_internos', 'participantes_internos.inic_codigo', 'iniciativas.inic_codigo')
-        ->leftjoin('sedes', 'sedes.sede_codigo', 'participantes_internos.sede_codigo')
-        ->leftjoin('escuelas', 'escuelas.escu_codigo', 'participantes_internos.escu_codigo')
-        ->select(
-            'iniciativas.inic_codigo',
-            'iniciativas.inic_nombre',
-            'iniciativas.inic_estado',
-            'iniciativas.inic_anho',
-            'mecanismos.meca_nombre',
-            DB::raw('GROUP_CONCAT(DISTINCT escuelas.escu_nombre SEPARATOR ", ") as carreras'),
-            DB::raw('GROUP_CONCAT(DISTINCT sedes.sede_nombre SEPARATOR ", ") as sedes'),
-            DB::raw('DATE_FORMAT(iniciativas.inic_creado, "%d/%m/%Y %H:%i:%s") as inic_creado')
-        )
-        ->groupBy('iniciativas.inic_codigo', 'iniciativas.inic_nombre', 'iniciativas.inic_estado', 'iniciativas.inic_anho', 'mecanismos.meca_nombre', 'inic_creado')
-        ->orderBy('inic_creado', 'desc');
+        $iniciativas = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', 'iniciativas.meca_codigo')
+            ->leftjoin('participantes_internos', 'participantes_internos.inic_codigo', 'iniciativas.inic_codigo')
+            ->leftjoin('sedes', 'sedes.sede_codigo', 'participantes_internos.sede_codigo')
+            ->leftjoin('escuelas', 'escuelas.escu_codigo', 'participantes_internos.escu_codigo')
+            ->select(
+                'iniciativas.inic_codigo',
+                'iniciativas.inic_nombre',
+                'iniciativas.inic_estado',
+                'iniciativas.inic_anho',
+                'mecanismos.meca_nombre',
+                DB::raw('GROUP_CONCAT(DISTINCT escuelas.escu_nombre SEPARATOR ", ") as carreras'),
+                DB::raw('GROUP_CONCAT(DISTINCT sedes.sede_nombre SEPARATOR ", ") as sedes'),
+                DB::raw('DATE_FORMAT(iniciativas.inic_creado, "%d/%m/%Y %H:%i:%s") as inic_creado')
+            )
+            ->groupBy('iniciativas.inic_codigo', 'iniciativas.inic_nombre', 'iniciativas.inic_estado', 'iniciativas.inic_anho', 'mecanismos.meca_nombre', 'inic_creado')
+            ->orderBy('inic_creado', 'desc');
 
-    // Aplicar filtros
-    if ($mecanismo) {
-        $iniciativas->where('mecanismos.meca_nombre', $mecanismo);
+        // Aplicar filtros
+        if ($mecanismo) {
+            $iniciativas->where('mecanismos.meca_nombre', $mecanismo);
+        }
+        if ($estado) {
+            $iniciativas->where('iniciativas.inic_estado', $estado);
+        }
+        if ($anho && $anho != 'todos') {
+            $iniciativas->where('iniciativas.inic_anho', $anho);
+        }
+
+        $iniciativas = $iniciativas->get();
+        $mecanismos = Mecanismos::select('meca_codigo', 'meca_nombre')->orderBy('meca_nombre', 'asc')->get();
+        $anhos = Iniciativas::select('inic_anho')->distinct('inic_anho')->orderBy('inic_anho', 'asc')->get();
+
+        return view('admin.iniciativas.listar', compact('iniciativas', 'mecanismos', 'anhos'));
     }
-    if ($estado) {
-        $iniciativas->where('iniciativas.inic_estado', $estado);
-    }
-    if ($anho && $anho != 'todos') {
-        $iniciativas->where('iniciativas.inic_anho', $anho);
-    }
-
-    $iniciativas = $iniciativas->get();
-    $mecanismos = Mecanismos::select('meca_codigo', 'meca_nombre')->orderBy('meca_nombre', 'asc')->get();
-    $anhos = Iniciativas::select('inic_anho')->distinct('inic_anho')->orderBy('inic_anho', 'asc')->get();
-
-    return view('admin.iniciativas.listar', compact('iniciativas', 'mecanismos', 'anhos'));
-}
-
-
 
     public function completarCobertura($inic_codigo)
     {
@@ -154,7 +154,6 @@ class IniciativasController extends Controller
             'participantes' => $participantes
         ]);
     }
-
 
     public function actualizarCobertura(Request $request, $inic_codigo)
     {
@@ -273,7 +272,6 @@ class IniciativasController extends Controller
         return $pdf->stream();
 
     }
-
 
     public function mostrarDetalles($inic_codigo)
     {
@@ -441,7 +439,6 @@ class IniciativasController extends Controller
         return redirect()->back()->with('exitoExterno', 'Resultados actualizados correctamente.');
     }
 
-
     public function guardarEvidencia(Request $request, $inic_codigo)
     {
         if (Session::has('admin')) {
@@ -574,7 +571,6 @@ class IniciativasController extends Controller
         }
     }
 
-
     public function descargarEvidencia($inev_codigo)
     {
         try {
@@ -622,7 +618,6 @@ class IniciativasController extends Controller
         }
     }
 
-
     public function crearPaso1()
     {
         $iniciativa = Iniciativas::all();
@@ -636,9 +631,8 @@ class IniciativasController extends Controller
         $carreras = Carreras::all();
         $comunas = Comuna::all();
         $sedes = Sedes::all();
-        $departamentos = Subunidades::all();
+        $departamentos = SubUnidades::all();
         $valores = Valores::all();
-
 
         return view('admin.iniciativas.paso1', [
             'editar' => false,
@@ -731,6 +725,58 @@ class IniciativasController extends Controller
             'pais_nickname_mod' => Session::get($rolePrefix)->usua_nickname,
             'pain_rol_mod' => Session::get($rolePrefix)->rous_codigo,
         ]);
+
+        //-- Creación de Valores --//
+        $valoresAux = [];
+        $valores = $request->input('valores', []);
+
+        foreach($valores as $valor){
+            array_push(
+                $valoresAux,
+                [
+                    'inival_valor' => $valor,
+                    'inival_iniciativa' => $inic_codigo,
+                    'inival_creado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
+                    'inival_actualizado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
+                ]
+            );
+        }
+
+        $crearValores = IniciativasValores::insert($valoresAux);
+
+        if (!$crearValores) {
+            IniciativasValores::where('inival_iniciativa', $inic_codigo)->delete();
+            return redirect()
+                ->back()
+                ->with('valoresError', 'Ocurrió un error durante el registro de los valores, intente más tarde.')
+                ->withInput();
+        }
+
+        //-- Creación de departamentos --//
+        $departamentosAux = [];
+        $departamentos = $request->input('departamentos', []);
+
+        foreach($departamentos as $departamento){
+            array_push(
+                $departamentosAux,
+                [
+                    'inidep_departamento' => $departamento,
+                    'inidep_iniciativa' => $inic_codigo,
+                    'inidep_creado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
+                    'inidep_actualizado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
+                ]
+            );
+        }
+
+        $crearDepartamentos = IniciativasDepartamentos::insert($departamentosAux);
+
+        if (!$crearDepartamentos) {
+            IniciativasDepartamentos::where('inidep_iniciativa', $inic_codigo)->delete();
+            return redirect()
+                ->back()
+                ->with('departamentosError', 'Ocurrió un error durante el registro de los departamentos, intente más tarde.')
+                ->withInput();
+        }
 
         $regi = [];
         $regiones = $request->input('region', []);
@@ -960,6 +1006,9 @@ class IniciativasController extends Controller
         $escuelas = Escuelas::all();
         $carreras = Carreras::all();
         $sedes = Sedes::all();
+        $departamentos = SubUnidades::all();
+        $valores = Valores::all();
+
         $escuSec = ParticipantesInternos::select('escu_codigo')->where('inic_codigo', $inic_codigo)->get();
         $sedeSec = ParticipantesInternos::select('sede_codigo')->where('inic_codigo', $inic_codigo)->get();
         $iniciativaPais = IniciativasPais::where('inic_codigo', $inic_codigo)->get();
@@ -967,13 +1016,21 @@ class IniciativasController extends Controller
         $iniciativaCarrera = ParticipantesInternos::select('care_codigo')->where('inic_codigo', $inic_codigo)->get();
         $iniciativaComuna = IniciativasComunas::select('comu_codigo')->where('inic_codigo', $inic_codigo)->get();
 
+        $iniciativaValores = IniciativasValores::select('inival_valor')
+            ->where('inival_iniciativa', $inic_codigo)
+            ->get();
+
+        $iniciativaDepartamentos = IniciativasDepartamentos::select('inidep_departamento')
+            ->where('inidep_iniciativa', $inic_codigo)
+            ->get();
+
         $escuSecCod = $escuSec->pluck('escu_codigo')->toArray();
         $sedeSecCod = $sedeSec->pluck('sede_codigo')->toArray();
         $regiSec = $iniciativaRegion->pluck('regi_codigo')->toArray();
         $careSec = $iniciativaCarrera->pluck('care_codigo')->toArray();
         $comuSec = $iniciativaComuna->pluck('comu_codigo')->toArray();
-
-
+        $valoresSelected = $iniciativaValores->pluck('inival_valor')->toArray();
+        $departamentosSelected = $iniciativaDepartamentos->pluck('inidep_departamento')->toArray();
 
         return view('admin.iniciativas.paso1', [
             'editar' => true,
@@ -993,9 +1050,13 @@ class IniciativasController extends Controller
             'regiones' => $regiones,
             'escuelas' => $escuelas,
             'carreras' => $carreras,
+            'valores' => $valores,
+            'departamentos' => $departamentos,
             'escuSec' => $escuSecCod,
             'sedeSec' => $sedeSecCod,
             'careSec' => $careSec,
+            'valoresSelected' => $valoresSelected,
+            'departamentosSelected' => $departamentosSelected,
             'inic_codigo' => $inic_codigo
         ]);
 
@@ -1081,16 +1142,12 @@ class IniciativasController extends Controller
         }
 
         $carreras = $request->input('carreras', []);
-
-
-        
         $existentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)->get();
 
         foreach ($existentes as $existente) {
             $sedeExistente = in_array($existente->sede_codigo, $sedes);
             $escuelaExistente = in_array($existente->escu_codigo, $escuelas);
             $carreraExistente = in_array($existente->care_codigo, $carreras);
-
 
             if (!$sedeExistente || !$escuelaExistente) {
                 ParticipantesInternos::where([
@@ -1118,6 +1175,7 @@ class IniciativasController extends Controller
                 ])->delete();
             }
         }
+
         foreach ($sedes as $sede) {
             foreach ($escuelas as $escuela) {
                 foreach ($carreras as $carrera) {
@@ -1214,6 +1272,90 @@ class IniciativasController extends Controller
         $fundamentoOds = $request->ods_fundamentos_values ?? [];
 
         // Eliminar registros existentes
+
+        //-----------------------------------------------------------------------------\\
+        //-- Actualización de valores y departamentos [ Marco Cea ] --> 2024-09-05 <-- || 
+        //-----------------------------------------------------------------------------//
+
+        $valoresNuevos = $request->input('valores', []);
+        $valoresActuales = IniciativasValores::where('inival_iniciativa', $inic_codigo)
+            ->pluck('inival_valor')
+            ->toArray();
+
+        $valoresEliminar = array_diff($valoresActuales, $valoresNuevos);
+        $valoresAgregar = array_diff($valoresNuevos, $valoresActuales);
+
+        // Elimina registros que ya no deberían estar asociados
+        if (!empty($valoresEliminar)) {
+            IniciativasValores::where('inival_iniciativa', $inic_codigo)
+                ->whereIn('inival_valor', $valoresEliminar)
+                ->delete();
+        }
+
+        // Agrega los nuevos registros
+        $valoresAux = [];
+        foreach($valoresAgregar as $valor){
+            array_push(
+                $valoresAux,
+                [
+                    'inival_valor' => $valor,
+                    'inival_iniciativa' => $inic_codigo,
+                    'inival_creado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
+                    'inival_actualizado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
+                ]
+            );
+        }
+
+        if (!empty($valoresAux)) {
+            $crearValores = IniciativasValores::insert($valoresAux);
+            if (!$crearValores) {
+                return redirect()
+                    ->back()
+                    ->with('valoresError', 'Ocurrió un error durante el registro de los valores, intente más tarde.')
+                    ->withInput();
+            }
+        }
+
+        $departamentosNuevos = $request->input('departamentos', []);
+        $departamentosActuales = IniciativasDepartamentos::where('inidep_iniciativa', $inic_codigo)
+            ->pluck('inidep_departamento')
+            ->toArray();
+
+            $departamentosEliminar = array_diff($departamentosActuales, $departamentosNuevos);
+            $departamentosAgregar = array_diff($departamentosNuevos, $departamentosActuales);
+    
+            // Elimina registros que ya no deberían estar asociados
+            if (!empty($departamentosEliminar)) {
+                IniciativasDepartamentos::where('inidep_iniciativa', $inic_codigo)
+                    ->whereIn('inidep_departamento', $departamentosEliminar)
+                    ->delete();
+            }
+    
+            // Agrega los nuevos registros
+            $departamentosAux = [];
+            foreach($departamentosAgregar as $valor){
+                array_push(
+                    $departamentosAux,
+                    [
+                        'inidep_departamento' => $valor,
+                        'inidep_iniciativa' => $inic_codigo,
+                        'inidep_creado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
+                        'inidep_actualizado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
+                    ]
+                );
+            }
+    
+            if (!empty($departamentosAux)) {
+                $crearDepartamentos = IniciativasDepartamentos::insert($departamentosAux);
+                if (!$crearDepartamentos) {
+                    return redirect()
+                        ->back()
+                        ->with('departamentosError', 'Ocurrió un error durante el registro de los valores, intente más tarde.')
+                        ->withInput();
+                }
+            }
+
+            //-- Fin Valores y Departamentos --//
 
         $odsValues = array_filter($odsValues, function ($value) {
             return $value !== null;

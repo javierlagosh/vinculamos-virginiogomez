@@ -977,7 +977,7 @@
                     
                     @forelse ($departamentos as $departamento)
                         <option value="{{ $departamento->suni_codigo }}"
-                            {{ in_array($departamento->suni_codigo, old('departamentos', [])) || in_array($departamento->suni_codigo, $departmentoSec) ? 'selected' : '' }}>
+                            {{ in_array($departamento->suni_codigo, old('departamentos', [])) || in_array($departamento->suni_codigo, $departamentosSelected) ? 'selected' : '' }}>
                             {{ $departamento->suni_nombre }}</option>
                     @empty
                         <option value="-1">No existen registros</option>
@@ -1134,7 +1134,7 @@
                 @if (isset($iniciativa) && $editar)
                     @forelse ($valores as $valor)
                         <option value="{{ $valor->val_codigo }}"
-                            {{ in_array($valor->val_codigo, old('valores', [])) || in_array($valor->val_codigo, $valorSec) ? 'selected' : '' }}>
+                            {{ in_array($valor->val_codigo, old('valores', [])) || in_array($valor->val_codigo, $valoresSelected) ? 'selected' : '' }}>
                             {{ $valor->val_nombre }}</option>
                     @empty
                         <option value="-1">No existen registros</option>
