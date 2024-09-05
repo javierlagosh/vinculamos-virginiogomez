@@ -925,7 +925,6 @@
                             </script>
 
 <div class="row">
-
     <div class="col-xl-4 col-md-4 col-lg-4">
         <div class="form-group">
             <label style="font-size: 110%">Sedes</label> <label for=""
@@ -967,8 +966,46 @@
 
         </div>
     </div>
-    <div class="col-xl-3 col-md-3 col-lg-3">
+    <div class="col-xl-4 col-md-4 col-lg-4">
+        <div class="form-group">
+            <label style="font-size: 110%">Departamentos</label> <label for=""
+                style="color: red;">*</label>
 
+            <select class="form-control select2" multiple="" id="departamentos" required
+                name="departamentos[]" style="width: 100%">
+                @if (isset($iniciativa) && $editar)
+                    
+                    @forelse ($departamentos as $departamento)
+                        <option value="{{ $departamento->suni_codigo }}"
+                            {{ in_array($departamento->suni_codigo, old('departamentos', [])) || in_array($departamento->suni_codigo, $departmentoSec) ? 'selected' : '' }}>
+                            {{ $departamento->suni_nombre }}</option>
+                    @empty
+                        <option value="-1">No existen registros</option>
+                    @endforelse
+                @else
+                    @forelse ($departamentos as $departamento)
+                       <option value="{{ $departamento->suni_codigo }}""
+                            {{ collect(old('departamentos'))->contains($departamento->suni_codigo) ? 'selected' : '' }}>
+                            {{ $departamento->suni_nombre }}</option>
+                    @empty
+                        <option value="-1">No existen registros</option>
+                    @endforelse
+                @endif
+            </select>
+
+            @if ($errors->has('departamentos'))
+                <div class="alert alert-warning alert-dismissible show fade mt-2">
+                    <div class="alert-body">
+                        <button class="close"
+                            data-dismiss="alert"><span>&times;</span></button>
+                        <strong>{{ $errors->first('carreras') }}</strong>
+                    </div>
+                </div>
+            @endif
+
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-4 col-lg-4">
         <div class="form-group">
             <label style="font-size: 110%">Escuela ejecutora</label> <label
                 for="" style="color: red;">*</label>
@@ -1005,15 +1042,15 @@
                 </div>
             @endif
         </div>
-
-
     </div>
     <div class="col-xl-4 col-md-4 col-lg-4">
         <div class="form-group">
-            <label style="font-size: 110%">Escuelas colaboradoras</label> <label
-            for="" style="color: red;">*</label>
-            <input type="checkbox" id="selectAllEscuelas" style="margin-left: 60%"> <label
-                for="selectAllEscuelas">Todas</label>
+            <label for="escuelasColaboradoras" style="font-size: 110%">Escuelas colaboradoras</label>
+            <label for="escuelasColaboradoras" style="color: red;">*</label>
+            <div class="float-right pr-4">
+                <input type="checkbox" id="selectAllEscuelas">
+                <label for="selectAllEscuelas">Todas</label>
+            </div>
             <select class="form-control select2" name="escuelas[]" multiple="" required
                 style="width: 100%" id="escuelas">
                 @if (isset($iniciativa) && $editar)
@@ -1045,9 +1082,6 @@
             @endif
         </div>
     </div>
-    
-   
-
     <div class="col-xl-4 col-md-4 col-lg-4">
         <div class="form-group">
             <label style="font-size: 110%">Carreras</label> <label for=""
@@ -1090,10 +1124,44 @@
 
         </div>
     </div>
+    <div class="col-xl-4 col-md-4 col-lg-4">
+        <div class="form-group">
+            <label style="font-size: 110%">Valores</label> 
+            <label for="" style="color: red;">*</label>
 
+            <select class="form-control select2" multiple="" id="valores" required
+                name="valores[]" style="width: 100%">
+                @if (isset($iniciativa) && $editar)
+                    @forelse ($valores as $valor)
+                        <option value="{{ $valor->val_codigo }}"
+                            {{ in_array($valor->val_codigo, old('valores', [])) || in_array($valor->val_codigo, $valorSec) ? 'selected' : '' }}>
+                            {{ $valor->val_nombre }}</option>
+                    @empty
+                        <option value="-1">No existen registros</option>
+                    @endforelse
+                @else                
+                    @forelse ($valores as $valor)
+                        <option value="{{ $valor->val_codigo }}"
+                            {{ collect(old('valores'))->contains($valor->val_codigo) ? 'selected' : '' }}>
+                            {{ $valor->val_nombre }}</option>
+                    @empty
+                        <option value="-1">No existen registros</option>
+                    @endforelse
+                @endif
+            </select>
 
+            @if ($errors->has('valores'))
+                <div class="alert alert-warning alert-dismissible show fade mt-2">
+                    <div class="alert-body">
+                        <button class="close"
+                            data-dismiss="alert"><span>&times;</span></button>
+                        <strong>{{ $errors->first('valores') }}</strong>
+                    </div>
+                </div>
+            @endif
 
-
+        </div>
+    </div>
 </div>
 
                             <div class="row">

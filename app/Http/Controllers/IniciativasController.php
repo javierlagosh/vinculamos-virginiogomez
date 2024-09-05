@@ -49,6 +49,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Mail;
 use App\Models\GruposInteres;
+use App\Models\Valores;
+use App\Models\Subunidades;
 //evaluacion
 use App\Mail\ContactFormMail;
 use App\Models\Evaluacion;
@@ -634,6 +636,8 @@ class IniciativasController extends Controller
         $carreras = Carreras::all();
         $comunas = Comuna::all();
         $sedes = Sedes::all();
+        $departamentos = Subunidades::all();
+        $valores = Valores::all();
 
 
         return view('admin.iniciativas.paso1', [
@@ -649,7 +653,9 @@ class IniciativasController extends Controller
             'escuelas' => $escuelas,
             'comunas' => $comunas,
             'sedes' => $sedes,
-            'carreras' => $carreras
+            'carreras' => $carreras,
+            'departamentos' => $departamentos,
+            'valores' => $valores
         ]);
     }
 

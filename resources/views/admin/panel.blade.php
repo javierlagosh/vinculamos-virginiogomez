@@ -33,7 +33,6 @@
                 </ul>
             </li>
 
-
             <li
                 class="{{ Route::is('admin.listar.sedes') ||
                 Route::is('admin.listar.escuelas') ||
@@ -90,6 +89,8 @@
                             href="{{ route('admin.listar.unidades') }}">Unidades</a></li>
                     <li><a style="font-size: 90%;" class="nav-link"
                             href="{{ route('admin.listar.subunidades') }}">SubUnidades</a></li>
+                            <li><a style="font-size: 90%;" class="nav-link"
+                            href="{{ route('admin.listar.valores') }}">Valores</a></li>
                     {{-- <li><a style="font-size: 90%;" class="nav-link" href="{{route("admin.listar.tematica")}}">Tematicas</a></li> --}}
                 </ul>
             </li>

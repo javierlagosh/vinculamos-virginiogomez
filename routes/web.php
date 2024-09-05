@@ -240,6 +240,12 @@ Route::middleware('verificar.admin')->group(function () {
     Route::put('admin/editar-tipounidad/{tuni_codigo}', [ParametrosController::class, 'actualizarTipoUnidades'])->name('admin.actualizar.tipounidad');
     Route::post('admin/crear-tipounidad/', [ParametrosController::class, 'crearTipoUnidades'])->name('admin.crear.tipounidad');
 
+    // Valores
+    Route::get('admin/listar-valores', [ParametrosController::class, 'listarValores'])->name('admin.listar.valores');
+    Route::delete('admin/eliminar-valores/', [ParametrosController::class, 'eliminarValores'])->name('admin.eliminar.valores');
+    Route::put('admin/editar-valores/{codigo}', [ParametrosController::class, 'actualizarValores'])->name('admin.actualizar.valores');
+    Route::post('admin/crear-valores/', [ParametrosController::class, 'crearValores'])->name('admin.crear.valores');
+
     // fin rutas para gestionar parametros
 
     //TODO: Inicio de rutas para iniciativas

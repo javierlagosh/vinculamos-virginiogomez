@@ -44,7 +44,7 @@ use App\Models\MecanismosActividades;
 use App\Models\ProgramasActividades;
 use App\Models\Unidades;
 use App\Models\SubUnidades;
-use Carbon\Carbon;
+use App\Models\Valores;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -59,6 +59,83 @@ use Illuminate\Support\Str;
 class ParametrosController extends Controller
 {
     protected $nombreRol;
+
+    public function listarValores()
+    {
+        return view('admin.parametros.valores', [
+            'valores' => Valores::orderBy('val_codigo', 'asc')->get()
+        ]);
+    }
+
+    public function crearValores(Request $request)
+    {
+        $validacion = Validator::make($request->all(), [
+            'nombre' => 'required|max:100',
+        ], [
+            'nombre.required' => 'El nombre es requerido.',
+            'nombre.max' => 'El nombre excede el máximo de caracteres permitidos (200).',
+        ]);
+
+        if ($validacion->fails()) {
+            return redirect()->route('admin.listar.valores')->withErrors($validacion)->withInput();
+        }
+
+        $valor = new Valores();
+        $valor->val_nombre = $request->input('nombre');
+        $valor->val_creado = now();
+        $valor->val_actualizado = now();
+        $valor->val_visible = 1;
+        $valor->save();
+
+        return redirect()->back()->with('exito', 'El valor fue creado exitosamente.');
+    }
+
+    public function actualizarValores(Request $request, $val_codigo)
+    {
+        $validacion = Validator::make($request->all(), [
+            'nombre' => 'required|max:255',
+        ], [
+            'nombre.required' => 'El nombre es requerido.',
+            'nombre.max' => 'El nombre excede el máximo de caracteres permitidos (200).',
+        ]);
+
+        if ($validacion->fails()) {
+            return redirect()
+                ->route('admin.listar.valores')
+                ->withErrors($validacion)
+                ->withInput();
+        }
+
+        $valor = Valores::find($val_codigo);
+
+        if (!$valor) {
+            return redirect()
+                ->route('admin.listar.valores')
+                ->with('error', 'El valor no se encuentra registrado en el sistema.')
+                ->withInput();
+        }
+
+        $valor->val_nombre = $request->input('nombre');
+        $valor->val_actualizado = now();
+        $valor->save();
+
+        return redirect()
+            ->back()
+            ->with('exito', 'El valor fue actualizado exitosamente.')
+            ->withInput();
+    }
+
+    public function eliminarValores(Request $request)
+    {
+        $valor = Valores::where('val_codigo', $request->val_codigo)->first();
+
+        if (!$valor) {
+            return redirect()->route('admin.listar.valores')->with('error', 'El valor no se encuentra registrado en el sistema.');
+        }
+
+        $valor->delete();
+        return redirect()->route('admin.listar.valores')->with('exito', 'El valor fue eliminado correctamente.');
+    }
 
     //TODO: Ambito de contribucion
     public function listarAmbitos()
@@ -133,14 +210,12 @@ class ParametrosController extends Controller
         $ambito->amb_nombre = $request->input('nombre');
         $ambito->amb_descripcion = $request->input('descripcion');
         $ambito->amb_director = $request->input('director');
-        $ambito->amb_creado = now();
         $ambito->amb_actualizado = now();
 
         // Guardar la actualización del programa en la base de datos
         $ambito->save();
 
         return redirect()->back()->with('exito', 'La contribución fué actualizada exitosamente')->withInput();
-        ;
     }
 
     //TODO: Ambito de acción
