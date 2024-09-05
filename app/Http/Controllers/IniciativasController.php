@@ -50,7 +50,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Mail;
 use App\Models\GruposInteres;
 use App\Models\Valores;
-use App\Models\Subunidades;
+use App\Models\SubUnidades;
 //evaluacion
 use App\Mail\ContactFormMail;
 use App\Models\Evaluacion;
