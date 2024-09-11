@@ -74,6 +74,7 @@ Route::middleware('verificar.superadmin')->group(function () {
 });
 
 Route::get('dashboard', [DashboardController::class, 'Index'])->name('dashboard.ver');
+Route::get('descarga-masiva', [DashboardController::class, 'descargaMasiva'])->name('descargamasiva.ver');
 Route::post('dashboard/sedes-datos', [DashboardController::class, 'sedesDatos']);
 Route::middleware('verificar.admin')->group(function () {
 

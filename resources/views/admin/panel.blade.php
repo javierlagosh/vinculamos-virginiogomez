@@ -150,6 +150,11 @@
                 </ul>
             </li>
         @endif
+        @if (Session::has('admin') || Session::has('digitador') )
+        <li class="dropdown">
+            <a href="{{route('descargamasiva.ver')}}" class="nav-link"><i data-feather="download"></i><span>Descarga masiva</span></a>
+        </li>
+        @endif
 
 
     @endsection
