@@ -121,32 +121,32 @@
             <li class="menu-header fas fa-cog">Digitador/a</li>
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
-                        data-feather="book-open"></i><span>Iniciativas</span></a>
+                        data-feather="book-open"></i><span>Actividades</span></a>
                 <ul class="dropdown-menu">
                     <li><a style="font-size: 90%;" class="nav-link"
-                            href="{{ route('admin.iniciativa.listar') }}">Listado de iniciativas</a></li>
+                            href="{{ route('admin.iniciativa.listar') }}">Listado de actividades</a></li>
                     <li><a style="font-size: 90%;" class="nav-link"
-                            href="{{ route('admin.inicitiativas.crear.primero') }}">Crear iniciativa</a></li>
+                            href="{{ route('admin.inicitiativas.crear.primero') }}">Crear actividad</a></li>
                 </ul>
             </li>
         @elseif (Session::has('observador'))
             <li class="menu-header fas fa-cog">Observador/a</li>
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
-                        data-feather="book-open"></i><span>Iniciativas</span></a>
+                        data-feather="book-open"></i><span>Actividades</span></a>
                 <ul class="dropdown-menu">
                     <li><a style="font-size: 90%;" class="nav-link"
-                            href="{{ route('observador.iniciativa.listar') }}">Listado de iniciativas</a></li>
+                            href="{{ route('observador.iniciativa.listar') }}">Listado de actividades</a></li>
                 </ul>
             </li>
         @elseif (Session::has('supervisor'))
             <li class="menu-header fas fa-cog">Supervisor/a</li>
             <li class="dropdown">
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
-                        data-feather="book-open"></i><span>Iniciativas</span></a>
+                        data-feather="book-open"></i><span>Actividades</span></a>
                 <ul class="dropdown-menu">
                     <li><a style="font-size: 90%;" class="nav-link"
-                            href="{{ route('supervisor.iniciativa.listar') }}">Listado de iniciativas</a></li>
+                            href="{{ route('supervisor.iniciativa.listar') }}">Listado de actividades</a></li>
                 </ul>
             </li>
         @endif
