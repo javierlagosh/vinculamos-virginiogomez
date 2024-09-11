@@ -81,6 +81,7 @@ Route::post('dashboard/sedes-datos', [DashboardController::class, 'sedesDatos'])
     //TODO: Evaluacion de evidenciavinculam_demo_v2
     Route::get('admin/iniciativas/{inic_codigo}/evaluar', [IniciativasController::class, 'evaluarIniciativa'])->name('admin.evaluar.iniciativa');
     Route::get('admin/iniciativas/{inic_codigo}/evaluar/invitar', [IniciativasController::class, 'evaluarIniciativaInvitar'])->name('admin.evaluar.iniciativa.invitar');
+    Route::get('admin/iniciativas/{inic_codigo}/evaluar/propuesta/{invitado}', [IniciativasController::class, 'evaluarIniciativaPaso2'])->name('admin.evaluar.paso2');
     Route::post('admin/iniciativas/invitar-evaluacion', [IniciativasController::class, 'invitarEvaluacion'])->name('admin.invitar.evaluacion');
     //Primer paso de la creacion de evaluacion
     Route::post('admin/iniciativas/crear-evaluacion', [IniciativasController::class, 'crearEvaluacion'])->name('admin.crear.evaluacion');
@@ -92,6 +93,7 @@ Route::post('dashboard/sedes-datos', [DashboardController::class, 'sedesDatos'])
     //Route::post('admin/iniciativas/procesar-archivo', [IniciativasController::class, 'procesarArchivo'])->name('procesarArchivo');
     Route::post('admin/iniciativas/procesar-archivo', [IniciativasController::class, 'procesarTexto'])->name('procesarTexto');
     //ver resultados de la evaluacion
+    Route::get('admin/iniciativas/{inic_codigo}/evaluar/historico', [IniciativasController::class, 'evaluarIniciativaPaso1'])->name('admin.evaluar.paso1');
     Route::get('admin/iniciativas/{inic_codigo}/evaluacion/resultados/{invitado}', [IniciativasController::class, 'verEvaluacion'])->name('admin.ver.evaluacion');
 
     Route::get('admin/iniciativas/{inic_codigo}/evaluar2', [IniciativasController::class, 'evaluarIniciativa2'])->name('admin.evaluar.iniciativa2');
@@ -473,3 +475,6 @@ Route::post('/evaluaciones/guardar', [IniciativasController::class, 'guardarEval
 use App\Http\Controllers\EmailController;
 
 Route::post('/send-email-estudiante', [IniciativasController::class, 'sendEmailEstudiante'])->name('send.email');
+use App\Http\Controllers\MailController;
+
+Route::post('/send-email', [MailController::class, 'sendEmail'])->name('enviar.email');
