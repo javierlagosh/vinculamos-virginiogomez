@@ -4,7 +4,7 @@
     @endphp
 @elseif (Session::has('digitador'))
     @php
-        $role = 'digitador';
+        $role = 'admin';
     @endphp
 @elseif (Session::has('observador'))
     @php
@@ -179,12 +179,18 @@
                                                             <i class="fas fa-cog"></i>
                                                         </button>
                                                         <div class="dropdown-menu dropright">
+                                                            @if (!Session::has('observador'))
                                                             <a href="{{ route($role . '.editar.paso1', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon"><i class="fas fa-edit"></i>Editar actividad</a>
+                                                            @endif
                                                             <a href="{{ route($role . '.iniciativas.detalles', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Ver detalles"><i class="fas fa-eye"></i>Mostrar detalles</a>
                                                             <a href="javascript:void(0)" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Calcular INVI" onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i class="fas fa-tachometer-alt"></i> Calcular INVI</a>
+                                                            @if (Session::has('admin'))
                                                             <a href="javascript:void(0)" class="dropdown-item has-icon" onclick="eliminarIniciativa({{ $iniciativa->inic_codigo }})" data-toggle="tooltip" data-placement="top" title="Eliminar">Eliminar actividad<i class="fas fa-trash"></i></a>
+                                                            @endif
                                                         </div>
                                                     </div>
+                                                    @if (!Session::has('observador'))
+                                                    
                                                     <div class="dropdown d-inline">
                                                         <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown" title="ingresar">
                                                             <i class="fas fa-plus-circle"></i> Ingresar
@@ -196,6 +202,8 @@
                                                             {{-- <a href="{{ route($role . '.evaluar.iniciativa', $iniciativa->inic_codigo) }}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Evaluar iniciativa"><i class="fas fa-file-signature"></i> Evaluar iniciativa</a> --}}
                                                         </div>
                                                     </div>
+                                                    @endif
+                                                    @if (!Session::has('observador'))
                                                     <div class="dropdown d-inline">
                                                         <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown">Estados</button>
                                                         <div class="dropdown-menu dropright">
@@ -236,6 +244,7 @@
                                                             </form>
                                                         </div>
                                                     </div>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -331,7 +340,9 @@
                     </table>
                 </div>
                 <div class="text-center">
+                    @if (!Session::has('observador'))
                     <button type="button" class="btn btn-primary" onclick="guardarINVI()"> <i class="fas fa-save"></i> Guardar</button>
+                    @endif
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>

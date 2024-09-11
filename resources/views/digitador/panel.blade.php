@@ -11,8 +11,8 @@
         <li class="dropdown">
             <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="book-open"></i><span>Iniciativas</span></a>
             <ul class="dropdown-menu">
-                <li><a style="font-size: 90%;" class="nav-link" href="{{route('digitador.iniciativa.listar')}}">Registro de iniciativas</a></li>
-                <li><a style="font-size: 90%;" class="nav-link" href="{{route('digitador.inicitiativas.crear.primero')}}">Crear iniciativa</a></li>
+                <li><a style="font-size: 90%;" class="nav-link" href="{{route('admin.iniciativa.listar')}}">Registro de iniciativas</a></li>
+                <li><a style="font-size: 90%;" class="nav-link" href="{{route('admin.inicitiativas.crear.primero')}}">Crear iniciativa</a></li>
             </ul>
         </li>
         {{-- <li class="dropdown">

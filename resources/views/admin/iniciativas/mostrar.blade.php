@@ -51,7 +51,7 @@
                                                 class="fas fa-file-signature"></i>Ingresar evaluación</a>
                                     </div>
                                 </div> --}}
-
+                                @if (!Session::has('observador'))
                                 <div class="dropdown d-inline">
                                     <button class="btn btn-info dropdown-toggle" id="dropdownMenuButton2"
                                         data-toggle="dropdown">Actividades</button>
@@ -72,10 +72,11 @@
                                                     class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                                     title="Generar pdf con ODS "><i class="fas fa-file-pdf"></i> Generar pdf con ODS</a> --}}
 
-                                        
+                                                    @if (Session::has('admin'))
                                         <a href="javascript:void(0)" class="dropdown-item has-icon" data-toggle="tooltip"
                                             onclick="eliminarIniciativa({{ $iniciativa->inic_codigo }})"
-                                            data-placement="top" title="Eliminar iniciativa"><i class="fas fa-trash"></i> Eliminar</a>
+                                            data-placement="top" title="Eliminar actividad"><i class="fas fa-trash"></i> Eliminar actividad</a>
+                                            @endif
 
                                     </div>
                                 </div>
@@ -167,6 +168,7 @@
 
                                     </div>
                                 </div>
+                                @endif
 
                                 <a href="{{ route('admin.iniciativa.listar') }}"
                                     class="btn btn-primary mr-1 waves-effect icon-left" type="button">

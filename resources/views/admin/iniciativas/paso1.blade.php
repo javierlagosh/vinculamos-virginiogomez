@@ -112,11 +112,11 @@
                                                     class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                                     title="Generar pdf con ODS "><i class="fas fa-file-pdf"></i> Generar pdf con ODS</a> --}}
 
-                                        
+                                                    @if (Session::has('admin'))
                                         <a href="javascript:void(0)" class="dropdown-item has-icon" data-toggle="tooltip"
                                             onclick="eliminarIniciativa({{ $iniciativa->inic_codigo }})"
                                             data-placement="top" title="Eliminar iniciativa"><i class="fas fa-trash"></i> Eliminar</a>
-
+                                                    @endif
                                     </div>
                                 </div>
 
