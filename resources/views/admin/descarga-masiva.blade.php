@@ -3,8 +3,7 @@
     <section class="section">
         <div class="section-body">
             <div class="card-body" >
-                <iframe src="https://lookerstudio.google.com/embed/reporting/86ab1783-2a58-484d-a7e7-4509ac7f66dd/page/Doh9D" width="100%" height="1000" frameborder="0"></iframe>
-
+                <iframe src="https://lookerstudio.google.com/embed/reporting/d4af3f9b-0a80-4bbd-ae40-58c271a4ac78/page/3yWBE" width="100%" height="1000" frameborder="0"></iframe>
             </div>
 
         </div>
