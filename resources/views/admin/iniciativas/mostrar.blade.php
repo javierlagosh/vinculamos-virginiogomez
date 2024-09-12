@@ -60,6 +60,13 @@
                                             class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                             title="Editar actividad"><i class="fas fa-edit"></i> Editar
                                             actividad</a>
+
+                                            <a href="{{ route('admin.iniciativas.agendaods', $iniciativa->inic_codigo)}}"
+                                                class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
+                                                title="Contribución externa"><i class="fas fa-star-half"></i> Contribución externa</a>
+                                            <a href="{{ route('admin.iniciativas.pdf', $iniciativa->inic_codigo)}}"
+                                                class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
+                                                title="Generar pdf con ODS"><i class="fas fa-file-pdf"></i> Generar pdf con ODS</a>
                                             <a href="javascript:void(0)" class="dropdown-item has-icon"
                                             data-toggle="tooltip" data-placement="top" title="Calcular INVI"
                                             onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i
@@ -237,25 +244,25 @@
                                                 <td><strong>Convenio</strong></td>
                                                 <td>{{ $iniciativa->conv_nombre }}</td>
                                             </tr>
-                                            {{-- <tr>
+                                            <tr>
 
                                                 {{-- {{json_encode($ods_array)}} --}}
-                                                {{-- @if (count($ods_array) > 0)
+                                                @if (count($ods_array) > 0)
                                                     <td><strong>ODS</strong></td>
                                                 @else
-                                                @endif --}}
+                                                @endif
                                                 <td>
-                                                {{-- @forelse ($ods_array as $ods)
+                                                @forelse ($ods_array as $ods)
                                                 <!-- Código para mostrar ODS -->
-                                                    <img src="https://cftpucv.vinculamosvm02.cl/vinculamos_v5_cftpucv/app/img/ods-{{$ods->id_ods}}.png" alt="Ods {{ $ods->id_ods }}" style="width: 100px; height: 100px;">
+                                                    <img src="https://cftpucv.vinculamos.org/img/ods/{{ $ods->id_ods }}.png" alt="Ods {{ $ods->id_ods }}" style="width: 100px; height: 100px;">
 
-                                                {{-- <div style="display: inline-block; margin: 0; padding: 0;"> --}}
-                                                {{-- <td>
+                                                {{-- <div style="display: inline-block; margin: 0; padding: 0;">
+                                                <td>
                                                         <img src="https://cftpucv.vinculamosvm02.cl/vinculamos_v5_cftpucv/app/img/ods-{{$ods->id_ods}}.png" alt="Ods {{ $ods->id_ods }}" style="width: 100px; height: 100px;">
                                                 </td>
-                                                </div> --}} 
+                                                </div> --}}
                                                 {{-- @if($ods_array->isEmpty()) --}}
-                                                {{-- @empty --}}
+                                                @empty
                                                     {{-- <!-- Agrega el campo oculto para almacenar la descripción de la iniciativa -->
                                                     <input type="hidden" id="descripcion_iniciativa" value="{{ $iniciativa->inic_descripcion }}">
 
@@ -359,9 +366,9 @@
                                                         }
                                                     });
                                                     </script> --}}
-                                                {{-- @endforelse --}}
-                                                {{-- </td>
-                                            </tr> --}} 
+                                                @endforelse
+                                                </td>
+                                            </tr>
                                             <tr>
                                                 <td><strong>Ubicaciones</strong></td>
                                                 <td>
