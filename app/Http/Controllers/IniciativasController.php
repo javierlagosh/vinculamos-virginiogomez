@@ -1463,7 +1463,48 @@ class IniciativasController extends Controller
         return redirect()->route('admin.editar.paso2', $inic_codigo)->with('exitoPaso1', 'Los datos de la iniciativa se actualizaron correctamente');
 
     }
+    public function actualizarResultado(Request $request){
 
+        //actualizar resultado
+        $resuActualizar = Resultados::where('resu_codigo', $request->resu_codigo)
+        ->where('inic_codigo', $request->resu_inic_codigo)
+            ->update([
+                'resu_nombre' => $request->resu_nombre,
+                'resu_cuantificacion_inicial' => $request->resu_cuantificacion_inicial,
+                'resu_actualizado' => Carbon::now()->format('Y-m-d H:i:s'),
+                'resu_nickname_mod' => 'jcarpincho',
+                'resu_rol_mod' => 1
+            ]);
+        if(!$resuActualizar){
+            return json_encode(['estado' => false, 'resultado' => 'Ocurrió un error al actualizar el resultado esperado, intente más tarde.']);
+        }
+
+
+        //return back
+        return redirect()->back()->with('exitoPaso3', 'Los datos de la iniciativa se actualizaron correctamente');
+    }
+
+    public function actualizarSocioPaso2(Request $request){
+
+        //obtener subgrupo
+        $sugr_codigo = SociosComunitarios::where('soco_codigo', $request->socioSeleccionado)->value('sugr_codigo');
+
+
+        //actualizar iniciativasParticipantes
+        $socoActualizar = IniciativasParticipantes::where('soco_codigo', $request->soco_codigo_antiguo)
+        ->where('inic_codigo', $request->socio_inic_codigo)
+            ->update([
+                'soco_codigo' => $request->socioSeleccionado,
+                'inpr_total' => $request->personasBeneficiadas,
+                'sugr_codigo' => $sugr_codigo,
+                'inpr_actualizado' => Carbon::now()->format('Y-m-d H:i:s'),
+                'inpr_nickname_mod' => 'jcarpincho',
+                'inpr_rol_mod' => 1
+            ]);
+
+        return redirect()->back()->with('exitoPaso3', 'Los datos de la iniciativa se actualizaron correctamente');
+
+    }
 
     public function editarPaso2($inic_codigo)
     {
