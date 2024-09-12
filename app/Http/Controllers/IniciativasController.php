@@ -161,7 +161,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -189,7 +189,7 @@ class IniciativasController extends Controller
                 $resultado->save();
             }
         }
-        $ThisRuta = $rolePrefix . '.cobertura.index';
+        $ThisRuta = 'admin.cobertura.index';
         return redirect()->route($ThisRuta, $inic_codigo)
             ->with('exitoInterno', 'Participacion interna actualizada correctamente.');
     }
@@ -398,7 +398,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -515,7 +515,7 @@ class IniciativasController extends Controller
         if (!$inevActualizar)
             return redirect()->back()->with('errorEvidencia', 'Ocurrió un error al registrar la evidencia, intente más tarde.');
 
-        $ThisRuta = $rolePrefix . '.evidencias.listar';
+        $ThisRuta = 'admin.evidencias.listar';
         return redirect()->route($ThisRuta, $inic_codigo)->with('exitoEvidencia', 'La evidencia fue registrada correctamente.');
 
     }
@@ -565,7 +565,7 @@ class IniciativasController extends Controller
             ]);
             if (!$inevActualizar)
                 return redirect()->back()->with('errorEvidencia', 'Ocurrió un error al actualizar la evidencia, intente más tarde.');
-            $ThisRuta = $rolePrefix . '.evidencias.listar';
+            $ThisRuta = 'admin.evidencias.listar';
             return redirect()->route($ThisRuta, $evidencia->inic_codigo)->with('exitoEvidencia', 'La evidencia fue actualizada correctamente.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('errorEvidencia', 'Ocurrió un problema al actualizar la evidencia, intente más tarde.');
@@ -596,7 +596,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -978,7 +978,7 @@ class IniciativasController extends Controller
         // }
 
         
-        $ThisRuta = $rolePrefix . '.editar.paso2';
+        $ThisRuta = 'admin.editar.paso2';
         return redirect()->route($ThisRuta, $inic_codigo)->with('exitoPaso1', 'Los datos de la iniciativa se registraron correctamente');
     }
 
@@ -1071,7 +1071,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -1533,7 +1533,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -1689,7 +1689,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -1722,7 +1722,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -2077,7 +2077,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -2272,7 +2272,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -2438,7 +2438,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
