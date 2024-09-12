@@ -432,6 +432,10 @@
                                                                 <th>Docentes final</th>
                                                                 <th>Estudiantes</th>
                                                                 <th>Estudiantes final</th>
+                                                                <th>Directivos/as</th>
+                                                                <th>Directivos/as final</th>
+                                                                <th>Titulados/as</th>
+                                                                <th>Titulados/as final</th>
                                                             </thead>
 
                                                             <tbody>
@@ -475,6 +479,34 @@
                                                                             @if ($interno->pain_estudiantes_final == 0)
                                                                             0
                                                                             @endif
+                                                                            @endif
+                                                                        </td>
+                                                                        <td>
+                                                                            @if ($interno->pain_funcionarios != null)
+                                                                                {{ $interno->pain_funcionarios }}
+                                                                            @else
+                                                                                0
+                                                                            @endif
+                                                                        </td>
+                                                                        <td>
+                                                                            @if ($interno->pain_funcionarios_final != null)
+                                                                                {{ $interno->pain_funcionarios_final }}
+                                                                            @else
+                                                                                0
+                                                                            @endif
+                                                                        </td>
+                                                                        <td>
+                                                                            @if ($interno->pain_titulados != null)
+                                                                                {{ $interno->pain_titulados }}
+                                                                            @else
+                                                                                0
+                                                                            @endif
+                                                                        </td>
+                                                                        <td>
+                                                                            @if ($interno->pain_titulados_final != null)
+                                                                                {{ $interno->pain_titulados_final }}
+                                                                            @else
+                                                                                0
                                                                             @endif
                                                                         </td>
                                                                     </tr>

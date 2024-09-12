@@ -325,7 +325,11 @@ class IniciativasController extends Controller
                 'participantes_internos.pain_estudiantes',
                 'participantes_internos.pain_estudiantes_final',
                 'sedes.sede_nombre',
-                'escuelas.escu_nombre'
+                'escuelas.escu_nombre',
+                'participantes_internos.pain_funcionarios',
+                'participantes_internos.pain_funcionarios_final',
+                'participantes_internos.pain_titulados',
+                'participantes_internos.pain_titulados_final',
             )
             ->where('participantes_internos.inic_codigo', $inic_codigo)
             ->get();
