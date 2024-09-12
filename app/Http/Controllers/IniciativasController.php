@@ -1071,7 +1071,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'admin';
+            $rolePrefix = 'digitador';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
