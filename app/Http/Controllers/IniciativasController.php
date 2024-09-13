@@ -669,6 +669,7 @@ class IniciativasController extends Controller
         } elseif (Session::has('supervisor')) {
             $rolePrefix = 'supervisor';
         }
+
         $request->validate([
             'nombre' => 'required|max:255',
             //'anho' => 'required',
@@ -748,7 +749,6 @@ class IniciativasController extends Controller
         }
 
         $crearValores = IniciativasValores::insert($valoresAux);
-
         if (!$crearValores) {
             IniciativasValores::where('inival_iniciativa', $inic_codigo)->delete();
             return redirect()
@@ -774,7 +774,6 @@ class IniciativasController extends Controller
         }
 
         $crearDepartamentos = IniciativasDepartamentos::insert($departamentosAux);
-
         if (!$crearDepartamentos) {
             IniciativasDepartamentos::where('inidep_iniciativa', $inic_codigo)->delete();
             return redirect()
@@ -822,8 +821,6 @@ class IniciativasController extends Controller
         }
 
         $comuCrear = IniciativasComunas::insert($comu);
-
-
         if (!$comuCrear) {
             IniciativasComunas::where('inic_codigo', $inic_codigo)->delete();
             return redirect()->back()->with('comuError', 'Ocurrió un error durante el registro de las comunas, intente más tarde.')->withInput();
@@ -831,70 +828,58 @@ class IniciativasController extends Controller
 
         $pain = [];
         $sedes = $request->input('sedes', []);
-        $escuelas = $request->input('escuelas', []);
-        //pushear el valor de la escuela ejecutora
-        array_push($escuelas, $request->inic_escuela_ejecutora);
-        // si es un arerglo vacio se le asigna un arreglo "nohay"
-        if (empty($escuelas)) {
-            $escuelas = [$request->inic_escuela_ejecutora];
-        }
-        $carreras = $request->input('carreras', []);
+        // $escuelas = $request->input('escuelas', []);
+        // //pushear el valor de la escuela ejecutora
+        // array_push($escuelas, $request->inic_escuela_ejecutora);
+        // // si es un arerglo vacio se le asigna un arreglo "nohay"
+        // if (empty($escuelas)) {
+        //     $escuelas = [$request->inic_escuela_ejecutora];
+        // }
+        // $carreras = $request->input('carreras', []);
 
-        //id iniciativa
-        $inic_codigo = $inicCrear;
-        // insertar sedes escuelas y carreras a participantes internos
-        foreach ($sedes as $sede) {
-            foreach ($escuelas as $escuela) {
-                foreach ($carreras as $carrera) {
-                    //si la carrera no pertenece a la escuela no se inserta
-                    $escuela_carrera = Carreras::where('escu_codigo', $escuela)
-                        ->where('care_codigo', $carrera)->exists();
-                    if ($escuela_carrera) {
-                    $participantes_internos = new ParticipantesInternos();
-                    $participantes_internos->inic_codigo = $inic_codigo;
-                    $participantes_internos->sede_codigo = $sede;
-                    $participantes_internos->escu_codigo = $escuela;
-                    $participantes_internos->care_codigo = $carrera;
-                    $participantes_internos->save();
-                    }
-                }
-            }
-        }
-        //$painCrear = ParticipantesInternos::insert($pain);
-        
-
+        // //id iniciativa
+        // $inic_codigo = $inicCrear;
+        // // insertar sedes escuelas y carreras a participantes internos
         // foreach ($sedes as $sede) {
         //     foreach ($escuelas as $escuela) {
         //         foreach ($carreras as $carrera) {
-        //             $sede_escuela = SedesEscuelas::where('sede_codigo', $sede)
-        //                 ->where('escu_codigo', $escuela)
-        //                 ->exists();
-
+        //             //si la carrera no pertenece a la escuela no se inserta
         //             $escuela_carrera = Carreras::where('escu_codigo', $escuela)
         //                 ->where('care_codigo', $carrera)->exists();
-        //             $escuela_sede = ParticipantesInternos::where([
-        //                 'sede_codigo' => $sede,
-        //                 'escu_codigo' => $escuela,
-        //                 'care_codigo' => $carrera,
-        //                 'inic_codigo' => $inic_codigo
-        //             ])->exists();
-
-        //             if ($sede_escuela && !$escuela_sede && $escuela_carrera) {
-        //                 array_push($pain, [
-        //                     'inic_codigo' => $inic_codigo,
-        //                     'sede_codigo' => $sede,
-        //                     'escu_codigo' => $escuela,
-        //                     'care_codigo' => $carrera,
-        //                 ]);
+        //             if ($escuela_carrera) {
+        //             $participantes_internos = new ParticipantesInternos();
+        //             $participantes_internos->inic_codigo = $inic_codigo;
+        //             $participantes_internos->sede_codigo = $sede;
+        //             $participantes_internos->escu_codigo = $escuela;
+        //             $participantes_internos->care_codigo = $carrera;
+        //             $participantes_internos->save();
         //             }
         //         }
         //     }
         // }
-        // $painCrear = ParticipantesInternos::insert($pain);
-        // if (!$painCrear) {
-        //     ParticipantesInternos::where('inic_codigo', $inic_codigo)->delete();
-        //     return redirect()->back()->with('errorPaso1', 'Ocurrió un error durante el registro de las unidades, intente más tarde.')->withInput();
-        // }
+
+        
+        $carreras = $request->input('carreras', []);
+        //id iniciativa
+        $inic_codigo = $inicCrear;
+        // insertar sedes escuelas y carreras a participantes internos
+        foreach ($sedes as $sede) {
+            foreach ($carreras as $carrera) {
+                //si la carrera no pertenece a la escuela no se inserta
+                $escuela_carrera = Carreras::where('escu_codigo', $request->inic_escuela_ejecutora)
+                    ->where('care_codigo', $carrera)
+                    ->exists();
+
+                if ($escuela_carrera) {
+                    $participantes_internos = new ParticipantesInternos();
+                    $participantes_internos->inic_codigo = $inic_codigo;
+                    $participantes_internos->sede_codigo = $sede;
+                    $participantes_internos->escu_codigo = $request->inic_escuela_ejecutora;
+                    $participantes_internos->care_codigo = $carrera;
+                    $participantes_internos->save();
+                }
+            }
+        }
 
         $odsValues = $request->ods_values ?? [];
         $odsMetasValues = $request->ods_metas_values ?? [];
@@ -921,8 +906,6 @@ class IniciativasController extends Controller
         // Eliminar duplicados de $fundamentoOds
         $fundamentoOds = array_unique($fundamentoOds);
 
-        // dd($request->all());
-
         foreach ($odsValues as $ods) {
             $idOds = Ods::where('id_ods', $ods)->value('id_ods');
             PivoteOds::create([
@@ -932,8 +915,6 @@ class IniciativasController extends Controller
         }
         //contar total de elementos en el arreglo de fundamentoOds
         $totalFundamentos = count($fundamentoOds);
-
-
         $fundamentoOds = array_values($fundamentoOds);
 
         for ($i=0; $i < 100; $i++) {
@@ -974,21 +955,12 @@ class IniciativasController extends Controller
             ]);
         }
 
-        // foreach ($fundamentoOds as $fundamentoValue){
-        //     FundamentoInic::create([
-        //         'inic_codigo' => $inic_codigo,
-        //         'fund_ods' => $fundamentoValue
-        //     ]);
-        // }
-
-        
         $ThisRuta = 'admin.editar.paso2';
         return redirect()->route($ThisRuta, $inic_codigo)->with('exitoPaso1', 'Los datos de la iniciativa se registraron correctamente');
     }
 
     public function editarPaso1($inic_codigo)
     {
-        
         $iniciativa = Iniciativas::where('inic_codigo', $inic_codigo)->first();
 
         $iniciativaData = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', '=', 'iniciativas.meca_codigo')
