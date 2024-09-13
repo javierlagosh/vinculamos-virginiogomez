@@ -220,7 +220,7 @@
 
                         <div class="card-body">
                             @if (isset($iniciativa) && $editar)
-                                <form id="iniciativas-paso1"     action="{{ route('admin.actualizar.paso1', $inic_codigo) }}"
+                                <form id="iniciativas-paso1" action="{{ route('admin.actualizar.paso1', $inic_codigo) }}"
                                     method="POST">
                                     @method('PUT')
                                     @csrf
@@ -929,7 +929,6 @@
         <div class="form-group">
             <label style="font-size: 110%">Sedes</label> <label for=""
                 style="color: red;">*</label>
-
             <select class="form-control select2" multiple="" id="sedes" required
                 name="sedes[]" style="width: 100%">
                 @if (isset($iniciativa) && $editar)
