@@ -4,7 +4,7 @@
     @endphp
 @elseif (Session::has('digitador'))
     @php
-        $role = 'digitador';
+        $role = 'admin';
     @endphp
 @elseif (Session::has('observador'))
     @php

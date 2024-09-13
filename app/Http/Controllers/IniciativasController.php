@@ -161,7 +161,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -189,7 +189,7 @@ class IniciativasController extends Controller
                 $resultado->save();
             }
         }
-        $ThisRuta = $rolePrefix . '.cobertura.index';
+        $ThisRuta = 'admin.cobertura.index';
         return redirect()->route($ThisRuta, $inic_codigo)
             ->with('exitoInterno', 'Participacion interna actualizada correctamente.');
     }
@@ -325,7 +325,11 @@ class IniciativasController extends Controller
                 'participantes_internos.pain_estudiantes',
                 'participantes_internos.pain_estudiantes_final',
                 'sedes.sede_nombre',
-                'escuelas.escu_nombre'
+                'escuelas.escu_nombre',
+                'participantes_internos.pain_funcionarios',
+                'participantes_internos.pain_funcionarios_final',
+                'participantes_internos.pain_titulados',
+                'participantes_internos.pain_titulados_final',
             )
             ->where('participantes_internos.inic_codigo', $inic_codigo)
             ->get();
@@ -398,7 +402,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -515,7 +519,7 @@ class IniciativasController extends Controller
         if (!$inevActualizar)
             return redirect()->back()->with('errorEvidencia', 'Ocurrió un error al registrar la evidencia, intente más tarde.');
 
-        $ThisRuta = $rolePrefix . '.evidencias.listar';
+        $ThisRuta = 'admin.evidencias.listar';
         return redirect()->route($ThisRuta, $inic_codigo)->with('exitoEvidencia', 'La evidencia fue registrada correctamente.');
 
     }
@@ -565,7 +569,7 @@ class IniciativasController extends Controller
             ]);
             if (!$inevActualizar)
                 return redirect()->back()->with('errorEvidencia', 'Ocurrió un error al actualizar la evidencia, intente más tarde.');
-            $ThisRuta = $rolePrefix . '.evidencias.listar';
+            $ThisRuta = 'admin.evidencias.listar';
             return redirect()->route($ThisRuta, $evidencia->inic_codigo)->with('exitoEvidencia', 'La evidencia fue actualizada correctamente.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('errorEvidencia', 'Ocurrió un problema al actualizar la evidencia, intente más tarde.');
@@ -596,7 +600,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -978,7 +982,7 @@ class IniciativasController extends Controller
         // }
 
         
-        $ThisRuta = $rolePrefix . '.editar.paso2';
+        $ThisRuta = 'admin.editar.paso2';
         return redirect()->route($ThisRuta, $inic_codigo)->with('exitoPaso1', 'Los datos de la iniciativa se registraron correctamente');
     }
 
@@ -1463,7 +1467,48 @@ class IniciativasController extends Controller
         return redirect()->route('admin.editar.paso2', $inic_codigo)->with('exitoPaso1', 'Los datos de la iniciativa se actualizaron correctamente');
 
     }
+    public function actualizarResultado(Request $request){
 
+        //actualizar resultado
+        $resuActualizar = Resultados::where('resu_codigo', $request->resu_codigo)
+        ->where('inic_codigo', $request->resu_inic_codigo)
+            ->update([
+                'resu_nombre' => $request->resu_nombre,
+                'resu_cuantificacion_inicial' => $request->resu_cuantificacion_inicial,
+                'resu_actualizado' => Carbon::now()->format('Y-m-d H:i:s'),
+                'resu_nickname_mod' => 'jcarpincho',
+                'resu_rol_mod' => 1
+            ]);
+        if(!$resuActualizar){
+            return json_encode(['estado' => false, 'resultado' => 'Ocurrió un error al actualizar el resultado esperado, intente más tarde.']);
+        }
+
+
+        //return back
+        return redirect()->back()->with('exitoPaso3', 'Los datos de la iniciativa se actualizaron correctamente');
+    }
+
+    public function actualizarSocioPaso2(Request $request){
+
+        //obtener subgrupo
+        $sugr_codigo = SociosComunitarios::where('soco_codigo', $request->socioSeleccionado)->value('sugr_codigo');
+
+
+        //actualizar iniciativasParticipantes
+        $socoActualizar = IniciativasParticipantes::where('soco_codigo', $request->soco_codigo_antiguo)
+        ->where('inic_codigo', $request->socio_inic_codigo)
+            ->update([
+                'soco_codigo' => $request->socioSeleccionado,
+                'inpr_total' => $request->personasBeneficiadas,
+                'sugr_codigo' => $sugr_codigo,
+                'inpr_actualizado' => Carbon::now()->format('Y-m-d H:i:s'),
+                'inpr_nickname_mod' => 'jcarpincho',
+                'inpr_rol_mod' => 1
+            ]);
+
+        return redirect()->back()->with('exitoPaso3', 'Los datos de la iniciativa se actualizaron correctamente');
+
+    }
 
     public function editarPaso2($inic_codigo)
     {
@@ -1533,7 +1578,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -1689,7 +1734,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -1722,7 +1767,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -2077,7 +2122,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -2272,7 +2317,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {
@@ -2438,7 +2483,7 @@ class IniciativasController extends Controller
         if (Session::has('admin')) {
             $rolePrefix = 'admin';
         } elseif (Session::has('digitador')) {
-            $rolePrefix = 'digitador';
+            $rolePrefix = 'admin';
         } elseif (Session::has('observador')) {
             $rolePrefix = 'observador';
         } elseif (Session::has('supervisor')) {

@@ -272,6 +272,11 @@ Route::post('dashboard/sedes-datos', [DashboardController::class, 'sedesDatos'])
     Route::get('admin/iniciativa/invi/datos', [IniciativasController::class, 'datosIndice']);
     Route::post('admin/iniciativa/invi/guardar', [IniciativasController::class, 'guardarDatosIndice']);
     Route::get('admin/iniciativas/invi/ids',[IniciativasController::class,'obtenerIDs']);
+
+    //editar paso 2
+    Route::put('admin/iniciativa/resultados/', [IniciativasController::class, 'actualizarResultado'])->name('admin.resultado.actualizar');
+    Route::put('admin/socio/paso2/actualizar/', [IniciativasController::class, 'actualizarSocioPaso2'])->name('admin.socio.paso2.actualizar');
+    // fin editar paso 2
     // TODO: PASO 3
     Route::get('admin/iniciativa/{inic_codigo}/editar/paso3', [IniciativasController::class, 'editarPaso3'])->name('admin.editar.paso3');
     Route::post('admin/crear-iniciativa/guardar-dinero', [IniciativasController::class, 'guardarDinero'])->name('admin.dinero.guardar');
