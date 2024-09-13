@@ -90,8 +90,8 @@
 
 
                         <div class="mx-5 mt-3">
-                            <h3>Paso 3: Seleccionar evaluadores</h3>
-                            <p class="font-italic" ><span style="color:red;">! </span>Instrucción: Te presentamos 3 opciones para cargar los nombres y correos electrónicos de quienes evaluarán la iniciativa. Agrega nombre y correo electrónico y luego guarda con "Cargar individualmente" o "Cargar múltiple" según corresponda. <br> Ojo: En este paso sólo estamos creando los contactos, en el próximo paso se enviará la encuesta.</p>
+                            <h5>Paso 3: Seleccionar evaluadores</h5>
+                            <p ><span style="color:red;">! </span>Instrucción: Te presentamos 3 opciones para cargar los nombres y correos electrónicos de quienes evaluarán la iniciativa. Agrega nombre y correo electrónico y luego guarda con "Cargar individualmente" o "Cargar múltiple" según corresponda. <br> Ojo: En este paso sólo estamos creando los contactos, en el próximo paso se enviará la encuesta.</p>
                             <hr style="
                             border: 0;
                             background-color: white;

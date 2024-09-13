@@ -3661,6 +3661,7 @@ public function AutoInvitacionEvaluacion($evatotal_encriptado)
     // TODO: Calculo Evaluación
     public function guardarEvaluacion2(Request $request)
     {
+        
         try {
             $nuevo = new Evaluacion();
             $nuevo->inic_codigo = $request->iniciativa_codigo;
@@ -3679,10 +3680,9 @@ public function AutoInvitacionEvaluacion($evatotal_encriptado)
             # PARA RETORNAR AL LISTADO
             return json_encode(['estado' => true, 'resultado' => 'La evaluación fue ingresada correctamente.']);
         } catch (\Throwable $th) {
-            return json_encode(['estado' => false, 'resultado' => 'Error al ingresar la evaluación:'. $th]);
+            return json_encode(['estado' => false, 'resultado' => 'Error al ingresar la evaluacion:'. $th]);
         }
     }
-
     // public function guardarEvaluacion(){
     //     return redirect()->route('admin.iniciativa.listar')
     // }

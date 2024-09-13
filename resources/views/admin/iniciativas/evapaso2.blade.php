@@ -40,8 +40,8 @@
                         <div >
 
                             <div class="mx-5 mt-3 ">
-                                <h3>Paso 2: Propuesta de evaluación</h3>
-                                <p class="font-italic" ><span style="color:red;">! </span>Instrucción: En este paso sólo debes validar la encuesta que enviaremos. Si estás de acuerdo da clic en "Paso Siguiente" al final de la página.</p>
+                                <h5>Paso 2: Propuesta de evaluación</h5>
+                                <p ><span style="color:red;">! </span>Instrucción: En este paso sólo debes validar la encuesta que enviaremos. Si estás de acuerdo da clic en "Paso Siguiente" al final de la página.</p>
                             </div>
                             <hr style="
                             border: 0;

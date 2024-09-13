@@ -137,7 +137,9 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h4>Paso 1: Selecciona el tipo de evaluador</h4>
+                            <h5>Paso 1: Selecciona el tipo de evaluador</h5>
+                            <input type="hidden" name="iniciativa_codigo" id="iniciativa_codigo"
+                                value="{{ $iniciativa[0]->inic_codigo }}">
                         </div>
                         <div class="d-flex justify-content-center mb-5">
                             <form method="POST" action="{{route('admin.crear.evaluacion')}}">
@@ -145,7 +147,7 @@
                                 <div class="form-group">
                                     <label for="tipo">
                                         <strong>Tipo de evaluador:</strong>
-                                    </label>
+                                    </label><br>
                                     <div class="w-100">
                                         <input type="text" hidden name="inic_codigo" id="inic_codigo"
                                         value="{{ $iniciativa[0]->inic_codigo }}">
@@ -242,6 +244,7 @@
 
 
 
+                        
 
 
 
@@ -254,7 +257,71 @@
 
 
 
+                        </div>
 
+                        <div class="card">
+
+                            <div class="card-body">
+                                <h5>Ingresar evaluación Manualmente</h5>
+                                <div class="card-content">
+                                    <h4 class="card-title mt-10">Ingresar evaluación con manualmente</h4>
+                                    <span>Tipo de Evaluación</span>
+                                    <select class="form-control select2" name="ingresar" id="ingresar"
+                                        onchange="ingresarEVAL()">
+                                        <option value="" disabled selected>Seleccione...</option>
+                                        <option value="2">Evaluación interno</option>
+                                        <option value="3">Evaluación externa</option>
+                                    </select>
+                                </div>
+
+                                <div id="AllTable" style="display: none">
+                                    <div class="card-body">
+
+                                        <div class="row mt-3">
+                                            <div class="col-3"></div>
+                                            <div class="col-6">
+                                                <div class="card">
+                                                    <div class="card-body p-0">
+                                                        <div class="table-responsive">
+                                                            <table class="table table-bordered table-md">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col">Item</th>
+                                                                        <th scope="col">Año de la Iniciativa</th>
+                                                                        <th scope="col">Puntaje</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="body-tabla-participantes">
+                                                                    <tr>
+                                                                        <td name="Eval_Interna">Evaluación Interna</td>
+                                                                        <td name="Eval_Externa">Evaluación Externa</td>
+                                                                        <td>{{ $iniciativa[0]->inic_anho }}</td>
+                                                                        <td>
+                                                                            <input type="number" class="form-control"
+                                                                                id="puntaje_obtenido" name="puntaje_obtenido"
+                                                                                value="" min="0" max="100">
+                                                                        </td>
+                                                                    </tr>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 col-md-12 col-lg-12 text-right">
+                                                        <input type="hidden" id="inic_codigo" name="inic_codigo"
+                                                            value="">
+                                                        <button type="submit" class="btn btn-primary mr-1 waves-effect"
+                                                            onclick="enviarEval()"><i class="fas fa-save"></i> Guardar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
 
 
@@ -263,6 +330,7 @@
                 </div>
             </div>
         </div>
+        
         <script>
             function cambioTipo() {
                 var tipo = document.getElementById('tipo').value;
@@ -564,44 +632,44 @@ $.ajax({
 }
 
 function enviarEval() {
-var tipo_data = $("#tipo").val();
-// Recopilar los datos
+    var tipo_data = $("#tipo").val();
+    // Recopilar los datos
 
-var datos = {
-    iniciativa_codigo: $("#iniciativa_codigo").val(),
-    tipo_data: $("#ingresar").val(),
-    puntaje: $("#puntaje_obtenido").val(),
-};
+    var datos = {
+        iniciativa_codigo: $("#iniciativa_codigo").val(),
+        tipo_data: $("#ingresar").val(),
+        puntaje: $("#puntaje_obtenido").val(),
+    };
 
-$.ajax({
-    type: "GET",
-    url: window.location.origin + '/admin/iniciativas/ingresoEvaluacion',
-    data: datos,
-    headers: {
-        'X-CSRF-TOKEN': token
-    },
-    success: function(response) {
-        /* Mostrar Formulario */
-        console.log(response);
-        /* Ocultar Tabla */
-        var MostrarTabla = document.getElementById("AllTable");
-        MostrarTabla.style.display = "none";
+    $.ajax({
+        type: "GET",
+        url: window.location.origin + '/admin/iniciativas/ingresoEvaluacion',
+        data: datos,
+        headers: {
+            'X-CSRF-TOKEN': token
+        },
+        success: function(response) {
+            /* Mostrar Formulario */
+            console.log(response);
+            /* Ocultar Tabla */
+            var MostrarTabla = document.getElementById("AllTable");
+            MostrarTabla.style.display = "none";
 
-        var alerta = document.getElementById("exito_ingresar");
-        alerta.style.display = "block";
-        $("#puntaje_obtenido").val("");
+            var alerta = document.getElementById("exito_ingresar");
+            alerta.style.display = "block";
+            $("#puntaje_obtenido").val("");
 
 
 
-        setTimeout(function() {
-            alerta.style.display = "none";
-        }, 2000);
+            setTimeout(function() {
+                alerta.style.display = "none";
+            }, 2000);
 
-    },
-    error: function(error) {
-        console.error(error);
-    }
-});
+        },
+        error: function(error) {
+            console.error(error);
+        }
+    });
 }
         function cambioTipo() {
             var tipo = document.getElementById('tipo').value;

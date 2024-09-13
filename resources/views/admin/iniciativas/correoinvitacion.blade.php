@@ -88,8 +88,8 @@
                         </div>
 
                         <div class="mx-5 mt-3">
-                            <h3>Paso 4: Envío de Correo</h3>
-                            <p class="font-italic" ><span style="color:red;">! </span>Instrucción: en este paso puedes validar o modificar el correo que se enviará a quienes evalúen la iniciativa, solo ten precaución en <strong>NO BORRAR</strong> la palabra <span style="color:blue;">encuesta</span> ya que ahí irá el link directo a la evaluación.</p>
+                            <h5>Paso 4: Envío de Correo</h5>
+                            <p><span style="color:red;">! </span>Instrucción: en este paso puedes validar o modificar el correo que se enviará a quienes evalúen la iniciativa, solo ten precaución en <strong>NO BORRAR</strong> la palabra <span style="color:blue;">encuesta</span> ya que ahí irá el link directo a la evaluación.</p>
                             <hr style="
                             border: 0;
                             background-color: white;
