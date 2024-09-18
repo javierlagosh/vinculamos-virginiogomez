@@ -858,12 +858,31 @@ class IniciativasController extends Controller
         //     }
         // }
 
-        
         $carreras = $request->input('carreras', []);
+        $escuelas = $request->input('escuelas', []);
         //id iniciativa
         $inic_codigo = $inicCrear;
         // insertar sedes escuelas y carreras a participantes internos
+
+        dd($escuelas);
         foreach ($sedes as $sede) {
+            foreach ($escuelas as $escuela) {
+                foreach ($carreras as $carrera) {
+                    //si la carrera no pertenece a la escuela no se inserta
+                    $escuela_carrera = Carreras::where('escu_codigo', $escuela)
+                        ->where('care_codigo', $carrera)->exists();
+                    if ($escuela_carrera) {
+                    $participantes_internos = new ParticipantesInternos();
+                    $participantes_internos->inic_codigo = $inic_codigo;
+                    $participantes_internos->sede_codigo = $sede;
+                    $participantes_internos->escu_codigo = $escuela;
+                    $participantes_internos->care_codigo = $carrera;
+                    $participantes_internos->pain_ejecutora = false;
+                    $participantes_internos->save();
+                    }
+                }
+            }
+
             foreach ($carreras as $carrera) {
                 //si la carrera no pertenece a la escuela no se inserta
                 $escuela_carrera = Carreras::where('escu_codigo', $request->inic_escuela_ejecutora)
@@ -876,6 +895,7 @@ class IniciativasController extends Controller
                     $participantes_internos->sede_codigo = $sede;
                     $participantes_internos->escu_codigo = $request->inic_escuela_ejecutora;
                     $participantes_internos->care_codigo = $carrera;
+                    $participantes_internos->pain_ejecutora = true;
                     $participantes_internos->save();
                 }
             }
@@ -1111,12 +1131,12 @@ class IniciativasController extends Controller
         $pain = [];
         $sedes = $request->input('sedes', []);
         $escuelas = $request->input('escuelas', []);
-        //pushear el valor de la escuela ejecutora
-        array_push($escuelas, $request->inic_escuela_ejecutora);
-        // si está vacío, se asigna un arreglo con un valor "nohay"
-        if (empty($escuelas)) {
-            $escuelas = [$request->inic_escuela_ejecutora];
-        }
+        // //pushear el valor de la escuela ejecutora
+        // array_push($escuelas, $request->inic_escuela_ejecutora);
+        // // si está vacío, se asigna un arreglo con un valor "nohay"
+        // if (empty($escuelas)) {
+        //     $escuelas = [$request->inic_escuela_ejecutora];
+        // }
 
         $carreras = $request->input('carreras', []);
         $existentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)->get();
@@ -1179,10 +1199,19 @@ class IniciativasController extends Controller
                             'sede_codigo' => $sede,
                             'escu_codigo' => $escuela,
                             'care_codigo' => $carrera,
+                            'pain_ejecutora' => false
                         ]);
                     }
                 }
             }
+
+            array_push($pain, [
+                'inic_codigo' => $inic_codigo,
+                'sede_codigo' => $sede,
+                'escu_codigo' => $request->inic_escuela_ejecutora,
+                'care_codigo' => $carrera,
+                'pain_ejecutora' => true
+            ]);
         }
 
         $painCrear = ParticipantesInternos::insert($pain);
