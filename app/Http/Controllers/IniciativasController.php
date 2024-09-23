@@ -863,8 +863,6 @@ class IniciativasController extends Controller
         //id iniciativa
         $inic_codigo = $inicCrear;
         // insertar sedes escuelas y carreras a participantes internos
-
-        dd($escuelas);
         foreach ($sedes as $sede) {
             foreach ($escuelas as $escuela) {
                 foreach ($carreras as $carrera) {
