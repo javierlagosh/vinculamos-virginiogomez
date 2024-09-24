@@ -318,6 +318,7 @@ class IniciativasController extends Controller
             ->first();
         $participantes = ParticipantesInternos::join('sedes', 'sedes.sede_codigo', 'participantes_internos.sede_codigo')
             ->join('escuelas', 'escuelas.escu_codigo', 'participantes_internos.escu_codigo')
+            ->join('carreras', 'carreras.care_codigo', 'participantes_internos.care_codigo')
             ->select(
                 'participantes_internos.inic_codigo',
                 'participantes_internos.pain_docentes',
@@ -326,6 +327,7 @@ class IniciativasController extends Controller
                 'participantes_internos.pain_estudiantes_final',
                 'sedes.sede_nombre',
                 'escuelas.escu_nombre',
+                'carreras.care_nombre',
                 'participantes_internos.pain_funcionarios',
                 'participantes_internos.pain_funcionarios_final',
                 'participantes_internos.pain_titulados',
@@ -1125,10 +1127,12 @@ class IniciativasController extends Controller
         if (!$inicActualizar)
             return redirect()->back()->with('errorPaso1', 'Ocurrió un error durante la actualización de los datos de la iniciativa, intente más tarde.')->withInput();
 
-        // ParticipantesInternos::where('inic_codigo', $inic_codigo)->delete();
+        ParticipantesInternos::where('inic_codigo', $inic_codigo)->delete();
+        
         $pain = [];
         $sedes = $request->input('sedes', []);
         $escuelas = $request->input('escuelas', []);
+
         // //pushear el valor de la escuela ejecutora
         // array_push($escuelas, $request->inic_escuela_ejecutora);
         // // si está vacío, se asigna un arreglo con un valor "nohay"
@@ -1137,40 +1141,41 @@ class IniciativasController extends Controller
         // }
 
         $carreras = $request->input('carreras', []);
-        $existentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)->get();
+        // $existentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)->get();
 
-        foreach ($existentes as $existente) {
-            $sedeExistente = in_array($existente->sede_codigo, $sedes);
-            $escuelaExistente = in_array($existente->escu_codigo, $escuelas);
-            $carreraExistente = in_array($existente->care_codigo, $carreras);
+        // foreach ($existentes as $existente) {
+        //     $sedeExistente = in_array($existente->sede_codigo, $sedes);
+        //     $escuelaExistente = in_array($existente->escu_codigo, $escuelas);
+        //     $carreraExistente = in_array($existente->care_codigo, $carreras);
 
-            if (!$sedeExistente || !$escuelaExistente) {
-                ParticipantesInternos::where([
-                    'inic_codigo' => $inic_codigo,
-                    'sede_codigo' => $existente->sede_codigo,
-                    'escu_codigo' => $existente->escu_codigo,
-                    'care_codigo' => $existente->care_codigo
-                ])->delete();
-            }
-        }
+        //     if (!$sedeExistente || !$escuelaExistente) {
+        //         ParticipantesInternos::where([
+        //             'inic_codigo' => $inic_codigo,
+        //             'sede_codigo' => $existente->sede_codigo,
+        //             'escu_codigo' => $existente->escu_codigo,
+        //             'care_codigo' => $existente->care_codigoº1
+        //         ])->delete();
+        //     }
+        // }
 
-        $existentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)->get();
+        // $existentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)->get();
 
-        foreach ($existentes as $existente) {
-            $sedeExistente = in_array($existente->sede_codigo, $sedes);
-            $escuelaExistente = in_array($existente->escu_codigo, $escuelas);
-            $carreraExistente = in_array($existente->care_codigo, $carreras);
+        // foreach ($existentes as $existente) {
+        //     $sedeExistente = in_array($existente->sede_codigo, $sedes);
+        //     $escuelaExistente = in_array($existente->escu_codigo, $escuelas);
+        //     $carreraExistente = in_array($existente->care_codigo, $carreras);
 
-            if (!$sedeExistente || !$escuelaExistente || !$carreraExistente) {
-                ParticipantesInternos::where([
-                    'inic_codigo' => $inic_codigo,
-                    'sede_codigo' => $existente->sede_codigo,
-                    'escu_codigo' => $existente->escu_codigo,
-                    'care_codigo' => $existente->care_codigo
-                ])->delete();
-            }
-        }
+        //     if (!$sedeExistente || !$escuelaExistente || !$carreraExistente) {
+        //         ParticipantesInternos::where([
+        //             'inic_codigo' => $inic_codigo,
+        //             'sede_codigo' => $existente->sede_codigo,
+        //             'escu_codigo' => $existente->escu_codigo,
+        //             'care_codigo' => $existente->care_codigo
+        //         ])->delete();
+        //     }
+        // }
 
+        //Escuelas colaboradoras
         foreach ($sedes as $sede) {
             foreach ($escuelas as $escuela) {
                 foreach ($carreras as $carrera) {
@@ -1197,19 +1202,45 @@ class IniciativasController extends Controller
                             'sede_codigo' => $sede,
                             'escu_codigo' => $escuela,
                             'care_codigo' => $carrera,
+                            //Distintivo entre escuela ejecutora y escuelas colaboradoras...
                             'pain_ejecutora' => false
                         ]);
                     }
                 }
             }
+        }
 
-            array_push($pain, [
-                'inic_codigo' => $inic_codigo,
-                'sede_codigo' => $sede,
-                'escu_codigo' => $request->inic_escuela_ejecutora,
-                'care_codigo' => $carrera,
-                'pain_ejecutora' => true
-            ]);
+        //escuela ejecutora
+        foreach ($sedes as $sede) {
+            foreach ($carreras as $carrera) {
+                $sede_escuela = SedesEscuelas::where('sede_codigo', $sede)
+                    ->where('escu_codigo', $request->inic_escuela_ejecutora)
+                    ->exists();
+
+                $escuela_carrera = Carreras::where(
+                    'escu_codigo',
+                    $request->inic_escuela_ejecutora
+                )->where('care_codigo', $carrera)->exists();
+
+                $escuela_sede = ParticipantesInternos::where([
+                    'sede_codigo' => $sede,
+                    'escu_codigo' => $request->inic_escuela_ejecutora,
+                    'care_codigo' => $carrera,
+                    'inic_codigo' => $inic_codigo
+                ])->exists();
+
+                if ($sede_escuela && !$escuela_sede && $escuela_carrera) {
+                    //si la carrera no pertenece a la escuela no se inserta
+                    array_push($pain, [
+                        'inic_codigo' => $inic_codigo,
+                        'sede_codigo' => $sede,
+                        'escu_codigo' => $request->inic_escuela_ejecutora,
+                        'care_codigo' => $carrera,
+                        //Distintivo entre escuela ejecutora y escuelas colaboradoras...
+                        'pain_ejecutora' => true
+                    ]);
+                }
+            }
         }
 
         $painCrear = ParticipantesInternos::insert($pain);
@@ -1517,13 +1548,15 @@ class IniciativasController extends Controller
             ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
             ->join('iniciativas', 'iniciativas.inic_codigo', '=', 'participantes_internos.inic_codigo')
             ->where('iniciativas.inic_escuela_ejecutora', 'escuelas.escu_codigo')
+            
             ->select('escuelas.escu_codigo', 'escuelas.escu_nombre')
             ->distinct()->get();
 
         $sedes = ParticipantesInternos::where('inic_codigo', $inic_codigo)
             ->join('sedes', 'sedes.sede_codigo', '=', 'participantes_internos.sede_codigo')
             ->select('sedes.sede_codigo', 'sedes.sede_nombre')
-            ->distinct()->get();
+            ->distinct()
+            ->get();
 
         $subGrupos = SubGruposInteres::all();
         $gruposIni = IniciativasGrupos::select('grup_codigo')->where('inic_codigo', $inic_codigo)->get();
@@ -1533,7 +1566,10 @@ class IniciativasController extends Controller
         $carreras = ParticipantesInternos::where('inic_codigo', $inic_codigo)
             ->join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
             ->select('carreras.care_codigo', 'carreras.care_nombre')
-            ->distinct()->get();
+            ->where('participantes_internos.pain_ejecutora', true)
+            //->distinct()
+            ->get();
+        
         $grupos = GruposInteres::orderBy('grin_codigo', 'asc')->get();
         $subgrupos = SubGruposInteres::all();
 
@@ -1981,7 +2017,9 @@ class IniciativasController extends Controller
             ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
             ->join('sedes', 'sedes.sede_codigo', '=', 'participantes_internos.sede_codigo')
             ->where('inic_codigo', $request->inic_codigo)
+            ->where('pain_ejecutora', true)
             ->get();
+
         return json_encode(["estado" => true, "resultado" => $internos]);
     }
 
@@ -1992,7 +2030,8 @@ class IniciativasController extends Controller
                 'inic_codigo' => $request->inic_codigo,
                 'sede_codigo' => $request->sede_codigo,
                 'escu_codigo' => $request->escu_codigo,
-                'care_codigo' => $request->care_codigo
+                'care_codigo' => $request->care_codigo,
+                'pain_ejecutora' => true
             ]
         )->update([
                     'pain_docentes' => $request->pain_docentes,
@@ -2007,6 +2046,7 @@ class IniciativasController extends Controller
             ->join('sedes', 'sedes.sede_codigo', '=', 'participantes_internos.sede_codigo')
             ->where('inic_codigo', $request->inic_codigo)
             ->get();
+        
         return json_encode(["estado" => true, "resultado" => $internos, "internos" => $actualizarInternos]);
     }
 

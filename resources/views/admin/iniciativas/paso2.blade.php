@@ -1248,42 +1248,41 @@
         }
 
         function listarExterno() {
+            $.ajax({
+                type: 'GET',
+                url: window.location.origin + '/' + @json($role)+'/crear/iniciativa/listar-externos',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    inic_codigo: $('#idIniciativa').text()
+                },
 
-$.ajax({
-    type: 'GET',
-    url: window.location.origin + '/' + @json($role)+'/crear/iniciativa/listar-externos',
-    data: {
-        _token: '{{ csrf_token() }}',
-        inic_codigo: $('#idIniciativa').text()
-    },
+                success: function(resConsultar) {
+                    respuesta = JSON.parse(resConsultar);
+                    $('#body-tabla-externos').empty();
 
-    success: function(resConsultar) {
-        respuesta = JSON.parse(resConsultar);
-        $('#body-tabla-externos').empty();
+                    datosInternos = respuesta.resultado;
 
-        datosInternos = respuesta.resultado;
+                    console.log('externos');
+                    datosInternos.forEach(registro => {
 
-        console.log('externos');
-        datosInternos.forEach(registro => {
+                        fila = `<tr>
+                                <td>${registro.sugr_nombre}</td>
+                                <td>${registro.soco_nombre_socio}</td>
+                                <td>${registro.inpr_total}</td>
+                                <td>
+                                    <a href="javascript:void(0)" class="btn btn-icon btn-warning"
+                                    onclick="editarSede(${registro.sugr_codigo}, ${registro.soco_codigo}, ${registro.inpr_total})" data-toggle="tooltip"
+                                    data-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
+                                    <button type='button' onclick=eliminarExterno(${registro.inic_codigo},${registro.sugr_codigo},${registro.soco_codigo}) class= 'btn btn-icon btn-danger' ><i class="fas fa-trash"></i></button>
+                                </td>
+                                </tr>`
+                        $('#body-tabla-externos').append(fila)
+                    })
+                }
+            })
+        }
 
-            fila = `<tr>
-                    <td>${registro.sugr_nombre}</td>
-                    <td>${registro.soco_nombre_socio}</td>
-                    <td>${registro.inpr_total}</td>
-                    <td>
-                        <a href="javascript:void(0)" class="btn btn-icon btn-warning"
-                        onclick="editarSede(${registro.sugr_codigo}, ${registro.soco_codigo}, ${registro.inpr_total})" data-toggle="tooltip"
-                        data-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
-                        <button type='button' onclick=eliminarExterno(${registro.inic_codigo},${registro.sugr_codigo},${registro.soco_codigo}) class= 'btn btn-icon btn-danger' ><i class="fas fa-trash"></i></button>
-                    </td>
-                    </tr>`
-            $('#body-tabla-externos').append(fila)
-        })
-    }
-})
-}
-
-function editarSede(sugr_codigo, soco_nombre_socio, sugr_nombre, inpr_total) {
+        function editarSede(sugr_codigo, soco_nombre_socio, sugr_nombre, inpr_total) {
             // Llenar los campos del modal con los datos recibidos
             $('#soco_nombre_socio').val(soco_nombre_socio);
             $('#sugr_nombre').val(sugr_nombre);
