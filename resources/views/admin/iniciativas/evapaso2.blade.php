@@ -41,7 +41,7 @@
 
                             <div class="mx-5 mt-3 ">
                                 <h5>Paso 2: Propuesta de evaluación</h5>
-                                <p ><span style="color:red;">! </span>Instrucción: En este paso sólo debes validar la encuesta que enviaremos. Si estás de acuerdo da clic en "Paso Siguiente" al final de la página.</p>
+                                <p  ><span style="color:red;">! </span>Instrucción: Revisa que todos los campos de la encuesta estén completos, y da clic en "Paso Siguiente" al final de la página para avanzar. </p>
                             </div>
                             <hr style="
                             border: 0;
@@ -51,13 +51,13 @@
 
                             <div class="mx-5">
                                 Estimado/a, <br>
-                                                Le agradecemos haber participado en la actividad "{{$iniciativa[0]->inic_nombre}}" en el marco de las acciones de Vinculación con el medio que implementa el Instituto Profesional Virginio Goméz.
+                                                Le agradecemos haber participado en la actividad "{{$iniciativa[0]->inic_nombre}}" en el marco de las acciones de Vinculación con el medio que implementa CFT Coquimbo.
                             </div>
                             <div class="mx-5 mt-5">
                                 <form>
                                     <!-- Sección Objetivo -->
                                     <section class="mb-5">
-                                        <h4>Objetivo</h4>
+                                        <h5>Conocimiento y Cumplimiento</h5>
                                         <div class="mb-3">
                                             <label class="form-label font-weight-bold">¿Sabía usted que el propósito u objetivo de ésta actividad era?</label>
                                             <label class="form-label">{{ $iniciativa[0]->inic_descripcion }}</label>
@@ -101,7 +101,7 @@
 
                                     <!-- Sección Resultado -->
                                     <section class="mb-5">
-                                        <h4>Resultado</h4>
+                                        <h5>Resultados</h5>
                                         <div class="mb-3">
                                             <label class="form-label font-weight-bold">¿Sabía usted que el resultado de ésta actividad era?</label>
                                             @if (count($resultados) > 0)
@@ -155,7 +155,7 @@
 
                                     <!-- Sección Calidad -->
                                     <section class="mb-5">
-                                        <h4>Calidad</h4>
+                                        <h5>Calidad</h5>
                                         <p class="mb-3">A continuación te pedimos que evalúes de 0 a 3 la calidad en la ejecución de la actividad, según los compromisos asumidos por la institución, en que:</p>
                                         <ul class="mb-3">
                                             <li>0 = no cumple</li>
@@ -163,7 +163,7 @@
                                             <li>2 = cumple medianamente</li>
                                             <li>3 = cumple totalmente</li>
                                         </ul>
-                                        <p class="mb-3">Si considera que algunos ítemes no estaban comprometidos, marque No Aplica.</p>
+                                        {{-- <p class="mb-3">Si considera que algunos ítemes no estaban comprometidos, marque No Aplica.</p> --}}
                                         <p class="mb-3">Con qué nota evalúa usted la calidad en la ejecución de la actividad, en las siguientes dimensiones:</p>
 
                                         <div class="mb-3">
@@ -185,10 +185,10 @@
                                                     <input class="form-check-input" type="radio" name="calidad_plazos" id="plazos3" value="3">
                                                     <label class="form-check-label" for="plazos3">3</label>
                                                 </div>
-                                                <div class="form-check">
+                                                {{-- <div class="form-check">
                                                     <input class="form-check-input" type="radio" name="calidad_plazos" id="plazosNA" value="NA">
                                                     <label class="form-check-label" for="plazosNA">No aplica</label>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
 
@@ -211,10 +211,10 @@
                                                     <input class="form-check-input" type="radio" name="calidad_equipamiento" id="equipamiento3" value="3">
                                                     <label class="form-check-label" for="equipamiento3">3</label>
                                                 </div>
-                                                <div class="form-check">
+                                                {{-- <div class="form-check">
                                                     <input class="form-check-input" type="radio" name="calidad_equipamiento" id="equipamientoNA" value="NA">
                                                     <label class="form-check-label" for="equipamientoNA">No aplica</label>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
 
@@ -237,10 +237,10 @@
                                                     <input class="form-check-input" type="radio" name="calidad_logistica" id="logistica3" value="3">
                                                     <label class="form-check-label" for="logistica3">3</label>
                                                 </div>
-                                                <div class="form-check">
+                                                {{-- <div class="form-check">
                                                     <input class="form-check-input" type="radio" name="calidad_logistica" id="logisticaNA" value="NA">
                                                     <label class="form-check-label" for="logisticaNA">No aplica</label>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
 
@@ -263,10 +263,10 @@
                                                     <input class="form-check-input" type="radio" name="calidad_presentaciones" id="presentaciones3" value="3">
                                                     <label class="form-check-label" for="presentaciones3">3</label>
                                                 </div>
-                                                <div class="form-check">
+                                                {{-- <div class="form-check">
                                                     <input class="form-check-input" type="radio" name="calidad_presentaciones" id="presentacionesNA" value="NA">
                                                     <label class="form-check-label" for="presentacionesNA">No aplica</label>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </section>
@@ -274,7 +274,7 @@
             @if($invitado == 0)
             <section class="mb-5">
 
-                <h4>Competencia de estudiantes</h4>
+                <h5>Competencia de estudiantes</h5>
                 <p class="mb-3">Ahora, siguiendo la misma escala de 0 a 3, te pedimos que evalúes si te sirvió la actividad para desarrollar algunas de las siguientes dimensiones de las competencias comprometidas.</p>
                 <ul class="mb-3">
                     <li>0 = no cumple</li>

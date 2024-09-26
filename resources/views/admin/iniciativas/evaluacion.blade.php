@@ -19,6 +19,35 @@
 @extends('admin.panel')
 
 @section('contenido')
+<div class="modal fade" id="modalEliminaEvaluacion" tabindex="-1" role="dialog" aria-labelledby="modalEliminar"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <form action="{{ route('admin.eliminar.todas.las.evaluaciones') }} " method="POST">
+                    @method('DELETE')
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalEliminar">Cambiando modalidad de evaluación</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <i class="fas fa-ban text-danger" style="font-size: 50px; color"></i>
+                        <h6 class="mt-2">Para cambiar de modalidad de evaluación, todas las evaluaciones relacionadas a la iniciativa <span style="color:black;">dejarán de existir dentro del sistema</span>. <br> ¿Desea continuar de
+                            todos
+                            modos?</h6>
+                        <input  id="inic_codigo" hidden name="inic_codigo" value="">
+                    </div>
+                    <div class="modal-footer bg-whitesmoke br">
+                        <button type="submit" class="btn btn-primary">Continuar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="section">
         <div class="section-body">
             <div class="row">
@@ -137,192 +166,520 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <h5>Paso 1: Selecciona el tipo de evaluador</h5>
-                            <input type="hidden" name="iniciativa_codigo" id="iniciativa_codigo"
-                                value="{{ $iniciativa[0]->inic_codigo }}">
-                        </div>
-                        <div class="d-flex justify-content-center mb-5">
-                            <form method="POST" action="{{route('admin.crear.evaluacion')}}">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="tipo">
-                                        <strong>Tipo de evaluador:</strong>
-                                    </label><br>
-                                    <div class="w-100">
-                                        <input type="text" hidden name="inic_codigo" id="inic_codigo"
-                                        value="{{ $iniciativa[0]->inic_codigo }}">
-                                        <select class="form-control" name="tipo" id="tipo" onchange="cambioTipo();" required>
-                                            <option value="" disabled selected>Seleccione...</option>
-                                            <option value="0">Evaluador interno - Estudiante</option>
-                                            <option value="1">Evaluador interno - Docente/Directivo</option>
-                                            <option value="2">Evaluador externo</option>
-                                            {{-- <option value="4">Limpiar</option> --}}
-                                        </select>
-                                    </div>
+                            @if ($evaluacionManualPredeterminada == 0)
+                            <div class="row">
+                                <div class="col-xl-6 col-md-6 col-lg-6">
+                                    <h5>Ingresar evaluación </h5>
+
+                                    <table class="table table-bordered text-center">
+                                        <thead>
+                                            <tr>
+                                                <th>Evaluador Interno</th>
+                                                <th>Puntaje</th>
+                                                <th>Resultado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="width:33%;">Estudiantes</td>
+                                                <td>
+                                                    <form action="{{route('admin.guardar.evaluacion.manual')}}" method="post">
+                                                        @method('POST')
+                                                        @csrf
+                                                        <input type="number" hidden name="inic_codigo" value="{{$iniciativa[0]->inic_codigo}}">
+                                                        <input type="number" hidden name="eval_evaluador" value="0">
+                                                        <div class="d-flex flex-column flex-md-row w-100">
+                                                            <input id="evaestudiantes" type="number" value="{{$evaluacion_estudiantes->eval_puntaje  ?? 0}}" name="puntaje" min="0" max="100" class="form-control mr-md-2 mb-2 mb-md-0" style="flex: 0 0 80%;" placeholder="Ingresa Puntaje">
+                                                            <button type="submit" class="btn btn-primary" style="flex: 0 0 20%;"><i class="fas fa-save"></i></button>
+                                                          </div>
+
+                                                    </form>
+                                                </td>
+                                                <td rowspan="3" class="align-middle">Resultados Internos
+                                                    <br>
+                                                    <h3 id="resultados-internos">0</h3>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Docentes</td>
+                                                <td>
+                                                    <form action="{{route('admin.guardar.evaluacion.manual')}}" method="post">
+                                                        @method('POST')
+                                                        @csrf
+                                                        <input type="number" hidden name="inic_codigo" value="{{$iniciativa[0]->inic_codigo}}">
+                                                        <input type="number" hidden name="eval_evaluador" value="1">
+                                                        <div class="d-flex flex-column flex-md-row w-100">
+                                                            <input id="evadocentes" type="number" value="{{$evaluacion_docentes->eval_puntaje  ?? 0}}" name="puntaje" min="0" max="100" class="form-control mr-md-2 mb-2 mb-md-0" style="flex: 0 0 80%;" placeholder="Ingresa Puntaje">
+                                                            <button type="submit" class="btn btn-primary" style="flex: 0 0 20%;"><i class="fas fa-save"></i></button>
+                                                          </div>
+
+                                                    </form>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Directivos/Funcionarios</td>
+                                                <td>
+                                                    <form action="{{route('admin.guardar.evaluacion.manual')}}" method="post">
+                                                        @method('POST')
+                                                        @csrf
+                                                        <input type="number" hidden name="inic_codigo" value="{{$iniciativa[0]->inic_codigo}}">
+                                                        <input type="number" hidden name="eval_evaluador" value="12">
+                                                        <div class="d-flex flex-column flex-md-row w-100">
+                                                            <input id="evadirectivos" type="number" value="{{$evaluacion_directivos->eval_puntaje  ?? 0}}" name="puntaje" min="0" max="100" class="form-control mr-md-2 mb-2 mb-md-0" style="flex: 0 0 80%;" placeholder="Ingresa Puntaje">
+                                                            <button type="submit" class="btn btn-primary" style="flex: 0 0 20%;"><i class="fas fa-save"></i></button>
+                                                          </div>
+
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-bordered text-center">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:33%;">Evaluador Externo</th>
+                                                <th>Puntaje</th>
+                                                <th>Resultado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Beneficiarios</td>
+                                                <td>
+                                                    <form action="{{route('admin.guardar.evaluacion.manual')}}" method="post">
+                                                        @method('POST')
+                                                        @csrf
+                                                        <input type="number" hidden name="inic_codigo" value="{{$iniciativa[0]->inic_codigo}}">
+                                                        <input type="number" hidden name="eval_evaluador" value="13">
+                                                        <div class="d-flex flex-column flex-md-row w-100">
+                                                            <input id="evabeneficiarios" type="number" value="{{$evaluacion_beneficiarios->eval_puntaje  ?? 0}}" name="puntaje" min="0" max="100" class="form-control mr-md-2 mb-2 mb-md-0" style="flex: 0 0 80%;" placeholder="Ingresa Puntaje">
+                                                            <button type="submit" class="btn btn-primary" style="flex: 0 0 20%;"><i class="fas fa-save"></i></button>
+                                                          </div>
+
+                                                    </form>
+                                                </td>
+                                                <td rowspan="3" class="align-middle">Resultados Externos
+                                                    <br>
+                                                    <h3 id="resultados-externos">0</h3>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Socios de campo</td>
+                                                <td>
+                                                    <form action="{{route('admin.guardar.evaluacion.manual')}}" method="post">
+                                                        @method('POST')
+                                                        @csrf
+                                                        <input type="number" hidden name="inic_codigo" value="{{$iniciativa[0]->inic_codigo}}">
+                                                        <input type="number" hidden name="eval_evaluador" value="14">
+                                                        <div class="d-flex flex-column flex-md-row w-100">
+                                                            <input id="evasocios" type="number" value="{{$evaluacion_socios->eval_puntaje  ?? 0}}" name="puntaje" min="0" max="100" class="form-control mr-md-2 mb-2 mb-md-0" style="flex: 0 0 80%;" placeholder="Ingresa Puntaje">
+                                                            <button type="submit" class="btn btn-primary" style="flex: 0 0 20%;"><i class="fas fa-save"></i></button>
+                                                          </div>
+
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <script>
+                                        function sumarValores() {
+                                            // Obtener los valores de los inputs
+                                            const evaEstudiantes = parseFloat(document.getElementById('evaestudiantes').value) || 0;
+                                            const evaDocentes = parseFloat(document.getElementById('evadocentes').value) || 0;
+                                            const evaDirectivos = parseFloat(document.getElementById('evadirectivos').value) || 0;
+
+                                            const evabeneficiarios = parseFloat(document.getElementById('evabeneficiarios').value) || 0;
+                                            const evasocios = parseFloat(document.getElementById('evasocios').value) || 0;
+
+                                            // Contadores para valores válidos
+                                            let contadorInternos = 0;
+                                            let contadorExternos = 0;
+
+                                            // Sumar los valores solo si son mayores que 0 y contar cuántos son válidos
+                                            const sumaTotalInternos = (evaEstudiantes > 0 ? (contadorInternos++, evaEstudiantes) : 0) +
+                                                                    (evaDocentes > 0 ? (contadorInternos++, evaDocentes) : 0) +
+                                                                    (evaDirectivos > 0 ? (contadorInternos++, evaDirectivos) : 0);
+
+                                            const sumaTotalExternos = (evabeneficiarios > 0 ? (contadorExternos++, evabeneficiarios) : 0) +
+                                                                    (evasocios > 0 ? (contadorExternos++, evasocios) : 0);
+
+                                            // Evitar divisiones por cero
+                                            const PromedioInternos = contadorInternos > 0 ? sumaTotalInternos / contadorInternos : 0;
+                                            const PromedioExternos = contadorExternos > 0 ? sumaTotalExternos / contadorExternos : 0;
+
+                                            // Verificar si los valores no son válidos (NaN) o si están fuera de rango
+                                            if (isNaN(PromedioInternos)) {
+                                                document.getElementById('resultados-internos').innerText = 0;
+                                                return;
+                                            }
+                                            if (isNaN(PromedioExternos)) {
+                                                document.getElementById('resultados-externos').innerText = 0;
+                                                return;
+                                            }
+
+                                            // Limitar el resultado máximo a 100
+                                            const PromedioInternosAplicado = Math.min(PromedioInternos, 100).toFixed(2);
+                                            const PromedioExternosAplicado = Math.min(PromedioExternos, 100).toFixed(2);
+
+                                            // Actualizar el resultado en el h3
+                                            document.getElementById('resultados-internos').innerText = PromedioInternosAplicado;
+                                            document.getElementById('resultados-externos').innerText = PromedioExternosAplicado;
+                                        }
+
+                                        // Llamar a la función cuando la página se carga
+                                        window.onload = sumarValores;
+
+                                    </script>
+
                                 </div>
-                                <button type="submit" id="botonEnviar" class="btn btn-primary w-100">
-                                    Paso Siguiente &nbsp;<i class="fas fa-chevron-right"></i>
-                                </button>
-                            </form>
+                                <div class="col-xl-6 col-md-6 col-lg-6">
 
+                                    <h5>Crear evaluación</h5>
+                                    <table class="table table-bordered text-center">
+                                        <thead>
+                                            <tr>
+                                                <th>Seleccione un tipo de evaluador</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <form method="POST" action="{{route('admin.crear.evaluacion')}}">
+                                                        @method('POST')
+                                                        @csrf
+                                                        <div class="form-group">
 
+                                                            <div class="w-100 mt-2">
+                                                                <input type="text" hidden name="inic_codigo" id="inic_codigo"
+                                                                value="{{ $iniciativa[0]->inic_codigo }}">
+                                                                <select class="form-control" name="tipo" id="tipo" onchange="cambiodeTipo();" required>
+                                                                    <option value="" disabled selected>Seleccione...</option>
+                                                                    <option value="" disabled>--- Evaluador Interno ---</option>
+                                                                    <option value="0">Evaluador interno - Estudiante</option>
+                                                                    <option value="1">Evaluador interno - Docente</option>
+                                                                    <option value="12">Evaluador interno - Directivo</option>
+                                                                    <option value="" disabled>--- Evaluador Externo ---</option>
+                                                                    <option value="13">Evaluador Externo - Beneficiario</option>
+                                                                    <option value="14">Evaluador Externo - Socio comunitario</option>
 
-                            <script>
-                                //funcion donde si cambia el tipo de evaluador se muestra el boton de enviar
-                                onchange = function() {
-                                    document.getElementById('botonEnviar').hidden = false;
-                                }
-
-                            </script>
-                        </div>
-
-                        @if (count($evaluaciones) > 0)
-                        <div class="card-body">
-                            <h4>Histórico</h4>
-                            <table class="table">
-                                <thead>
-                                    <th>ID</th>
-                                    <th>Evaluador</th>
-                                    {{-- <th>Fecha</th>
-                                    <th>Evaluación</th>
-                                    <th>Estatus</th> --}}
-                                    <th>Ver resultados</th>
-                                    <th>Agregar evaluadores</th>
-
-                                </thead>
-                                <tbody>
-                                    @if (count($evatipoestudiantes) > 0)
-                                    <tr>
-                                        <td>0</td>
-                                        <td>Evaluador interno - Estudiantes</td>
-                                        <td><a href="{{ route('admin.ver.evaluacion', [$iniciativa[0]->inic_codigo, 0]) }}"
-                                            class="btn btn-primary mr-1 waves-effect icon-left" type="button">
-                                             <i class="fas fa-eye"></i> Ver resultados de la evaluación </a></td>
-                                        <td><a href="{{ route('admin.iniciativa.evaluar.invitar', [$iniciativa[0]->inic_codigo, 0]) }}"
-                                            class="btn btn-primary mr-1 waves-effect icon-left" type="button">
-                                             <i class="fas fa-users"></i> Agregar </a></td>
-                                    </tr>
-                                    @endif
-
-                                    @if (count($evatipodocentes) > 0 )
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Evaluador interno - Docentes/Directivos</td>
-                                        <td><a href="{{ route('admin.ver.evaluacion', [$iniciativa[0]->inic_codigo, 1]) }}"
-                                            class="btn btn-primary mr-1 waves-effect icon-left" type="button">
-                                             <i class="fas fa-eye"></i> Ver resultados de la evaluación </a></td>
-                                        <td><a href="{{ route('admin.iniciativa.evaluar.invitar', [$iniciativa[0]->inic_codigo, 1]) }}"
-                                            class="btn btn-primary mr-1 waves-effect icon-left" type="button">
-                                             <i class="fas fa-users"></i> Agregar </a></td>
-                                    </tr>
-                                    @endif
-
-                                    @if (count($evatipoexternos) > 0)
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Evaluador externo</td>
-                                        <td><a href="{{ route('admin.ver.evaluacion', [$iniciativa[0]->inic_codigo, 2]) }}"
-                                            class="btn btn-primary mr-1 waves-effect icon-left" type="button">
-                                             <i class="fas fa-eye"></i> Ver resultados de la evaluación </a></td>
-                                        <td><a href="{{ route('admin.iniciativa.evaluar.invitar', [$iniciativa[0]->inic_codigo, 2]) }}"
-                                            class="btn btn-primary mr-1 waves-effect icon-left" type="button">
-                                             <i class="fas fa-users"></i> Agregar </a></td>
-                                    </tr>
-                                    @endif
-
-
-
-
-                                </tbody>
-                            </table>
-                        </div>
-                        @endif
-
-
-
-
-
-
-
-                        
-
-
-
-
-
-
-
-
-
-
-
-
-                        </div>
-
-                        <div class="card">
-
-                            <div class="card-body">
-                                <h5>Ingresar evaluación Manualmente</h5>
-                                <div class="card-content">
-                                    <h4 class="card-title mt-10">Ingresar evaluación con manualmente</h4>
-                                    <span>Tipo de Evaluación</span>
-                                    <select class="form-control select2" name="ingresar" id="ingresar"
-                                        onchange="ingresarEVAL()">
-                                        <option value="" disabled selected>Seleccione...</option>
-                                        <option value="2">Evaluación interno</option>
-                                        <option value="3">Evaluación externa</option>
-                                    </select>
-                                </div>
-
-                                <div id="AllTable" style="display: none">
-                                    <div class="card-body">
-
-                                        <div class="row mt-3">
-                                            <div class="col-3"></div>
-                                            <div class="col-6">
-                                                <div class="card">
-                                                    <div class="card-body p-0">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-bordered table-md">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th scope="col">Item</th>
-                                                                        <th scope="col">Año de la Iniciativa</th>
-                                                                        <th scope="col">Puntaje</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody id="body-tabla-participantes">
-                                                                    <tr>
-                                                                        <td name="Eval_Interna">Evaluación Interna</td>
-                                                                        <td name="Eval_Externa">Evaluación Externa</td>
-                                                                        <td>{{ $iniciativa[0]->inic_anho }}</td>
-                                                                        <td>
-                                                                            <input type="number" class="form-control"
-                                                                                id="puntaje_obtenido" name="puntaje_obtenido"
-                                                                                value="" min="0" max="100">
-                                                                        </td>
-                                                                    </tr>
-
-                                                                </tbody>
-                                                            </table>
+                                                                </select>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-12 col-md-12 col-lg-12 text-right">
-                                                        <input type="hidden" id="inic_codigo" name="inic_codigo"
-                                                            value="">
-                                                        <button type="submit" class="btn btn-primary mr-1 waves-effect"
-                                                            onclick="enviarEval()"><i class="fas fa-save"></i> Guardar</button>
-                                                    </div>
-                                                </div>
+                                                        <button type="submit" id="botonEnviar" class="btn btn-primary w-100">
+                                                            Paso Siguiente &nbsp;<i class="fas fa-chevron-right"></i>
+                                                        </button>
+
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+
+                                        <script>
+                                            function cambiodeTipo(){
+                                                var tipo = document.getElementById('tipo').value;
+                                                if(tipo == 0){
+                                                    document.getElementById('verResultadosButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluacion/resultados/0';
+                                                    document.getElementById('agregarParticipantesButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluar/invitar/0';
+                                                }else if(tipo == 1){
+                                                    document.getElementById('verResultadosButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluacion/resultados/1';
+                                                    document.getElementById('agregarParticipantesButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluar/invitar/1';
+                                                }else if(tipo == 12){
+                                                    document.getElementById('verResultadosButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluacion/resultados/12';
+                                                    document.getElementById('agregarParticipantesButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluar/invitar/12';
+                                                }else if(tipo == 13){
+                                                    document.getElementById('verResultadosButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluacion/resultados/13';
+                                                    document.getElementById('agregarParticipantesButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluar/invitar/13';
+                                                }else if(tipo == 14){
+                                                    document.getElementById('verResultadosButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluacion/resultados/14';
+                                                    document.getElementById('agregarParticipantesButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluar/invitar/14';
+                                                }
+                                            }
+                                        </script>
+
+
+
+                                        <script>
+                                            //funcion donde si cambia el tipo de evaluador se muestra el boton de enviar
+                                            onchange = function() {
+                                                document.getElementById('botonEnviar').hidden = false;
+                                            }
+
+                                        </script>
+
+
+                                </div>
+                            </div>
+
+                            @elseif($evaluacionManualPredeterminada == 1)
+                            <div class="d-flex justify-content-center">
+                            <div class="col-xl-6 col-md-6 col-lg-6">
+                                <h5>Ingresar evaluación </h5>
+
+                                <table class="table table-bordered text-center">
+                                    <thead>
+                                        <tr>
+                                            <th>Evaluador Interno</th>
+                                            <th>Puntaje</th>
+                                            <th>Resultado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="width:33%;">Estudiantes</td>
+                                            <td>
+                                                <form action="{{route('admin.guardar.evaluacion.manual')}}" method="post">
+                                                    @method('POST')
+                                                    @csrf
+                                                    <input type="number" hidden name="inic_codigo" value="{{$iniciativa[0]->inic_codigo}}">
+                                                    <input type="number" hidden name="eval_evaluador" value="0">
+                                                    <div class="d-flex flex-column flex-md-row w-100">
+                                                        <input id="evaestudiantes" type="number" value="{{$evaluacion_estudiantes->eval_puntaje  ?? 0}}" name="puntaje" min="0" max="100" class="form-control mr-md-2 mb-2 mb-md-0" style="flex: 0 0 80%;" placeholder="Ingresa Puntaje">
+                                                        <button type="submit" class="btn btn-primary" style="flex: 0 0 20%;"><i class="fas fa-save"></i></button>
+                                                      </div>
+
+                                                </form>
+                                            </td>
+                                            <td rowspan="3" class="align-middle">Resultados Internos
+                                                <br>
+                                                <h3 id="resultados-internos">0</h3>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Docentes</td>
+                                            <td>
+                                                <form action="{{route('admin.guardar.evaluacion.manual')}}" method="post">
+                                                    @method('POST')
+                                                    @csrf
+                                                    <input type="number" hidden name="inic_codigo" value="{{$iniciativa[0]->inic_codigo}}">
+                                                    <input type="number" hidden name="eval_evaluador" value="1">
+                                                    <div class="d-flex flex-column flex-md-row w-100">
+                                                        <input id="evadocentes" type="number" value="{{$evaluacion_docentes->eval_puntaje  ?? 0}}" name="puntaje" min="0" max="100" class="form-control mr-md-2 mb-2 mb-md-0" style="flex: 0 0 80%;" placeholder="Ingresa Puntaje">
+                                                        <button type="submit" class="btn btn-primary" style="flex: 0 0 20%;"><i class="fas fa-save"></i></button>
+                                                      </div>
+
+                                                </form>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Directivos/Funcionarios</td>
+                                            <td>
+                                                <form action="{{route('admin.guardar.evaluacion.manual')}}" method="post">
+                                                    @method('POST')
+                                                    @csrf
+                                                    <input type="number" hidden name="inic_codigo" value="{{$iniciativa[0]->inic_codigo}}">
+                                                    <input type="number" hidden name="eval_evaluador" value="12">
+                                                    <div class="d-flex flex-column flex-md-row w-100">
+                                                        <input id="evadirectivos" type="number" value="{{$evaluacion_directivos->eval_puntaje  ?? 0}}" name="puntaje" min="0" max="100" class="form-control mr-md-2 mb-2 mb-md-0" style="flex: 0 0 80%;" placeholder="Ingresa Puntaje">
+                                                        <button type="submit" class="btn btn-primary" style="flex: 0 0 20%;"><i class="fas fa-save"></i></button>
+                                                      </div>
+
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-bordered text-center">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:33%;">Evaluador Externo</th>
+                                            <th>Puntaje</th>
+                                            <th>Resultado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Beneficiarios</td>
+                                            <td>
+                                                <form action="{{route('admin.guardar.evaluacion.manual')}}" method="post">
+                                                    @method('POST')
+                                                    @csrf
+                                                    <input type="number" hidden name="inic_codigo" value="{{$iniciativa[0]->inic_codigo}}">
+                                                    <input type="number" hidden name="eval_evaluador" value="13">
+                                                    <div class="d-flex flex-column flex-md-row w-100">
+                                                        <input id="evabeneficiarios" type="number" value="{{$evaluacion_beneficiarios->eval_puntaje  ?? 0}}" name="puntaje" min="0" max="100" class="form-control mr-md-2 mb-2 mb-md-0" style="flex: 0 0 80%;" placeholder="Ingresa Puntaje">
+                                                        <button type="submit" class="btn btn-primary" style="flex: 0 0 20%;"><i class="fas fa-save"></i></button>
+                                                      </div>
+
+                                                </form>
+                                            </td>
+                                            <td rowspan="3" class="align-middle">Resultados Externos
+                                                <br>
+                                                <h3 id="resultados-externos">0</h3>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Socios de campo</td>
+                                            <td>
+                                                <form action="{{route('admin.guardar.evaluacion.manual')}}" method="post">
+                                                    @method('POST')
+                                                    @csrf
+                                                    <input type="number" hidden name="inic_codigo" value="{{$iniciativa[0]->inic_codigo}}">
+                                                    <input type="number" hidden name="eval_evaluador" value="14">
+                                                    <div class="d-flex flex-column flex-md-row w-100">
+                                                        <input id="evasocios" type="number" value="{{$evaluacion_socios->eval_puntaje  ?? 0}}" name="puntaje" min="0" max="100" class="form-control mr-md-2 mb-2 mb-md-0" style="flex: 0 0 80%;" placeholder="Ingresa Puntaje">
+                                                        <button type="submit" class="btn btn-primary" style="flex: 0 0 20%;"><i class="fas fa-save"></i></button>
+                                                      </div>
+
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <script>
+                                    function sumarValores() {
+                                        // Obtener los valores de los inputs
+                                        const evaEstudiantes = parseFloat(document.getElementById('evaestudiantes').value) || 0;
+                                        const evaDocentes = parseFloat(document.getElementById('evadocentes').value) || 0;
+                                        const evaDirectivos = parseFloat(document.getElementById('evadirectivos').value) || 0;
+
+                                        const evabeneficiarios = parseFloat(document.getElementById('evabeneficiarios').value) || 0;
+                                        const evasocios = parseFloat(document.getElementById('evasocios').value) || 0;
+
+                                        // Contadores para valores válidos
+                                        let contadorInternos = 0;
+                                        let contadorExternos = 0;
+
+                                        // Sumar los valores solo si son mayores que 0 y contar cuántos son válidos
+                                        const sumaTotalInternos = (evaEstudiantes > 0 ? (contadorInternos++, evaEstudiantes) : 0) +
+                                                                (evaDocentes > 0 ? (contadorInternos++, evaDocentes) : 0) +
+                                                                (evaDirectivos > 0 ? (contadorInternos++, evaDirectivos) : 0);
+
+                                        const sumaTotalExternos = (evabeneficiarios > 0 ? (contadorExternos++, evabeneficiarios) : 0) +
+                                                                (evasocios > 0 ? (contadorExternos++, evasocios) : 0);
+
+                                        // Evitar divisiones por cero
+                                        const PromedioInternos = contadorInternos > 0 ? sumaTotalInternos / contadorInternos : 0;
+                                        const PromedioExternos = contadorExternos > 0 ? sumaTotalExternos / contadorExternos : 0;
+
+                                        // Verificar si los valores no son válidos (NaN) o si están fuera de rango
+                                        if (isNaN(PromedioInternos)) {
+                                            document.getElementById('resultados-internos').innerText = 0;
+                                            return;
+                                        }
+                                        if (isNaN(PromedioExternos)) {
+                                            document.getElementById('resultados-externos').innerText = 0;
+                                            return;
+                                        }
+
+                                        // Limitar el resultado máximo a 100
+                                        const PromedioInternosAplicado = Math.min(PromedioInternos, 100).toFixed(2);
+                                        const PromedioExternosAplicado = Math.min(PromedioExternos, 100).toFixed(2);
+
+                                        // Actualizar el resultado en el h3
+                                        document.getElementById('resultados-internos').innerText = PromedioInternosAplicado;
+                                        document.getElementById('resultados-externos').innerText = PromedioExternosAplicado;
+                                    }
+
+                                    // Llamar a la función cuando la página se carga
+                                    window.onload = sumarValores;
+
+                                </script>
+
+                            <div class="d-flex justify-content-center mb-5">
+                                <button class="btn btn-danger" onclick="eliminarEvaluaciones({{$iniciativa[0]->inic_codigo}});"> Cambiar tipo de evaluación</button>
+                            </div>
+                            </div>
+                            </div>
+
+                            @elseif($evaluacionManualPredeterminada == 2)
+                            <div class="col-xl-12 col-md-12 col-lg-12">
+                                <h5>Crear evaluación</h5>
+                                <div class="d-flex justify-content-center mb-3">
+                                    <form method="POST" action="{{route('admin.crear.evaluacion')}}">
+                                        @method('POST')
+                                        @csrf
+                                        <div class="form-group">
+                                            <label for="tipo">
+                                                <strong>Seleccione un tipo de evaluador:</strong>
+                                            </label>
+                                            <div class="w-100">
+                                                <input type="text" hidden name="inic_codigo" id="inic_codigo"
+                                                value="{{ $iniciativa[0]->inic_codigo }}">
+                                                <select class="form-control" name="tipo" id="tipo" onchange="cambiodeTipo();" required>
+                                                    <option value="" disabled selected>Seleccione...</option>
+                                                    <option value="" disabled>--- Evaluador Interno ---</option>
+                                                    <option value="0">Evaluador interno - Estudiante</option>
+                                                    <option value="1">Evaluador interno - Docente</option>
+                                                    <option value="12">Evaluador interno - Directivo</option>
+                                                    <option value="" disabled>--- Evaluador Externo ---</option>
+                                                    <option value="13">Evaluador Externo - Beneficiario</option>
+                                                    <option value="14">Evaluador Externo - Socio comunitario</option>
+
+                                                </select>
                                             </div>
                                         </div>
-                                    </div>
+                                        <button type="submit" id="botonEnviar" class="btn btn-primary w-100">
+                                            Paso Siguiente &nbsp;<i class="fas fa-chevron-right"></i>
+                                        </button>
+                                        <div>
+                                            <a href="" hidden id="verResultadosButton" class="btn btn-primary w-100 mt-2">Ver resultados</a>
+                                            <a href="" hidden id="agregarParticipantesButton" class="btn btn-primary w-100 mt-2">Agregar participantes</a>
+
+                                        </div>
+                                    </form>
+
+
+                                    <script>
+                                        function cambiodeTipo(){
+                                            var tipo = document.getElementById('tipo').value;
+                                            if(tipo == 0){
+                                                //mostrar botones
+                                                document.getElementById('verResultadosButton').hidden = false;
+                                                document.getElementById('agregarParticipantesButton').hidden = false;
+                                                document.getElementById('verResultadosButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluacion/resultados/0';
+                                                document.getElementById('agregarParticipantesButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluar/invitar/0';
+                                            }else if(tipo == 1){
+                                                document.getElementById('verResultadosButton').hidden = false;
+                                                document.getElementById('agregarParticipantesButton').hidden = false;
+                                                document.getElementById('verResultadosButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluacion/resultados/1';
+                                                document.getElementById('agregarParticipantesButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluar/invitar/1';
+                                            }else if(tipo == 12){
+                                                document.getElementById('verResultadosButton').hidden = false;
+                                                document.getElementById('agregarParticipantesButton').hidden = false;
+                                                document.getElementById('verResultadosButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluacion/resultados/12';
+                                                document.getElementById('agregarParticipantesButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluar/invitar/12';
+                                            }else if(tipo == 13){
+                                                document.getElementById('verResultadosButton').hidden = false;
+                                                document.getElementById('agregarParticipantesButton').hidden = false;
+                                                document.getElementById('verResultadosButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluacion/resultados/13';
+                                                document.getElementById('agregarParticipantesButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluar/invitar/13';
+                                            }else if(tipo == 14){
+                                                document.getElementById('verResultadosButton').hidden = false;
+                                                document.getElementById('agregarParticipantesButton').hidden = false;
+                                                document.getElementById('verResultadosButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluacion/resultados/14';
+                                                document.getElementById('agregarParticipantesButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluar/invitar/14';
+                                            }
+                                        }
+                                    </script>
+
+
+
+                                    <script>
+                                        //funcion donde si cambia el tipo de evaluador se muestra el boton de enviar
+                                        onchange = function() {
+                                            document.getElementById('botonEnviar').hidden = false;
+                                        }
+
+                                    </script>
+
+
                                 </div>
 
+                                <div class="d-flex justify-content-center mb-5">
+                                    <button class="btn btn-danger" onclick="eliminarEvaluaciones({{$iniciativa[0]->inic_codigo}});">Cambiar tipo de evaluación</button>
+                                </div>
                             </div>
-                        </div>
+
+                            @endif
+
+
 
 
                         </div>
@@ -330,7 +687,6 @@
                 </div>
             </div>
         </div>
-        
         <script>
             function cambioTipo() {
                 var tipo = document.getElementById('tipo').value;
@@ -378,352 +734,14 @@
                 console.log('inic_codigo: {{$iniciativa[0]->inic_codigo}}' );
                 window.location.href = '/admin/iniciativas/'+{{$iniciativa[0]->inic_codigo}}+'/evaluacion/resultados/'+evaluador;
             }
+
+            function eliminarEvaluaciones(inic_codigo) {
+            $('#inic_codigo').val(inic_codigo);
+            $('#modalEliminaEvaluacion').modal('show');
+        }
         </script>
 
 
-<div class="modal fade" id="modalEliminaEvaluacion" tabindex="-1" role="dialog" aria-labelledby="modalEliminar"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <form action="{{ route('admin.eliminar.evaluacion.manual') }}" method="POST">
-                    @method('DELETE')
-                    @csrf
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalEliminar">Eliminar Evaluación</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body text-center">
-                        <i class="fas fa-ban text-danger" style="font-size: 50px; color"></i>
-                        <h6 class="mt-2">La evaluación dejará de existir dentro del sistema. <br> ¿Desea continuar de
-                            todos modos? <br> Considere que su decición influirá en el valor del indicador INVI</h6>
-                        <input type="hidden" id="eval_codigo" name="eval_codigo" value="">
-                        <input type="hidden" id="inic_codigo" name="inic_codigo" value="{{ $iniciativa[0]->inic_codigo }}">
-                    </div>
-                    <div class="modal-footer bg-whitesmoke br">
-                        <button type="submit" class="btn btn-primary">Continuar</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        var token = '{{ csrf_token() }}';
-
-        function listarEval(inic_code) {
-        $.ajax({
-            type: 'GET',
-            url: `${window.location.origin}/admin/iniciativa/listar-evaluaciones`,
-            data: {
-                _token: '{{ csrf_token() }}',
-                inic_codigo: inic_code
-            },
-
-            success: function(resConsultar) {
-                respuesta = JSON.parse(resConsultar);
-                $('#body-tabla-evaluaciones').empty();
-                $('#N_evaluacion').empty();
-                $('#P_evaluacion').empty();
-
-                datos_evaluaciones = respuesta.resultado;
-                let contador = 0;
-                let ptj = 0;
-
-                datos_evaluaciones.forEach(registro => {
-                    contador = contador + 1;
-                    ptj = ptj + registro.eval_puntaje;
-                    let evaluacionTipo = registro.eval_evaluador === 2 ? 'Evaluación Interna' : 'Evaluación Externa';
-
-                    fila = `<tr>
-                        <td>${contador}</td>
-                        <td>${registro.eval_nickname_mod}</td>
-                        <td>${evaluacionTipo}</td>
-                        <td>${registro.eval_puntaje}</td>
-                        <td>
-                            <a href="javascript:void(0)" class="btn btn-icon btn-danger"
-                                onclick="eliminarEval(${registro.eval_codigo})"
-                                data-toggle="tooltip" data-placement="top"
-                                title="Eliminar mecanismo"><i class="fas fa-trash"></i></a>
-                        </td>
-                    </tr>`
-
-                    $('#body-tabla-evaluaciones').append(fila);
-                });
-
-                $('#N_evaluacion').text(contador);
-                $('#P_evaluacion').text(Math.round(ptj / contador));
-            }
-        })
-    }
-
-function eliminarEval(eval_codigo) {
-$('#modalEliminaEvaluacion').find('#eval_codigo').val(eval_codigo);
-$('#modalEliminaEvaluacion').modal('show');
-}
-
-function ingresarEVAL() {
-var selectBox = document.getElementById("ingresar");
-var etiquetasInterna = document.getElementsByName('Eval_Interna');
-var etiquetasExterna = document.getElementsByName('Eval_Externa');
-var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-/* Mostrar Tabla */
-var MostrarTabla = document.getElementById("AllTable");
-MostrarTabla.style.display = "block";
-/* Ocultar Formulario */
 
 
-/* Interna */
-if (selectedValue === "2") {
-    mostrarEtiquetas(etiquetasInterna);
-    ocultarEtiquetas(etiquetasExterna);
-}
-/* Externa */
-if (selectedValue === "3") {
-    ocultarEtiquetas(etiquetasInterna);
-    mostrarEtiquetas(etiquetasExterna);
-}
-/* Limpiar */
-if (selectedValue === "4") {
-    MostrarTabla.style.display = "none";
-    MostrarSiempre.style.display = "none";
-}
-
-}
-
-function mostrarOcultar() {
-var selectBox = document.getElementById("tipo");
-
-var etiquetasEstudiante = document.getElementsByName('etiquetasEstudiante');
-var etiquetasOtras = document.getElementsByName('etiquetasOtras');
-
-
-var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-
-// Obtén el div por su ID
-var divAMostrar = document.getElementById("divAMostrar");
-/* Mostrar Formulario */
-
-/* Ocultar Tabla */
-var MostrarTabla = document.getElementById("AllTable");
-MostrarTabla.style.display = "none";
-
-
-ocultarEtiquetas(etiquetasEstudiante);
-ocultarEtiquetas(etiquetasOtras);
-
-// Oculta el div si la opción seleccionada es "Evaluador externo", de lo contrario, muéstralo
-if (selectedValue === "1") {
-    mostrarEtiquetas(etiquetasEstudiante);
-} else {
-    mostrarEtiquetas(etiquetasOtras);
-}
-
-if (selectedValue === "3") {
-    divAMostrar.style.display = "none";
-} else {
-    divAMostrar.style.display = "block";
-}
-if (selectedValue === "4") {
-    MostrarSiempre.style.display = "none";
-    MostrarTabla.style.display = "none";
-}
-}
-
-function ocultarEtiquetas(etiquetas) {
-for (let i = 0; i < etiquetas.length; i++) {
-    etiquetas[i].style.display = 'none';
-}
-}
-
-function mostrarEtiquetas(etiquetas) {
-for (let i = 0; i < etiquetas.length; i++) {
-    etiquetas[i].style.display = 'block';
-}
-}
-
-function enviarDatos() {
-var tipo_data = $("#tipo").val();
-var competencia1Seleccionada = false;
-var competencia2Seleccionada = false;
-var competencia3Seleccionada = false;
-// Recopilar los datos
-var Validation1 = document.querySelectorAll('input[name="competencia_1"]');
-var Validation2 = document.querySelectorAll('input[name="competencia_2"]');
-var Validation3 = document.querySelectorAll('input[name="competencia_3"]');
-
-Validation1.forEach(function(Validatio) {
-    if (Validatio.checked) {
-        competencia1Seleccionada = true;
-    }
-});
-
-Validation2.forEach(function(Validatio) {
-    if (Validatio.checked) {
-        competencia2Seleccionada = true;
-    }
-});
-
-Validation3.forEach(function(Validatio) {
-    if (Validatio.checked) {
-        competencia3Seleccionada = true;
-    }
-});
-
-if (tipo_data === "1" || tipo_data === "2") {
-    if (competencia1Seleccionada === false || competencia2Seleccionada === false || competencia3Seleccionada ===
-        false) {
-        alert('No olvides evaluar TODAS las competencias');
-        return false;
-    }
-}
-
-
-var datos = {
-    iniciativa_codigo: $("#iniciativa_codigo").val(),
-    tipo_data: $("#tipo").val(),
-    conocimiento_1_data: $("input[name='conocimiento_1_SINO_1']:checked").val(),
-    conocimiento_2_data: $("input[name='conocimiento_2_SINO']:checked").val(),
-    conocimiento_3_data: $("input[name='conocimiento_3_SINO']:checked").val(),
-    cumplimiento_1_data: $("input[name='cumplimiento_1']:checked").val(),
-    cumplimiento_2_data: $("input[name='cumplimiento_2']:checked").val(),
-    cumplimiento_3_data: $("input[name='cumplimiento_3']:checked").val(),
-    calidad_1_data: $("input[name='calidad_1']:checked").val(),
-    calidad_2_data: $("input[name='calidad_2']:checked").val(),
-    calidad_3_data: $("input[name='calidad_3']:checked").val(),
-    calidad_4_data: $("input[name='calidad_4']:checked").val(),
-    competencia_1_data: $("input[name='competencia_1']:checked").val(),
-    competencia_2_data: $("input[name='competencia_2']:checked").val(),
-    competencia_3_data: $("input[name='competencia_3']:checked").val(),
-};
-
-$.ajax({
-    type: "GET",
-    url: window.location.origin + '/admin/iniciativas/evaluar',
-    data: datos,
-    headers: {
-        'X-CSRF-TOKEN': token
-    },
-    success: function(response) {
-        /* Mostrar Formulario */
-
-        /* Ocultar Tabla */
-        var MostrarTabla = document.getElementById("AllTable");
-        MostrarTabla.style.display = "none";
-
-        var alerta = document.getElementById("exito_crear");
-        alerta.style.display = "block";
-
-        reiniciarRadios();
-
-        $("#puntaje_obtenido").val("");
-        setTimeout(function() {
-            alerta.style.display = "none";
-        }, 2000);
-    },
-    error: function(error) {
-        console.error(error);
-        /* $('.alert-container').hide();
-        $('#error').show(); */
-    }
-});
-}
-
-function enviarEval() {
-    var tipo_data = $("#tipo").val();
-    // Recopilar los datos
-
-    var datos = {
-        iniciativa_codigo: $("#iniciativa_codigo").val(),
-        tipo_data: $("#ingresar").val(),
-        puntaje: $("#puntaje_obtenido").val(),
-    };
-
-    $.ajax({
-        type: "GET",
-        url: window.location.origin + '/admin/iniciativas/ingresoEvaluacion',
-        data: datos,
-        headers: {
-            'X-CSRF-TOKEN': token
-        },
-        success: function(response) {
-            /* Mostrar Formulario */
-            console.log(response);
-            /* Ocultar Tabla */
-            var MostrarTabla = document.getElementById("AllTable");
-            MostrarTabla.style.display = "none";
-
-            var alerta = document.getElementById("exito_ingresar");
-            alerta.style.display = "block";
-            $("#puntaje_obtenido").val("");
-
-
-
-            setTimeout(function() {
-                alerta.style.display = "none";
-            }, 2000);
-
-        },
-        error: function(error) {
-            console.error(error);
-        }
-    });
-}
-        function cambioTipo() {
-            var tipo = document.getElementById('tipo').value;
-            document.getElementById('invitado_rol').value = document.getElementById('tipo').value;
-
-            if (tipo == 0) {
-                document.getElementById('botonesdeAbajo').style.display = 'block';
-                document.getElementById('EstudiantesBloque').style.display = 'block';
-                document.getElementById('DocentesBloque').style.display = 'none';
-                document.getElementById('ExternosBloque').style.display = 'none';
-            } else if (tipo == 1) {
-                document.getElementById('EstudiantesBloque').style.display = 'none';
-                document.getElementById('botonesdeAbajo').style.display = 'block';
-                document.getElementById('DocentesBloque').style.display = 'block';
-                document.getElementById('ExternosBloque').style.display = 'none';
-            } else if (tipo == 2) {
-                document.getElementById('EstudiantesBloque').style.display = 'none';
-                document.getElementById('botonesdeAbajo').style.display = 'block';
-                document.getElementById('DocentesBloque').style.display = 'none';
-                document.getElementById('ExternosBloque').style.display = 'block';
-            }else if (tipo == 3) {
-                document.getElementById('EstudiantesBloque').style.display = 'none';
-                document.getElementById('botonesdeAbajo').style.display = 'block';
-                document.getElementById('DocentesBloque').style.display = 'none';
-                document.getElementById('ExternosBloque').style.display = 'none';
-                document.getElementById('TituladosBloque').style.display = 'block';
-            } else{
-                document.getElementById('EstudiantesBloque').style.display = 'none';
-                document.getElementById('botonesdeAbajo').style.display = 'block';
-                document.getElementById('DocentesBloque').style.display = 'none';
-                document.getElementById('ExternosBloque').style.display = 'none';
-            }
-
-        }
-        function redireccionarEvaluadores() {
-            evaluador = document.getElementById('tipo').value;
-            if(evaluador == ""){
-                alert('Debe seleccionar un tipo de evaluador');
-                return;
-            }
-            console.log('inic_codigo: {{$iniciativa[0]->inic_codigo}}' );
-            window.location.href = '/admin/iniciativas/'+{{$iniciativa[0]->inic_codigo}}+'/evaluar/invitar/'+evaluador;
-        }
-
-        function redireccionarResultados() {
-            evaluador = document.getElementById('tipo').value;
-            if(evaluador == ""){
-                alert('Debe seleccionar un tipo de evaluador');
-                return;
-            }
-            console.log('inic_codigo: {{$iniciativa[0]->inic_codigo}}' );
-            window.location.href = '/admin/iniciativas/'+{{$iniciativa[0]->inic_codigo}}+'/evaluacion/resultados/'+evaluador;
-        }
-
-        
-    </script>
 @endsection

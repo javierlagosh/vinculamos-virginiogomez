@@ -167,12 +167,13 @@
                                                 <tr>
                                                     <td  class="border-right">Si</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_conocimiento_1', 100))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_conocimiento_1', 100)) * 100) / ( count($evaluacion->where('eval_conocimiento_1', 0)) + count($evaluacion->where('eval_conocimiento_1', 100)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_conocimiento_1', 100)) * 100) / ( count($evaluacion->where('eval_conocimiento_1', 0)) + count($evaluacion->where('eval_conocimiento_1', 100)) ) ,1) }}
+                                                        %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">No</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_conocimiento_1', 0))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_conocimiento_1', 0)) * 100) / ( count($evaluacion->where('eval_conocimiento_1', 0)) + count($evaluacion->where('eval_conocimiento_1', 100)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_conocimiento_1', 0)) * 100) / ( count($evaluacion->where('eval_conocimiento_1', 0)) + count($evaluacion->where('eval_conocimiento_1', 100)) ) ,1) }} %</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -199,7 +200,7 @@
                                 </tr>
                                 <tr class="border">
                                     <td><strong>¿Sabía usted que los resultados esperados de la actividad eran?</strong><br>
-                                        @if ($resultados && count($resultados) > 0)
+                                        @if (count($resultados) > 0)
                                         <ul>
                                             @foreach ($resultados as $resultado)
                                                 <li>{{ $resultado->resu_cuantificacion_inicial }}
@@ -224,12 +225,12 @@
                                                 <tr>
                                                     <td  class="border-right">Si</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_conocimiento_2', 100))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_conocimiento_2', 100)) * 100) / ( count($evaluacion->where('eval_conocimiento_2', 0)) + count($evaluacion->where('eval_conocimiento_2', 100)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_conocimiento_2', 100)) * 100) / ( count($evaluacion->where('eval_conocimiento_2', 0)) + count($evaluacion->where('eval_conocimiento_2', 100)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">No</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_conocimiento_2', 0))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_conocimiento_2', 0)) * 100) / ( count($evaluacion->where('eval_conocimiento_2', 0)) + count($evaluacion->where('eval_conocimiento_2', 100)) ) }} %</td>
+                                                    <td>{{  round((count($evaluacion->where('eval_conocimiento_2', 0)) * 100) / ( count($evaluacion->where('eval_conocimiento_2', 0)) + count($evaluacion->where('eval_conocimiento_2', 100)) ) ,1) }} %</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -287,27 +288,27 @@
                                                 <tr>
                                                     <td  class="border-right">No se cumplió</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_1', 0))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_cumplimiento_1', 0)) * 100) / (( count($evaluacion->where('eval_cumplimiento_1', 100)) + count($evaluacion->where('eval_cumplimiento_1', 75)) + count($evaluacion->where('eval_cumplimiento_1', 50)) + count($evaluacion->where('eval_cumplimiento_1', 25)) + count($evaluacion->where('eval_cumplimiento_1', 0)) )) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_1', 0)) * 100) / (( count($evaluacion->where('eval_cumplimiento_1', 100)) + count($evaluacion->where('eval_cumplimiento_1', 75)) + count($evaluacion->where('eval_cumplimiento_1', 50)) + count($evaluacion->where('eval_cumplimiento_1', 25)) + count($evaluacion->where('eval_cumplimiento_1', 0)) )) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">25%</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_1', 25))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_cumplimiento_1', 25)) * 100) / (( count($evaluacion->where('eval_cumplimiento_1', 100)) + count($evaluacion->where('eval_cumplimiento_1', 75)) + count($evaluacion->where('eval_cumplimiento_1', 50)) + count($evaluacion->where('eval_cumplimiento_1', 25)) + count($evaluacion->where('eval_cumplimiento_1', 0)) )) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_1', 25)) * 100) / (( count($evaluacion->where('eval_cumplimiento_1', 100)) + count($evaluacion->where('eval_cumplimiento_1', 75)) + count($evaluacion->where('eval_cumplimiento_1', 50)) + count($evaluacion->where('eval_cumplimiento_1', 25)) + count($evaluacion->where('eval_cumplimiento_1', 0)) )) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">50%</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_1', 50))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_cumplimiento_1', 50)) * 100) / (( count($evaluacion->where('eval_cumplimiento_1', 100)) + count($evaluacion->where('eval_cumplimiento_1', 75)) + count($evaluacion->where('eval_cumplimiento_1', 50)) + count($evaluacion->where('eval_cumplimiento_1', 25)) + count($evaluacion->where('eval_cumplimiento_1', 0)) )) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_1', 50)) * 100) / (( count($evaluacion->where('eval_cumplimiento_1', 100)) + count($evaluacion->where('eval_cumplimiento_1', 75)) + count($evaluacion->where('eval_cumplimiento_1', 50)) + count($evaluacion->where('eval_cumplimiento_1', 25)) + count($evaluacion->where('eval_cumplimiento_1', 0)) )) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">75%</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_1', 75))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_cumplimiento_1', 75)) * 100) / (( count($evaluacion->where('eval_cumplimiento_1', 100)) + count($evaluacion->where('eval_cumplimiento_1', 75)) + count($evaluacion->where('eval_cumplimiento_1', 50)) + count($evaluacion->where('eval_cumplimiento_1', 25)) + count($evaluacion->where('eval_cumplimiento_1', 0)) )) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_1', 75)) * 100) / (( count($evaluacion->where('eval_cumplimiento_1', 100)) + count($evaluacion->where('eval_cumplimiento_1', 75)) + count($evaluacion->where('eval_cumplimiento_1', 50)) + count($evaluacion->where('eval_cumplimiento_1', 25)) + count($evaluacion->where('eval_cumplimiento_1', 0)) )) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">100%</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_1', 100))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_cumplimiento_1', 100)) * 100) / (( count($evaluacion->where('eval_cumplimiento_1', 100)) + count($evaluacion->where('eval_cumplimiento_1', 75)) + count($evaluacion->where('eval_cumplimiento_1', 50)) + count($evaluacion->where('eval_cumplimiento_1', 25)) + count($evaluacion->where('eval_cumplimiento_1', 0)) )) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_1', 100)) * 100) / (( count($evaluacion->where('eval_cumplimiento_1', 100)) + count($evaluacion->where('eval_cumplimiento_1', 75)) + count($evaluacion->where('eval_cumplimiento_1', 50)) + count($evaluacion->where('eval_cumplimiento_1', 25)) + count($evaluacion->where('eval_cumplimiento_1', 0)) )) ,1) }} %</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -359,27 +360,27 @@
                                                 <tr>
                                                     <td  class="border-right">No se cumplió</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_2', 0))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_cumplimiento_2', 0)) * 100) / ( count($evaluacion->where('eval_cumplimiento_2', 100)) + count($evaluacion->where('eval_cumplimiento_2', 75)) + count($evaluacion->where('eval_cumplimiento_2', 50)) + count($evaluacion->where('eval_cumplimiento_2', 25)) + count($evaluacion->where('eval_cumplimiento_2', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_2', 0)) * 100) / ( count($evaluacion->where('eval_cumplimiento_2', 100)) + count($evaluacion->where('eval_cumplimiento_2', 75)) + count($evaluacion->where('eval_cumplimiento_2', 50)) + count($evaluacion->where('eval_cumplimiento_2', 25)) + count($evaluacion->where('eval_cumplimiento_2', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">25%</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_2', 25))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_cumplimiento_2', 25)) * 100) / ( count($evaluacion->where('eval_cumplimiento_2', 100)) + count($evaluacion->where('eval_cumplimiento_2', 75)) + count($evaluacion->where('eval_cumplimiento_2', 50)) + count($evaluacion->where('eval_cumplimiento_2', 25)) + count($evaluacion->where('eval_cumplimiento_2', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_2', 25)) * 100) / ( count($evaluacion->where('eval_cumplimiento_2', 100)) + count($evaluacion->where('eval_cumplimiento_2', 75)) + count($evaluacion->where('eval_cumplimiento_2', 50)) + count($evaluacion->where('eval_cumplimiento_2', 25)) + count($evaluacion->where('eval_cumplimiento_2', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">50%</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_2', 50))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_cumplimiento_2', 50)) * 100) / ( count($evaluacion->where('eval_cumplimiento_2', 100)) + count($evaluacion->where('eval_cumplimiento_2', 75)) + count($evaluacion->where('eval_cumplimiento_2', 50)) + count($evaluacion->where('eval_cumplimiento_2', 25)) + count($evaluacion->where('eval_cumplimiento_2', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_2', 50)) * 100) / ( count($evaluacion->where('eval_cumplimiento_2', 100)) + count($evaluacion->where('eval_cumplimiento_2', 75)) + count($evaluacion->where('eval_cumplimiento_2', 50)) + count($evaluacion->where('eval_cumplimiento_2', 25)) + count($evaluacion->where('eval_cumplimiento_2', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">75%</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_2', 75))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_cumplimiento_2', 75)) * 100) / ( count($evaluacion->where('eval_cumplimiento_2', 100)) + count($evaluacion->where('eval_cumplimiento_2', 75)) + count($evaluacion->where('eval_cumplimiento_2', 50)) + count($evaluacion->where('eval_cumplimiento_2', 25)) + count($evaluacion->where('eval_cumplimiento_2', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_2', 75)) * 100) / ( count($evaluacion->where('eval_cumplimiento_2', 100)) + count($evaluacion->where('eval_cumplimiento_2', 75)) + count($evaluacion->where('eval_cumplimiento_2', 50)) + count($evaluacion->where('eval_cumplimiento_2', 25)) + count($evaluacion->where('eval_cumplimiento_2', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">100%</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_2', 100))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_cumplimiento_2', 100)) * 100) / ( count($evaluacion->where('eval_cumplimiento_2', 100)) + count($evaluacion->where('eval_cumplimiento_2', 75)) + count($evaluacion->where('eval_cumplimiento_2', 50)) + count($evaluacion->where('eval_cumplimiento_2', 25)) + count($evaluacion->where('eval_cumplimiento_2', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_2', 100)) * 100) / ( count($evaluacion->where('eval_cumplimiento_2', 100)) + count($evaluacion->where('eval_cumplimiento_2', 75)) + count($evaluacion->where('eval_cumplimiento_2', 50)) + count($evaluacion->where('eval_cumplimiento_2', 25)) + count($evaluacion->where('eval_cumplimiento_2', 0)) ) ,1) }} %</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -440,28 +441,28 @@
                                                 <tr>
                                                     <td  class="border-right">0</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_1', 0))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_1', 0)) * 100) / ( count($evaluacion->where('eval_calidad_1', 999)) + count($evaluacion->where('eval_calidad_1', 100)) + count($evaluacion->where('eval_calidad_1', 67)) + count($evaluacion->where('eval_calidad_1', 33)) + count($evaluacion->where('eval_calidad_1', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_1', 0)) * 100) / ( count($evaluacion->where('eval_calidad_1', 999)) + count($evaluacion->where('eval_calidad_1', 100)) + count($evaluacion->where('eval_calidad_1', 67)) + count($evaluacion->where('eval_calidad_1', 33)) + count($evaluacion->where('eval_calidad_1', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">1</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_1', 33))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_1', 33)) * 100) / ( count($evaluacion->where('eval_calidad_1', 999)) + count($evaluacion->where('eval_calidad_1', 100)) + count($evaluacion->where('eval_calidad_1', 67)) + count($evaluacion->where('eval_calidad_1', 33)) + count($evaluacion->where('eval_calidad_1', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_1', 33)) * 100) / ( count($evaluacion->where('eval_calidad_1', 999)) + count($evaluacion->where('eval_calidad_1', 100)) + count($evaluacion->where('eval_calidad_1', 67)) + count($evaluacion->where('eval_calidad_1', 33)) + count($evaluacion->where('eval_calidad_1', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">2</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_1', 67))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_1', 67)) * 100) / ( count($evaluacion->where('eval_calidad_1', 999)) + count($evaluacion->where('eval_calidad_1', 100)) + count($evaluacion->where('eval_calidad_1', 67)) + count($evaluacion->where('eval_calidad_1', 33)) + count($evaluacion->where('eval_calidad_1', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_1', 67)) * 100) / ( count($evaluacion->where('eval_calidad_1', 999)) + count($evaluacion->where('eval_calidad_1', 100)) + count($evaluacion->where('eval_calidad_1', 67)) + count($evaluacion->where('eval_calidad_1', 33)) + count($evaluacion->where('eval_calidad_1', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">3</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_1', 100))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_1', 100)) * 100) / ( count($evaluacion->where('eval_calidad_1', 999)) + count($evaluacion->where('eval_calidad_1', 100)) + count($evaluacion->where('eval_calidad_1', 67)) + count($evaluacion->where('eval_calidad_1', 33)) + count($evaluacion->where('eval_calidad_1', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_1', 100)) * 100) / ( count($evaluacion->where('eval_calidad_1', 999)) + count($evaluacion->where('eval_calidad_1', 100)) + count($evaluacion->where('eval_calidad_1', 67)) + count($evaluacion->where('eval_calidad_1', 33)) + count($evaluacion->where('eval_calidad_1', 0)) ) ,1) }} %</td>
                                                 </tr>
-                                                <tr>
+                                                {{-- <tr>
                                                     <td  class="border-right">No aplica</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_1', 999))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_1', 999)) * 100) / ( count($evaluacion->where('eval_calidad_1', 999)) + count($evaluacion->where('eval_calidad_1', 100)) + count($evaluacion->where('eval_calidad_1', 67)) + count($evaluacion->where('eval_calidad_1', 33)) + count($evaluacion->where('eval_calidad_1', 0)) ) }} %</td>
-                                                </tr>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_1', 999)) * 100) / ( count($evaluacion->where('eval_calidad_1', 999)) + count($evaluacion->where('eval_calidad_1', 100)) + count($evaluacion->where('eval_calidad_1', 67)) + count($evaluacion->where('eval_calidad_1', 33)) + count($evaluacion->where('eval_calidad_1', 0)) ) ,1) }} %</td>
+                                                </tr> --}}
                                             </tbody>
                                         </table>
                                     </td>
@@ -479,7 +480,7 @@
                                         ['1', {{count($evaluacion->where('eval_calidad_1', 33)) }}],
                                         ['2', {{count($evaluacion->where('eval_calidad_1', 67)) }}],
                                         ['3', {{count($evaluacion->where('eval_calidad_1', 100)) }}],
-                                        ['No aplica', {{count($evaluacion->where('eval_calidad_1', 999)) }}],
+                                        // ['No aplica', {{count($evaluacion->where('eval_calidad_1', 999)) }}],
                                         ]);
                                         var options = {'width':225, 'height':200};
                                         var chart = new google.visualization.PieChart(document.getElementById('piechart7'));
@@ -505,28 +506,28 @@
                                                 <tr>
                                                     <td  class="border-right">0</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_2', 0))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_2', 0)) * 100) / ( count($evaluacion->where('eval_calidad_2', 999)) + count($evaluacion->where('eval_calidad_2', 100)) + count($evaluacion->where('eval_calidad_2', 67)) + count($evaluacion->where('eval_calidad_2', 33)) + count($evaluacion->where('eval_calidad_2', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_2', 0)) * 100) / ( count($evaluacion->where('eval_calidad_2', 999)) + count($evaluacion->where('eval_calidad_2', 100)) + count($evaluacion->where('eval_calidad_2', 67)) + count($evaluacion->where('eval_calidad_2', 33)) + count($evaluacion->where('eval_calidad_2', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">1</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_2', 33))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_2', 33)) * 100) / ( count($evaluacion->where('eval_calidad_2', 999)) + count($evaluacion->where('eval_calidad_2', 100)) + count($evaluacion->where('eval_calidad_2', 67)) + count($evaluacion->where('eval_calidad_2', 33)) + count($evaluacion->where('eval_calidad_2', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_2', 33)) * 100) / ( count($evaluacion->where('eval_calidad_2', 999)) + count($evaluacion->where('eval_calidad_2', 100)) + count($evaluacion->where('eval_calidad_2', 67)) + count($evaluacion->where('eval_calidad_2', 33)) + count($evaluacion->where('eval_calidad_2', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">2</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_2', 67))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_2', 67)) * 100) / ( count($evaluacion->where('eval_calidad_2', 999)) + count($evaluacion->where('eval_calidad_2', 100)) + count($evaluacion->where('eval_calidad_2', 67)) + count($evaluacion->where('eval_calidad_2', 33)) + count($evaluacion->where('eval_calidad_2', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_2', 67)) * 100) / ( count($evaluacion->where('eval_calidad_2', 999)) + count($evaluacion->where('eval_calidad_2', 100)) + count($evaluacion->where('eval_calidad_2', 67)) + count($evaluacion->where('eval_calidad_2', 33)) + count($evaluacion->where('eval_calidad_2', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">3</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_2', 100))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_2', 100)) * 100) / ( count($evaluacion->where('eval_calidad_2', 999)) + count($evaluacion->where('eval_calidad_2', 100)) + count($evaluacion->where('eval_calidad_2', 67)) + count($evaluacion->where('eval_calidad_2', 33)) + count($evaluacion->where('eval_calidad_2', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_2', 100)) * 100) / ( count($evaluacion->where('eval_calidad_2', 999)) + count($evaluacion->where('eval_calidad_2', 100)) + count($evaluacion->where('eval_calidad_2', 67)) + count($evaluacion->where('eval_calidad_2', 33)) + count($evaluacion->where('eval_calidad_2', 0)) ) ,1) }} %</td>
                                                 </tr>
-                                                <tr>
+                                                {{-- <tr>
                                                     <td  class="border-right">No aplica</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_2', 999))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_2', 999)) * 100) / ( count($evaluacion->where('eval_calidad_2', 999)) + count($evaluacion->where('eval_calidad_2', 100)) + count($evaluacion->where('eval_calidad_2', 67)) + count($evaluacion->where('eval_calidad_2', 33)) + count($evaluacion->where('eval_calidad_2', 0)) ) }} %</td>
-                                                </tr>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_2', 999)) * 100) / ( count($evaluacion->where('eval_calidad_2', 999)) + count($evaluacion->where('eval_calidad_2', 100)) + count($evaluacion->where('eval_calidad_2', 67)) + count($evaluacion->where('eval_calidad_2', 33)) + count($evaluacion->where('eval_calidad_2', 0)) ) ,1) }} %</td>
+                                                </tr> --}}
                                             </tbody>
                                         </table>
                                     </td>
@@ -544,7 +545,7 @@
                                         ['1', {{count($evaluacion->where('eval_calidad_2', 33)) }}],
                                         ['2', {{count($evaluacion->where('eval_calidad_2', 67)) }}],
                                         ['3', {{count($evaluacion->where('eval_calidad_2', 100)) }}],
-                                        ['No aplica', {{count($evaluacion->where('eval_calidad_2', 999)) }}],
+                                        // ['No aplica', {{count($evaluacion->where('eval_calidad_2', 999)) }}],
                                         ]);
                                         var options = {'width':225, 'height':200};
                                         var chart = new google.visualization.PieChart(document.getElementById('piechart8'));
@@ -570,28 +571,28 @@
                                                 <tr>
                                                     <td  class="border-right">0</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_3', 0))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_3', 0)) * 100) / ( ( count($evaluacion->where('eval_calidad_3', 999)) + count($evaluacion->where('eval_calidad_3', 100)) + count($evaluacion->where('eval_calidad_3', 67)) + count($evaluacion->where('eval_calidad_3', 33)) + count($evaluacion->where('eval_calidad_3', 0)) ) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_3', 0)) * 100) / ( ( count($evaluacion->where('eval_calidad_3', 999)) + count($evaluacion->where('eval_calidad_3', 100)) + count($evaluacion->where('eval_calidad_3', 67)) + count($evaluacion->where('eval_calidad_3', 33)) + count($evaluacion->where('eval_calidad_3', 0)) ) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">1</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_3', 33))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_3', 33)) * 100) / ( ( count($evaluacion->where('eval_calidad_3', 999)) + count($evaluacion->where('eval_calidad_3', 100)) + count($evaluacion->where('eval_calidad_3', 67)) + count($evaluacion->where('eval_calidad_3', 33)) + count($evaluacion->where('eval_calidad_3', 0)) ) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_3', 33)) * 100) / ( ( count($evaluacion->where('eval_calidad_3', 999)) + count($evaluacion->where('eval_calidad_3', 100)) + count($evaluacion->where('eval_calidad_3', 67)) + count($evaluacion->where('eval_calidad_3', 33)) + count($evaluacion->where('eval_calidad_3', 0)) ) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">2</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_3', 67))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_3', 67)) * 100) / ( ( count($evaluacion->where('eval_calidad_3', 999)) + count($evaluacion->where('eval_calidad_3', 100)) + count($evaluacion->where('eval_calidad_3', 67)) + count($evaluacion->where('eval_calidad_3', 33)) + count($evaluacion->where('eval_calidad_3', 0)) ) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_3', 67)) * 100) / ( ( count($evaluacion->where('eval_calidad_3', 999)) + count($evaluacion->where('eval_calidad_3', 100)) + count($evaluacion->where('eval_calidad_3', 67)) + count($evaluacion->where('eval_calidad_3', 33)) + count($evaluacion->where('eval_calidad_3', 0)) ) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">3</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_3', 100))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_3', 100)) * 100) / ( ( count($evaluacion->where('eval_calidad_3', 999)) + count($evaluacion->where('eval_calidad_3', 100)) + count($evaluacion->where('eval_calidad_3', 67)) + count($evaluacion->where('eval_calidad_3', 33)) + count($evaluacion->where('eval_calidad_3', 0)) ) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_3', 100)) * 100) / ( ( count($evaluacion->where('eval_calidad_3', 999)) + count($evaluacion->where('eval_calidad_3', 100)) + count($evaluacion->where('eval_calidad_3', 67)) + count($evaluacion->where('eval_calidad_3', 33)) + count($evaluacion->where('eval_calidad_3', 0)) ) ) ,1) }} %</td>
                                                 </tr>
-                                                <tr>
+                                                {{-- <tr>
                                                     <td  class="border-right">No aplica</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_3', 999))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_3', 999)) * 100) / ( count($evaluacion->where('eval_calidad_3', 999)) + count($evaluacion->where('eval_calidad_3', 100)) + count($evaluacion->where('eval_calidad_3', 67)) + count($evaluacion->where('eval_calidad_3', 33)) + count($evaluacion->where('eval_calidad_3', 0)) ) }} %</td>
-                                                </tr>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_3', 999)) * 100) / ( count($evaluacion->where('eval_calidad_3', 999)) + count($evaluacion->where('eval_calidad_3', 100)) + count($evaluacion->where('eval_calidad_3', 67)) + count($evaluacion->where('eval_calidad_3', 33)) + count($evaluacion->where('eval_calidad_3', 0)) ) ,1) }} %</td>
+                                                </tr> --}}
                                             </tbody>
                                         </table>
                                     </td>
@@ -609,7 +610,7 @@
                                         ['1', {{count($evaluacion->where('eval_calidad_3', 33)) }}],
                                         ['2', {{count($evaluacion->where('eval_calidad_3', 67)) }}],
                                         ['3', {{count($evaluacion->where('eval_calidad_3', 100)) }}],
-                                        ['No aplica', {{count($evaluacion->where('eval_calidad_3', 999)) }}],
+                                        // ['No aplica', {{count($evaluacion->where('eval_calidad_3', 999)) }}],
                                         ]);
                                         var options = {'width':225, 'height':200};
                                         var chart = new google.visualization.PieChart(document.getElementById('piechart9'));
@@ -635,28 +636,28 @@
                                                 <tr>
                                                     <td  class="border-right">0</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_4', 0))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_4', 0)) * 100) / ( count($evaluacion->where('eval_calidad_4', 999)) + count($evaluacion->where('eval_calidad_4', 100)) + count($evaluacion->where('eval_calidad_4', 67)) + count($evaluacion->where('eval_calidad_4', 33)) + count($evaluacion->where('eval_calidad_4', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_4', 0)) * 100) / ( count($evaluacion->where('eval_calidad_4', 999)) + count($evaluacion->where('eval_calidad_4', 100)) + count($evaluacion->where('eval_calidad_4', 67)) + count($evaluacion->where('eval_calidad_4', 33)) + count($evaluacion->where('eval_calidad_4', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">1</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_4', 33))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_4', 33)) * 100) / ( count($evaluacion->where('eval_calidad_4', 999)) + count($evaluacion->where('eval_calidad_4', 100)) + count($evaluacion->where('eval_calidad_4', 67)) + count($evaluacion->where('eval_calidad_4', 33)) + count($evaluacion->where('eval_calidad_4', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_4', 33)) * 100) / ( count($evaluacion->where('eval_calidad_4', 999)) + count($evaluacion->where('eval_calidad_4', 100)) + count($evaluacion->where('eval_calidad_4', 67)) + count($evaluacion->where('eval_calidad_4', 33)) + count($evaluacion->where('eval_calidad_4', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">2</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_4', 67))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_4', 67)) * 100) / ( count($evaluacion->where('eval_calidad_4', 999)) + count($evaluacion->where('eval_calidad_4', 100)) + count($evaluacion->where('eval_calidad_4', 67)) + count($evaluacion->where('eval_calidad_4', 33)) + count($evaluacion->where('eval_calidad_4', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_4', 67)) * 100) / ( count($evaluacion->where('eval_calidad_4', 999)) + count($evaluacion->where('eval_calidad_4', 100)) + count($evaluacion->where('eval_calidad_4', 67)) + count($evaluacion->where('eval_calidad_4', 33)) + count($evaluacion->where('eval_calidad_4', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">3</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_4', 100))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_4', 100)) * 100) / ( count($evaluacion->where('eval_calidad_4', 999)) + count($evaluacion->where('eval_calidad_4', 100)) + count($evaluacion->where('eval_calidad_4', 67)) + count($evaluacion->where('eval_calidad_4', 33)) + count($evaluacion->where('eval_calidad_4', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_4', 100)) * 100) / ( count($evaluacion->where('eval_calidad_4', 999)) + count($evaluacion->where('eval_calidad_4', 100)) + count($evaluacion->where('eval_calidad_4', 67)) + count($evaluacion->where('eval_calidad_4', 33)) + count($evaluacion->where('eval_calidad_4', 0)) ) ,1) }} %</td>
                                                 </tr>
-                                                <tr>
+                                                {{-- <tr>
                                                     <td  class="border-right">No aplica</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_calidad_4', 999))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_calidad_4', 999)) * 100) / ( count($evaluacion->where('eval_calidad_4', 999)) + count($evaluacion->where('eval_calidad_4', 100)) + count($evaluacion->where('eval_calidad_4', 67)) + count($evaluacion->where('eval_calidad_4', 33)) + count($evaluacion->where('eval_calidad_4', 0)) ) }} %</td>
-                                                </tr>
+                                                    <td>{{ round((count($evaluacion->where('eval_calidad_4', 999)) * 100) / ( count($evaluacion->where('eval_calidad_4', 999)) + count($evaluacion->where('eval_calidad_4', 100)) + count($evaluacion->where('eval_calidad_4', 67)) + count($evaluacion->where('eval_calidad_4', 33)) + count($evaluacion->where('eval_calidad_4', 0)) ) ,1) }} %</td>
+                                                </tr> --}}
                                             </tbody>
                                         </table>
                                     </td>
@@ -674,7 +675,7 @@
                                         ['1', {{count($evaluacion->where('eval_calidad_4', 33)) }}],
                                         ['2', {{count($evaluacion->where('eval_calidad_4', 67)) }}],
                                         ['3', {{count($evaluacion->where('eval_calidad_4', 100)) }}],
-                                        ['No aplica', {{count($evaluacion->where('eval_calidad_4', 999)) }}],
+                                        // ['No aplica', {{count($evaluacion->where('eval_calidad_4', 999)) }}],
                                         ]);
                                         var options = {'width':225, 'height':200};
                                         var chart = new google.visualization.PieChart(document.getElementById('piechart10'));
@@ -715,28 +716,28 @@
                                                 <tr>
                                                     <td  class="border-right">0</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_1', 0))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_1', 0)) * 100) / ( count($evaluacion->where('eval_competencia_1', 999)) + count($evaluacion->where('eval_competencia_1', 100)) + count($evaluacion->where('eval_competencia_1', 67)) + count($evaluacion->where('eval_competencia_1', 33)) + count($evaluacion->where('eval_competencia_1', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_1', 0)) * 100) / ( count($evaluacion->where('eval_competencia_1', 999)) + count($evaluacion->where('eval_competencia_1', 100)) + count($evaluacion->where('eval_competencia_1', 67)) + count($evaluacion->where('eval_competencia_1', 33)) + count($evaluacion->where('eval_competencia_1', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">1</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_1', 33))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_1', 33)) * 100) / ( count($evaluacion->where('eval_competencia_1', 999)) + count($evaluacion->where('eval_competencia_1', 100)) + count($evaluacion->where('eval_competencia_1', 67)) + count($evaluacion->where('eval_competencia_1', 33)) + count($evaluacion->where('eval_competencia_1', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_1', 33)) * 100) / ( count($evaluacion->where('eval_competencia_1', 999)) + count($evaluacion->where('eval_competencia_1', 100)) + count($evaluacion->where('eval_competencia_1', 67)) + count($evaluacion->where('eval_competencia_1', 33)) + count($evaluacion->where('eval_competencia_1', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">2</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_1', 67))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_1', 67)) * 100) / ( count($evaluacion->where('eval_competencia_1', 999)) + count($evaluacion->where('eval_competencia_1', 100)) + count($evaluacion->where('eval_competencia_1', 67)) + count($evaluacion->where('eval_competencia_1', 33)) + count($evaluacion->where('eval_competencia_1', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_1', 67)) * 100) / ( count($evaluacion->where('eval_competencia_1', 999)) + count($evaluacion->where('eval_competencia_1', 100)) + count($evaluacion->where('eval_competencia_1', 67)) + count($evaluacion->where('eval_competencia_1', 33)) + count($evaluacion->where('eval_competencia_1', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">3</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_1', 100))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_1', 100)) * 100) / ( count($evaluacion->where('eval_competencia_1', 999)) + count($evaluacion->where('eval_competencia_1', 100)) + count($evaluacion->where('eval_competencia_1', 67)) + count($evaluacion->where('eval_competencia_1', 33)) + count($evaluacion->where('eval_competencia_1', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_1', 100)) * 100) / ( count($evaluacion->where('eval_competencia_1', 999)) + count($evaluacion->where('eval_competencia_1', 100)) + count($evaluacion->where('eval_competencia_1', 67)) + count($evaluacion->where('eval_competencia_1', 33)) + count($evaluacion->where('eval_competencia_1', 0)) ) ,1) }} %</td>
                                                 </tr>
-                                                <tr>
+                                                {{-- <tr>
                                                     <td  class="border-right">No aplica</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_1', 999))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_1', 999)) * 100) / ( count($evaluacion->where('eval_competencia_1', 999)) + count($evaluacion->where('eval_competencia_1', 100)) + count($evaluacion->where('eval_competencia_1', 67)) + count($evaluacion->where('eval_competencia_1', 33)) + count($evaluacion->where('eval_competencia_1', 0)) ) }} %</td>
-                                                </tr>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_1', 999)) * 100) / ( count($evaluacion->where('eval_competencia_1', 999)) + count($evaluacion->where('eval_competencia_1', 100)) + count($evaluacion->where('eval_competencia_1', 67)) + count($evaluacion->where('eval_competencia_1', 33)) + count($evaluacion->where('eval_competencia_1', 0)) ) ,1) }} %</td>
+                                                </tr> --}}
                                             </tbody>
                                         </table>
                                     </td>
@@ -754,7 +755,7 @@
                                         ['1', {{count($evaluacion->where('eval_competencia_1', 33)) }}],
                                         ['2', {{count($evaluacion->where('eval_competencia_1', 67)) }}],
                                         ['3', {{count($evaluacion->where('eval_competencia_1', 100)) }}],
-                                        ['No aplica', {{count($evaluacion->where('eval_competencia_1', 999)) }}],
+                                        // ['No aplica', {{count($evaluacion->where('eval_competencia_1', 999)) }}],
                                         ]);
                                         var options = {'width':225, 'height':200};
                                         var chart = new google.visualization.PieChart(document.getElementById('piechart11'));
@@ -780,28 +781,28 @@
                                                 <tr>
                                                     <td  class="border-right">0</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_2', 0))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_2', 0)) * 100) / (count($evaluacion->where('eval_competencia_2', 999)) + count($evaluacion->where('eval_competencia_2', 100)) + count($evaluacion->where('eval_competencia_2', 67)) + count($evaluacion->where('eval_competencia_2', 33)) + count($evaluacion->where('eval_competencia_2', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_2', 0)) * 100) / (count($evaluacion->where('eval_competencia_2', 999)) + count($evaluacion->where('eval_competencia_2', 100)) + count($evaluacion->where('eval_competencia_2', 67)) + count($evaluacion->where('eval_competencia_2', 33)) + count($evaluacion->where('eval_competencia_2', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">1</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_2', 33))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_2', 33)) * 100) / (count($evaluacion->where('eval_competencia_2', 999)) + count($evaluacion->where('eval_competencia_2', 100)) + count($evaluacion->where('eval_competencia_2', 67)) + count($evaluacion->where('eval_competencia_2', 33)) + count($evaluacion->where('eval_competencia_2', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_2', 33)) * 100) / (count($evaluacion->where('eval_competencia_2', 999)) + count($evaluacion->where('eval_competencia_2', 100)) + count($evaluacion->where('eval_competencia_2', 67)) + count($evaluacion->where('eval_competencia_2', 33)) + count($evaluacion->where('eval_competencia_2', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">2</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_2', 67))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_2', 67)) * 100) / (count($evaluacion->where('eval_competencia_2', 999)) + count($evaluacion->where('eval_competencia_2', 100)) + count($evaluacion->where('eval_competencia_2', 67)) + count($evaluacion->where('eval_competencia_2', 33)) + count($evaluacion->where('eval_competencia_2', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_2', 67)) * 100) / (count($evaluacion->where('eval_competencia_2', 999)) + count($evaluacion->where('eval_competencia_2', 100)) + count($evaluacion->where('eval_competencia_2', 67)) + count($evaluacion->where('eval_competencia_2', 33)) + count($evaluacion->where('eval_competencia_2', 0)) ) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">3</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_2', 100))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_2', 100)) * 100) / (count($evaluacion->where('eval_competencia_2', 999)) + count($evaluacion->where('eval_competencia_2', 100)) + count($evaluacion->where('eval_competencia_2', 67)) + count($evaluacion->where('eval_competencia_2', 33)) + count($evaluacion->where('eval_competencia_2', 0)) ) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_2', 100)) * 100) / (count($evaluacion->where('eval_competencia_2', 999)) + count($evaluacion->where('eval_competencia_2', 100)) + count($evaluacion->where('eval_competencia_2', 67)) + count($evaluacion->where('eval_competencia_2', 33)) + count($evaluacion->where('eval_competencia_2', 0)) ) ,1) }} %</td>
                                                 </tr>
-                                                <tr>
+                                                {{-- <tr>
                                                     <td  class="border-right">No aplica</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_2', 999))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_2', 999)) * 100) / (count($evaluacion->where('eval_competencia_2', 999)) + count($evaluacion->where('eval_competencia_2', 100)) + count($evaluacion->where('eval_competencia_2', 67)) + count($evaluacion->where('eval_competencia_2', 33)) + count($evaluacion->where('eval_competencia_2', 0)) ) }} %</td></td>
-                                                </tr>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_2', 999)) * 100) / (count($evaluacion->where('eval_competencia_2', 999)) + count($evaluacion->where('eval_competencia_2', 100)) + count($evaluacion->where('eval_competencia_2', 67)) + count($evaluacion->where('eval_competencia_2', 33)) + count($evaluacion->where('eval_competencia_2', 0)) ) ,1) }} %</td></td>
+                                                </tr> --}}
                                             </tbody>
                                         </table>
                                     </td>
@@ -819,7 +820,7 @@
                                         ['1', {{count($evaluacion->where('eval_competencia_2', 33)) }}],
                                         ['2', {{count($evaluacion->where('eval_competencia_2', 67)) }}],
                                         ['3', {{count($evaluacion->where('eval_competencia_2', 100)) }}],
-                                        ['No aplica', {{count($evaluacion->where('eval_competencia_2', 999)) }}],
+                                        // ['No aplica', {{count($evaluacion->where('eval_competencia_2', 999)) }}],
                                         ]);
                                         var options = {'width':225, 'height':200};
                                         var chart = new google.visualization.PieChart(document.getElementById('piechart12'));
@@ -845,28 +846,28 @@
                                                 <tr>
                                                     <td  class="border-right">0</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_3', 0))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_3', 0)) * 100) / (count($evaluacion->where('eval_competencia_3', 999)) + count($evaluacion->where('eval_competencia_3', 100)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 33)) + count($evaluacion->where('eval_competencia_3', 0))) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_3', 0)) * 100) / (count($evaluacion->where('eval_competencia_3', 999)) + count($evaluacion->where('eval_competencia_3', 100)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 33)) + count($evaluacion->where('eval_competencia_3', 0))) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">1</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_3', 33))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_3', 33)) * 100) / (count($evaluacion->where('eval_competencia_3', 999)) + count($evaluacion->where('eval_competencia_3', 100)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 33)) + count($evaluacion->where('eval_competencia_3', 0))) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_3', 33)) * 100) / (count($evaluacion->where('eval_competencia_3', 999)) + count($evaluacion->where('eval_competencia_3', 100)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 33)) + count($evaluacion->where('eval_competencia_3', 0))) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">2</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_3', 67))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_3', 67)) * 100) / (count($evaluacion->where('eval_competencia_3', 999)) + count($evaluacion->where('eval_competencia_3', 100)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 33)) + count($evaluacion->where('eval_competencia_3', 0))) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_3', 67)) * 100) / (count($evaluacion->where('eval_competencia_3', 999)) + count($evaluacion->where('eval_competencia_3', 100)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 33)) + count($evaluacion->where('eval_competencia_3', 0))) ,1) }} %</td>
                                                 </tr>
                                                 <tr>
                                                     <td  class="border-right">3</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_3', 100))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_3', 100)) * 100) / (count($evaluacion->where('eval_competencia_3', 999)) + count($evaluacion->where('eval_competencia_3', 100)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 33)) + count($evaluacion->where('eval_competencia_3', 0))) }} %</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_3', 100)) * 100) / (count($evaluacion->where('eval_competencia_3', 999)) + count($evaluacion->where('eval_competencia_3', 100)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 33)) + count($evaluacion->where('eval_competencia_3', 0))) ,1) }} %</td>
                                                 </tr>
-                                                <tr>
+                                                {{-- <tr>
                                                     <td  class="border-right">No aplica</td>
                                                     <td  class="border-right">{{count($evaluacion->where('eval_competencia_3', 999))}}</td>
-                                                    <td>{{(count($evaluacion->where('eval_competencia_3', 999)) * 100) / (count($evaluacion->where('eval_competencia_3', 999)) + count($evaluacion->where('eval_competencia_3', 100)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 33)) + count($evaluacion->where('eval_competencia_3', 0))) }} %</td></td>
-                                                </tr>
+                                                    <td>{{ round((count($evaluacion->where('eval_competencia_3', 999)) * 100) / (count($evaluacion->where('eval_competencia_3', 999)) + count($evaluacion->where('eval_competencia_3', 100)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 67)) + count($evaluacion->where('eval_competencia_3', 33)) + count($evaluacion->where('eval_competencia_3', 0))) ,1) }} %</td></td>
+                                                </tr> --}}
                                             </tbody>
                                         </table>
                                     </td>
@@ -884,7 +885,7 @@
                                         ['1', {{count($evaluacion->where('eval_competencia_3', 33)) }}],
                                         ['2', {{count($evaluacion->where('eval_competencia_3', 67)) }}],
                                         ['3', {{count($evaluacion->where('eval_competencia_3', 100)) }}],
-                                        ['No aplica', {{count($evaluacion->where('eval_competencia_3', 999)) }}],
+                                        // ['No aplica', {{count($evaluacion->where('eval_competencia_3', 999)) }}],
                                         ]);
                                         var options = {'width':225, 'height':200};
                                         var chart = new google.visualization.PieChart(document.getElementById('piechart13'));
@@ -910,9 +911,7 @@
                                                 class="fas fa-chevron-left"></i>
                                             Volver</a>
                                     </strong>
-                                    <a href="{{route('admin.evaluar.paso1', $iniciativa[0]->inic_codigo)}}" class="btn btn-primary text-white">
-                                        <i class="fas fa-history"></i>&nbsp;Volver a lista de evaluadores
-                                    </a>
+
                                     <a href="{{ route('admin.iniciativas.detalles', $iniciativa[0]->inic_codigo) }}"
                                         type="button" class="btn btn-primary mr-1 waves-effect">
                                         Ver Iniciativa <i class="fas fa-chevron-right"></i></a>
@@ -923,7 +922,7 @@
                         @else
                         <div class="card-body">
                             <div class="alert alert-danger" role="alert">
-                                <strong>¡Lo siento!</strong> No se encontraron evaluaciones para esta iniciativa.
+                                <strong>¡Lo siento!</strong> No se encontraron respuestas para esta iniciativa.
                             </div>
                             <div class="row mb-3">
                                 <div class="col-xl-12 col-md-12 col-log-12">
@@ -935,9 +934,7 @@
                                                     class="fas fa-chevron-left"></i>
                                                 Volver</a>
                                         </strong>
-                                        <a href="{{route('admin.evaluar.paso1', $iniciativa[0]->inic_codigo)}}" class="btn btn-primary text-white">
-                                            <i class="fas fa-history"></i>&nbsp;Volver a lista de evaluadores
-                                        </a>
+
                                         <a href="{{ route('admin.iniciativas.detalles', $iniciativa[0]->inic_codigo) }}"
                                             type="button" class="btn btn-primary mr-1 waves-effect">
                                             Ver Iniciativa <i class="fas fa-chevron-right"></i></a>
