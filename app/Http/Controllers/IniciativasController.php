@@ -972,10 +972,15 @@ class IniciativasController extends Controller
         $departamentos = SubUnidades::all();
         $valores = Valores::all();
 
-        $escuSec = ParticipantesInternos::select('escu_codigo')->where('inic_codigo', $inic_codigo)->get();
+        $escuSec = ParticipantesInternos::select('escu_codigo')
+            ->where('inic_codigo', $inic_codigo)
+            ->where('pain_ejecutora', false)
+            ->get();
+
         $sedeSec = ParticipantesInternos::select('sede_codigo')->where('inic_codigo', $inic_codigo)->get();
         $iniciativaPais = IniciativasPais::where('inic_codigo', $inic_codigo)->get();
         $iniciativaRegion = IniciativasRegiones::select('regi_codigo')->where('inic_codigo', $inic_codigo)->get();
+
         $iniciativaCarrera = ParticipantesInternos::select('care_codigo')
             ->where('inic_codigo', $inic_codigo)
             ->where('pain_ejecutora', false)
