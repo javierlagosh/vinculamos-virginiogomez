@@ -674,15 +674,12 @@ class IniciativasController extends Controller
 
         $request->validate([
             'nombre' => 'required|max:255',
-            //'anho' => 'required',
             'inic_formato' => 'required',
             'description' => 'required',
             'sedes' => 'required',
-            // 'escuelas' => 'required',
             'carreras' => 'required',
             'mecanismos' => 'required',
             'tactividad' => 'required',
-            /* 'convenio' => 'required', */
             'territorio' => 'required',
             'pais' => 'required',
             'fecha_inicio' => 'required',
@@ -696,7 +693,6 @@ class IniciativasController extends Controller
             'carreras.required' => 'Es necesario que seleccione al menos una Carrera en donde se ejecutará la iniciativa.',
             'tactividad.required' => 'Es necesario que seleccione un tipo de actividad para la iniciativa.',
             'mecanismos.required' => 'Es necesario que seleccione un programa.',
-            /* 'convenio.required' => 'Es necesario que escoja un convenio para asociar la iniciativa.', */
             'territorio.required' => 'Especifique si la iniciativa es a nivel nacional o internacional.',
             'pais.required' => 'Seleccione el país en donde se ejecutará la iniciativa.',
             'fecha_inicio.required' => 'La fecha de inicio es requerida.',
@@ -704,7 +700,6 @@ class IniciativasController extends Controller
 
         $inicCrear = Iniciativas::insertGetId([
             'inic_nombre' => $request->nombre,
-            //'inic_anho' => $request->anho,
             'inic_formato' => $request->inic_formato,
             'inic_descripcion' => $request->description,
             'conv_codigo' => $request->convenio,
@@ -830,38 +825,10 @@ class IniciativasController extends Controller
 
         $pain = [];
         $sedes = $request->input('sedes', []);
-        // $escuelas = $request->input('escuelas', []);
-        // //pushear el valor de la escuela ejecutora
-        // array_push($escuelas, $request->inic_escuela_ejecutora);
-        // // si es un arerglo vacio se le asigna un arreglo "nohay"
-        // if (empty($escuelas)) {
-        //     $escuelas = [$request->inic_escuela_ejecutora];
-        // }
-        // $carreras = $request->input('carreras', []);
-
-        // //id iniciativa
-        // $inic_codigo = $inicCrear;
-        // // insertar sedes escuelas y carreras a participantes internos
-        // foreach ($sedes as $sede) {
-        //     foreach ($escuelas as $escuela) {
-        //         foreach ($carreras as $carrera) {
-        //             //si la carrera no pertenece a la escuela no se inserta
-        //             $escuela_carrera = Carreras::where('escu_codigo', $escuela)
-        //                 ->where('care_codigo', $carrera)->exists();
-        //             if ($escuela_carrera) {
-        //             $participantes_internos = new ParticipantesInternos();
-        //             $participantes_internos->inic_codigo = $inic_codigo;
-        //             $participantes_internos->sede_codigo = $sede;
-        //             $participantes_internos->escu_codigo = $escuela;
-        //             $participantes_internos->care_codigo = $carrera;
-        //             $participantes_internos->save();
-        //             }
-        //         }
-        //     }
-        // }
-
         $carreras = $request->input('carreras', []);
+        $carrerasEjecutora = $request->input('carrerasEjecutora', []);
         $escuelas = $request->input('escuelas', []);
+
         //id iniciativa
         $inic_codigo = $inicCrear;
         // insertar sedes escuelas y carreras a participantes internos
@@ -883,7 +850,7 @@ class IniciativasController extends Controller
                 }
             }
 
-            foreach ($carreras as $carrera) {
+            foreach ($carrerasEjecutora as $carrera) {
                 //si la carrera no pertenece a la escuela no se inserta
                 $escuela_carrera = Carreras::where('escu_codigo', $request->inic_escuela_ejecutora)
                     ->where('care_codigo', $carrera)
@@ -964,7 +931,6 @@ class IniciativasController extends Controller
         $odsMetasValues = array_values($odsMetasValues);
         $odsMetasDescValues = array_values($odsMetasDescValues);
 
-
         //TODO: QUE LOS FUNDAMENTOS SE GUARDEN EN LA DB (CREA UNA COLUMNA EN metas_inic LLAMADA 'fundamento' varchar(4096))
         for ($i = 0; $i < count($odsMetasValues); $i++) {
             MetasInic::create([
@@ -1010,7 +976,16 @@ class IniciativasController extends Controller
         $sedeSec = ParticipantesInternos::select('sede_codigo')->where('inic_codigo', $inic_codigo)->get();
         $iniciativaPais = IniciativasPais::where('inic_codigo', $inic_codigo)->get();
         $iniciativaRegion = IniciativasRegiones::select('regi_codigo')->where('inic_codigo', $inic_codigo)->get();
-        $iniciativaCarrera = ParticipantesInternos::select('care_codigo')->where('inic_codigo', $inic_codigo)->get();
+        $iniciativaCarrera = ParticipantesInternos::select('care_codigo')
+            ->where('inic_codigo', $inic_codigo)
+            ->where('pain_ejecutora', false)
+            ->get();
+
+        $iniciativaCarreraEjecutora = ParticipantesInternos::select('care_codigo')
+            ->where('inic_codigo', $inic_codigo)
+            ->where('pain_ejecutora', true)
+            ->get();
+
         $iniciativaComuna = IniciativasComunas::select('comu_codigo')->where('inic_codigo', $inic_codigo)->get();
 
         $iniciativaValores = IniciativasValores::select('inival_valor')
@@ -1025,6 +1000,7 @@ class IniciativasController extends Controller
         $sedeSecCod = $sedeSec->pluck('sede_codigo')->toArray();
         $regiSec = $iniciativaRegion->pluck('regi_codigo')->toArray();
         $careSec = $iniciativaCarrera->pluck('care_codigo')->toArray();
+        $careEjecutoraSec = $iniciativaCarreraEjecutora->pluck('care_codigo')->toArray();
         $comuSec = $iniciativaComuna->pluck('comu_codigo')->toArray();
         $valoresSelected = $iniciativaValores->pluck('inival_valor')->toArray();
         $departamentosSelected = $iniciativaDepartamentos->pluck('inidep_departamento')->toArray();
@@ -1052,6 +1028,7 @@ class IniciativasController extends Controller
             'escuSec' => $escuSecCod,
             'sedeSec' => $sedeSecCod,
             'careSec' => $careSec,
+            'careEjecutoraSec' => $careEjecutoraSec,
             'valoresSelected' => $valoresSelected,
             'departamentosSelected' => $departamentosSelected,
             'inic_codigo' => $inic_codigo
@@ -1132,48 +1109,8 @@ class IniciativasController extends Controller
         $pain = [];
         $sedes = $request->input('sedes', []);
         $escuelas = $request->input('escuelas', []);
-
-        // //pushear el valor de la escuela ejecutora
-        // array_push($escuelas, $request->inic_escuela_ejecutora);
-        // // si está vacío, se asigna un arreglo con un valor "nohay"
-        // if (empty($escuelas)) {
-        //     $escuelas = [$request->inic_escuela_ejecutora];
-        // }
-
         $carreras = $request->input('carreras', []);
-        // $existentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)->get();
-
-        // foreach ($existentes as $existente) {
-        //     $sedeExistente = in_array($existente->sede_codigo, $sedes);
-        //     $escuelaExistente = in_array($existente->escu_codigo, $escuelas);
-        //     $carreraExistente = in_array($existente->care_codigo, $carreras);
-
-        //     if (!$sedeExistente || !$escuelaExistente) {
-        //         ParticipantesInternos::where([
-        //             'inic_codigo' => $inic_codigo,
-        //             'sede_codigo' => $existente->sede_codigo,
-        //             'escu_codigo' => $existente->escu_codigo,
-        //             'care_codigo' => $existente->care_codigoº1
-        //         ])->delete();
-        //     }
-        // }
-
-        // $existentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)->get();
-
-        // foreach ($existentes as $existente) {
-        //     $sedeExistente = in_array($existente->sede_codigo, $sedes);
-        //     $escuelaExistente = in_array($existente->escu_codigo, $escuelas);
-        //     $carreraExistente = in_array($existente->care_codigo, $carreras);
-
-        //     if (!$sedeExistente || !$escuelaExistente || !$carreraExistente) {
-        //         ParticipantesInternos::where([
-        //             'inic_codigo' => $inic_codigo,
-        //             'sede_codigo' => $existente->sede_codigo,
-        //             'escu_codigo' => $existente->escu_codigo,
-        //             'care_codigo' => $existente->care_codigo
-        //         ])->delete();
-        //     }
-        // }
+        $carrerasEjecutora = $request->input('carrerasEjecutora', []);
 
         //Escuelas colaboradoras
         foreach ($sedes as $sede) {
@@ -1212,7 +1149,7 @@ class IniciativasController extends Controller
 
         //escuela ejecutora
         foreach ($sedes as $sede) {
-            foreach ($carreras as $carrera) {
+            foreach ($carrerasEjecutora as $carrera) {
                 $sede_escuela = SedesEscuelas::where('sede_codigo', $sede)
                     ->where('escu_codigo', $request->inic_escuela_ejecutora)
                     ->exists();
@@ -1390,7 +1327,7 @@ class IniciativasController extends Controller
                 }
             }
 
-            //-- Fin Valores y Departamentos --//
+        //-- Fin Valores y Departamentos --//
 
         $odsValues = array_filter($odsValues, function ($value) {
             return $value !== null;
@@ -1408,24 +1345,16 @@ class IniciativasController extends Controller
             return $value !== null;
         });
 
-        // dd($odsMetasValues);
         //Verifica si viene en request existe el campo ods_values, ods_metas_values, ods_metas_desc_values, ods_fundamentos_values tienen valores asignados, si no los tienen no se actualizan
         if (empty($odsValues) && empty($odsMetasValues) && empty($odsMetasDescValues) && empty($fundamentoOds)) {
-            // if(empty($request->ods_values) && empty($request->ods_metas_values) && empty($request->ods_metas_desc_values) && empty($request->ods_fundamentos_values)){
-            // dd('estoy aca');
             return redirect()->route('admin.editar.paso2', $inic_codigo)->with('exitoPaso1', 'Los datos de la iniciativa se actualizaron correctamente');
         } else {
-            // dd('estoy aqui');
-
             //Verifica si existen registros con el inic_codigo en la tabla pivote_ods y metas_inic, si existen los elimina
-
             PivoteOds::where('inic_codigo', $inic_codigo)->delete();
             MetasInic::where('inic_codigo', $inic_codigo)->delete();
 
             // Eliminar duplicados de $fundamentoOds
             $fundamentoOds = array_unique($fundamentoOds);
-
-
             foreach ($odsValues as $ods) {
                 $idOds = Ods::where('id_ods', $ods)->value('id_ods');
                 PivoteOds::create([
@@ -1487,18 +1416,15 @@ class IniciativasController extends Controller
             }
         }
 
-
         if (!$comuCrear) {
             IniciativasComunas::where('inic_codigo', $inic_codigo)->delete();
             return redirect()->back()->with('comuError', 'Ocurrió un error durante el registro de las comunas, intente más tarde.')->withInput();
         }
 
-        
         return redirect()->route('admin.editar.paso2', $inic_codigo)->with('exitoPaso1', 'Los datos de la iniciativa se actualizaron correctamente');
-
     }
-    public function actualizarResultado(Request $request){
 
+    public function actualizarResultado(Request $request){
         //actualizar resultado
         $resuActualizar = Resultados::where('resu_codigo', $request->resu_codigo)
         ->where('inic_codigo', $request->resu_inic_codigo)
@@ -1513,16 +1439,13 @@ class IniciativasController extends Controller
             return json_encode(['estado' => false, 'resultado' => 'Ocurrió un error al actualizar el resultado esperado, intente más tarde.']);
         }
 
-
         //return back
         return redirect()->back()->with('exitoPaso3', 'Los datos de la iniciativa se actualizaron correctamente');
     }
 
     public function actualizarSocioPaso2(Request $request){
-
         //obtener subgrupo
         $sugr_codigo = SociosComunitarios::where('soco_codigo', $request->socioSeleccionado)->value('sugr_codigo');
-
 
         //actualizar iniciativasParticipantes
         $socoActualizar = IniciativasParticipantes::where('soco_codigo', $request->soco_codigo_antiguo)
@@ -2113,13 +2036,14 @@ class IniciativasController extends Controller
         $escuelas = $request->input('escuelas', []) ?? [];
         $sedes = $request->input('sedes', []);
         $escuela = $request->escuela;
-        //meter $escuela al array $escuela
         array_push($escuelas, $escuela);
+
         //carreras donde no esten en el array $escuelas
         $carreras = Carreras::whereIn('escu_codigo', $escuelas)
-        ->join('sedes_carreras', 'sedes_carreras.care_codigo', '=', 'carreras.care_codigo')
-        ->whereIn('sedes_carreras.sede_codigo', $sedes)
-        ->get();
+            ->join('sedes_carreras', 'sedes_carreras.care_codigo', '=', 'carreras.care_codigo')
+            ->whereIn('sedes_carreras.sede_codigo', $sedes)
+            ->get();
+
         return response()->json($carreras);
     }
 
