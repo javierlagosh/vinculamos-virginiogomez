@@ -2031,6 +2031,39 @@ class IniciativasController extends Controller
         return response()->json($mecanismos);
     }
 
+    public function eliminarTodasLasEvaluaciones(Request $request){
+
+        try {
+            $evaluaciones = Evaluacion::where('inic_codigo', $request->inic_codigo)->get();
+        foreach ($evaluaciones as $evaluacion) {
+            $evaluacion->delete();
+        }
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('exito', $th->getMessage());
+        }
+        try {
+            //eliminar invitados
+        $evaluacionInvitado = EvaluacionInvitado::where('inic_codigo', $request->inic_codigo)->get();
+        foreach ($evaluacionInvitado as $evaluacion) {
+            $evaluacion->delete();
+        }
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('exito', $th->getMessage());
+        }
+        try {
+            //evaluacion total
+        $evaluacionTotal = EvaluacionTotal::where('inic_codigo', $request->inic_codigo)->get();
+        foreach ($evaluacionTotal as $evaluacion) {
+            $evaluacion->delete();
+        }
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('exito', $th->getMessage());
+        }
+
+        return redirect()->back()->with('exito', '¡Se han eliminado todas las evaluaciones correctamente!');
+
+    }
+
     public function carrerasByEscuelas1(Request $request)
     {
         $escuelas = $request->input('escuelas', []) ?? [];
@@ -2540,22 +2573,34 @@ class IniciativasController extends Controller
     {
         $iniciativa = Iniciativas::where('inic_codigo', $inic_codigo)->get();
         $resultados = Resultados::where('inic_codigo', $inic_codigo)->get();
-        $evaluaciones = Evaluacion::where('inic_codigo', $inic_codigo)->get();
+        $evaluaciones = Evaluacion::where('inic_codigo', $inic_codigo)
+        ->where('eval_email','!=',null)
+        ->get();
 
-        $evaluacion_estudiantes = EvaluacionTotal::where('evaluacion_total.evatotal_tipo', 0)
-            ->where('evaluacion_total.inic_codigo', $inic_codigo)
-            ->join('evaluacion_invitado', 'evaluacion_total.evatotal_codigo', '=', 'evaluacion_invitado.evatotal_codigo')
-            ->get();
-        
-        $evaluacion_docentes = EvaluacionTotal::where('evaluacion_total.evatotal_tipo', 1)
-            ->where('evaluacion_total.inic_codigo', $inic_codigo)
-            ->join('evaluacion_invitado', 'evaluacion_total.evatotal_codigo', '=', 'evaluacion_invitado.evatotal_codigo')
-            ->get();
-        
-        $evaluacion_externos = EvaluacionTotal::where('evaluacion_total.evatotal_tipo', 2)
-            ->where('evaluacion_total.inic_codigo', $inic_codigo)
-            ->join('evaluacion_invitado', 'evaluacion_total.evatotal_codigo', '=', 'evaluacion_invitado.evatotal_codigo')
-            ->get();
+        $evaluacion_estudiantes = Evaluacion::where('evaluacion.eval_evaluador', 0)
+            ->where('evaluacion.inic_codigo', $inic_codigo)
+            ->where('eval_email','=',null)
+            ->first();
+
+        $evaluacion_docentes = Evaluacion::where('evaluacion.eval_evaluador', 1)
+        ->where('evaluacion.inic_codigo', $inic_codigo)
+        ->where('eval_email','=',null)
+        ->first();
+
+        $evaluacion_directivos = Evaluacion::where('evaluacion.eval_evaluador', 12)
+        ->where('evaluacion.inic_codigo', $inic_codigo)
+        ->where('eval_email','=',null)
+        ->first();
+
+        $evaluacion_beneficiarios = Evaluacion::where('evaluacion.eval_evaluador', 13)
+        ->where('evaluacion.inic_codigo', $inic_codigo)
+        ->where('eval_email','=',null)
+        ->first();
+
+        $evaluacion_socios = Evaluacion::where('evaluacion.eval_evaluador', 14)
+        ->where('evaluacion.inic_codigo', $inic_codigo)
+        ->where('eval_email','=',null)
+        ->first();
 
         $evatipoestudiantes = EvaluacionTotal::where('evaluacion_total.evatotal_tipo', 0)
             ->where('evaluacion_total.inic_codigo', $inic_codigo)
@@ -2568,6 +2613,22 @@ class IniciativasController extends Controller
             ->get();
 
         $evaluaciontotal = EvaluacionTotal::where('inic_codigo', $inic_codigo)->get();
+
+        $evaluacion = Evaluacion::where('inic_codigo', $inic_codigo)->first();
+        $evainvitados = EvaluacionInvitado::where('inic_codigo', $inic_codigo)->count(); // Usar count para verificar si hay invitados
+
+        if ($evainvitados > 0) {
+            $evaluacionManualPredeterminada = 2; // Predeterminada ya que hay invitados
+        } elseif ($evaluacion == null) {
+            $evaluacionManualPredeterminada = 0; // No hay evaluación
+        } elseif (empty($evaluacion->eval_email)) {
+            $evaluacionManualPredeterminada = 1; // Manual ya que eval_email es null
+        } else {
+            $evaluacionManualPredeterminada = 2; // Predeterminada
+        }
+
+
+
 
 
         $evaEstudiantesTotal = count(EvaluacionTotal::where('evaluacion_total.evatotal_tipo', 0)->where('evaluacion_total.inic_codigo', $inic_codigo)->get());
@@ -2585,7 +2646,7 @@ class IniciativasController extends Controller
             ->select('ambito.amb_nombre')
             ->where('programas.prog_nombre', '$mecanismo[0]->meca_nombre')
             ->get();
-        
+
         return view('admin.iniciativas.evaluacion', compact(
             'iniciativa',
             'resultados',
@@ -2593,8 +2654,11 @@ class IniciativasController extends Controller
             'evaluaciones',
             'evaluaciontotal',
             'evaluacion_estudiantes',
+            'evaluacion_beneficiarios',
+            'evaluacion_socios',
+            'evaluacion_directivos',
             'evaluacion_docentes',
-            'evaluacion_externos',
+            'evaluacionManualPredeterminada',
             'evatipoestudiantes',
             'evatipodocentes',
             'evatipoexternos',
@@ -2604,6 +2668,38 @@ class IniciativasController extends Controller
             'evaTituladosTotal'
         )
         );
+    }
+
+    public function guardarEvaluacionManual(Request $request){
+
+
+
+        $evaluacion_anterior = Evaluacion::where('evaluacion.eval_evaluador', $request->eval_evaluador)
+            ->where('evaluacion.inic_codigo', $request->inic_codigo)
+            ->first();
+
+        //si existe evaluación anterior se actualiza
+        if($evaluacion_anterior){
+            $evaluacion = Evaluacion::where('evaluacion.eval_evaluador', $request->eval_evaluador)
+                ->where('evaluacion.inic_codigo', $request->inic_codigo)
+                ->update(['eval_puntaje' => $request->puntaje]);
+            return redirect()->back()->with('exito', '¡Evaluación manual actualizada correctamente!');
+        }else{
+            $evaluacion = new Evaluacion();
+            $evaluacion->inic_codigo = $request->inic_codigo;
+            $evaluacion->eval_evaluador = $request->eval_evaluador;
+            $evaluacion->eval_puntaje = $request->puntaje;
+            //guardar
+            $evaluacion->save();
+
+        }
+        if(!$evaluacion){
+            return redirect()->back()->with('error', '¡Ocurrió un error al guardar la evaluación manual!');
+        }
+
+        return redirect()->back()->with('exito', '¡Evaluación manual guardada correctamente!');
+
+
     }
     public function evaluarIniciativaInvitar($inic_codigo)
     {
@@ -2817,7 +2913,7 @@ $contribuciones = ProgramasContribuciones::join('programas', 'programas.prog_cod
     }
     public function cargaIndividualEvaluacion(Request $request)
     {
-        
+
         $evaluacionTotal = EvaluacionTotal::where('evaluacion_total.evatotal_tipo', $request->tipo)
             ->where('evaluacion_total.inic_codigo', $request->inic_codigo)
             ->get()
@@ -2833,8 +2929,9 @@ $contribuciones = ProgramasContribuciones::join('programas', 'programas.prog_cod
         $evainvitado->save();
 
         return redirect()->back()->with('exito', '¡El correo electrónico se ha agregado correctamente!');
-        
+
     }
+
     public function procesarTexto(Request $request) {
         try {
             $evaluacionTotal = EvaluacionTotal::where('evaluacion_total.evatotal_tipo', $request->tipo)
@@ -2873,17 +2970,22 @@ $contribuciones = ProgramasContribuciones::join('programas', 'programas.prog_cod
         return redirect()->back()->with('exito', '¡Se han cargado '.$ccUsuarios.' usuarios correctamente!');
 
     }
+
     public function verEvaluacion($inic_codigo, $invitado)
     {
         //si invitado no es un numero o no es 0, 1 o 2
-        if (!is_numeric($invitado) || $invitado < 0 || $invitado > 2) {
-            return redirect()->back();
-        }elseif($invitado == 0){
+        if($invitado == 0){
             $invitadoNombre = 'Estudiantes';
         }elseif($invitado == 1){
-            $invitadoNombre = 'Docentes/Directivos';
-        }elseif($invitado == 2){
-            $invitadoNombre = 'Externos';
+            $invitadoNombre = 'Docentes';
+        }elseif($invitado == 12){
+            $invitadoNombre = 'Directivos';
+        }elseif($invitado == 13){
+            $invitadoNombre = 'Beneficiario';
+        }elseif($invitado == 14){
+            $invitadoNombre = 'Socio comunitario';
+        }else{
+            return redirect()->back();
         }
         $evaluacion = Evaluacion::where('evaluacion.inic_codigo', $inic_codigo)
         ->join('evaluacion_total', 'evaluacion_total.evatotal_codigo', 'evaluacion.evatotal_codigo')
@@ -3233,16 +3335,18 @@ $contribuciones = ProgramasContribuciones::join('programas', 'programas.prog_cod
     public function iniciativaEvaluarInvitar($inic_codigo, $invitado)
     {
         //si invitado no es un numero o no es 0, 1 o 2
-        if (!is_numeric($invitado) || $invitado < 0 || $invitado > 3) {
-            return redirect()->back();
-        }elseif($invitado == 0){
+        if($invitado == 0){
             $invitadoNombre = 'Estudiantes';
         }elseif($invitado == 1){
-            $invitadoNombre = 'Docentes/Directivos';
-        }elseif($invitado == 2){
-            $invitadoNombre = 'Externos';
-        }elseif($invitado == 3){
-            $invitadoNombre = 'Titulados';
+            $invitadoNombre = 'Docentes';
+        }elseif($invitado == 12){
+            $invitadoNombre = 'Directivos';
+        }elseif($invitado == 13){
+            $invitadoNombre = 'Beneficiario';
+        }elseif($invitado == 14){
+            $invitadoNombre = 'Socio comunitario';
+        }else{
+            return redirect()->back();
         }
         $evaluacion = EvaluacionTotal::where('evaluacion_total.evatotal_tipo', $invitado)
         ->where('evaluacion_total.inic_codigo', $inic_codigo)
@@ -3270,7 +3374,7 @@ $contribuciones = ProgramasContribuciones::join('programas', 'programas.prog_cod
         }
 
         if($invitado == 0 && $existe0 == 0){
-            return redirect()->back()->with('error', '¡No se ha creado la evaluación para estudiantes!, puedes crearla en la sección de evaluaciones.');
+            return redirect()->back()->with('error', '¡No se ha creado la evaluación para estudiantes!, por favor, seleccione la opción y de clic en el botón "Paso siguiente".');
         }
         if($invitado == 1 && $existe1 == 0){
             return redirect()->back()->with('error', '¡No se ha creado la evaluación para docentes/directivos!, puedes crearla en la sección de evaluaciones.');
@@ -3294,19 +3398,24 @@ $contribuciones = ProgramasContribuciones::join('programas', 'programas.prog_cod
 
         return view('admin.iniciativas.invitaraevaluar', compact('evaluacion', 'inic_codigo', 'iniciativa', 'invitadoNombre', 'invitados', 'evaluaciontotal'));
     }
+
     public function iniciativaEvaluarInvitarCorreo($inic_codigo, $invitado)
     {
         //return $invitado;
         $invitado_rol = $invitado;
         //si invitado no es un numero o no es 0, 1 o 2
-        if (!is_numeric($invitado) || $invitado < 0 || $invitado > 2) {
-            return redirect()->back();
-        }elseif($invitado == 0){
+        if($invitado == 0){
             $invitadoNombre = 'Estudiantes';
         }elseif($invitado == 1){
-            $invitadoNombre = 'Docentes/Directivos';
-        }elseif($invitado == 2){
-            $invitadoNombre = 'Externos';
+            $invitadoNombre = 'Docentes';
+        }elseif($invitado == 12){
+            $invitadoNombre = 'Directivos';
+        }elseif($invitado == 13){
+            $invitadoNombre = 'Beneficiario';
+        }elseif($invitado == 14){
+            $invitadoNombre = 'Socio comunitario';
+        }else{
+            return redirect()->back();
         }
         $evaluacion = EvaluacionTotal::where('evaluacion_total.evatotal_tipo', $invitado)
         ->where('evaluacion_total.inic_codigo', $inic_codigo)

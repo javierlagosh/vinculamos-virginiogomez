@@ -50,7 +50,7 @@
                             @if (Session::has('exito'))
                                 <div class="alert alert-success alert-dismissible show fade mb-4 text-center">
                                     <div class="alert-body">
-                                        <strong>{{ Session::get('exito') }}</strong>
+                                        <strong>{{ Session::get('exito') }}  <a style="color:blue;" href="{{route('admin.evaluar.iniciativa', $inic_codigo)}}">Crear nueva encuesta.</a></strong>
                                         <button class="close" data-dismiss="alert"><span>&times;</span></button>
                                     </div>
                                 </div>
@@ -74,6 +74,7 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
 
+
                             <h4>Evaluación de la iniciativa: {{ $iniciativa[0]->inic_nombre }} - Enviar invitación a {{$invitadoNombre}} </h4>
                             <input type="hidden" name="iniciativa_codigo" id="iniciativa_codigo"
                                 value="{{ $iniciativa[0]->inic_codigo }}">
@@ -89,7 +90,7 @@
 
                         <div class="mx-5 mt-3">
                             <h5>Paso 4: Envío de Correo</h5>
-                            <p><span style="color:red;">! </span>Instrucción: en este paso puedes validar o modificar el correo que se enviará a quienes evalúen la iniciativa, solo ten precaución en <strong>NO BORRAR</strong> la palabra <span style="color:blue;">encuesta</span> ya que ahí irá el link directo a la evaluación.</p>
+                            <p><span style="color:red;">! </span>Instrucción: en este paso puedes validar o modificar mensaje que se enviará a los evaluadores.  Ten precaución de <strong>NO BORRAR</strong> la palabra <span style="color:blue;">encuesta</span> ya que contiene el link directo a la evaluación.</p>
                             <hr style="
                             border: 0;
                             background-color: white;
@@ -121,8 +122,7 @@
                                             </label>
                                             <textarea name="mensaje" id="editor">
                                                 Estimado/a, <br>
-                                                Le agradecemos haber participado en la actividad "{{$iniciativa[0]->inic_nombre}}" en el marco de las acciones de Vinculación con el medio que implementa el Instituto Profesional Virginio Goméz.<br><br> Con el propósito de continuar mejorando nuestro trabajo, le pedimos que responda la siguiente <a target="_blank" rel="nofollow" style="width: 50px;height:50px;" href="{{ env('URL_EVALUACIONES') }}evaluaciones/{{$evaluaciontotal->evatotal_encriptado}}">encuesta</a>, que nos permitirá evaluar esta actividad. Saluda atentamente a usted.<br><br><img alt="" src="https://ipvirginiogomez.vinculamos.org/img/logos/logo_vg_color_mini.png" style="width: 20px; height: 10px;">
-
+                                                Le agradecemos haber participado en la actividad "{{$iniciativa[0]->inic_nombre}}" en el marco de las acciones de Vinculación con el medio que implementa el IP Virginio Gómez.<br>Con el propósito de continuar mejorando nuestro trabajo, le pedimos que responda la siguiente <a target="_blank" rel="nofollow" style="width: 50px;height:50px;" href="{{ env('URL_EVALUACIONES') }}evaluaciones/{{$evaluaciontotal->evatotal_encriptado}}">encuesta</a>, que nos permitirá evaluar esta actividad. Saluda atentamente a usted.<br><br><img alt="" src="{{ env('SENDER_IMAGE') }}" width="20" height="100">
                                             </textarea>
                                         </div>
 

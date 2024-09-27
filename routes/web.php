@@ -483,3 +483,10 @@ Route::post('/send-email-estudiante', [IniciativasController::class, 'sendEmailE
 use App\Http\Controllers\MailController;
 
 Route::post('/send-email', [MailController::class, 'sendEmail'])->name('enviar.email');
+
+
+
+//eliminar todas las evaluaciones relacionadas a un id admin.eliminar.todas.las.evaluaciones
+Route::delete('admin/eliminar-todas-las-evaluaciones', [IniciativasController::class, 'eliminarTodasLasEvaluaciones'])->name('admin.eliminar.todas.las.evaluaciones');
+Route::post('admin/iniciativas/evaluar/manual', [IniciativasController::class, 'guardarEvaluacionManual'])->name('admin.guardar.evaluacion.manual');
+Route::post('admin/iniciativas/eliminar-evaluacion', [IniciativasController::class, 'eliminarEvaluacionInciativa'])->name('admin.eliminar.evaluacion.iniciativa');

@@ -6,20 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-  <title>Encuesta de @if ($tipo == 0) Estudiante @elseif ($tipo == 1) Docente/Directivo @elseif ($tipo == 2) Agente externo @endif</title>
+  <title>Encuesta de @if ($tipo == 0) Estudiante @elseif ($tipo == 1) Docente @elseif ($tipo == 12) Directivo @elseif ($tipo == 13) Beneficiario @elseif ($tipo == 14) Socio comunitario @endif</title>
 </head>
 <body style="background: #6777ef;">
   <div class="mt-5 w-100">
     <div class="container bg-white w-100 p-5 rounded mb-3">
         <div class="center-block">
-            <img  style="display: block; margin-left: auto; margin-right: auto;" width="300px" alt="Logo" src="{{ env('SENDER_IMAGE') }}" class="header-logo">
+            <img  style="display: block; margin-left: auto; margin-right: auto;" width="300px" alt="Logo" src="{{ asset('/img/logos/logo_vg_color.png') }}" class="header-logo">
 
             <hr style="margin-left: 20%; margin-right: 20%;
             border: 0;
             background-color: white;
             width: 60%;
             border-top: 1px solid rgba(0, 0, 0, 0.1);" />
-            <h1 class="mb-4 text-center">Encuesta de Actividad</h1>
+            <h3 class="mb-4 text-center">Encuesta de Actividad</h3>
             @if (Session::has('exito'))
                                 <div class="alert alert-success alert-dismissible show fade mb-4 text-center">
                                     <div class="alert-body">
@@ -42,15 +42,15 @@
             <form action="{{ route('evaluacion.guardar.estudiante') }}" method="POST">
                 @csrf
                 <div class=" mb-3">
-                    <h2>Contacto</h2>
+                    <h5>Contacto</h5>
                     <input type="text" hidden name="inic_codigo" id="inic_codigo" value="{{$inic_codigo}}">
-                    <label style="text-align: center;" id="email-label" for="email">Correo Electrónico:</label>
+                    <label style="text-align: center;" id="email-label" for="email">Por favor ingresa tu correo electrónico :</label>
                     <input class="form form-control" type="email" name="correo"  id="correo" class="form-control" placeholder="ejemplo@gmail.com" required>
                     <input type="number" name="tipo" hidden value="{{$tipo}}">
                   </div>
                 <!-- Sección Objetivo -->
                 <section class="mb-5">
-                    <h2>Objetivo</h2>
+                    <h5>Objetivo</h5>
                     <div class="mb-3">
                         <label class="form-label font-weight-bold">¿Sabía usted que el propósito u objetivo de ésta actividad era?</label>
                         <label class="form-label">{{ $iniciativa[0]->inic_descripcion }}</label>
@@ -95,7 +95,7 @@
 
                 <!-- Sección Resultado -->
                 <section class="mb-5">
-                    <h2>Resultado</h2>
+                    <h5>Resultados</h5>
                     <div class="mb-3">
                         <label class="form-label font-weight-bold">¿Sabía usted que @if (count($resultados) > 1) los resultados esperados @else el resultado esperado @endif de la actividad @if (count($resultados) > 1) eran @else era @endif?</label></label>
                         @if (count($resultados) > 0)
@@ -149,7 +149,7 @@
 
                 <!-- Sección Calidad -->
                 <section class="mb-5">
-                    <h2>Calidad</h2>
+                    <h5>Calidad</h5>
                     <p class="mb-3">A continuación te pedimos que evalúes de 0 a 3 la calidad en la ejecución de la actividad, según los compromisos asumidos por la institución, en que:</p>
                     <ul class="mb-3">
                         <li>0 = no cumple</li>
@@ -157,7 +157,7 @@
                         <li>2 = cumple medianamente</li>
                         <li>3 = cumple totalmente</li>
                     </ul>
-                    <p class="mb-3">Si considera que algunos ítemes no estaban comprometidos, marque No Aplica.</p>
+                    {{-- <p class="mb-3">Si considera que algunos ítemes no estaban comprometidos, marque No Aplica.</p> --}}
                     <p class="mb-3">Con qué nota evalúa usted la calidad en la ejecución de la actividad, en las siguientes dimensiones:</p>
 
                     <div class="mb-3">
@@ -179,10 +179,10 @@
                                 <input class="form-check-input" type="radio" name="calidad_plazos" id="plazos3" value="100">
                                 <label class="form-check-label" for="plazos3">3</label>
                             </div>
-                            <div class="form-check">
+                            {{-- <div class="form-check">
                                 <input class="form-check-input" type="radio" name="calidad_plazos" id="plazosNA" value="999">
                                 <label class="form-check-label" for="plazosNA">No aplica</label>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
 
@@ -205,10 +205,10 @@
                                 <input class="form-check-input" type="radio" name="calidad_equipamiento" id="equipamiento3" value="100">
                                 <label class="form-check-label" for="equipamiento3">3</label>
                             </div>
-                            <div class="form-check">
+                            {{-- <div class="form-check">
                                 <input class="form-check-input" type="radio" name="calidad_equipamiento" id="equipamientoNA" value="999">
                                 <label class="form-check-label" for="equipamientoNA">No aplica</label>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
 
@@ -231,10 +231,10 @@
                                 <input class="form-check-input" type="radio" name="calidad_logistica" id="logistica3" value="100">
                                 <label class="form-check-label" for="logistica3">3</label>
                             </div>
-                            <div class="form-check">
+                            {{-- <div class="form-check">
                                 <input class="form-check-input" type="radio" name="calidad_logistica" id="logisticaNA" value="999">
                                 <label class="form-check-label" for="logisticaNA">No aplica</label>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
 
@@ -257,17 +257,17 @@
                                 <input class="form-check-input" type="radio" name="calidad_presentaciones" id="presentaciones3" value="100">
                                 <label class="form-check-label" for="presentaciones3">3</label>
                             </div>
-                            <div class="form-check">
+                            {{-- <div class="form-check">
                                 <input class="form-check-input" type="radio" name="calidad_presentaciones" id="presentacionesNA" value="999">
                                 <label class="form-check-label" for="presentacionesNA">No aplica</label>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </section>
                 {{-- Sección de estudiantes --}}
                 @if ($tipo == 0)
                 <section class="mb-5">
-                    <h2>Competencia de estudiantes</h2>
+                    <h5>Competencia de estudiantes</h5>
                     <p class="mb-3">Ahora, siguiendo la misma escala de 0 a 3, te pedimos que evalúes si te sirvió la actividad para desarrollar algunas de las siguientes dimensiones de las competencias comprometidas.</p>
                     <ul class="mb-3">
                         <li>0 = no cumple</li>
