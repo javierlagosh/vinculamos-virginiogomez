@@ -63,12 +63,170 @@ use Illuminate\Support\HtmlString;
 
 class IniciativasController extends Controller
 {
+    private function getUserRole()
+    {
+        if (Session::has('admin')) {
+            return 'admin';
+        } elseif (Session::has('digitador')) {
+            return 'digitador';
+        } elseif (Session::has('observador')) {
+            return 'observador';
+        } elseif (Session::has('supervisor')) {
+            return 'supervisor';
+        }
+        return null;
+    }
+
+    // public function listarIniciativas(Request $request)
+    // {
+    //     $mecanismo = $request->input('mecanismo');
+    //     $estado = $request->input('estados');
+    //     $anho = $request->input('anho');
+
+    //     $iniciativas = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', 'iniciativas.meca_codigo')
+    //         ->leftjoin('participantes_internos', 'participantes_internos.inic_codigo', 'iniciativas.inic_codigo')
+    //         ->leftjoin('sedes', 'sedes.sede_codigo', 'participantes_internos.sede_codigo')
+    //         ->leftjoin('escuelas', 'escuelas.escu_codigo', 'participantes_internos.escu_codigo')
+    //         ->select(
+    //             'iniciativas.inic_codigo',
+    //             'iniciativas.inic_nombre',
+    //             'iniciativas.inic_estado',
+    //             'iniciativas.inic_anho',
+    //             'mecanismos.meca_nombre',
+    //             DB::raw('GROUP_CONCAT(DISTINCT escuelas.escu_nombre SEPARATOR ", ") as carreras'),
+    //             DB::raw('GROUP_CONCAT(DISTINCT sedes.sede_nombre SEPARATOR ", ") as sedes'),
+    //             DB::raw('DATE_FORMAT(iniciativas.inic_creado, "%d/%m/%Y %H:%i:%s") as inic_creado')
+    //         )
+    //         ->groupBy('iniciativas.inic_codigo', 'iniciativas.inic_nombre', 'iniciativas.inic_estado', 'iniciativas.inic_anho', 'mecanismos.meca_nombre', 'inic_creado')
+    //         ->orderBy('inic_creado', 'desc');
+
+    //     // Aplicar filtros
+    //     if ($mecanismo) {
+    //         $iniciativas->where('mecanismos.meca_nombre', $mecanismo);
+    //     }
+    //     if ($estado) {
+    //         $iniciativas->where('iniciativas.inic_estado', $estado);
+    //     }
+    //     if ($anho && $anho != 'todos') {
+    //         $iniciativas->where('iniciativas.inic_anho', $anho);
+    //     }
+
+    //     $iniciativas = $iniciativas->get();
+    //     $mecanismos = Mecanismos::select('meca_codigo', 'meca_nombre')->orderBy('meca_nombre', 'asc')->get();
+    //     $anhos = Iniciativas::select('inic_anho')->distinct('inic_anho')->orderBy('inic_anho', 'asc')->get();
+
+    //     return view('admin.iniciativas.listar', compact('iniciativas', 'mecanismos', 'anhos'));
+    // }
+
     public function listarIniciativas(Request $request)
     {
+        $role = $this->getUserRole();
+        $iniciativas = $this->getIniciativasQuery($request);
         $mecanismo = $request->input('mecanismo');
         $estado = $request->input('estados');
         $anho = $request->input('anho');
 
+        if ($request->ajax()) {
+            // Aplicar filtros
+            if ($mecanismo) {
+                $iniciativas->where('mecanismos.meca_nombre', $mecanismo);
+            }
+            if ($estado) {
+                $iniciativas->where('iniciativas.inic_estado', $estado);
+            }
+            if ($anho && $anho != 'todos') {
+                $iniciativas->where('iniciativas.inic_anho', $anho);
+            }
+
+            // Total records before GROUP BY
+            $recordsTotal = $iniciativas->count(DB::raw('DISTINCT iniciativas.inic_codigo'));
+
+            // Page Length
+            $pageNumber = ( $request->start / $request->length )+1;
+            $pageLength = $request->length;
+            $skip       = ($pageNumber-1) * $pageLength;
+
+            // Search
+            if ($request->filled('search')) {
+                $search = $request->input('search');
+
+                $iniciativas->where(function ($query) use ($search) {
+                    $query->where('iniciativas.inic_nombre', 'like', "%{$search}%")
+                        ->orWhere('mecanismos.meca_nombre', 'like', "%{$search}%")
+                        ->orWhere('iniciativas.inic_anho', 'like', "%{$search}%");
+                });
+            }
+
+            // Total records after applying the search filter
+            $recordsFiltered = $iniciativas->count(DB::raw('DISTINCT iniciativas.inic_codigo'));
+
+            // Page Order
+            $orderColumnIndex = $request->order[0]['column'] ?? '0';
+            $orderBy = $request->order[0]['dir'] ?? 'desc';
+            $orderByName = 'name';
+
+            switch($orderColumnIndex){
+                case '0':
+                    $orderByName = 'iniciativas.inic_codigo';
+                    break;
+                case '1':
+                    $orderByName = 'iniciativas.inic_nombre';
+                    break;
+                case '2':
+                    $orderByName = 'mecanismos.meca_nombre';
+                    break;
+                case '3':
+                    $orderByName = 'iniciativas.inic_anho';
+                    break;
+                case '4':
+                    $orderByName = 'sedes';
+                    break;
+                case '5':
+                    $orderByName = 'carreras';
+                    break;
+                case '6':
+                    $orderByName = 'iniciativas.inic_estado';
+                    break;
+                case '7':
+                    $orderByName = 'inic_creado';
+                    break;
+            }
+
+            $iniciativas = $iniciativas
+                ->groupBy(
+                    'iniciativas.inic_codigo', 
+                    'iniciativas.inic_nombre', 
+                    'iniciativas.inic_estado', 
+                    'iniciativas.inic_anho', 
+                    'mecanismos.meca_nombre', 
+                    'inic_creado'
+                );
+
+            $iniciativas = $iniciativas
+                ->orderBy($orderByName, $orderBy);
+
+            $iniciativas = $iniciativas
+                ->skip($skip)
+                ->take($pageLength)
+                ->get();
+
+            return response()->json([
+                "draw"=> $request->draw,
+                "recordsTotal"=> $recordsTotal,
+                "recordsFiltered" => $recordsFiltered,
+                'data' => $iniciativas
+            ], 200);
+        }
+
+        // No AJAX, renderizar vista
+        $mecanismos = Mecanismos::select('meca_codigo', 'meca_nombre')->orderBy('meca_nombre', 'asc')->get();
+        $anhos = Iniciativas::select('inic_anho')->distinct('inic_anho')->orderBy('inic_anho', 'asc')->get();
+
+        return view('admin.iniciativas.listar', compact('iniciativas', 'mecanismos', 'anhos'));
+    }
+
+    private function getIniciativasQuery(Request $request)
+    {
         $iniciativas = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', 'iniciativas.meca_codigo')
             ->leftjoin('participantes_internos', 'participantes_internos.inic_codigo', 'iniciativas.inic_codigo')
             ->leftjoin('sedes', 'sedes.sede_codigo', 'participantes_internos.sede_codigo')
@@ -82,26 +240,9 @@ class IniciativasController extends Controller
                 DB::raw('GROUP_CONCAT(DISTINCT escuelas.escu_nombre SEPARATOR ", ") as carreras'),
                 DB::raw('GROUP_CONCAT(DISTINCT sedes.sede_nombre SEPARATOR ", ") as sedes'),
                 DB::raw('DATE_FORMAT(iniciativas.inic_creado, "%d/%m/%Y %H:%i:%s") as inic_creado')
-            )
-            ->groupBy('iniciativas.inic_codigo', 'iniciativas.inic_nombre', 'iniciativas.inic_estado', 'iniciativas.inic_anho', 'mecanismos.meca_nombre', 'inic_creado')
-            ->orderBy('inic_creado', 'desc');
+            );
 
-        // Aplicar filtros
-        if ($mecanismo) {
-            $iniciativas->where('mecanismos.meca_nombre', $mecanismo);
-        }
-        if ($estado) {
-            $iniciativas->where('iniciativas.inic_estado', $estado);
-        }
-        if ($anho && $anho != 'todos') {
-            $iniciativas->where('iniciativas.inic_anho', $anho);
-        }
-
-        $iniciativas = $iniciativas->get();
-        $mecanismos = Mecanismos::select('meca_codigo', 'meca_nombre')->orderBy('meca_nombre', 'asc')->get();
-        $anhos = Iniciativas::select('inic_anho')->distinct('inic_anho')->orderBy('inic_anho', 'asc')->get();
-
-        return view('admin.iniciativas.listar', compact('iniciativas', 'mecanismos', 'anhos'));
+        return $iniciativas;
     }
 
     public function completarCobertura($inic_codigo)
@@ -279,26 +420,6 @@ class IniciativasController extends Controller
         
         //Obtener las id para los ODS registrados en la tabla pivote_ods
         $ods = pivoteOds::select('id_ods')->where('inic_codigo', $inic_codigo)->get();
-        //Con la ID obtener desde la tabla ODS, el nombre del ods que corresponde
-        // $ods = Ods::select('nombre_ods')->whereIn('id_ods', $ods)->get();
-
-        // dd($ods);
-        // $iniciativa = Iniciativas::leftjoin('convenios', 'convenios.conv_codigo', '=', 'iniciativas.conv_codigo')
-        // ->join('tipo_actividades', 'tipo_actividades.tiac_codigo', '=', 'iniciativas.tiac_codigo')
-        // ->join('mecanismos', 'mecanismos.meca_codigo', '=', 'iniciativas.meca_codigo')
-        // ->leftjoin('programas','programas.prog_codigo','iniciativas.prog_codigo')
-        // ->select(
-        //     'iniciativas.inic_codigo',
-        //     'iniciativas.inic_nombre',
-        //     'iniciativas.inic_descripcion',
-        //     'iniciativas.inic_anho',
-        //     'iniciativas.inic_estado',
-        //     'mecanismos.meca_nombre',
-        //     'programas.prog_nombre',
-        //     'tipo_actividades.tiac_nombre',
-        //     'convenios.conv_nombre',
-        // )
-
         $iniciativa = Iniciativas::leftjoin('convenios', 'convenios.conv_codigo', '=', 'iniciativas.conv_codigo')
             ->leftjoin('tipo_actividades', 'tipo_actividades.tiac_codigo', '=', 'iniciativas.tiac_codigo')
             ->leftjoin('mecanismos', 'mecanismos.meca_codigo', '=', 'iniciativas.meca_codigo')
