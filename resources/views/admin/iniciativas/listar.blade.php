@@ -433,7 +433,7 @@
             });
 
             $(document).on('click', '#btnLimpiar', function(){
-                $('select[name="mecanismos"]').val('').trigger('change');
+                $('select[name="mecanismo"]').val('').trigger('change');
                 $('select[name="estados"]').val('').trigger('change');
                 $('select[name="anho"]').val('').trigger('change');
                 $('input[name="search"]').val("");
