@@ -195,8 +195,7 @@
 
                                                     </form>
                                                 </td>
-                                                <td rowspan="3" class="align-middle">Resultados Internos
-                                                    <br>
+                                                <td rowspan="3" class="align-middle">
                                                     <h3 id="resultados-internos">0</h3>
                                                 </td>
                                             </tr>
@@ -260,13 +259,12 @@
 
                                                     </form>
                                                 </td>
-                                                <td rowspan="3" class="align-middle">Resultados Externos
-                                                    <br>
+                                                <td rowspan="3" class="align-middle">
                                                     <h3 id="resultados-externos">0</h3>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>Socios de campo</td>
+                                                <td>Socio comunitario</td>
                                                 <td>
                                                     <form action="{{route('admin.guardar.evaluacion.manual')}}" method="post">
                                                         @method('POST')
@@ -444,8 +442,7 @@
 
                                                 </form>
                                             </td>
-                                            <td rowspan="3" class="align-middle">Resultados Internos
-                                                <br>
+                                            <td rowspan="3" class="align-middle">
                                                 <h3 id="resultados-internos">0</h3>
                                             </td>
                                         </tr>
@@ -509,13 +506,12 @@
 
                                                 </form>
                                             </td>
-                                            <td rowspan="3" class="align-middle">Resultados Externos
-                                                <br>
+                                            <td rowspan="3" class="align-middle">
                                                 <h3 id="resultados-externos">0</h3>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Socios de campo</td>
+                                            <td>Socio comunitario</td>
                                             <td>
                                                 <form action="{{route('admin.guardar.evaluacion.manual')}}" method="post">
                                                     @method('POST')
