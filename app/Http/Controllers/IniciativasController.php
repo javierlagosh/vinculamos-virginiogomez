@@ -3676,7 +3676,7 @@ public function AutoInvitacionEvaluacion($evatotal_encriptado)
     }
     public function guardarEvaluacionEstudiante(Request $request)
     {
-        
+
         $evaluacionInvitado = EvaluacionTotal::join('evaluacion_invitado', 'evaluacion_total.evatotal_codigo', '=', 'evaluacion_invitado.evatotal_codigo')
             ->where('evaluacion_total.evatotal_tipo', $request->tipo)
             ->where('evaluacion_invitado.inic_codigo', $request->inic_codigo)
@@ -3688,7 +3688,7 @@ public function AutoInvitacionEvaluacion($evatotal_encriptado)
             }
         }
 
-        
+
         if ($existe = 1) {
             $evaluacionInvitadoExistente = EvaluacionInvitado::join('evaluacion_total', 'evaluacion_total.evatotal_codigo', '=', 'evaluacion_invitado.evatotal_codigo')
                 ->where('evaluacion_total.evatotal_tipo', $request->tipo)
@@ -3701,112 +3701,97 @@ public function AutoInvitacionEvaluacion($evatotal_encriptado)
                 if ($evaluacionInvitadoExistente->evainv_estado == 2) {
                     return redirect()->back()->with('error', '¡Ya has respondido está encuesta!');
                 } elseif ($evaluacionInvitadoExistente->evainv_estado == 1 || $evaluacionInvitadoExistente->evainv_estado == 0) {
-                    $ponderado_1 = 0;
-                    $ponderado_2 = 0;
-                    $ponderado_3 = 0;
-                    $ponderado_4 = 0;
-                    $ponderado_final = 0;
+                    $evaluacion = new Evaluacion();
+                    $evaluacion->inic_codigo = $request->inic_codigo;
+                    //objetivo
+                    $evaluacion->eval_conocimiento_1 = $request->conocimientoObjetivo;
+                    $evaluacion->eval_cumplimiento_1 = $request->cumplimientoObjetivo;
+                    // resultado
+                    $evaluacion->eval_conocimiento_2 = $request->conocimientoResultado;
+                    $evaluacion->eval_cumplimiento_2 = $request->cumplimientoResultado;
+                    // calidad plazos
+                    //Revisar si calidad plazos es NA, si es así, se le asigna 999 (no puede ser 0)
+                    if ($request->calidad_plazos == 'NA') {
+                        $request->calidad_plazos = 999;
+                    }
+                    $evaluacion->eval_calidad_1 = $request->calidad_plazos;
+                    // calidad equipamiento
+                    //Revisar si calidad equipamiento es NA, si es así, se le asigna 999 (no puede ser 0)
+                    if ($request->calidad_equipamiento == 'NA') {
+                        $request->calidad_equipamiento = 999;
+                    }
+                    $evaluacion->eval_calidad_2 = $request->calidad_equipamiento;
+                    // calidad logistica
+                    //Revisar si calidad logistica es NA, si es así, se le asigna 999 (no puede ser 0)
+                    if ($request->calidad_logistica == 'NA') {
+                        $request->calidad_logistica = 999;
+                    }
+                    $evaluacion->eval_calidad_3 = $request->calidad_logistica;
+                    // calidad presentaciones
+                    //Revisar si calidad presentaciones es NA, si es así, se le asigna 999 (no puede ser 0)
+                    if ($request->calidad_presentaciones == 'NA') {
+                        $request->calidad_presentaciones = 999;
+                    }
+                    $evaluacion->eval_calidad_4 = $request->calidad_presentaciones;
+                    // estudiantes ejecutar
+                    $evaluacion->eval_competencia_1 = $request->estudiantes_ejecutar;
+                    // estudiantes positividad
+                    $evaluacion->eval_competencia_2 = $request->estudiantes_positividad;
+                    // estudiantes resolucion
+                    $evaluacion->eval_competencia_3 = $request->estudiantes_resolucion;
+                    $evaluacion->eval_evaluador = $request->tipo;
+                    $evaluacion->eval_email = $request->correo;
+                    $evaluacion->evatotal_codigo = $evaluacionInvitadoExistente->evatotal_codigo;
 
+                    //calcular el promedio total
+                    //CONOCIMIENTO
+                    $conocimiento = ($request->conocimientoObjetivo + $request->conocimientoResultado) / 2;
+                    //CUMPLIMIENTO
+                    $cumplimiento = ($request->cumplimientoObjetivo + $request->cumplimientoResultado) / 2;
+
+                    //CALIDAD
+                    // Si el valor es 999 (NA), no se toma en cuenta
+                    if ($request->calidad_plazos != 999) {
+                        $calidad_plazos = $request->calidad_plazos;
+                    } else {
+                        $calidad_plazos = 0;
+                    }
+                    if ($request->calidad_equipamiento != 999) {
+                        $calidad_equipamiento = $request->calidad_equipamiento;
+                    } else {
+                        $calidad_equipamiento = 0;
+                    }
+                    if ($request->calidad_logistica != 999) {
+                        $calidad_logistica = $request->calidad_logistica;
+                    } else {
+                        $calidad_logistica = 0;
+                    }
+                    if ($request->calidad_presentaciones != 999) {
+                        $calidad_presentaciones = $request->calidad_presentaciones;
+                    } else {
+                        $calidad_presentaciones = 0;
+                    }
+
+                    $calidad = ($calidad_plazos + $calidad_equipamiento + $calidad_logistica + $calidad_presentaciones) / 4;
+                    // Si el evaluador es un estudiante
                     if ($request->tipo == 0) {
-                        $ponderado_1 = 0.15;
-                        $ponderado_2 = 0.30;
-                        $ponderado_3 = 0.15;
-                        $ponderado_4 = 0.40;
-                        $ponderado_final = 0.7;
-                    }
-
-                    if ($request->tipo == 1) {
-                        $ponderado_1 = 0.15;
-                        $ponderado_2 = 0.30;
-                        $ponderado_3 = 0.15;
-                        $ponderado_4 = 0.40;
-                        $ponderado_final = 0.3;
-                    }
-
-                    if ($request->tipo == 2) {
-                        $ponderado_1 = 0.20;
-                        $ponderado_2 = 0.50;
-                        $ponderado_3 = 0.30;
-                        $ponderado_final = 1;
-                        /* $ponderado_4 = 0; */
-                    }
-
-                    $puntaje_conocimiento = ($request->conocimiento_1_SINO_1 + $request->conocimiento_2_SINO + $request->conocimiento_3_SINO) / 3 * $ponderado_1;
-                    $puntaje_cumplimiento = ($request->cumplimiento_1 + $request->cumplimiento_2 + $request->cumplimiento_3) / 3 * $ponderado_2;
-
-                    # VER SI APLICA: es para solo considerar los que no tenga NO APLICA marcado
-                    $count = 0; # Para dividir en los puntos que si aplica
-                    $aux1 = $request->calidad_1;
-                    $aux2 = $request->calidad_2;
-                    $aux3 = $request->calidad_3;
-                    $aux4 = $request->calidad_4;
-                    if ($aux1 != "") {
-                        $count = $count + 1;
+                        $competencia = ($request->estudiantes_ejecutar + $request->estudiantes_positividad + $request->estudiantes_resolucion) / 3;
+                        $evaluacion->eval_puntaje = ($conocimiento + $cumplimiento + $calidad + $competencia) / 4;
                     } else {
-                        $aux1 = 0;
-                    }
-                    if ($aux2 != "") {
-                        $count = $count + 1;
-                    } else {
-                        $aux2 = 0;
-                    }
-                    if ($aux3 != "") {
-                        $count = $count + 1;
-                    } else {
-                        $aux3 = 0;
-                    }
-                    if ($aux4 != "") {
-                        $count = $count + 1;
-                    } else {
-                        $aux4 = 0;
-                    }
-
-                    try {
-                        $puntaje_calidad = ($aux1 + $aux2 + $aux3 + $aux4) / $count * $ponderado_3;
-                    } catch (\Throwable $th) {
-                        $puntaje_calidad = 0;
+                        $evaluacion->eval_puntaje = ($conocimiento + $cumplimiento + $calidad) / 3;
                     }
 
 
-                    if ($request->tipo_data == 1 || $request->tipo_data == 2) {
-                        $puntaje_competencia = ($request->competencia_1 + $request->competencia_2 + $request->competencia_3) / 3 * $ponderado_4;
-                    } else {
-                        $puntaje_competencia = 0;
-                    }
-
-                    $puntaje = ($puntaje_conocimiento + $puntaje_cumplimiento + $puntaje_calidad + $puntaje_competencia) * $ponderado_final;
-                    $nuevo = new Evaluacion();
-                    $nuevo->inic_codigo = $request->inic_codigo;
-                    $nuevo->eval_email = $request->correo;
-                    $nuevo->eval_evaluador = 1;
-                    $nuevo->evatotal_codigo = $evaluacionInvitadoExistente->evatotal_codigo;
-                    $nuevo->eval_conocimiento_1 = $request->conocimiento_1_SINO_1;
-                    $nuevo->eval_conocimiento_2 = $request->conocimiento_2_SINO;
-                    $nuevo->eval_conocimiento_3 = $request->conocimiento_3_SINO;
-                    $nuevo->eval_cumplimiento_1 = $request->cumplimiento_1;
-                    $nuevo->eval_cumplimiento_2 = $request->cumplimiento_2;
-                    $nuevo->eval_cumplimiento_3 = $request->cumplimiento_3;
-                    $nuevo->eval_calidad_1 = $request->calidad_1;
-                    $nuevo->eval_calidad_2 = $request->calidad_2;
-                    $nuevo->eval_calidad_3 = $request->calidad_3;
-                    $nuevo->eval_calidad_4 = $request->calidad_4;
-                    $nuevo->eval_competencia_1 = $request->competencia_1;
-                    $nuevo->eval_competencia_2 = $request->competencia_2;
-                    $nuevo->eval_competencia_3 = $request->competencia_3;
-                    $nuevo->eval_puntaje = $puntaje;
-
-                    $nuevo->eval_creado = Carbon::now('America/Santiago')->format('Y-m-d H:i:s');
-                    $nuevo->eval_actualizado = Carbon::now('America/Santiago')->format('Y-m-d H:i:s');
-                    $nuevo->eval_vigente = 1;
-                    $nuevo->eval_nickname_mod = 'invitado';
-                    $nuevo->eval_rol_mod = 0;
-
-                    $nuevo->save();
 
 
+                    $evaluacion->save();
 
+                    //Cambiar el estado del evaluador
                     $evaluacionInvitadoExistente->evainv_estado = 2;
                     $evaluacionInvitadoExistente->save();
+
+
+
 
 
                     return redirect()->back()->with('exito', 'Evaluación ingresada correctamente.');
@@ -3814,11 +3799,11 @@ public function AutoInvitacionEvaluacion($evatotal_encriptado)
                     return redirect()->back()->with('error', '¡No has sido invitado a responder está encuesta!');
                 }
             } catch (\Throwable $th) {
-                return redirect()->back()->with('error', 'El correo proporcionado no ha sido invitado a responder está encuesta.');
+                return redirect()->back()->with('error', $th->getMessage());
 
             }
         } else {
-            return redirect()->back()->with('error', 'El correo proporcionado no ha sido invitado a responder está encuesta.');
+            return redirect()->back()->with('error', $th->getMessage());
         }
 
 
