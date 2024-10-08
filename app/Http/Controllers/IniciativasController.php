@@ -259,6 +259,8 @@ class IniciativasController extends Controller
                 'escuelas.escu_codigo',
                 'sedes.sede_nombre',
                 'sedes.sede_codigo',
+                'carreras.care_nombre',
+                'carreras.care_codigo',
                 'participantes_internos.pain_docentes',
                 'participantes_internos.pain_docentes_final',
                 'participantes_internos.pain_estudiantes',
@@ -271,6 +273,7 @@ class IniciativasController extends Controller
             )
             ->join('sedes', 'participantes_internos.sede_codigo', '=', 'sedes.sede_codigo')
             ->join('escuelas', 'participantes_internos.escu_codigo', '=', 'escuelas.escu_codigo')
+            ->join('carreras', 'participantes_internos.care_codigo', '=', 'carreras.care_codigo')
             ->where('participantes_internos.inic_codigo', $inic_codigo)
             ->get();
         $participantes = Iniciativas::join('iniciativas_participantes', 'iniciativas_participantes.inic_codigo', 'iniciativas.inic_codigo')

@@ -101,6 +101,7 @@
                                                             <tr>
                                                                 <th scope="col">Sede</th>
                                                                 <th scope="col">Escuela</th>
+                                                                <th scope="col">Carreras</th>
                                                                 <th scope="col">Docentes inicial</th>
                                                                 <th scope="col">Docentes final</th>
                                                                 <th scope="col">Estudiantes inicial</th>
@@ -117,6 +118,7 @@
                                                                 <tr>
                                                                     <td>{{ $resultado->sede_nombre }}</td>
                                                                     <td>{{ $resultado->escu_nombre }}</td>
+                                                                    <td>{{ $resultado->care_nombre }}</td>
                                                                     <td>{{ $resultado->pain_docentes }}</td>
                                                                     <td>
                                                                         <input type="number" class="form-control"
