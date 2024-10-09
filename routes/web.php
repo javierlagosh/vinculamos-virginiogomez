@@ -224,6 +224,11 @@ Route::post('dashboard/sedes-datos', [DashboardController::class, 'sedesDatos'])
     Route::delete('admin/eliminar-actividad/', [BitacoraController::class, 'eliminarActividad'])->name('admin.eliminar.actividades');
     Route::put('admin/editar-actividad/{nombreprefijo_codigo}', [BitacoraController::class, 'actualizarActividad'])->name('admin.actualizar.actividades');
     Route::post('admin/crear-actividad/', [BitacoraController::class, 'crearActividad'])->name('admin.crear.actividades');
+    Route::get('admin/evidencias/{acti_codigo}', [BitacoraController::class, 'listarEvidencias'])->name('admin.listar.evidencias');
+    Route::delete('admin/actividades/eliminar-evidencia/{actevi_codigo}', [BitacoraController::class, 'eliminarEvidencia'])->name('admin.eliminar.evidenciaactividad');
+    Route::put('admin/actividades/editar-evidencia/{actevi_codigo}', [BitacoraController::class, 'actualizarEvidencia'])->name('admin.actualizar.evidenciaactividad');
+    Route::post('admin/actividades/{acti_codigo}/crear-evidencia/', [BitacoraController::class, 'guardarEvidencia'])->name('admin.crear.evidenciaactividad');
+    Route::post('admin/actividades/descargar/{actevi_codigo}', [BitacoraController::class, 'descargarEvidencia'])->name('admin.actividad.descargar');
 
     // RecursosHumanos
     Route::get('admin/listar-rrhh', [ParametrosController::class, 'listarRecursosHumanos'])->name('admin.listar.rrhh');

@@ -83,14 +83,17 @@
                                         <?php $contador = $contador + 1; ?>
                                         <tr>
                                             <td>{{ $contador }}</td>
-                                            <td>{{ $actividad->acti_nombre }}</td>
+                                            <td style="width: 20%;">{{ $actividad->acti_nombre }}</td>
                                             <td class="wrap-text">{{ $actividad->acti_acuerdos }}</td>
                                             <td>{{ $actividad->acti_fecha_cumplimiento }}</td>
                                             {{-- <td> {{ $actividad->acti_idcampo1 }} </td> --}}
-                                            <td>
+                                            <td style="width: 15%;">
                                                 <a href="javascript:void(0)" class="btn btn-icon btn-warning"
                                                     onclick="editaractividad({{ $actividad->acti_codigo }})" data-toggle="tooltip"
                                                     data-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
+                                                <a href="{{ route('admin.listar.evidencias', $actividad->acti_codigo) }}" class="btn btn-icon btn-info"
+                                                    data-toggle="tooltip" data-placement="top" title="Agregar Evidencias"><i
+                                                        class="fas fa-plus"></i></a>
                                                 <a href="javascript:void(0)" class="btn btn-icon btn-danger"
                                                     onclick="eliminaractividad({{ $actividad->acti_codigo }})"
                                                     data-toggle="tooltip" data-placement="top" title="Eliminar actividad"><i

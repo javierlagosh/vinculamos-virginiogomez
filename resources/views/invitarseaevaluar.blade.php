@@ -59,7 +59,7 @@
             <label for="email">
               Correo electrónico
             </label>
-            <input type="email" name="email" class="form-control" id="email" placeholder="correo@cftcoquimbo.cl" required />
+            <input type="email" name="email" class="form-control" id="email" placeholder="correo@ipvg.cl" required />
           </div>
           <button type="submit" class="btn btn-primary">
             Solicitar invitación
