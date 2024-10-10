@@ -89,11 +89,6 @@
                                             title="Editar actividad"><i class="fas fa-eye"></i> Mostrar
                                             actividad</a>
 
-                                        @if (Session::has('admin'))
-                                        <a href="javascript:void(0)" class="dropdown-item has-icon" data-toggle="tooltip"
-                                            onclick="eliminarIniciativa({{ $iniciativa->inic_codigo }})"
-                                            data-placement="top" title="Eliminar iniciativa"><i class="fas fa-trash"></i> Eliminar</a>
-                                        @endif
                                     </div>
                                 </div>
 
@@ -105,76 +100,21 @@
                                         <a href="{{ route('admin.cobertura.index', $iniciativa->inic_codigo) }}"
                                             class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
                                             title="Ingresar cobertura"><i class="fas fa-users"></i> Ingresar cobertura</a>
+                                            <a href="{{ route('admin.ver.lista.de.resultados', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                                title="Ingresar resultado"><i class="fas fa-flag"></i>Ingresar resultado/s</a>
                                             <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
                                                 class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                                 title="Adjuntar evidencia"><i class="fas fa-paperclip"></i> Ingresar
                                                 evidencias</a>
                                                 <a href="{{ route('admin.evaluar.iniciativa', $iniciativa->inic_codigo) }}"
                                                     class="dropdown-item has-icon" data-toggle="tooltip"
-                                                    data-placement="top" title="Evaluar iniciativa"><i
-                                                        class="fas fa-file-signature"></i> Evaluar
-                                                    iniciativa</a>
+                                                    data-placement="top" title="Ingresar evaluación"><i
+                                                        class="fas fa-file-signature"></i> Ingresar evaluación</a>
                                     </div>
                                 </div>
 
-                                <div class="dropdown d-inline">
-                                    <button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton2"
-                                        data-toggle="dropdown">Estados</button>
-                                    <div class="dropdown-menu dropright">
-                                        <form method="POST"
-                                            action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
-                                            @csrf
-                                            <input type="hidden" name="state" value="3">
-                                            <a href="javascript:void(0);" onclick="this.closest('form').submit();"
-                                                class="dropdown-item has-icon" style="display: flex; align-items: center;">
-                                                <i class="fas fa-check" style="margin-right: 8px;"></i> Aprobar actividad
-                                            </a>
-                                        </form>
 
-                                        <form method="POST"
-                                            action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
-                                            @csrf
-                                            <input type="hidden" name="state" value="2">
-                                            <a href="javascript:void(0);" onclick="this.closest('form').submit();"
-                                                class="dropdown-item has-icon" style="display: flex; align-items: center;">
-                                                <i class="fas fa-cog" style="margin-right: 8px;"></i> En ejecución
-                                            </a>
-                                        </form>
-
-                                        <form method="POST"
-                                            action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
-                                            @csrf
-                                            <input type="hidden" name="state" value="4">
-                                            <a href="javascript:void(0);" onclick="this.closest('form').submit();"
-                                                class="dropdown-item has-icon" style="display: flex; align-items: center;">
-                                                <i class="fas fa-info-circle" style="margin-right: 8px;"></i> Falta
-                                                información
-                                            </a>
-                                        </form>
-
-                                        <form method="POST"
-                                            action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
-                                            @csrf
-                                            <input type="hidden" name="state" value="5">
-                                            <a href="javascript:void(0);" onclick="this.closest('form').submit();"
-                                                class="dropdown-item has-icon" style="display: flex; align-items: center;">
-                                                <i class="fas fa-lock" style="margin-right: 8px;"></i> Cerrar actividad
-                                            </a>
-                                        </form>
-
-                                        <form method="POST"
-                                            action="{{ route('admin.iniciativas.updateState', ['inic_codigo' => $iniciativa->inic_codigo]) }}">
-                                            @csrf
-                                            <input type="hidden" name="state" value="6">
-                                            <a href="javascript:void(0);" onclick="this.closest('form').submit();"
-                                                class="dropdown-item has-icon"
-                                                style="display: flex; align-items: center;">
-                                                <i class="fas fa-check-double" style="margin-right: 8px;"></i> Finalizar
-                                                actividad
-                                            </a>
-                                        </form>
-                                    </div>
-                                </div>
                                 <a href="{{ route('admin.iniciativa.listar') }}"
                                     class="btn btn-primary mr-1 waves-effect icon-left" type="button">
                                     <i class="fas fa-angle-left"></i> Volver a listado

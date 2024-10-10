@@ -128,7 +128,7 @@
 
                                     {{-- <a href="{{ route($role . '.evaluar.iniciativa', $iniciativa[0]->inic_codigo) }}"
                                             class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Evaluar iniciativa"><i
+                                            data-placement="top" title="Ingresar evaluación"><i
                                                 class="fas fa-file-signature"></i>Evaluar</a> --}}
 
                                     <a href="{{ route('admin.iniciativa.listar') }}"

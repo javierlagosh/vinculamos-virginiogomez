@@ -413,8 +413,8 @@
                                         <a href="${evidenciasUrl}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Ingresar evidencia">
                                             <i class="fas fa-paperclip"></i> Ingresar evidencia
                                         </a>
-                                        <a href="${evaluarUrl}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Evaluar iniciativa">
-                                            <i class="fas fa-file-signature"></i> Evaluar iniciativa
+                                        <a href="${evaluarUrl}" class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top" title="Ingresar evaluación">
+                                            <i class="fas fa-file-signature"></i> Ingresar evaluación
                                         </a>
                                     </div>
                                 </div>
