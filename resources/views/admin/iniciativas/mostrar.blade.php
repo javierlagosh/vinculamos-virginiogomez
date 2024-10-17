@@ -426,9 +426,10 @@
                                                     <div class="table-responsive">
                                                         <table class="table table-bordered table-sm">
                                                             <thead>
-                                                                <th>Sedes</th>
-                                                                <th>Carreras</th>
-                                                                <th>Escuelas</th>
+                                                                <th>Sede</th>
+                                                                <th>Unidad</th>
+                                                                <th>Carrera</th>
+                                                                
                                                                 <th>Docentes</th>
                                                                 <th>Docentes final</th>
                                                                 <th>Estudiantes</th>
@@ -443,8 +444,9 @@
                                                                 @foreach ($internos as $interno)
                                                                     <tr>
                                                                         <td>{{ $interno->sede_nombre }}</td>
-                                                                        <td>{{ $interno->care_nombre }}</td>
                                                                         <td>{{ $interno->escu_nombre }}</td>
+                                                                        <td>{{ $interno->care_nombre }}</td>
+                                                                        
                                                                         <td>
                                                                             @if ($interno->pain_docentes != null)
                                                                                 {{ $interno->pain_docentes }}

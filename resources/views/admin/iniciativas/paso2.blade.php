@@ -263,7 +263,7 @@
                                 </div>
                                 <div class="col-xl-2 col-md-2 col-lg-2" style="display: none;">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Escuelas</label> <label for=""
+                                        <label style="font-size: 110%">Unidades</label> <label for=""
                                             style="color: red;">*</label>
                                         <select class="form-control select2" id="escuelas" name="escuelas"
                                             style="width: 100%">
@@ -383,7 +383,7 @@
                                                 <table class="table table-bored table-md">
                                                     <thead>
                                                         <th>Sedes</th>
-                                                        <th>Escuelas</th>
+                                                        <th>Unidades</th>
                                                         <th>Carreras</th>
                                                         <th>Estudiantes</th>
                                                         <th>Docentes</th>

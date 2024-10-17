@@ -99,8 +99,8 @@
                                                         <thead>
                                                             <tr>
                                                                 <th scope="col">Sede</th>
-                                                                <th scope="col">Escuela</th>
-                                                                <th scope="col">Carreras</th>
+                                                                <th scope="col">Unidad</th>
+                                                                <th scope="col">Carrera</th>
                                                                 <th scope="col">Docentes inicial</th>
                                                                 <th scope="col">Docentes final</th>
                                                                 <th scope="col">Estudiantes inicial</th>
