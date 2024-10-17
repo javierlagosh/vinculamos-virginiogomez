@@ -495,3 +495,11 @@ Route::post('/send-email', [MailController::class, 'sendEmail'])->name('enviar.e
 Route::delete('admin/eliminar-todas-las-evaluaciones', [IniciativasController::class, 'eliminarTodasLasEvaluaciones'])->name('admin.eliminar.todas.las.evaluaciones');
 Route::post('admin/iniciativas/evaluar/manual', [IniciativasController::class, 'guardarEvaluacionManual'])->name('admin.guardar.evaluacion.manual');
 Route::post('admin/iniciativas/eliminar-evaluacion', [IniciativasController::class, 'eliminarEvaluacionInciativa'])->name('admin.eliminar.evaluacion.iniciativa');
+
+
+
+Route::post('/evaluaciones/guardar/qr/', [IniciativasController::class, 'guardarEvaluacionQR'])->name('evaluacion.guardar.desde.qr');
+Route::get('/evaluaciones/{evatotal_encriptado}/desde-qr', [IniciativasController::class, 'evaluaEstudianteDesdeQR']);
+//qr evaluacion
+Route::get('evaluaciones/{evatotal_encriptado}/qr', [IniciativasController::class, 'mostrarQr'])->name('admin.qr.evaluacion');
+

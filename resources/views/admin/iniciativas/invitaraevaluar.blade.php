@@ -129,7 +129,7 @@
                                 <div class="col-md-12">
                                     <div class="container-fluid">
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <h6>Cargar individualmente</h6>
                                                         <form method="post" action="{{ route('admin.iniciativa.evaluar.enviar.cargaIndividual') }}" enctype="multipart/form-data">
                                                             @csrf
@@ -166,7 +166,7 @@
                                                         </form>
                                             </div>
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="d-flex justify-content-between ">
                                                     <h6 class="mb-0">Cargar por Texto</h6>
 
@@ -202,7 +202,7 @@
                                                                 </button>
                                                             </form>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <h6>Link de invitación</h6>
                                                                 <div class="form-group">
 
@@ -232,6 +232,17 @@
                                                                         inputc.parentNode.removeChild(inputc);
                                                                     }
                                                                 </script>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <h6>Link de invitación</h6>
+                                                <div class="form-group">
+                                                    <label for="exampleInputFile">
+                                                        Genera un QR para ingresar a la evaluación.
+                                                    </label>
+                                                </div>
+                                                <a href="{{ env('URL_EVALUACIONES') }}evaluaciones/{{$evaluaciontotal->evatotal_encriptado}}/qr" class="btn btn-success" target="_blank" rel="noopener noreferrer">
+                                                                    <i class="fas fa-solid fa-qrcode"></i> Generar código QR
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
