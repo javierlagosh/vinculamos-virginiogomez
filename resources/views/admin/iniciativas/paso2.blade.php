@@ -245,7 +245,7 @@
                             <div class="row">
                                 <div class="col-xl-2 col-md-2 col-lg-2">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Sedes</label> <label for=""
+                                        <label style="font-size: 110%">Sede</label> <label for=""
                                             style="color: red;">*</label>
                                         <select class="form-control select2" id="sedes" name="sedes"
                                             style="width: 100%">
@@ -263,7 +263,7 @@
                                 </div>
                                 <div class="col-xl-2 col-md-2 col-lg-2" style="display: none;">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Unidades</label> <label for=""
+                                        <label style="font-size: 110%">Unidad</label> <label for=""
                                             style="color: red;">*</label>
                                         <select class="form-control select2" id="escuelas" name="escuelas"
                                             style="width: 100%">
@@ -281,7 +281,7 @@
                                 </div>
                                 <div class="col-xl-2 div-col-md-2 col-lg-3">
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Carreras</label> <label for=""
+                                        <label style="font-size: 110%">Carrera</label> <label for=""
                                             style="color: red;">*</label>
                                         <select class="form-control select2" id="carreras" name="carreras"
                                             style="width: 100%">
@@ -382,9 +382,9 @@
                                             <div class="table-responsive">
                                                 <table class="table table-bored table-md">
                                                     <thead>
-                                                        <th>Sedes</th>
-                                                        <th>Unidades</th>
-                                                        <th>Carreras</th>
+                                                        <th>Sede</th>
+                                                        <th>Unidad</th>
+                                                        <th>Carrera</th>
                                                         <th>Estudiantes</th>
                                                         <th>Docentes</th>
                                                         <th>Titulados</th>
