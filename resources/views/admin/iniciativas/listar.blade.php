@@ -313,6 +313,7 @@
                 type: 'GET',
                 data: function (d) {
                     d.search = $('input[name="search"]').val();
+                    d.sede = $('select[name="sede"]').val();
                     d.mecanismo = $('select[name="mecanismo"]').val();
                     d.estados = $('select[name="estados"]').val();
                     d.anho = $('select[name="anho"]').val();
@@ -474,11 +475,12 @@
         });
 
         $(document).ready(function(){
-            $(document).on('change', 'select[name="mecanismo"], select[name="estados"], select[name="anho"]', function() {
+            $(document).on('change', 'select[name="sede"], select[name="mecanismo"], select[name="estados"], select[name="anho"]', function() {
                 table.draw();  //Refresca la tabla con los nuevos datos
             });
 
             $(document).on('click', '#btnLimpiar', function(){
+                $('select[name="sede"]').val('').trigger('change');
                 $('select[name="mecanismo"]').val('').trigger('change');
                 $('select[name="estados"]').val('').trigger('change');
                 $('select[name="anho"]').val('').trigger('change');

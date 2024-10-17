@@ -129,6 +129,9 @@ class IniciativasController extends Controller
 
         if ($request->ajax()) {
             // Aplicar filtros
+            if ($request->sede != 'all' && $request->sede != null) {
+                $iniciativas->where('sedes.sede_codigo', $request->sede);
+            }
             if ($mecanismo) {
                 $iniciativas->where('mecanismos.meca_nombre', $mecanismo);
             }
@@ -220,10 +223,11 @@ class IniciativasController extends Controller
         }
 
         // No AJAX, renderizar vista
+        $sedes = Sedes::select('sede_codigo', 'sede_nombre')->orderBy('sede_nombre', 'asc')->get();
         $mecanismos = Mecanismos::select('meca_codigo', 'meca_nombre')->orderBy('meca_nombre', 'asc')->get();
         $anhos = Iniciativas::select('inic_anho')->distinct('inic_anho')->orderBy('inic_anho', 'asc')->get();
 
-        return view('admin.iniciativas.listar', compact('iniciativas', 'mecanismos', 'anhos'));
+        return view('admin.iniciativas.listar', compact('iniciativas', 'mecanismos', 'anhos', 'sedes'));
     }
 
     private function getIniciativasQuery(Request $request)
