@@ -59,7 +59,27 @@
                         </div>
                         <div class="card-body">
                             <div class="row align-items-end">
-                                <div class="col-xl-4  col-md-4 col-lg-4 mb-2 mb-sm-0">
+                                <div class="col-xl-3 col-md-3 col-lg-3">
+                                    <div class="form-group">
+                                        <label for="sede">Sedes</label>
+                                        <select
+                                            name="sede" id="sede"
+                                            class="form-control select2"
+                                            style="width: 100%">
+                                            <option value=""  selected>Seleccione...</option>
+                                            <option value="all">Todas</option>
+                                            @forelse ($sedes as $sede)
+                                                <option value="{{ $sede->sede_codigo }}"
+                                                    {{ Request::get('sede') == $sede->sede_codigo ? 'selected' : '' }}>
+                                                    {{ $sede->sede_nombre }}</option>
+                                            @empty
+                                                <option value="-1">No existen registros</option>
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-3  col-md-3 col-lg-3 mb-2 mb-sm-0">
                                     <div class="form-group">
                                         <label>Filtrar por Mecanismo</label>
                                         <select class="form-control select2" style="width: 100%" id="mecanismo" name="mecanismo">
@@ -75,7 +95,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-xl-4 col-md-4 col-lg-4">
+                                <div class="col-xl-3 col-md-3 col-lg-3">
                                     <div class="form-group">
                                         <label>Filtrar por Estado</label>
                                         <select class="form-control select2" style="width: 100%" id="estados" name="estados">
@@ -90,7 +110,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-xl-4  col-md-4 col-lg-4 mb-2 mb-sm-0">
+                                <div class="col-xl-3  col-md-3 col-lg-3 mb-2 mb-sm-0">
                                     <div class="form-group">
                                         <label>Filtrar por Año</label>
                                         <select class="form-control select2" style="width: 100%" id="anho" name="anho">
