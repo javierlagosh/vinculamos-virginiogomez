@@ -923,12 +923,12 @@
                                         <div class="col-md-6 col-lg-6 col-xl-6">
                                             <div class="form-group">
                                                 <label for="escuelasColaboradoras" style="font-size: 110%">Unidades colaboradoras</label>
-                                                <label for="escuelasColaboradoras" style="color: red;">*</label>
+                                                
                                                 <div class="float-right pr-4">
                                                     <input type="checkbox" id="selectAllEscuelas">
                                                     <label for="selectAllEscuelas">Todas</label>
                                                 </div>
-                                                <select class="form-control select2" name="escuelas[]" multiple="" required
+                                                <select class="form-control select2" name="escuelas[]" multiple="" 
                                                     style="width: 100%" id="escuelas">
                                                     @if (isset($iniciativa) && $editar)
                                                         @forelse ($escuelas as $escuela)
@@ -962,13 +962,13 @@
                                         <div class="col-md-6 col-lg-6 col-xl-6">
                                             <div class="form-group">
                                                 <label style="font-size: 110%">Carreras (U. Colaboradoras)</label>
-                                                <label for="" style="color: red;">*</label>
+                                                
                                                 <div class="float-right pr-4">
                                                     <input type="checkbox" id="selectAllCarreras" />
                                                     <label for="selectAllCarreras">Todas</label>
                                                 </div>
 
-                                                <select class="form-control select2" multiple="" id="carreras" required
+                                                <select class="form-control select2" multiple="" id="carreras" 
                                                     name="carreras[]" style="width: 100%">
                                                     @if (isset($iniciativa) && $editar)
                                                         @forelse ($carreras as $carrera)
@@ -1194,6 +1194,7 @@
                                         <div class="col-md-6 col-lg-6 col-xl-6">
                                             <div class="form-group" id="regiones_div">
                                                 <label style="font-size: 110%">Región</label>
+                                                <label for="" style="color: red;">*</label>
                                                 <input type="hidden" id="territorio" name="territorio" value="nacional">
                                                 <input type="hidden" id="pais" name="pais" value="1">
                                                 <select class="form-control select2" id="region" multiple="" required
@@ -1237,6 +1238,7 @@
                                         <div class="col-md-6 col-lg-6 col-xl-6">
                                             <div class="form-group" id="comunas_div">
                                                 <label style="font-size: 110%">Comuna</label>
+                                                <label for="" style="color: red;">*</label>
                                                 <select class="form-control select2" id="comuna" name="comuna[]" required
                                                     multiple="" style="width: 100%">
                                                     <option value="" disabled>Seleccione...</option>
