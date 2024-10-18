@@ -67,7 +67,7 @@
                                             class="form-control select2"
                                             style="width: 100%">
                                             <option value=""  selected>Seleccione...</option>
-                                            <option value="all">Todas</option>
+                                            
                                             @forelse ($sedes as $sede)
                                                 <option value="{{ $sede->sede_codigo }}"
                                                     {{ Request::get('sede') == $sede->sede_codigo ? 'selected' : '' }}>
