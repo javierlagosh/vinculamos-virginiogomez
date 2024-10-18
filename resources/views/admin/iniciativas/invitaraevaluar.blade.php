@@ -234,7 +234,7 @@
                                                                 </script>
                                             </div>
                                             <div class="col-md-3">
-                                                <h6>Link de invitación</h6>
+                                                <h6>QR a encuesta</h6>
                                                 <div class="form-group">
                                                     <label for="exampleInputFile">
                                                         Genera un QR para ingresar a la evaluación.
