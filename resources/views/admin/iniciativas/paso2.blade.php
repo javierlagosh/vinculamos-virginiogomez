@@ -382,6 +382,7 @@
                                             <div class="table-responsive">
                                                 <table class="table table-bored table-md">
                                                     <thead>
+                                                        <th>Tipo</th>
                                                         <th>Sede</th>
                                                         <th>Unidad</th>
                                                         <th>Carrera</th>
@@ -1111,6 +1112,7 @@
 
                         // <td>${registro.pain_total}</td>
                         fila = `<tr>
+                                <td>${registro.pain_ejecutora}</td>
                                 <td>${registro.sede_nombre}</td>
                                 <td>${registro.escu_nombre}</td>
                                 <td>${registro.care_nombre}</td>
@@ -1262,6 +1264,7 @@
                         // }
                         // <td>${registro.pain_total}</td>
                         fila = `<tr>
+                                    <td>${registro.pain_ejecutora}</td>
                                     <td>${registro.sede_nombre}</td>
                                     <td>${registro.escu_nombre}</td>
                                     <td>${registro.care_nombre}</td>

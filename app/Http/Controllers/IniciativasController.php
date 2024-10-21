@@ -1250,7 +1250,22 @@ class IniciativasController extends Controller
         $carreras = $request->input('carreras', []);
         $carrerasEjecutora = $request->input('carrerasEjecutora', []);
 
-        //Escuelas colaboradoras
+        $existentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)->get();
+
+        foreach ($existentes as $existente) {
+            $sedeExistente = in_array($existente->sede_codigo, $sedes);
+            $escuelaExistente = in_array($existente->escu_codigo, $escuelas);
+            $carreraExistente = in_array($existente->care_codigo, $carreras);
+
+            if (!$sedeExistente || !$escuelaExistente || !$carreraExistente) {
+                ParticipantesInternos::where([
+                    'inic_codigo' => $inic_codigo,
+                    'sede_codigo' => $existente->sede_codigo,
+                    'escu_codigo' => $existente->escu_codigo,
+                    'care_codigo' => $existente->care_codigo
+                ])->delete();
+            }
+        }
         foreach ($sedes as $sede) {
             foreach ($escuelas as $escuela) {
                 foreach ($carreras as $carrera) {
@@ -1271,19 +1286,19 @@ class IniciativasController extends Controller
                     ])->exists();
 
                     if ($sede_escuela && !$escuela_sede && $escuela_carrera) {
-                        //si la carrera no pertenece a la escuela no se inserta
                         array_push($pain, [
                             'inic_codigo' => $inic_codigo,
                             'sede_codigo' => $sede,
                             'escu_codigo' => $escuela,
                             'care_codigo' => $carrera,
-                            //Distintivo entre escuela ejecutora y escuelas colaboradoras...
                             'pain_ejecutora' => false
                         ]);
                     }
                 }
             }
         }
+
+        
 
         //escuela ejecutora
         foreach ($sedes as $sede) {
