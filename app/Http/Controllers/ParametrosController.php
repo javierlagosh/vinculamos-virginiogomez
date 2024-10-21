@@ -994,27 +994,27 @@ class ParametrosController extends Controller
     {
         $verificarDrop = Escuelas::where('escu_codigo', $request->escu_codigo)->first();
         if (!$verificarDrop) {
-            return redirect()->route('admin.listar.escuelas')->with('error', 'La carrera no se encuentra registrada en el sistema.');
+            return redirect()->route('admin.listar.escuelas')->with('error', 'La Unidad no se encuentra registrada en el sistema.');
         }
 
         $predrop = Carreras::where('escu_codigo', $request->escu_codigo)->first();
         if ($predrop) {
-            return redirect()->route('admin.listar.escuelas')->with('error', 'La carrera está siendo ocupada en una carrera.');
+            return redirect()->route('admin.listar.escuelas')->with('error', 'La Unidad está siendo ocupada en una carrera.');
         }
 
         $pre_drop = ParticipantesInternos::where('escu_codigo', $request->escu_codigo)->first();
         if ($pre_drop) {
-            return redirect()->route('admin.listar.escuelas')->with('error', 'La carrera está siendo ocupada en una iniciativa.');
+            return redirect()->route('admin.listar.escuelas')->with('error', 'La Unidad está siendo ocupada en una iniciativa.');
         }
 
         $Drop = SedesEscuelas::where('escu_codigo', $request->escu_codigo)->delete();
         $Drop = Escuelas::where('escu_codigo', $request->escu_codigo)->delete();
 
         if (!$Drop) {
-            return redirect()->back()->with('error', 'La escuela no se pudo eliminar, intente más tarde.');
+            return redirect()->back()->with('error', 'La Unidad no se pudo eliminar, intente más tarde.');
         }
 
-        return redirect()->route('admin.listar.escuelas')->with('exito', 'La carrera fue eliminada correctamente.');
+        return redirect()->route('admin.listar.escuelas')->with('exito', 'La Unidad fue eliminada correctamente.');
     }
 
     public function actualizarEscuelas(Request $request, $escu_codigo)
