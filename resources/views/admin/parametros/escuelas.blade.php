@@ -433,14 +433,14 @@
                     @method('DELETE')
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalEliminar">Eliminar carrera</h5>
+                        <h5 class="modal-title" id="modalEliminar">Eliminar unidad</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body text-center">
                         <i class="fas fa-ban text-danger" style="font-size: 50px; color"></i>
-                        <h6 class="mt-2">La carrera dejará de existir dentro del sistema. <br> ¿Desea continuar de todos
+                        <h6 class="mt-2">La unidad dejará de existir dentro del sistema. <br> ¿Desea continuar de todos
                             modos?</h6>
                         <input type="hidden" id="escu_codigo" name="escu_codigo" value="">
                     </div>
