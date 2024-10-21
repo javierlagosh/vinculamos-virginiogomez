@@ -261,7 +261,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-xl-2 col-md-2 col-lg-2" style="display: none;">
+                                <div class="col-xl-2 col-md-2 col-lg-2" >
                                     <div class="form-group">
                                         <label style="font-size: 110%">Unidad</label> <label for=""
                                             style="color: red;">*</label>

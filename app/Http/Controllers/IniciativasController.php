@@ -1627,7 +1627,7 @@ class IniciativasController extends Controller
         $carreras = ParticipantesInternos::where('inic_codigo', $inic_codigo)
             ->join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
             ->select('carreras.care_codigo', 'carreras.care_nombre')
-            ->where('participantes_internos.pain_ejecutora', true)
+            // ->where('participantes_internos.pain_ejecutora', true)
             //->distinct()
             ->get();
         
@@ -2091,8 +2091,7 @@ class IniciativasController extends Controller
                 'inic_codigo' => $request->inic_codigo,
                 'sede_codigo' => $request->sede_codigo,
                 'escu_codigo' => $request->escu_codigo,
-                'care_codigo' => $request->care_codigo,
-                'pain_ejecutora' => true
+                'care_codigo' => $request->care_codigo
             ]
         )->update([
                     'pain_docentes' => $request->pain_docentes,
@@ -2102,11 +2101,11 @@ class IniciativasController extends Controller
                     'pain_total' => $request->pain_total
                 ]);
 
-        $internos = ParticipantesInternos::join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
-            ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
-            ->join('sedes', 'sedes.sede_codigo', '=', 'participantes_internos.sede_codigo')
-            ->where('inic_codigo', $request->inic_codigo)
-            ->get();
+                $internos = ParticipantesInternos::join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
+                ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
+                ->join('sedes', 'sedes.sede_codigo', '=', 'participantes_internos.sede_codigo')
+                ->where('inic_codigo', $request->inic_codigo)
+                ->get();
         
         return json_encode(["estado" => true, "resultado" => $internos, "internos" => $actualizarInternos]);
     }
