@@ -1149,7 +1149,7 @@ class ParametrosController extends Controller
 
 
 
-        return redirect()->back()->with('exito', 'La carrera fué creada existosamente');
+        return redirect()->back()->with('exito', '¡La unidad fue creada existosamente!');
     }
 
     //TODO: Socios Comunitarios
