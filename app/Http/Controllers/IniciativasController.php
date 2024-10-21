@@ -1242,7 +1242,7 @@ class IniciativasController extends Controller
         if (!$inicActualizar)
             return redirect()->back()->with('errorPaso1', 'Ocurrió un error durante la actualización de los datos de la iniciativa, intente más tarde.')->withInput();
 
-        ParticipantesInternos::where('inic_codigo', $inic_codigo)->delete();
+        //ParticipantesInternos::where('inic_codigo', $inic_codigo)->delete();
         
         $pain = [];
         $sedes = $request->input('sedes', []);
@@ -1256,6 +1256,7 @@ class IniciativasController extends Controller
             $sedeExistente = in_array($existente->sede_codigo, $sedes);
             $escuelaExistente = in_array($existente->escu_codigo, $escuelas);
             $carreraExistente = in_array($existente->care_codigo, $carreras);
+            
 
             if (!$sedeExistente || !$escuelaExistente || !$carreraExistente) {
                 ParticipantesInternos::where([
