@@ -98,23 +98,31 @@
                                                     <table class="table table-bordered table-md">
                                                         <thead>
                                                             <tr>
-                                                                <th scope="col">Sede</th>
-                                                                <th scope="col">Unidad</th>
-                                                                <th scope="col">Carrera</th>
-                                                                <th scope="col">Docentes inicial</th>
-                                                                <th scope="col">Docentes final</th>
-                                                                <th scope="col">Estudiantes inicial</th>
-                                                                <th scope="col">Estudiantes final</th>
-                                                                <th scope="col">Directivos/as inicial</th>
-                                                                <th scope="col">Directivos/as final</th>
-                                                                <th scope="col">Titulados inicial</th>
-                                                                <th scope="col">Titulados final</th>
+                                                                <th>Tipo</th>
+                                                                <th>Sede</th>
+                                                                <th>Unidad</th>
+                                                                <th>Carrera</th>
+                                                                <th>Docentes esperados</th>
+                                                                <th>Docentes reales</th>
+                                                                <th>Estudiantes esperados</th>
+                                                                <th>Estudiantes reales</th>
+                                                                <th>Directivos/as esperados</th>
+                                                                <th>Directivos/as reales</th>
+                                                                <th>Titulados/as esperados</th>
+                                                                <th>Titulados/as reales</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="body-tabla-participantes">
                                                             {{-- {{$resultados}} --}}
                                                             @foreach ($resultados as $resultado)
                                                                 <tr>
+                                                                    <td>
+                                                                        @if ($resultado->pain_ejecutora == 1)
+                                                                            Ejecutora
+                                                                        @else
+                                                                            Colaboradora
+                                                                        @endif
+                                                                    </td>
                                                                     <td>{{ $resultado->sede_nombre }}</td>
                                                                     <td>{{ $resultado->escu_nombre }}</td>
                                                                     <td>{{ $resultado->care_nombre }}</td>

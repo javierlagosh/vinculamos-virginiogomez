@@ -275,6 +275,7 @@ class IniciativasController extends Controller
                 'participantes_internos.pain_total',
                 'participantes_internos.pain_titulados',
                 'participantes_internos.pain_titulados_final',
+                'participantes_internos.pain_ejecutora',
             )
             ->join('sedes', 'participantes_internos.sede_codigo', '=', 'sedes.sede_codigo')
             ->join('escuelas', 'participantes_internos.escu_codigo', '=', 'escuelas.escu_codigo')
@@ -283,6 +284,7 @@ class IniciativasController extends Controller
             ->where('escuelas.escu_nombre', '!=', 'No aplica')
             ->where('escuelas.escu_nombre', '!=', 'Sin participación Escuela colaboradora')
             ->where('carreras.care_nombre', '!=', 'No aplica')
+            ->orderBy('participantes_internos.pain_ejecutora', 'desc')
             ->get();
         $participantes = Iniciativas::join('iniciativas_participantes', 'iniciativas_participantes.inic_codigo', 'iniciativas.inic_codigo')
             ->join('sub_grupos_interes', 'sub_grupos_interes.sugr_codigo', 'iniciativas_participantes.sugr_codigo')
@@ -465,8 +467,10 @@ class IniciativasController extends Controller
                 'participantes_internos.pain_funcionarios_final',
                 'participantes_internos.pain_titulados',
                 'participantes_internos.pain_titulados_final',
+                'participantes_internos.pain_ejecutora',
             )
             ->where('participantes_internos.inic_codigo', $inic_codigo)
+            ->orderBy('participantes_internos.pain_ejecutora', 'desc')
             ->get();
 
         $ubicaciones = IniciativasComunas::join('comunas', 'comunas.comu_codigo', 'iniciativas_comunas.comu_codigo')
@@ -2074,7 +2078,7 @@ class IniciativasController extends Controller
             ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
             ->join('sedes', 'sedes.sede_codigo', '=', 'participantes_internos.sede_codigo')
             ->where('inic_codigo', $request->inic_codigo)
-            ->where('pain_ejecutora', true)
+
             ->get();
 
         return json_encode(["estado" => true, "resultado" => $internos]);

@@ -426,23 +426,30 @@
                                                     <div class="table-responsive">
                                                         <table class="table table-bordered table-sm">
                                                             <thead>
+                                                                <th>Tipo</th>
                                                                 <th>Sede</th>
                                                                 <th>Unidad</th>
                                                                 <th>Carrera</th>
-                                                                
-                                                                <th>Docentes</th>
-                                                                <th>Docentes final</th>
-                                                                <th>Estudiantes</th>
-                                                                <th>Estudiantes final</th>
-                                                                <th>Directivos/as</th>
-                                                                <th>Directivos/as final</th>
-                                                                <th>Titulados/as</th>
-                                                                <th>Titulados/as final</th>
+                                                                <th>Docentes esperados</th>
+                                                                <th>Docentes reales</th>
+                                                                <th>Estudiantes esperados</th>
+                                                                <th>Estudiantes reales</th>
+                                                                <th>Directivos/as esperados</th>
+                                                                <th>Directivos/as reales</th>
+                                                                <th>Titulados/as esperados</th>
+                                                                <th>Titulados/as reales</th>
                                                             </thead>
 
                                                             <tbody>
                                                                 @foreach ($internos as $interno)
                                                                     <tr>
+                                                                        <td>
+                                                                            @if ($interno->pain_ejecutora == 1)
+                                                                                Ejecutora
+                                                                            @else
+                                                                                Colaboradora
+                                                                            @endif
+                                                                        </td>
                                                                         <td>{{ $interno->sede_nombre }}</td>
                                                                         <td>{{ $interno->escu_nombre }}</td>
                                                                         <td>{{ $interno->care_nombre }}</td>
