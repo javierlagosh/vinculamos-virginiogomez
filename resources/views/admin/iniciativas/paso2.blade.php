@@ -1263,8 +1263,17 @@
                         //     registro.pain_total = 0
                         // }
                         // <td>${registro.pain_total}</td>
+                        var ejecutora = registro.pain_ejecutora;
+                        console.log(ejecutora);
+                        if(ejecutora == 0 || ejecutora == null){
+                            ejecutora = 'Colaboradora';
+                        }else if(ejecutora == 1){
+                            ejecutora = 'Ejecutora';
+                        }else{
+                            ejecutora = 'No definida';
+                        }
                         fila = `<tr>
-                                    <td>${registro.pain_ejecutora}</td>
+                                    <td>` + ejecutora + `</td>
                                     <td>${registro.sede_nombre}</td>
                                     <td>${registro.escu_nombre}</td>
                                     <td>${registro.care_nombre}</td>

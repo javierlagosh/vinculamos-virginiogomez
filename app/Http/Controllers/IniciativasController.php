@@ -2093,6 +2093,7 @@ class IniciativasController extends Controller
             ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
             ->join('sedes', 'sedes.sede_codigo', '=', 'participantes_internos.sede_codigo')
             ->where('inic_codigo', $request->inic_codigo)
+            ->orderBy('participantes_internos.pain_ejecutora', 'desc')
 
             ->get();
 
