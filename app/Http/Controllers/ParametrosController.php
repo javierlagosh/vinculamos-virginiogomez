@@ -1072,7 +1072,7 @@ class ParametrosController extends Controller
             return redirect()->back()->with('socoError', 'Ocurrió un error durante el registro de las sedes, intente más tarde.')->withInput();
         }
 
-        return redirect()->back()->with('exito', 'La escuela ha sido actualizada correctamente.');
+        return redirect()->back()->with('exito', 'La unidad ha sido actualizada correctamente.');
     }
 
 
