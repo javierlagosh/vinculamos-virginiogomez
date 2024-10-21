@@ -1250,15 +1250,16 @@ class IniciativasController extends Controller
         $carreras = $request->input('carreras', []);
         $carrerasEjecutora = $request->input('carrerasEjecutora', []);
 
+        $carrerasJuntas = array_merge($carreras, $carrerasEjecutora);
+
         $existentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)->get();
 
         foreach ($existentes as $existente) {
             $sedeExistente = in_array($existente->sede_codigo, $sedes);
             $escuelaExistente = in_array($existente->escu_codigo, $escuelas);
             $carreraExistente = in_array($existente->care_codigo, $carreras);
-            
 
-            if (!$sedeExistente || !$escuelaExistente || !$carreraExistente) {
+            if (!$sedeExistente || !$escuelaExistente || !$carrerasJuntas) {
                 ParticipantesInternos::where([
                     'inic_codigo' => $inic_codigo,
                     'sede_codigo' => $existente->sede_codigo,
