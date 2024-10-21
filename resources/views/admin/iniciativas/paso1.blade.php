@@ -757,7 +757,7 @@
                                     </script>
 
                                     <div class="row">
-                                        <div class="col-md-6 col-lg-6 col-xl-6">
+                                        <div class="col-md-4 col-lg-4 col-xl-4">
                                             <div class="form-group">
                                                 <label style="font-size: 110%">Sedes</label> <label for=""
                                                     style="color: red;">*</label>
@@ -797,12 +797,12 @@
 
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-lg-6 col-xl-6">
+                                        <div class="col-md-6 col-lg-6 col-xl-6" hidden>
                                             <div class="form-group">
                                                 <label style="font-size: 110%">Departamentos</label> <label for=""
                                                     style="color: red;">*</label>
 
-                                                <select class="form-control select2" multiple="" id="departamentos" required
+                                                <select class="form-control select2" multiple="" id="departamentos" 
                                                     name="departamentos[]" style="width: 100%">
                                                     @if (isset($iniciativa) && $editar)
                                                         
@@ -836,10 +836,7 @@
 
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-6 col-lg-6 col-xl-6">
+                                        <div class="col-md-4 col-lg-4 col-xl-4">
                                             <div class="form-group">
                                                 <label style="font-size: 110%">Unidad ejecutora</label> <label
                                                     for="" style="color: red;">*</label>
@@ -875,7 +872,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-lg-6 col-xl-6">
+                                        <div class="col-md-4 col-lg-4 col-xl-4">
                                             <div class="form-group">
                                                 <label style="font-size: 110%">Carrera (U. Ejecutora)</label>
                                                 <label for="" style="color: red;">*</label>
