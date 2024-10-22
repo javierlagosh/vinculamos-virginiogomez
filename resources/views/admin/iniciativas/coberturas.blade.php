@@ -100,7 +100,7 @@
                                                             <tr>
                                                                 <th>Tipo</th>
                                                                 <th>Sede</th>
-                                                                <th>Unidad</th>
+                                                                <th>Escuela/Unidad</th>
                                                                 <th>Carrera</th>
                                                                 <th>Docentes esperados</th>
                                                                 <th>Docentes reales</th>

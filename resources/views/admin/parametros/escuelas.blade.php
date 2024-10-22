@@ -44,10 +44,10 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h4>Listado de Unidades</h4>
+                            <h4>Listado de escuelas y unidades</h4>
                             <div class="card-header-action">
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#modalCrearEscuela"><i class="fas fa-plus"></i> Nueva Unidad</button>
+                                    data-target="#modalCrearEscuela"><i class="fas fa-plus"></i> Nueva Escuela/Unidad</button>
                             </div>
                         </div>
                         <div class="card-body">
@@ -100,7 +100,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="formModal">Nueva Unidad</h5>
+                    <h5 class="modal-title" id="formModal">Nueva Escuela/Unidad</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -109,7 +109,7 @@
                     <form action="{{ route('admin.crear.escuelas') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label>Nombre de la unidad</label>
+                            <label>Nombre de la Escuela/Unidad</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -264,7 +264,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalEditarEscuela">Editar Unidad</h5>
+                        <h5 class="modal-title" id="modalEditarEscuela">Editar Escuela/Unidad</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -275,7 +275,7 @@
                             @csrf
 
                             <div class="form-group">
-                                <label>Nombre de la Unidad</label>
+                                <label>Nombre de la Escuela/Unidad</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">

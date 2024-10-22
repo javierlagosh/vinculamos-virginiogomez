@@ -838,7 +838,7 @@
                                         </div>
                                         <div class="col-md-4 col-lg-4 col-xl-4">
                                             <div class="form-group">
-                                                <label style="font-size: 110%">Unidad ejecutora</label> <label
+                                                <label style="font-size: 110%">Escuela/Unidad ejecutora</label> <label
                                                     for="" style="color: red;">*</label>
 
                                                 <select class="form-control select2" id="inic_escuela_ejecutora" name="inic_escuela_ejecutora" required
@@ -874,7 +874,7 @@
                                         </div>
                                         <div class="col-md-4 col-lg-4 col-xl-4">
                                             <div class="form-group">
-                                                <label style="font-size: 110%">Carrera (U. Ejecutora)</label>
+                                                <label style="font-size: 110%">Carrera (Escuela/Unidad Ejecutora)</label>
                                                 <label for="" style="color: red;">*</label>
                                                 <div class="float-right pr-4">
                                                     <input type="checkbox" id="selectAllCarrerasEjecutora" />
@@ -919,7 +919,7 @@
                                     <div class="row">    
                                         <div class="col-md-6 col-lg-6 col-xl-6">
                                             <div class="form-group">
-                                                <label for="escuelasColaboradoras" style="font-size: 110%">Unidades colaboradoras</label>
+                                                <label for="escuelasColaboradoras" style="font-size: 110%">Escuelas/Unidades colaboradoras</label>
                                                 
                                                 <div class="float-right pr-4">
                                                     <input type="checkbox" id="selectAllEscuelas">
@@ -958,7 +958,7 @@
                                         </div>
                                         <div class="col-md-6 col-lg-6 col-xl-6">
                                             <div class="form-group">
-                                                <label style="font-size: 110%">Carreras (U. Colaboradoras)</label>
+                                                <label style="font-size: 110%">Carreras (Escuela/Unidad Colaboradoras)</label>
                                                 
                                                 <div class="float-right pr-4">
                                                     <input type="checkbox" id="selectAllCarreras" />

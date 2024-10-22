@@ -263,7 +263,7 @@
                                 </div>
                                 <div class="col-xl-2 col-md-2 col-lg-2" >
                                     <div class="form-group">
-                                        <label style="font-size: 110%">Unidad</label> <label for=""
+                                        <label style="font-size: 110%">Escuela/Unidad</label> <label for=""
                                             style="color: red;">*</label>
                                         <select class="form-control select2" id="escuelas" name="escuelas"
                                             style="width: 100%">
@@ -384,7 +384,7 @@
                                                     <thead>
                                                         <th>Tipo</th>
                                                         <th>Sede</th>
-                                                        <th>Unidad</th>
+                                                        <th>Escuela/Unidad</th>
                                                         <th>Carrera</th>
                                                         <th>Estudiantes</th>
                                                         <th>Docentes</th>
