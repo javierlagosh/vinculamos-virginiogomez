@@ -1232,7 +1232,7 @@ class IniciativasController extends Controller
             'tiac_codigo' => $request->tactividad,
             'inic_territorio' => $request->territorio,
             'inic_visible' => 1,
-            'inic_creado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
+
             'inic_actualizado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
             'inic_nickname_mod' => Session::get($rolePrefix)->usua_nickname,
             'inic_rol_mod' => Session::get($rolePrefix)->rous_codigo,
