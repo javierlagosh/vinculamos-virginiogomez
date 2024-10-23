@@ -84,7 +84,6 @@
                                             class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                             title="Editar actividad"><i class="fas fa-eye"></i> Mostrar
                                             actividad</a>
-
                                     </div>
                                 </div>
 
@@ -109,8 +108,6 @@
                                                         class="fas fa-file-signature"></i> Ingresar evaluación</a>
                                     </div>
                                 </div>
-
-
                                 <a href="{{ route('admin.iniciativa.listar') }}"
                                     class="btn btn-primary mr-1 waves-effect icon-left" type="button">
                                     <i class="fas fa-angle-left"></i> Volver a listado
@@ -199,18 +196,15 @@
                                 </div>
 
                                 <div class="col-xl-2 col-md-2 col-lg-2" style="position: relative;">
-
-                                    <button class="btn btn-primary mr-1 waves-effect"
-                                        onclick="AgregarParticipantesExternos()"><i class="fas fa-plus"></i>
-                                        Agregar</button>
-
-                                        <button type="button" class="btn btn-success" data-toggle="modal"
-                                    data-target="#modalCrearSocio"><i class="fas fa-plus"></i> Nuevo socio/a
-                                    comunitario/a</button>
-
+                                    <button class="btn btn-primary mr-1 waves-effect" 
+                                            onclick="AgregarParticipantesExternos()"
+                                        <i class="fas fa-plus"></i> Agregar
+                                    </button>
+                                    <button type="button" class="btn btn-success" data-toggle="modal"
+                                            data-target="#modalCrearSocio">
+                                            <i class="fas fa-plus"></i> Nuevo socio/a comunitario/a
+                                    </button>
                                 </div>
-                                
-
                             </div>
                             <div class="row">
                                 <div class="col-xl-2"></div>
@@ -226,16 +220,13 @@
                                                         <th>Acción</th>
                                                     </thead>
                                                     <tbody id="body-tabla-externos">
-
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
 
                             <div class="row">
                                 <div class="col-xl-6 col-md-6 col-lg-6">
@@ -301,7 +292,7 @@
                                         <label style="font-size: 110%">Estudiantes</label> <label for=""
                                             style="color: red;">*</label>
                                         <input type="number" class="form-control" id="nestudiantes"
-                                            name="nestudiantes">
+                                            name="nestudiantes" min="0" oninput="this.value = Math.abs(this.value)">
 
                                         @if ($errors->has('nestudiantes'))
                                             <div class="alert alert-warning alert-dismissible show fade mt-2">
@@ -319,9 +310,7 @@
                                         <label style="font-size: 110%">Titulados</label> <label for="ntitulados"
                                             style="color: red;">*</label>
                                         <input type="number" class="form-control" id="ntitulados"
-                                            name="ntitulados">
-
-                                        
+                                            name="ntitulados" min="0" oninput="this.value = Math.abs(this.value)">
                                     </div>
                                 </div>
 
@@ -329,7 +318,8 @@
                                     <div class="form-group">
                                         <label style="font-size: 110%">Docentes</label> <label for=""
                                             style="color: red;">*</label>
-                                        <input type="number" class="form-control" id="ndocentes" name="ndocentes">
+                                        <input type="number" class="form-control" id="ndocentes" 
+                                            name="ndocentes" min="0" oninput="this.value = Math.abs(this.value)">
 
                                         @if ($errors->has('ndocentes'))
                                             <div class="alert alert-warning alert-dismissible show fade mt-2">
@@ -348,7 +338,7 @@
                                         <label style="font-size: 110%">Directivos/as</label> <label for=""
                                             style="color: red;">*</label>
                                         <input type="number" class="form-control" id="nfuncionarios"
-                                            name="nfuncionarios">
+                                            name="nfuncionarios" min="0" oninput="this.value = Math.abs(this.value)">
 
                                         @if ($errors->has('nfuncionarios'))
                                             <div class="alert alert-warning alert-dismissible show fade mt-2">
@@ -365,18 +355,15 @@
                             <div class="row" style="text-align: ">
                                 <div class="col-xl-4"></div>
                                 <div class="col-xl-4">
-
                                     <button onclick="modificar()" class="btn btn-primary mr-1 waves-effect"><i
                                             class="fas fa-plus"></i> Agregar
                                     </button>
-
                                 </div>
                                 <div class="col-4"></div>
                             </div>
 
                             <div class="row" style="margin-top:75px">
                                 <div class="col-xl-2"></div>
-                                
                                     <div class="card">
                                         <div class="card-body p-0">
                                             <div class="table-responsive">
@@ -393,13 +380,11 @@
                                                         {{-- <th>Total</th> --}}
                                                     </thead>
                                                     <tbody id="body-tabla-internos">
-
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
-                                
                             </div>
 
                             <div class="row p-4">

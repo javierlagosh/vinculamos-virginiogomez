@@ -157,7 +157,7 @@
                                                 <th data-column="meca_nombre">Mecanismo</th>
                                                 <th style="width: 5%" data-column="inic_anho">Año</th>
                                                 <th data-column="sedes">Sedes</th>
-                                                <th data-column="tiac_nombre">Escuela/Unidad</th>
+                                                <th data-column="tiac_nombre">Unidad Ejecutora</th>
                                                 <th data-column="inic_estado">Estado</th>
                                                 <th data-column="inic_creado">Fecha de creación</th>
                                                 <th style="width: 24%">Acciones</th>
