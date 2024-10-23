@@ -166,10 +166,16 @@
                                                 <!-- <label style="font-size: 110%">Año</label>  -->
                                                 <label for="fecha_inicio" style="font-size: 110%">Fecha de Inicio</label> 
                                                 <label for="fecha_inicio" style="color: red;">*</label>
-                                                
+                                                @if (isset($iniciativa) && $editar)
+                                                <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
+                                                    value="{{ $iniciativa->fecha_inicio }}"
+                                                    autocomplete="off"/>
+                                                @else
                                                 <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
                                                     value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
                                                     autocomplete="off"/>
+
+                                                @endif
 
                                                 @if ($errors->has('fecha_inicio'))
                                                     <div class="alert alert-warning alert-dismissible show fade mt-2">
