@@ -71,7 +71,7 @@ class AutenticationController extends Controller
             return redirect()->route('admin.iniciativa.listar');
         } elseif ($usuario->rous_codigo == 3) {
             $request->session()->put('observador', $usuario);
-            return redirect()->route('dashboard.ver');
+            return redirect()->route('admin.iniciativa.listar');
         } elseif ($usuario->rous_codigo == 5) {
             $request->session()->put('supervisor', $usuario);
             return redirect()->route('supervisor.iniciativa.listar');
