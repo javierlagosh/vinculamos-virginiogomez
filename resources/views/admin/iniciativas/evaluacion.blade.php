@@ -177,7 +177,7 @@
 
                                                     </form>
                                                 </td>
-                                                <td rowspan="3" class="align-middle">
+                                                <td rowspan="4" class="align-middle">
                                                     <h3 id="resultados-internos">0</h3>
                                                 </td>
                                             </tr>
@@ -214,6 +214,22 @@
                                                     </form>
                                                 </td>
                                             </tr>
+                                            <tr>
+                                                <td>Titulados</td>
+                                                <td>
+                                                    <form action="{{route('admin.guardar.evaluacion.manual')}}" method="post">
+                                                        @method('POST')
+                                                        @csrf
+                                                        <input type="number" hidden name="inic_codigo" value="{{$iniciativa[0]->inic_codigo}}">
+                                                        <input type="number" hidden name="eval_evaluador" value="15">
+                                                        <div class="d-flex flex-column flex-md-row w-100">
+                                                            <input id="evatitulados" type="number" value="{{$evaluacion_titulados->eval_puntaje  ?? 0}}" name="puntaje" min="0" max="100" class="form-control mr-md-2 mb-2 mb-md-0" style="flex: 0 0 80%;" placeholder="Ingresa Puntaje">
+                                                            <button type="submit" class="btn btn-primary" style="flex: 0 0 20%;"><i class="fas fa-save"></i></button>
+                                                          </div>
+
+                                                    </form>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
 
@@ -241,7 +257,7 @@
 
                                                     </form>
                                                 </td>
-                                                <td rowspan="3" class="align-middle">
+                                                <td rowspan="4" class="align-middle">
                                                     <h3 id="resultados-externos">0</h3>
                                                 </td>
                                             </tr>
@@ -269,6 +285,8 @@
                                             const evaEstudiantes = parseFloat(document.getElementById('evaestudiantes').value) || 0;
                                             const evaDocentes = parseFloat(document.getElementById('evadocentes').value) || 0;
                                             const evaDirectivos = parseFloat(document.getElementById('evadirectivos').value) || 0;
+                                            const evaTitulados = parseFloat(document.getElementById('evatitulados').value) || 0;
+                                            console.log('puntaje titulados' + evaTitulados);
 
                                             const evabeneficiarios = parseFloat(document.getElementById('evabeneficiarios').value) || 0;
                                             const evasocios = parseFloat(document.getElementById('evasocios').value) || 0;
@@ -280,7 +298,8 @@
                                             // Sumar los valores solo si son mayores que 0 y contar cuántos son válidos
                                             const sumaTotalInternos = (evaEstudiantes > 0 ? (contadorInternos++, evaEstudiantes) : 0) +
                                                                     (evaDocentes > 0 ? (contadorInternos++, evaDocentes) : 0) +
-                                                                    (evaDirectivos > 0 ? (contadorInternos++, evaDirectivos) : 0);
+                                                                    (evaDirectivos > 0 ? (contadorInternos++, evaDirectivos) : 0) +
+                                                                    (evaTitulados > 0 ? (contadorInternos++, evaTitulados) : 0);
 
                                             const sumaTotalExternos = (evabeneficiarios > 0 ? (contadorExternos++, evabeneficiarios) : 0) +
                                                                     (evasocios > 0 ? (contadorExternos++, evasocios) : 0);
@@ -425,7 +444,7 @@
 
                                                 </form>
                                             </td>
-                                            <td rowspan="3" class="align-middle">
+                                            <td rowspan="4" class="align-middle">
                                                 <h3 id="resultados-internos">0</h3>
                                             </td>
                                         </tr>
@@ -462,6 +481,22 @@
                                                 </form>
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td>Titulados</td>
+                                            <td>
+                                                <form action="{{route('admin.guardar.evaluacion.manual')}}" method="post">
+                                                    @method('POST')
+                                                    @csrf
+                                                    <input type="number" hidden name="inic_codigo" value="{{$iniciativa[0]->inic_codigo}}">
+                                                    <input type="number" hidden name="eval_evaluador" value="15">
+                                                    <div class="d-flex flex-column flex-md-row w-100">
+                                                        <input id="evatitulados" type="number" value="{{$evaluacion_titulados->eval_puntaje  ?? 0}}" name="puntaje" min="0" max="100" class="form-control mr-md-2 mb-2 mb-md-0" style="flex: 0 0 80%;" placeholder="Ingresa Puntaje">
+                                                        <button type="submit" class="btn btn-primary" style="flex: 0 0 20%;"><i class="fas fa-save"></i></button>
+                                                      </div>
+
+                                                </form>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
 
@@ -489,7 +524,7 @@
 
                                                 </form>
                                             </td>
-                                            <td rowspan="3" class="align-middle">
+                                            <td rowspan="4" class="align-middle">
                                                 <h3 id="resultados-externos">0</h3>
                                             </td>
                                         </tr>
@@ -517,6 +552,7 @@
                                         const evaEstudiantes = parseFloat(document.getElementById('evaestudiantes').value) || 0;
                                         const evaDocentes = parseFloat(document.getElementById('evadocentes').value) || 0;
                                         const evaDirectivos = parseFloat(document.getElementById('evadirectivos').value) || 0;
+                                        const evaTitulados = parseFloat(document.getElementById('evatitulados').value) || 0;
 
                                         const evabeneficiarios = parseFloat(document.getElementById('evabeneficiarios').value) || 0;
                                         const evasocios = parseFloat(document.getElementById('evasocios').value) || 0;
@@ -528,7 +564,8 @@
                                         // Sumar los valores solo si son mayores que 0 y contar cuántos son válidos
                                         const sumaTotalInternos = (evaEstudiantes > 0 ? (contadorInternos++, evaEstudiantes) : 0) +
                                                                 (evaDocentes > 0 ? (contadorInternos++, evaDocentes) : 0) +
-                                                                (evaDirectivos > 0 ? (contadorInternos++, evaDirectivos) : 0);
+                                                                (evaDirectivos > 0 ? (contadorInternos++, evaDirectivos) : 0) +
+                                                                (evaTitulados > 0 ? (contadorInternos++, evaTitulados) : 0);
 
                                         const sumaTotalExternos = (evabeneficiarios > 0 ? (contadorExternos++, evabeneficiarios) : 0) +
                                                                 (evasocios > 0 ? (contadorExternos++, evasocios) : 0);

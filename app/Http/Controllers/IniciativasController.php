@@ -2697,6 +2697,11 @@ class IniciativasController extends Controller
         ->where('eval_email','=',null)
         ->first();
 
+        $evaluacion_titulados = Evaluacion::where('evaluacion.eval_evaluador', 15)
+        ->where('evaluacion.inic_codigo', $inic_codigo)
+        ->where('eval_email','=',null)
+        ->first();
+
         $evaluacion_beneficiarios = Evaluacion::where('evaluacion.eval_evaluador', 13)
         ->where('evaluacion.inic_codigo', $inic_codigo)
         ->where('eval_email','=',null)
@@ -2770,7 +2775,8 @@ class IniciativasController extends Controller
             'evaEstudiantesTotal',
             'evaDocentesTotal',
             'evaExternosTotal',
-            'evaTituladosTotal'
+            'evaTituladosTotal',
+            'evaluacion_titulados'
         )
         );
     }
