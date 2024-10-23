@@ -168,7 +168,7 @@
                                                 <label for="fecha_inicio" style="color: red;">*</label>
                                                 
                                                 <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
-                                                    value="{{ $iniciativa->fecha_inicio }}"
+                                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
                                                     autocomplete="off"/>
 
                                                 @if ($errors->has('fecha_inicio'))
