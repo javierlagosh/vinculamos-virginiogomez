@@ -3132,6 +3132,8 @@ $contribuciones = ProgramasContribuciones::join('programas', 'programas.prog_cod
             $invitadoNombre = 'Beneficiario';
         }elseif($invitado == 14){
             $invitadoNombre = 'Socio comunitario';
+        }elseif($invitado == 15){
+            $invitadoNombre = 'Titulados';
         }else{
             return redirect()->back();
         }
@@ -3493,6 +3495,8 @@ $contribuciones = ProgramasContribuciones::join('programas', 'programas.prog_cod
             $invitadoNombre = 'Beneficiario';
         }elseif($invitado == 14){
             $invitadoNombre = 'Socio comunitario';
+        }elseif($invitado == 15){
+            $invitadoNombre = 'Titulados';
         }else{
             return redirect()->back();
         }
@@ -3562,6 +3566,8 @@ $contribuciones = ProgramasContribuciones::join('programas', 'programas.prog_cod
             $invitadoNombre = 'Beneficiario';
         }elseif($invitado == 14){
             $invitadoNombre = 'Socio comunitario';
+        }elseif($invitado == 15){
+            $invitadoNombre = 'Titulados';
         }else{
             return redirect()->back();
         }

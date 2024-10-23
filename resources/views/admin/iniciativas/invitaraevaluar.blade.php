@@ -144,6 +144,8 @@
                                                                 <input type="number" hidden name="tipo" value="13">
                                                             @elseif ($invitadoNombre == 'Socio comunitario')
                                                                 <input type="number" hidden name="tipo" value="14">
+                                                            @elseif ($invitadoNombre == 'Titulados')
+                                                                <input type="number" hidden name="tipo" value="15">
                                                             @endif
                                                             <div class="form-group">
                                                                 <label for="nombre">
@@ -185,6 +187,8 @@
                                                                     <input type="number" hidden name="tipo" value="13">
                                                                 @elseif ($invitadoNombre == 'Socio comunitario')
                                                                     <input type="number" hidden name="tipo" value="14">
+                                                                @elseif ($invitadoNombre == 'Titulados')
+                                                                    <input type="number" hidden name="tipo" value="15">
                                                                 @endif
                                                                 <div class="form-group">
 
@@ -406,6 +410,17 @@
                                                                         Paso anterior</a>
 
                                                                 <a href="{{route('admin.iniciativa.evaluar.invitar.correo', [$iniciativa[0]->inic_codigo, 14])}}"
+                                                                    type="button" class="btn btn-primary mr-1 waves-effect">
+                                                                    Paso siguiente <i class="fas fa-chevron-right"></i></a>
+
+                                                            @elseif ($invitadoNombre == 'Titulados')
+                                                                    <a href="{{route('admin.evaluar.paso2', [$iniciativa[0]->inic_codigo,15])}}"
+                                                                        type="button" class="btn mr-1 waves-effect"
+                                                                        style="background-color:#042344; color:white"><i
+                                                                            class="fas fa-chevron-left"></i>
+                                                                        Paso anterior</a>
+
+                                                                <a href="{{route('admin.iniciativa.evaluar.invitar.correo', [$iniciativa[0]->inic_codigo, 15])}}"
                                                                     type="button" class="btn btn-primary mr-1 waves-effect">
                                                                     Paso siguiente <i class="fas fa-chevron-right"></i></a>
                                                             @endif

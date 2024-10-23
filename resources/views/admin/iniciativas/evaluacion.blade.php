@@ -340,6 +340,7 @@
                                                                     <option value="0">Evaluador interno - Estudiante</option>
                                                                     <option value="1">Evaluador interno - Docente</option>
                                                                     <option value="12">Evaluador interno - Directivo</option>
+                                                                    <option value="15">Evaluador interno - Titulados</option>
                                                                     <option value="" disabled>--- Evaluador Externo ---</option>
                                                                     <option value="13">Evaluador Externo - Beneficiario</option>
                                                                     <option value="14">Evaluador Externo - Socio comunitario</option>
@@ -586,6 +587,7 @@
                                                     <option value="0">Evaluador interno - Estudiante</option>
                                                     <option value="1">Evaluador interno - Docente</option>
                                                     <option value="12">Evaluador interno - Directivo</option>
+                                                    <option value="15">Evaluador interno - Titulados</option>
                                                     <option value="" disabled>--- Evaluador Externo ---</option>
                                                     <option value="13">Evaluador Externo - Beneficiario</option>
                                                     <option value="14">Evaluador Externo - Socio comunitario</option>
@@ -633,6 +635,11 @@
                                                 document.getElementById('agregarParticipantesButton').hidden = false;
                                                 document.getElementById('verResultadosButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluacion/resultados/14';
                                                 document.getElementById('agregarParticipantesButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluar/invitar/14';
+                                            }else if(tipo == 15){
+                                                document.getElementById('verResultadosButton').hidden = false;
+                                                document.getElementById('agregarParticipantesButton').hidden = false;
+                                                document.getElementById('verResultadosButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluacion/resultados/15';
+                                                document.getElementById('agregarParticipantesButton').href = '/admin/iniciativas/{{$iniciativa[0]->inic_codigo}}/evaluar/invitar/15';
                                             }
                                         }
                                     </script>
