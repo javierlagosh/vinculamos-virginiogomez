@@ -78,47 +78,6 @@ class IniciativasController extends Controller
         return null;
     }
 
-    // public function listarIniciativas(Request $request)
-    // {
-    //     $mecanismo = $request->input('mecanismo');
-    //     $estado = $request->input('estados');
-    //     $anho = $request->input('anho');
-
-    //     $iniciativas = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', 'iniciativas.meca_codigo')
-    //         ->leftjoin('participantes_internos', 'participantes_internos.inic_codigo', 'iniciativas.inic_codigo')
-    //         ->leftjoin('sedes', 'sedes.sede_codigo', 'participantes_internos.sede_codigo')
-    //         ->leftjoin('escuelas', 'escuelas.escu_codigo', 'participantes_internos.escu_codigo')
-    //         ->select(
-    //             'iniciativas.inic_codigo',
-    //             'iniciativas.inic_nombre',
-    //             'iniciativas.inic_estado',
-    //             'iniciativas.inic_anho',
-    //             'mecanismos.meca_nombre',
-    //             DB::raw('GROUP_CONCAT(DISTINCT escuelas.escu_nombre SEPARATOR ", ") as carreras'),
-    //             DB::raw('GROUP_CONCAT(DISTINCT sedes.sede_nombre SEPARATOR ", ") as sedes'),
-    //             DB::raw('DATE_FORMAT(iniciativas.inic_creado, "%d/%m/%Y %H:%i:%s") as inic_creado')
-    //         )
-    //         ->groupBy('iniciativas.inic_codigo', 'iniciativas.inic_nombre', 'iniciativas.inic_estado', 'iniciativas.inic_anho', 'mecanismos.meca_nombre', 'inic_creado')
-    //         ->orderBy('inic_creado', 'desc');
-
-    //     // Aplicar filtros
-    //     if ($mecanismo) {
-    //         $iniciativas->where('mecanismos.meca_nombre', $mecanismo);
-    //     }
-    //     if ($estado) {
-    //         $iniciativas->where('iniciativas.inic_estado', $estado);
-    //     }
-    //     if ($anho && $anho != 'todos') {
-    //         $iniciativas->where('iniciativas.inic_anho', $anho);
-    //     }
-
-    //     $iniciativas = $iniciativas->get();
-    //     $mecanismos = Mecanismos::select('meca_codigo', 'meca_nombre')->orderBy('meca_nombre', 'asc')->get();
-    //     $anhos = Iniciativas::select('inic_anho')->distinct('inic_anho')->orderBy('inic_anho', 'asc')->get();
-
-    //     return view('admin.iniciativas.listar', compact('iniciativas', 'mecanismos', 'anhos'));
-    // }
-
     public function listarIniciativas(Request $request)
     {
         $role = $this->getUserRole();
@@ -155,7 +114,8 @@ class IniciativasController extends Controller
                 $search = $request->input('search');
 
                 $iniciativas->where(function ($query) use ($search) {
-                    $query->where('iniciativas.inic_nombre', 'like', "%{$search}%")
+                    $query->where('iniciativas.inic_codigo', '=', $search)
+                        ->orWhere('iniciativas.inic_nombre', 'like', "%{$search}%")
                         ->orWhere('mecanismos.meca_nombre', 'like', "%{$search}%")
                         ->orWhere('iniciativas.inic_anho', 'like', "%{$search}%");
                 });
@@ -232,20 +192,23 @@ class IniciativasController extends Controller
 
     private function getIniciativasQuery(Request $request)
     {
-        $iniciativas = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', 'iniciativas.meca_codigo')
-            ->leftjoin('participantes_internos', 'participantes_internos.inic_codigo', 'iniciativas.inic_codigo')
-            ->leftjoin('sedes', 'sedes.sede_codigo', 'participantes_internos.sede_codigo')
-            ->leftjoin('escuelas', 'escuelas.escu_codigo', 'participantes_internos.escu_codigo')
-            ->select(
-                'iniciativas.inic_codigo',
-                'iniciativas.inic_nombre',
-                'iniciativas.inic_estado',
-                'iniciativas.inic_anho',
-                'mecanismos.meca_nombre',
-                DB::raw('GROUP_CONCAT(DISTINCT escuelas.escu_nombre SEPARATOR ", ") as carreras'),
-                DB::raw('GROUP_CONCAT(DISTINCT sedes.sede_nombre SEPARATOR ", ") as sedes'),
-                DB::raw('DATE_FORMAT(iniciativas.inic_creado, "%d/%m/%Y %H:%i:%s") as inic_creado')
-            );
+            $iniciativas = Iniciativas::join('mecanismos', 'mecanismos.meca_codigo', 'iniciativas.meca_codigo')
+                ->leftjoin('participantes_internos', 'participantes_internos.inic_codigo', 'iniciativas.inic_codigo')
+                ->leftjoin('sedes', 'sedes.sede_codigo', 'participantes_internos.sede_codigo')
+                ->leftJoin('escuelas', function($join) {
+                    $join->on('escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
+                         ->where('participantes_internos.pain_ejecutora', '=', 1);
+                })
+                ->select(
+                    'iniciativas.inic_codigo',
+                    'iniciativas.inic_nombre',
+                    'iniciativas.inic_estado',
+                    'iniciativas.inic_anho',
+                    'mecanismos.meca_nombre',
+                    DB::raw('GROUP_CONCAT(DISTINCT escuelas.escu_nombre SEPARATOR ", ") as carreras'),
+                    DB::raw('GROUP_CONCAT(DISTINCT sedes.sede_nombre SEPARATOR ", ") as sedes'),
+                    DB::raw('DATE_FORMAT(iniciativas.inic_creado, "%d/%m/%Y %H:%i:%s") as inic_creado')
+                );
 
         return $iniciativas;
     }
@@ -814,6 +777,7 @@ class IniciativasController extends Controller
             'inic_formato' => 'required',
             'description' => 'required',
             'sedes' => 'required',
+            'carreras' => 'required',
             'mecanismos' => 'required',
             'tactividad' => 'required',
             'territorio' => 'required',
@@ -825,7 +789,8 @@ class IniciativasController extends Controller
             'anho.required' => 'Es necesario ingresar un año para la iniciativa.',
             'inic_formato.required' => 'Es necesario que seleccione un formato para la iniciativa.',
             'description.required' => 'La Descripción es requerida.',
-            'sedes.required' => 'Es necesario que seleccione al menos una sede en donde se ejecutará la iniciativa.',
+            'sedes.required' => 'Es necesario que seleccione al menos una Carrera en donde se ejecutará la iniciativa.',
+            'carreras.required' => 'Es necesario que seleccione al menos una Carrera en donde se ejecutará la iniciativa.',
             'tactividad.required' => 'Es necesario que seleccione un tipo de actividad para la iniciativa.',
             'mecanismos.required' => 'Es necesario que seleccione un programa.',
             'territorio.required' => 'Especifique si la iniciativa es a nivel nacional o internacional.',
@@ -1198,6 +1163,7 @@ class IniciativasController extends Controller
             'description' => 'required',
             'sedes' => 'required',
             // 'escuelas' => 'required',
+            'carreras' => 'required',
             'mecanismos' => 'required',
             'tactividad' => 'required',
             /* 'convenio' => 'required', */
@@ -1210,7 +1176,8 @@ class IniciativasController extends Controller
             //'anho.required' => 'Es necesario ingresar un año para la iniciativa.',
             'inic_formato.required' => 'Es necesario que seleccione un formato para la iniciativa.',
             'description.required' => 'La Descripción es requerida.',
-            'sedes.required' => 'Es necesario que seleccione al menos una sede en donde se ejecutará la iniciativa.',
+            'sedes.required' => 'Es necesario que seleccione al menos una Carrera en donde se ejecutará la iniciativa.',
+            'carreras.required' => 'Es necesario que seleccione al menos una Carrera en donde se ejecutará la iniciativa.',
             // 'escuelas.required' => 'Es necesario que seleccione al menos una Escuela en donde se ejecutará la iniciativa.',
             'mecanismos.required' => 'Es necesario que seleccione un programa.',
             'tactividad.required' => 'Es necesario que seleccione el tipo de actividad a realizar.',
@@ -1232,7 +1199,6 @@ class IniciativasController extends Controller
             'tiac_codigo' => $request->tactividad,
             'inic_territorio' => $request->territorio,
             'inic_visible' => 1,
-
             'inic_actualizado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
             'inic_nickname_mod' => Session::get($rolePrefix)->usua_nickname,
             'inic_rol_mod' => Session::get($rolePrefix)->rous_codigo,
@@ -1242,7 +1208,7 @@ class IniciativasController extends Controller
         if (!$inicActualizar)
             return redirect()->back()->with('errorPaso1', 'Ocurrió un error durante la actualización de los datos de la iniciativa, intente más tarde.')->withInput();
 
-        //ParticipantesInternos::where('inic_codigo', $inic_codigo)->delete();
+        ParticipantesInternos::where('inic_codigo', $inic_codigo)->delete();
         
         $pain = [];
         $sedes = $request->input('sedes', []);
@@ -1250,24 +1216,7 @@ class IniciativasController extends Controller
         $carreras = $request->input('carreras', []);
         $carrerasEjecutora = $request->input('carrerasEjecutora', []);
 
-        $carrerasJuntas = array_merge($carreras, $carrerasEjecutora);
-
-        $existentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)->get();
-
-        foreach ($existentes as $existente) {
-            $sedeExistente = in_array($existente->sede_codigo, $sedes);
-            $escuelaExistente = in_array($existente->escu_codigo, $escuelas);
-            $carreraExistente = in_array($existente->care_codigo, $carreras);
-
-            if (!$sedeExistente || !$escuelaExistente || !$carrerasJuntas) {
-                ParticipantesInternos::where([
-                    'inic_codigo' => $inic_codigo,
-                    'sede_codigo' => $existente->sede_codigo,
-                    'escu_codigo' => $existente->escu_codigo,
-                    'care_codigo' => $existente->care_codigo
-                ])->delete();
-            }
-        }
+        //Escuelas colaboradoras
         foreach ($sedes as $sede) {
             foreach ($escuelas as $escuela) {
                 foreach ($carreras as $carrera) {
@@ -1288,19 +1237,19 @@ class IniciativasController extends Controller
                     ])->exists();
 
                     if ($sede_escuela && !$escuela_sede && $escuela_carrera) {
+                        //si la carrera no pertenece a la escuela no se inserta
                         array_push($pain, [
                             'inic_codigo' => $inic_codigo,
                             'sede_codigo' => $sede,
                             'escu_codigo' => $escuela,
                             'care_codigo' => $carrera,
+                            //Distintivo entre escuela ejecutora y escuelas colaboradoras...
                             'pain_ejecutora' => false
                         ]);
                     }
                 }
             }
         }
-
-        
 
         //escuela ejecutora
         foreach ($sedes as $sede) {
@@ -1644,7 +1593,7 @@ class IniciativasController extends Controller
         $carreras = ParticipantesInternos::where('inic_codigo', $inic_codigo)
             ->join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
             ->select('carreras.care_codigo', 'carreras.care_nombre')
-            // ->where('participantes_internos.pain_ejecutora', true)
+            ->where('participantes_internos.pain_ejecutora', true)
             //->distinct()
             ->get();
         
@@ -2095,8 +2044,8 @@ class IniciativasController extends Controller
             ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
             ->join('sedes', 'sedes.sede_codigo', '=', 'participantes_internos.sede_codigo')
             ->where('inic_codigo', $request->inic_codigo)
+            ->where('pain_ejecutora', true)
             ->orderBy('participantes_internos.pain_ejecutora', 'desc')
-
             ->get();
 
         return json_encode(["estado" => true, "resultado" => $internos]);
@@ -2109,7 +2058,8 @@ class IniciativasController extends Controller
                 'inic_codigo' => $request->inic_codigo,
                 'sede_codigo' => $request->sede_codigo,
                 'escu_codigo' => $request->escu_codigo,
-                'care_codigo' => $request->care_codigo
+                'care_codigo' => $request->care_codigo,
+                'pain_ejecutora' => true
             ]
         )->update([
                     'pain_docentes' => $request->pain_docentes,
@@ -2119,11 +2069,11 @@ class IniciativasController extends Controller
                     'pain_total' => $request->pain_total
                 ]);
 
-                $internos = ParticipantesInternos::join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
-                ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
-                ->join('sedes', 'sedes.sede_codigo', '=', 'participantes_internos.sede_codigo')
-                ->where('inic_codigo', $request->inic_codigo)
-                ->get();
+        $internos = ParticipantesInternos::join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
+            ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
+            ->join('sedes', 'sedes.sede_codigo', '=', 'participantes_internos.sede_codigo')
+            ->where('inic_codigo', $request->inic_codigo)
+            ->get();
         
         return json_encode(["estado" => true, "resultado" => $internos, "internos" => $actualizarInternos]);
     }
@@ -2943,6 +2893,7 @@ class IniciativasController extends Controller
                 $existe = 1;
             }
         }
+
         if ($existe != 1) {
             $evaluacion_total = new EvaluacionTotal();
             $evaluacion_total->inic_codigo = $request->inic_codigo;

@@ -118,7 +118,8 @@
                                                                         <input type="number"
                                                                             name="resultados[{{ $participante->resu_codigo }}]"
                                                                             class="form-control"
-                                                                            value="{{ $participante->resu_cuantificacion_final }}">
+                                                                            value="{{ $participante->resu_cuantificacion_final }}"
+                                                                            min="0" oninput="this.value = Math.abs(this.value)">
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
