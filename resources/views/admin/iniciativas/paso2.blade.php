@@ -150,7 +150,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-4 col-md-4 col-lg-4">
+                                <div class="col-xl-4 col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Socio/a comunitario</label> <label for=""
                                             style="color: red;">*</label>
@@ -177,11 +177,11 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-2 col-md-2 col-lg-2">
+                                <div class="col-xl-3 col-lg-3 col-md-3">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Personas beneficiarias</label>
                                         <input type="number" class="form-control" id="npersonas" name="npersonas"
-                                            value="{{ old('npersonas') }}">
+                                            value="{{ old('npersonas') }}" min="0" oninput="this.value = Math.abs(this.value)">
 
                                         @if ($errors->has('npersonas'))
                                             <div class="alert alert-warning alert-dismissible show fade mt-2">
@@ -195,7 +195,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-2 col-md-2 col-lg-2" style="position: relative;">
+                                <div class="col-xl-4 ol-lg-4 col-md-4 mt-4" style="position: relative;">
                                     <button class="btn btn-primary mr-1 waves-effect" 
                                             onclick="AgregarParticipantesExternos()"
                                         <i class="fas fa-plus"></i> Agregar
@@ -207,8 +207,8 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xl-2"></div>
-                                <div class="col-xl-8">
+                                <div class="col-xl-1"></div>
+                                <div class="col-xl-10">
                                     <div class="card">
                                         <div class="card-body p-0">
                                             <div class="table-responsive">
@@ -217,7 +217,7 @@
                                                         <th>Subgrupo</th>
                                                         <th>Socio Comunitario</th>
                                                         <th>Personas beneficiarias</th>
-                                                        <th>Acción</th>
+                                                        <th width="20%">Acción</th>
                                                     </thead>
                                                     <tbody id="body-tabla-externos">
                                                     </tbody>
@@ -234,7 +234,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xl-2 col-md-2 col-lg-2">
+                                <div class="col-xl-4 col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Sede</label> <label for=""
                                             style="color: red;">*</label>
@@ -252,7 +252,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-xl-2 col-md-2 col-lg-2" >
+                                <div class="col-xl-4 col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Escuela/Unidad</label> <label for=""
                                             style="color: red;">*</label>
@@ -270,7 +270,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-xl-2 div-col-md-2 col-lg-3">
+                                <div class="col-xl-4 col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Carrera</label> <label for=""
                                             style="color: red;">*</label>
@@ -287,7 +287,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-xl-2 col-md-2 col-lg-2">
+                                <div class="col-xl-2 col-lg-2 col-md-2">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Estudiantes</label> <label for=""
                                             style="color: red;">*</label>
@@ -305,7 +305,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-xl-2 col-md-2 col-lg-2">
+                                <div class="col-xl-2 col-lg-2 col-md-2">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Titulados</label> <label for="ntitulados"
                                             style="color: red;">*</label>
@@ -314,7 +314,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-2 col-md-2 col-lg-2">
+                                <div class="col-xl-2 col-lg-2 col-md-2">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Docentes</label> <label for=""
                                             style="color: red;">*</label>
@@ -333,7 +333,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-2 col-md-2 col-lg-2">
+                                <div class="col-xl-2 col-lg-2 col-md-2">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Directivos/as</label> <label for=""
                                             style="color: red;">*</label>
@@ -351,18 +351,14 @@
                                         @endif
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row" style="text-align: ">
-                                <div class="col-xl-4"></div>
-                                <div class="col-xl-4">
-                                    <button onclick="modificar()" class="btn btn-primary mr-1 waves-effect"><i
-                                            class="fas fa-plus"></i> Agregar
+                                <div class="col-xl-2 col-lg-2 col-md-2 mt-4">
+                                    <button onclick="modificar()" class="btn btn-primary mr-1 waves-effect">
+                                        <i class="fas fa-plus"></i> Agregar
                                     </button>
                                 </div>
-                                <div class="col-4"></div>
                             </div>
 
-                            <div class="row" style="margin-top:75px">
+                            <div class="row mt-5 no-gutters">
                                 <div class="col-xl-2"></div>
                                     <div class="card">
                                         <div class="card-body p-0">
@@ -387,50 +383,51 @@
                                     </div>
                             </div>
 
-                            <div class="row p-4">
-                                <div class="col-xl-6 col-md-6 col-lg-6">
-                                        <h5>Sección 4 - Resultados</h5>
-                                    <div class="row mt-3">
-                                        <div class="col-3 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <label>Cuantificación</label> <label for=""
-                                                    style="color: red;">*</label>
-                                                <input type="number" class="form-control" id="cuantificacion"
-                                                    name="cuantificacion" autocomplete="off" min="0">
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-7 col-md-7 col-lg-7">
-                                            <div class="form-group">
-                                                <label>Resultado esperado</label> <label for=""
-                                                    style="color: red;">*</label>
-                                                <input type="text" class="form-control" id="resultado"
-                                                    name="resultado" autocomplete="off">
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-2 col-md-2 col-lg-2" style="position: relative;">
-                                            <button type="button" class="btn btn-primary waves-effect"
-                                                onclick="agregarResultado()"><i class="fas fa-plus"></i></button>
-                                        </div>
-                                        <div class="col-xl-12 col-md-12 col-lg-12 text-center" id="div-alert-resultado">
+                            <div class="row no-gutters mt-4">
+                                <h5 class="col-12">Sección 4 - Resultados</h5>
+                                <div class="col-2 col-lg-2 col-md-2 pr-3">
+                                    <div class="form-group">
+                                        <label>Cuantificación</label> 
+                                        <label for=""  style="color: red;">*</label>
+                                        <input type="number" class="form-control" id="cuantificacion"
+                                               name="cuantificacion" autocomplete="off" min="0">
+                                    </div>
+                                </div>
+                                <div class="col-xl-5 col-lg-5 col-md-5 pr-2">
+                                    <div class="form-group">
+                                        <label>Resultado esperado</label> 
+                                        <label for="" style="color: red;">*</label>
+                                        <input type="text" class="form-control" id="resultado"
+                                            name="resultado" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-md-2 col-lg-2" style="position: relative;">
+                                    <div class="form-group pt-4">
+                                        <label>&nbsp;</label> 
+                                        <button type="button" class="btn btn-primary waves-effect"
+                                        onclick="agregarResultado()"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-xl-12 col-md-12 col-lg-12 text-center" id="div-alert-resultado">
+                                </div>
+                                <div class="card" id="card-tabla-resultados" style="display: none;">
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-md">
+                                                <tr>
+                                                    <th>Cuantificación</th>
+                                                    <th>Resultado</th>
+                                                    <th>Acción</th>
+                                                </tr>
+                                                <tbody id="body-tabla-resultados">
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                    <div class="card" id="card-tabla-resultados" style="display: none;">
-                                        <div class="card-body p-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-md">
-                                                    <tr>
-                                                        <th>Cuantificación</th>
-                                                        <th>Resultado</th>
-                                                        <th>Acción</th>
-                                                    </tr>
-                                                    <tbody id="body-tabla-resultados">
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" id="iniciativa" name="iniciativa"
-                                            value="{{ $iniciativa->inic_codigo }}">
-                                    </div>
+                                    <input type="hidden" id="iniciativa" name="iniciativa"
+                                        value="{{ $iniciativa->inic_codigo }}">
+                                </div>
                                 </div>
                             </div>
 
@@ -450,7 +447,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -1312,7 +1308,8 @@
                                     <i class="fas fa-calculator"></i>
                                 </div>
                             </div>
-                            <input type="number" class="form-control" id="personasBeneficiadas" name="personasBeneficiadas" autocomplete="off">
+                            <input type="number" class="form-control" id="personasBeneficiadas" 
+                                   name="personasBeneficiadas" autocomplete="off" min="0" oninput="this.value = Math.abs(this.value)">
                         </div>
                     </div>
                     <div class="text-center">
@@ -1346,7 +1343,8 @@
                     </div>
                     <div class="form-group">
                         <label for="resu_cuantificacion_inicial">Cuantificación Inicial</label>
-                        <input type="number" class="form-control" id="resu_cuantificacion_inicial" name="resu_cuantificacion_inicial">
+                        <input type="number" class="form-control" id="resu_cuantificacion_inicial" 
+                               name="resu_cuantificacion_inicial"  min="0" oninput="this.value = Math.abs(this.value)">
                     </div>
                     <button type="submit" class="btn btn-primary" id="btnGuardarCambios">Guardar Cambios</button>
                 </form>
