@@ -209,7 +209,7 @@
 
                                             <tr>
                                                 <td>
-                                                    <strong>Fecha de planificiación</strong>
+                                                    <strong>Fecha de planificación</strong>
                                                 </td>
                                                 <td>
                                                     {{ $iniciativa->fecha_inicio }}
