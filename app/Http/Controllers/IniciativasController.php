@@ -406,6 +406,8 @@ class IniciativasController extends Controller
                 'iniciativas.inic_descripcion',
                 'iniciativas.inic_anho',
                 'iniciativas.fecha_inicio',
+                'iniciativas.fecha_ejecucion',
+                'iniciativas.fecha_cierre',
                 'iniciativas.inic_estado',
                 'mecanismos.meca_nombre',
                 'programas.prog_nombre',
@@ -414,6 +416,44 @@ class IniciativasController extends Controller
             )
             ->where('iniciativas.inic_codigo', $inic_codigo)
             ->first();
+            $meses = array(
+                '01' => 'Enero',
+                '02' => 'Febrero',
+                '03' => 'Marzo',
+                '04' => 'Abril',
+                '05' => 'Mayo',
+                '06' => 'Junio',
+                '07' => 'Julio',
+                '08' => 'Agosto',
+                '09' => 'Septiembre',
+                '10' => 'Octubre',
+                '11' => 'Noviembre',
+                '12' => 'Diciembre'
+            );
+            //formalizar fechas a dia / mes / año 
+            $fecha_inicio = explode('-', $iniciativa->fecha_inicio);
+            $fecha_ejecucion = explode('-', $iniciativa->fecha_ejecucion);
+            $fecha_cierre = explode('-', $iniciativa->fecha_cierre);
+            try {
+                $iniciativa->fecha_inicio = $fecha_inicio[2] . ' de ' . $meses[$fecha_inicio[1]] . ' del ' . $fecha_inicio[0] ?? 'No definida';
+            } catch (\Throwable $th) {
+                $iniciativa->fecha_inicio = 'No definida';
+            }
+
+            try {
+                $iniciativa->fecha_ejecucion = $fecha_ejecucion[2] . ' de ' . $meses[$fecha_ejecucion[1]] . ' del ' . $fecha_ejecucion[0] ?? 'No definida';
+            } catch (\Throwable $th) {
+                $iniciativa->fecha_ejecucion = 'No definida';
+            }
+
+            try {
+                $iniciativa->fecha_cierre = $fecha_cierre[2] . ' de ' . $meses[$fecha_cierre[1]] . ' del ' . $fecha_cierre[0] ?? 'No definida';
+            } catch (\Throwable $th) {
+                $iniciativa->fecha_cierre = 'No definida';
+            }
+            
+            
+            
         $participantes = ParticipantesInternos::join('sedes', 'sedes.sede_codigo', 'participantes_internos.sede_codigo')
             ->join('escuelas', 'escuelas.escu_codigo', 'participantes_internos.escu_codigo')
             ->join('carreras', 'carreras.care_codigo', 'participantes_internos.care_codigo')
@@ -814,6 +854,8 @@ class IniciativasController extends Controller
             'inic_rol_mod' => Session::get($rolePrefix)->rous_codigo,
             'inic_escuela_ejecutora' => $request->inic_escuela_ejecutora,
             'fecha_inicio' => $request->fecha_inicio,
+            'fecha_ejecucion' => $request->fecha_ejecucion,
+            'fecha_cierre' => $request->fecha_cierre,
         ]);
 
         if (!$inicCrear)
@@ -1203,6 +1245,8 @@ class IniciativasController extends Controller
             'inic_nickname_mod' => Session::get($rolePrefix)->usua_nickname,
             'inic_rol_mod' => Session::get($rolePrefix)->rous_codigo,
             'fecha_inicio' => $request->fecha_inicio,
+            'fecha_ejecucion' => $request->fecha_ejecucion,
+            'fecha_cierre' => $request->fecha_cierre,
         ]);
 
         if (!$inicActualizar)

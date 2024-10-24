@@ -161,34 +161,8 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="col-md-3 col-lg-3 col-xl-3 ">
-                                            <div class="form-group">
-                                                <!-- <label style="font-size: 110%">Año</label>  -->
-                                                <label for="fecha_inicio" style="font-size: 110%">Fecha de Inicio</label> 
-                                                <label for="fecha_inicio" style="color: red;">*</label>
-                                                @if (isset($iniciativa) && $editar)
-                                                <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
-                                                    value="{{ $iniciativa->fecha_inicio }}"
-                                                    autocomplete="off"/>
-                                                @else
-                                                <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
-                                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
-                                                    autocomplete="off"/>
 
-                                                @endif
-
-                                                @if ($errors->has('fecha_inicio'))
-                                                    <div class="alert alert-warning alert-dismissible show fade mt-2">
-                                                        <div class="alert-body">
-                                                            <button class="close"
-                                                                data-dismiss="alert"><span>&times;</span></button>
-                                                            <strong>{{ $errors->first('fecha_inicio') }}</strong>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3 col-lg-3 col-xl-3 ">
+                                        <div class="col-md-6 col-lg-6 col-xl-6">
                                             <div class="form-group">
                                                 <label style="font-size: 110%">Formato de implementación</label> <label
                                                     for="" style="color: red;">*</label>
@@ -228,6 +202,89 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4 col-lg-4 col-xl-4 ">
+                                            <div class="form-group">
+                                                <!-- <label style="font-size: 110%">Año</label>  -->
+                                                <label for="fecha_inicio" style="font-size: 110%">Fecha de Planificiación</label> 
+                                                <label for="fecha_inicio" style="color: red;">*</label>
+                                                @if (isset($iniciativa) && $editar)
+                                                <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
+                                                    value="{{ $iniciativa->fecha_inicio }}"
+                                                    autocomplete="off"/>
+                                                @else
+                                                <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
+                                                    value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
+                                                    autocomplete="off"/>
+
+                                                @endif
+
+                                                @if ($errors->has('fecha_inicio'))
+                                                    <div class="alert alert-warning alert-dismissible show fade mt-2">
+                                                        <div class="alert-body">
+                                                            <button class="close"
+                                                                data-dismiss="alert"><span>&times;</span></button>
+                                                            <strong>{{ $errors->first('fecha_inicio') }}</strong>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-xl-4 ">
+                                            <div class="form-group">
+                                                <!-- <label style="font-size: 110%">Año</label>  -->
+                                                <label for="fecha_ejecucion" style="font-size: 110%">Fecha de Ejecución</label> 
+                                                @if (isset($iniciativa) && $editar)
+                                                <input type="date" class="form-control" id="fecha_ejecucion" name="fecha_ejecucion"
+                                                    value="{{ $iniciativa->fecha_ejecucion }}"
+                                                    autocomplete="off"/>
+                                                @else
+                                                <input type="date" class="form-control" id="fecha_ejecucion" name="fecha_ejecucion"
+                                                    value=""
+                                                    autocomplete="off"/>
+
+                                                @endif
+
+                                                @if ($errors->has('fecha_ejecucion'))
+                                                    <div class="alert alert-warning alert-dismissible show fade mt-2">
+                                                        <div class="alert-body">
+                                                            <button class="close"
+                                                                data-dismiss="alert"><span>&times;</span></button>
+                                                            <strong>{{ $errors->first('fecha_ejecucion') }}</strong>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-lg-4 col-xl-4 ">
+                                            <div class="form-group">
+                                                <!-- <label style="font-size: 110%">Año</label>  -->
+                                                <label for="fecha_cierre" style="font-size: 110%">Fecha de Cierre</label> 
+                                                @if (isset($iniciativa) && $editar)
+                                                <input type="date" class="form-control" id="fecha_cierre" name="fecha_cierre"
+                                                    value="{{ $iniciativa->fecha_cierre }}"
+                                                    autocomplete="off"/>
+                                                @else
+                                                <input type="date" class="form-control" id="fecha_cierre" name="fecha_cierre"
+                                                    value=""
+                                                    autocomplete="off"/>
+
+                                                @endif
+
+                                                @if ($errors->has('fecha_cierre'))
+                                                    <div class="alert alert-warning alert-dismissible show fade mt-2">
+                                                        <div class="alert-body">
+                                                            <button class="close"
+                                                                data-dismiss="alert"><span>&times;</span></button>
+                                                            <strong>{{ $errors->first('fecha_cierre') }}</strong>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="row no-gutters">
                                         <div class="form-group w-100">
                                             <label style="font-size: 110%">Descripción</label> <label for="" style="color: red;">*</label>

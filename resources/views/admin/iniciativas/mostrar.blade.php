@@ -209,6 +209,33 @@
 
                                             <tr>
                                                 <td>
+                                                    <strong>Fecha de planificiación</strong>
+                                                </td>
+                                                <td>
+                                                    {{ $iniciativa->fecha_inicio }}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <strong>Fecha de ejecución</strong>
+                                                </td>
+                                                <td>
+                                                    {{ $iniciativa->fecha_ejecucion }}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <strong>Fecha de cierre</strong>
+                                                </td>
+                                                <td>
+                                                    {{ $iniciativa->fecha_cierre }}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
                                                     <strong>Descripción</strong>
                                                 </td>
                                                 <td>
