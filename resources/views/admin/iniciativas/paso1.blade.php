@@ -207,7 +207,7 @@
                                         <div class="col-md-4 col-lg-4 col-xl-4 ">
                                             <div class="form-group">
                                                 <!-- <label style="font-size: 110%">Año</label>  -->
-                                                <label for="fecha_inicio" style="font-size: 110%">Fecha de Planificiación</label> 
+                                                <label for="fecha_inicio" style="font-size: 110%">Fecha de Planificación</label> 
                                                 <label for="fecha_inicio" style="color: red;">*</label>
                                                 @if (isset($iniciativa) && $editar)
                                                 <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
