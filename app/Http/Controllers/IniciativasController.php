@@ -1205,7 +1205,6 @@ class IniciativasController extends Controller
             'description' => 'required',
             'sedes' => 'required',
             // 'escuelas' => 'required',
-            'carreras' => 'required',
             'mecanismos' => 'required',
             'tactividad' => 'required',
             /* 'convenio' => 'required', */
@@ -1218,8 +1217,7 @@ class IniciativasController extends Controller
             //'anho.required' => 'Es necesario ingresar un año para la iniciativa.',
             'inic_formato.required' => 'Es necesario que seleccione un formato para la iniciativa.',
             'description.required' => 'La Descripción es requerida.',
-            'sedes.required' => 'Es necesario que seleccione al menos una Carrera en donde se ejecutará la iniciativa.',
-            'carreras.required' => 'Es necesario que seleccione al menos una Carrera en donde se ejecutará la iniciativa.',
+            'sedes.required' => 'Es necesario que seleccione al menos una Sede en donde se ejecutará la iniciativa.',
             // 'escuelas.required' => 'Es necesario que seleccione al menos una Escuela en donde se ejecutará la iniciativa.',
             'mecanismos.required' => 'Es necesario que seleccione un programa.',
             'tactividad.required' => 'Es necesario que seleccione el tipo de actividad a realizar.',
