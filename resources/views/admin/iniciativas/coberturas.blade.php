@@ -98,7 +98,7 @@
                                                     <table class="table table-bordered table-md">
                                                         <thead>
                                                             <tr>
-                                                                <th>Tipo</th>
+                                                                {{-- <th>Tipo</th> --}}
                                                                 <th>Sede</th>
                                                                 <th>Escuela/Unidad</th>
                                                                 <th>Carrera</th>
@@ -116,13 +116,13 @@
                                                             {{-- {{$resultados}} --}}
                                                             @foreach ($resultados as $resultado)
                                                                 <tr>
-                                                                    <td>
+                                                                    {{-- <td>
                                                                         @if ($resultado->pain_ejecutora == 1)
                                                                             Ejecutora
                                                                         @else
                                                                             Colaboradora
                                                                         @endif
-                                                                    </td>
+                                                                    </td> --}}
                                                                     <td>{{ $resultado->sede_nombre }}</td>
                                                                     <td>{{ $resultado->escu_nombre }}</td>
                                                                     <td>{{ $resultado->care_nombre }}</td>

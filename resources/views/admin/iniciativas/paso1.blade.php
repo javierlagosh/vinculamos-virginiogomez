@@ -899,97 +899,16 @@
 
                                             </div>
                                         </div>
-                                        <div class="col-md-4 col-lg-4 col-xl-4">
-                                            <div class="form-group">
-                                                <label style="font-size: 110%">Escuela/Unidad ejecutora</label> <label
-                                                    for="" style="color: red;">*</label>
 
-                                                <select class="form-control select2" id="inic_escuela_ejecutora" name="inic_escuela_ejecutora" required
-                                                    style="width: 100%">
-                                                    <option value="">Seleccione...</option>
-                                                    @if (isset($iniciativa) && $editar)
-                                                        @foreach ($escuelas as $escuela)
-                                                            @if ($escuela->escu_codigo == $iniciativa->inic_escuela_ejecutora)
-                                                                <option value="{{ $escuela->escu_codigo }}"
-                                                                    {{ old('inic_escuela_ejecutora', $iniciativa->inic_escuela_ejecutora) == $escuela->escu_codigo ? 'selected' : '' }}>
-                                                                    {{ $escuela->escu_nombre }}</option>
-                                                            @else
-                                                                <option value="{{ $escuela->escu_codigo }}">{{ $escuela->escu_nombre }}
-                                                                </option>
-                                                            @endif
-                                                        @endforeach
-                                                    @else
-                                                    @foreach ($escuelas as $escuela)
-                                                        <option value="{{$escuela->escu_codigo}}">{{$escuela->escu_nombre}}</option>
-                                                    @endforeach
-                                                    @endif
-                                                </select>
-                                                @if ($errors->has('inic_escuela_ejecutora'))
-                                                    <div class="alert alert-warning alert-dismissible show fade mt-2">
-                                                        <div class="alert-body">
-                                                            <button class="close"
-                                                                data-dismiss="alert"><span>&times;</span></button>
-                                                            <strong>{{ $errors->first('inic_escuela_ejecutora') }}</strong>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 col-lg-4 col-xl-4">
+   
+                                        <div class="col-xl-4 col-md-4 col-lg-4">
                                             <div class="form-group">
-                                                <label style="font-size: 110%">Carrera (Escuela/Unidad Ejecutora)</label>
+                                                <label style="font-size: 110%">Escuela/Unidad ejecutora </label>
                                                 <label for="" style="color: red;">*</label>
-                                                <div class="float-right pr-4">
-                                                    <input type="checkbox" id="selectAllCarrerasEjecutora" />
-                                                    <label for="selectAllCarrerasEjecutora">Todas</label>
-                                                </div>
-
-                                                <select class="form-control select2" multiple="" id="carrerasEjecutora" required
-                                                    name="carrerasEjecutora[]" style="width: 100%">
-                                                    @if (isset($iniciativa) && $editar)
-                                                        @forelse ($carreras as $carrera)
-                                                            <option value="{{ $carrera->care_codigo }}"
-                                                                {{ in_array($carrera->care_codigo, old('carreras', [])) || in_array($carrera->care_codigo, $careEjecutoraSec) ? 'selected' : '' }}>
-                                                                {{ $carrera->care_nombre }}</option>
-                                                        @empty
-                                                            <option value="-1">No existen registros</option>
-                                                        @endforelse
-                                                    @else
-                                                        
-                                                        @forelse ($carreras as $carrera)
-                                                            <option value="{{ $carrera->care_codigo }}"
-                                                                {{ collect(old('carreras'))->contains($carrera->care_codigo) ? 'selected' : '' }}>
-                                                                {{ $carrera->care_nombre }}</option>
-                                                        @empty
-                                                            <option value="-1">No existen registros</option>
-                                                        @endforelse
-                                                    @endif
-                                                </select>
-
-                                                @if ($errors->has('carrerasEjecutora'))
-                                                    <div class="alert alert-warning alert-dismissible show fade mt-2">
-                                                        <div class="alert-body">
-                                                            <button class="close"
-                                                                data-dismiss="alert"><span>&times;</span></button>
-                                                            <strong>{{ $errors->first('carrerasEjecutora') }}</strong>
-                                                        </div>
-                                                    </div>
-                                                @endif
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">    
-                                        <div class="col-md-6 col-lg-6 col-xl-6">
-                                            <div class="form-group">
-                                                <label for="escuelasColaboradoras" style="font-size: 110%">Escuelas/Unidades colaboradoras</label>
-                                                
-                                                <div class="float-right pr-4">
-                                                    <input type="checkbox" id="selectAllEscuelas">
-                                                    <label for="selectAllEscuelas">Todas</label>
-                                                </div>
-                                                <select class="form-control select2" name="escuelas[]" multiple="" 
-                                                    style="width: 100%" id="escuelas">
+                                                <input type="checkbox" id="selectAllEscuelas" style="margin-left: 60%">
+                                                <label for="selectAllEscuelas">Todas</label>
+                                                <select class="form-control select2" name="escuelas[]" multiple=""
+                                                    style="width: 100%" id="escuelas" required>
                                                     @if (isset($iniciativa) && $editar)
                                                         @forelse ($escuelas as $escuela)
                                                             <option value="{{ $escuela->escu_codigo }}"
@@ -1019,18 +938,17 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="col-md-6 col-lg-6 col-xl-6">
+                                        <div class="col-xl-4 col-md-4 col-lg-4">
                                             <div class="form-group">
-                                                <label style="font-size: 110%">Carreras (Escuela/Unidad Colaboradoras)</label>
-                                                
-                                                <div class="float-right pr-4">
-                                                    <input type="checkbox" id="selectAllCarreras" />
-                                                    <label for="selectAllCarreras">Todas</label>
-                                                </div>
-
-                                                <select class="form-control select2" multiple="" id="carreras" 
-                                                    name="carreras[]" style="width: 100%">
+                                                <label style="font-size: 110%">Carreras</label> <label for=""
+                                                    style="color: red;">*</label><input type="checkbox" id="selectAllCarreras"
+                                                    style="margin-left: 60%"> <label for="selectAllCarreras">Todas</label>
+                                    
+                                                <select class="form-control select2" multiple="" id="carreras"
+                                                    name="carreras[]" style="width: 100%" required>
                                                     @if (isset($iniciativa) && $editar)
+                                                        estoy aca
+                                                        {{-- <select class="form-control select2" name="sedes[]" multiple id="sedes"> --}}
                                                         @forelse ($carreras as $carrera)
                                                             <option value="{{ $carrera->care_codigo }}"
                                                                 {{ in_array($carrera->care_codigo, old('carreras', [])) || in_array($carrera->care_codigo, $careSec) ? 'selected' : '' }}>
@@ -1039,6 +957,7 @@
                                                             <option value="-1">No existen registros</option>
                                                         @endforelse
                                                     @else
+                                                        {{-- <select class="form-control select2" name="sedes[]" multiple id="sedes"> --}}
                                                         @forelse ($carreras as $carrera)
                                                             <option value="{{ $carrera->care_codigo }}"
                                                                 {{ collect(old('carreras'))->contains($carrera->care_codigo) ? 'selected' : '' }}>
@@ -1048,7 +967,7 @@
                                                         @endforelse
                                                     @endif
                                                 </select>
-
+                                    
                                                 @if ($errors->has('carreras'))
                                                     <div class="alert alert-warning alert-dismissible show fade mt-2">
                                                         <div class="alert-body">
@@ -1058,7 +977,6 @@
                                                         </div>
                                                     </div>
                                                 @endif
-
                                             </div>
                                         </div>
                                     </div>

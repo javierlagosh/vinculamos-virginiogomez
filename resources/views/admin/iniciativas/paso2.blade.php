@@ -365,7 +365,7 @@
                                             <div class="table-responsive">
                                                 <table class="table table-bored table-md">
                                                     <thead>
-                                                        <th>Tipo</th>
+                                                        {{-- <th>Tipo</th> --}}
                                                         <th>Sede</th>
                                                         <th>Escuela/Unidad</th>
                                                         <th>Carrera</th>
@@ -431,7 +431,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row mb-3 mr-1">
                                 <div class="col-xl-12 col-md-12 col-log-12">
                                     <div class="text-right">
                                         <strong>
@@ -445,6 +445,7 @@
                                             type="button" class="btn btn-primary mr-1 waves-effect">
                                             Finalizar <i class="fas fa-chevron-right"></i></a>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -1091,9 +1092,9 @@
                         //     registro.pain_total = 0
                         // }
 
-                        // <td>${registro.pain_total}</td>
+                        // <td>${registro.pain_total}</td><td>${registro.pain_ejecutora}</td>
                         fila = `<tr>
-                                <td>${registro.pain_ejecutora}</td>
+                                
                                 <td>${registro.sede_nombre}</td>
                                 <td>${registro.escu_nombre}</td>
                                 <td>${registro.care_nombre}</td>
@@ -1217,6 +1218,7 @@
 
         function listarInterno() {
             console.log($('#idIniciativa').text())
+            console.log('listando...');
 
             $.ajax({
                 type: 'GET',
@@ -1244,17 +1246,17 @@
                         //     registro.pain_total = 0
                         // }
                         // <td>${registro.pain_total}</td>
-                        var ejecutora = registro.pain_ejecutora;
-                        console.log(ejecutora);
-                        if(ejecutora == 0 || ejecutora == null){
-                            ejecutora = 'Colaboradora';
-                        }else if(ejecutora == 1){
-                            ejecutora = 'Ejecutora';
-                        }else{
-                            ejecutora = 'No definida';
-                        }
+                        // var ejecutora = registro.pain_ejecutora;
+                        // console.log(ejecutora);
+                        // if(ejecutora == 0 || ejecutora == null){
+                        //     ejecutora = 'Colaboradora';
+                        // }else if(ejecutora == 1){
+                        //     ejecutora = 'Ejecutora';
+                        // }else{
+                        //     ejecutora = 'No definida';
+                        // } <td>` + ejecutora + `</td>
                         fila = `<tr>
-                                    <td>` + ejecutora + `</td>
+                                    
                                     <td>${registro.sede_nombre}</td>
                                     <td>${registro.escu_nombre}</td>
                                     <td>${registro.care_nombre}</td>
