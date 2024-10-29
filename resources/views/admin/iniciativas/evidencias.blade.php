@@ -162,7 +162,7 @@
                             <label>Nombre</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="inev_nombre" name="inev_nombre"
-                                    placeholder="" autocomplete="off">
+                                    placeholder="" autocomplete="off" required>
                             </div>
                         </div>
                         {{-- <div class="form-group">
