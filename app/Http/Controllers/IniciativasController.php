@@ -196,8 +196,7 @@ class IniciativasController extends Controller
                 ->leftjoin('participantes_internos', 'participantes_internos.inic_codigo', 'iniciativas.inic_codigo')
                 ->leftjoin('sedes', 'sedes.sede_codigo', 'participantes_internos.sede_codigo')
                 ->leftJoin('escuelas', function($join) {
-                    $join->on('escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
-                         ->where('participantes_internos.pain_ejecutora', '=', 1);
+                    $join->on('escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo');
                 })
                 ->select(
                     'iniciativas.inic_codigo',
