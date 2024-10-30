@@ -50,7 +50,7 @@
                             @if (Session::has('exito'))
                                 <div class="alert alert-success alert-dismissible show fade mb-4 text-center">
                                     <div class="alert-body">
-                                        <strong>{{ Session::get('exito') }}  <a style="color:blue;" href="{{route('admin.evaluar.iniciativa', $inic_codigo)}}">Crear nueva encuesta.</a></strong>
+                                        <strong>{{ Session::get('exito') }}  <a style="color:blue;" href="{{route('admin.evaluar.iniciativa', $inic_codigo)}}">. <br> Crear nueva encuesta.</a></strong>
                                         <button class="close" data-dismiss="alert"><span>&times;</span></button>
                                     </div>
                                 </div>
