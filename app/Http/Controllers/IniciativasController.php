@@ -4078,4 +4078,25 @@ public function AutoInvitacionEvaluacion($evatotal_encriptado)
         // Pasar la imagen codificada en base64 a la vista
         return view('evaluacion-qr', ['imageData' => $imageData]);
     }
+
+    public function actualizarInvitadosEvaluacion (Request $request)
+    {
+
+
+        $invitado = EvaluacionInvitado::where('evainv_codigo', $request->evainv_codigo)->first();
+
+        if (!$invitado) {
+            return redirect()->back()->with('error', 'Invitado no encontrado.');
+        }
+
+        $invitado->evainv_nombre = $request->nombre;
+        $invitado->evainv_correo = $request->correo;
+        $invitado->save();
+
+
+
+        return redirect()->back()->with('exito', 'Invitado '. $request->nombre .' actualizado correctamente.');
+
+        
+    }
 }

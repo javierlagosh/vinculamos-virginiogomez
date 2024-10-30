@@ -503,3 +503,4 @@ Route::get('/evaluaciones/{evatotal_encriptado}/desde-qr', [IniciativasControlle
 //qr evaluacion
 Route::get('evaluaciones/{evatotal_encriptado}/qr', [IniciativasController::class, 'mostrarQr'])->name('admin.qr.evaluacion');
 
+Route::put('admin/editar-unidades/{unid_codigo}', [IniciativasController::class, 'actualizarInvitadosEvaluacion'])->name('actualizar.invitado.evaluacion');
