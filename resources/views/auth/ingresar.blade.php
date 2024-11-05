@@ -21,6 +21,15 @@
             <img src="{{ '/img/logos/logo_vg_color.png' }}" alt="Imagen" class="img-fluid">
             <form action="{{ route('auth.ingresar') }}" class="signin-form" method="POST">
                 @csrf
+
+                @if (Session::has('message'))
+                        <div class="alert alert-success alert-dismissible show fade text-center">
+                            <div class="alert-body">
+                                <strong>{{ Session::get('message') }}</strong>
+                                <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                            </div>
+                        </div>
+                      @endif
                 <!-- Mensajes de Error -->
                 @foreach (['errorName', 'errorClave', 'sessionFinalizada', 'usuarioRegistrado', 'errorCreate', 'exitoCreacion'] as $messageKey)
                     @if (Session::has($messageKey))

@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
 use App\Models\Usuarios;
-use Mail;
 use Hash;
 use Illuminate\Support\Str;
+
+use Mailjet\Client;
+use Mailjet\Resources;
 
 class ForgotPasswordController extends Controller
 {
@@ -21,62 +23,46 @@ class ForgotPasswordController extends Controller
 
     public function submitForgetPasswordForm(Request $request)
     {
-        $request->validate(
-            [
-                'email' => 'required|email|exists:usuarios,usua_email',
-            ],
-            [
-                'email.required' => 'El correo electrónico es requerido.',
-                'email.email' => 'El correo debe ser válido.',
-                'email.exists' => 'El correo  no se encuentra registrado.',
-            ]
-        );
-        try {
-            $token = Str::random(64);
+        $request->validate([
+            'email' => 'required|email|exists:usuarios,usua_email',
+        ]);
 
-            DB::table('password_resets')->insert([
-                'email' => $request->email,
-                'token' => $token,
-                'created_at' => Carbon::now()
-            ]);
+        $token = Str::random(64);
 
-            Mail::send('email.forgetPassword', ['token' => $token], function ($message) use ($request) {
-                $message->to($request->email);
-                $message->subject('Reset Password');
-            });
+        DB::table('password_resets')->insert([
+            'email' => $request->email,
+            'token' => $token,
+            'created_at' => Carbon::now()
+        ]);
 
-            return back()->with('message', '¡Hemos enviado el enlace para restablecer tu contraseña por correo electrónico!');
-        } catch (\Exception $e) {
-            // Manejar errores de base de datos o correo
-            return back()->with('error', 'Ocurrió un error al procesar la solicitud. Por favor, intenta de nuevo más tarde.');
-        }
+        Mail::send('email.forgetPassword', ['token' => $token], function ($message) use ($request) {
+            $message->to($request->email);
+            $message->subject('Reset Password');
+        });
 
+        return back()->with('message', '¡Hemos enviado el enlace para restablecer tu contraseña por correo electrónico!');
     }
 
     public function showResetPasswordForm($token)
     {
-        return view('auth.passwords.forgetPasswordLink', ['token' => $token]);
+        try {
+            $usuario = DB::table('password_resets')
+            ->where('token', $token)
+            ->first();
+            return view('auth.passwords.forgetPasswordLink', ['token' => $token, 'usuario' => $usuario]);
+        } catch (\Throwable $th) {
+            return redirect('/ingresar')->with('error', 'El token no es válido!');
+        }
+
     }
 
     public function submitResetPasswordForm(Request $request)
     {
-        $request->validate(
-            [
-                'email' => 'required|email|exists:usuarios,usua_email',
-                'password' => 'required|string|min:6|confirmed',
-                'password_confirmation' => 'required'
-            ],
-            [
-                'email.required' => 'El correo electrónico es requerido.',
-                'email.email' => 'El correo debe ser válido.',
-                'email.exists' => 'El correo no se encuentra registrado.',
-                'password.required' => 'La contraseña es requerida.',
-                'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
-                'password.confirmed' => 'Las contraseñas deben ser iguales.',
-                'password_confirmation.required' => 'Debe confirmar la contraseña.',
-            ]
-
-        );
+        $request->validate([
+            'email' => 'required|email|exists:usuarios,usua_email',
+            'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required'
+        ]);
 
         $updatePassword = DB::table('password_resets')
             ->where([
@@ -86,7 +72,7 @@ class ForgotPasswordController extends Controller
             ->first();
 
         if (!$updatePassword) {
-            return back()->withInput()->with('error', 'Invalid token!');
+            return back()->withInput()->with('error', 'Token  inválido!');
         }
 
         $user = Usuarios::where('usua_email', $request->email)
@@ -94,6 +80,78 @@ class ForgotPasswordController extends Controller
 
         DB::table('password_resets')->where(['email' => $request->email])->delete();
 
-        return redirect('/')->with('message', 'Your password has been changed!');
+        return redirect('/ingresar')->with('message', '¡La contraseña se ha restablecido correctamente!');
     }
+
+
+
+    public function sendRecoveryEmail(Request $request)
+    {
+
+        // Validar el email
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        // Crear instancia de Mailjet Client
+        $mj = new Client(env('MJ_APIKEY_PUBLIC'), env('MJ_APIKEY_PRIVATE'), true, ['version' => 'v3.1']);
+
+        // Obtener el usuario
+        $email = $request->email;
+        $usuario = Usuarios::where('usua_email', $email)->first();
+
+        // Verificar si el usuario existe
+        if (!$usuario) {
+            return redirect()->back()->with('error', 'No se encontró un usuario con ese correo.');
+        }
+
+        // Generar el token para la recuperación
+        $token = Str::random(64);
+
+        // Insertar el token en la tabla password_resets
+        DB::table('password_resets')->insert([
+            'email' => $email,
+            'token' => $token,
+            'created_at' => Carbon::now()
+        ]);
+
+        // Crear el mensaje
+        $mensaje = "Hola, " . $usuario->usua_nombre . ".<br>Para restablecer tu contraseña, haz clic en el siguiente enlace: <a href='" . env('URL_EVALUACIONES'). 'reset-password/' . $token . "'>Restablecer contraseña</a><br>Si no solicitaste restablecer tu contraseña, ignora este mensaje.<br>Saludos,<br>Equipo de VINCULAMOS - IP VIRGINIO GÓMEZ";
+
+        // Configurar el cuerpo del mensaje
+        $body = [
+            'Messages' => [
+                [
+                    'From' => [
+                        'Email' => env('SENDER_EMAIL'),
+                        'Name'  => "VINCULAMOS - IP VIRGINIO GÓMEZ"
+                    ],
+                    'To' => [
+                        [
+                            'Email' => $email,
+                            'Name' => $usuario->usua_nombre
+                        ]
+                    ],
+                    'Subject' => 'Solicitud de restablecer contraseña - VINCULAMOS - IP VIRGINIO GÓMEZ',
+                    'HTMLPart' => $mensaje,
+                ]
+            ]
+        ];
+
+        try {
+            // Enviar el correo
+            $response = $mj->post(Resources::$Email, ['body' => $body]);
+
+            // Verificar si se envió correctamente
+            if ($response->success()) {
+                return redirect()->back()->with('exito', 'El correo de solicitud de restablecimiento de contraseña se ha enviado correctamente. Por favor, revise su correo electrónico.');
+            } else {
+                return redirect()->back()->with('error', 'Error al enviar el correo.');
+            }
+        } catch (\Exception $e) {
+            // Capturar cualquier excepción y retornar error
+            return redirect()->back()->with('error', 'Ocurrió un error al intentar enviar el correo: ' . $e->getMessage());
+        }
+    }
+
 }
