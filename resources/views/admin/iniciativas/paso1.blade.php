@@ -310,6 +310,15 @@
                                         </div>
 
                                         <div id="objetivosPlanteados">
+                                            @if (isset($iniciativa) && $editar)
+                                            @forelse ($ods_array as $ods)
+                                                <!-- Código para mostrar ODS -->
+                                                    <img src="https://cftpucv.vinculamos.org/img/ods/{{ $ods->id_ods }}.png" alt="Ods {{ $ods->id_ods }}" style="width: 100px; height: 100px;">
+                                                @empty
+                                                    
+                                                @endforelse
+                                                
+                                            @endif
                                         </div>
 
                                         <input type="text" id="ObjetivoElegido" hidden>
