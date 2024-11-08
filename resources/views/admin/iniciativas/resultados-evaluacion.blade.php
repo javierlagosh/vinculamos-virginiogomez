@@ -256,6 +256,62 @@
                                     </td>
                                 </tr>
 
+                                <tr class="border">
+                                    <td><strong>¿Sabía usted que las contribuciones esperadas eran?</strong><br>
+                                        @if (count($contribuciones) > 0)
+                                                <ul>
+                                                    @foreach ($contribuciones as $contribucion)
+                                                        <li>{{ $contribucion->amb_nombre }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                <p>No hay contribuciones esperadas</p>
+                                            @endif
+                                    </td>
+                                    <td>
+                                        <table class="table ">
+                                            <thead>
+                                                <tr class="border-bottom">
+                                                    <th class="w-25 text-center"></th>
+                                                    <th class="w-25 text-center">Alternativas</th>
+                                                    <th class="w-25 text-center"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td  class="border-right">Si</td>
+                                                    <td  class="border-right">{{count($evaluacion->where('eval_conocimiento_3', 100))}}</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_conocimiento_3', 100)) * 100) / ( count($evaluacion->where('eval_conocimiento_3', 0)) + count($evaluacion->where('eval_conocimiento_3', 100)) ) ,1) }} %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td  class="border-right">No</td>
+                                                    <td  class="border-right">{{count($evaluacion->where('eval_conocimiento_3', 0))}}</td>
+                                                    <td>{{  round((count($evaluacion->where('eval_conocimiento_3', 0)) * 100) / ( count($evaluacion->where('eval_conocimiento_3', 0)) + count($evaluacion->where('eval_conocimiento_3', 100)) ) ,1) }} %</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <div id="piechart3"></div>
+                                        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                                        <script type="text/javascript">
+                                        // Load google charts
+                                        google.charts.load('current', {'packages':['corechart']});
+                                        google.charts.setOnLoadCallback(drawChart);
+                                        function drawChart() {
+                                        var data = google.visualization.arrayToDataTable([
+                                        ['Task', 'Alternativas'],
+                                        ['Si', {{count($evaluacion->where('eval_conocimiento_3', 100))}}],
+                                        ['No', {{count($evaluacion->where('eval_conocimiento_3', 0))}}]
+                                        ]);
+                                        var options = {'width':225, 'height':200};
+                                        var chart = new google.visualization.PieChart(document.getElementById('piechart3'));
+                                        chart.draw(data, options);
+                                        }
+                                        </script>
+                                    </td>
+                                </tr>
+
 
                             </tbody>
 
@@ -403,6 +459,82 @@
                                         ]);
                                         var options = {'width':225, 'height':200};
                                         var chart = new google.visualization.PieChart(document.getElementById('piechart5'));
+                                        chart.draw(data, options);
+                                        }
+                                        </script>
+                                    </td>
+                                </tr>
+
+
+
+                                <tr class="border">
+                                    <td><strong>¿En qué % cree usted que se cumplieron las contribuciones?</strong><br>
+                                        @if (count($contribuciones) > 0)
+                                                <ul>
+                                                    @foreach ($contribuciones as $contribucion)
+                                                        <li>{{ $contribucion->amb_nombre }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                <p>No hay contribuciones esperadas</p>
+                                            @endif
+                                    </td>
+                                    <td>
+                                        <table class="table ">
+                                            <thead>
+                                                <tr class="border-bottom">
+                                                    <th class="w-25 text-center"></th>
+                                                    <th class="w-25 text-center">Alternativas</th>
+                                                    <th class="w-25 text-center"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td  class="border-right">No se cumplió</td>
+                                                    <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_3', 0))}}</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_3', 0)) * 100) / ( count($evaluacion->where('eval_cumplimiento_3', 100)) + count($evaluacion->where('eval_cumplimiento_3', 75)) + count($evaluacion->where('eval_cumplimiento_3', 50)) + count($evaluacion->where('eval_cumplimiento_3', 25)) + count($evaluacion->where('eval_cumplimiento_3', 0)) ) ,1) }} %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td  class="border-right">25%</td>
+                                                    <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_3', 25))}}</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_3', 25)) * 100) / ( count($evaluacion->where('eval_cumplimiento_3', 100)) + count($evaluacion->where('eval_cumplimiento_3', 75)) + count($evaluacion->where('eval_cumplimiento_3', 50)) + count($evaluacion->where('eval_cumplimiento_3', 25)) + count($evaluacion->where('eval_cumplimiento_3', 0)) ) ,1) }} %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td  class="border-right">50%</td>
+                                                    <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_3', 50))}}</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_3', 50)) * 100) / ( count($evaluacion->where('eval_cumplimiento_3', 100)) + count($evaluacion->where('eval_cumplimiento_3', 75)) + count($evaluacion->where('eval_cumplimiento_3', 50)) + count($evaluacion->where('eval_cumplimiento_3', 25)) + count($evaluacion->where('eval_cumplimiento_3', 0)) ) ,1) }} %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td  class="border-right">75%</td>
+                                                    <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_3', 75))}}</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_3', 75)) * 100) / ( count($evaluacion->where('eval_cumplimiento_3', 100)) + count($evaluacion->where('eval_cumplimiento_3', 75)) + count($evaluacion->where('eval_cumplimiento_3', 50)) + count($evaluacion->where('eval_cumplimiento_3', 25)) + count($evaluacion->where('eval_cumplimiento_3', 0)) ) ,1) }} %</td>
+                                                </tr>
+                                                <tr>
+                                                    <td  class="border-right">100%</td>
+                                                    <td  class="border-right">{{count($evaluacion->where('eval_cumplimiento_3', 100))}}</td>
+                                                    <td>{{ round((count($evaluacion->where('eval_cumplimiento_3', 100)) * 100) / ( count($evaluacion->where('eval_cumplimiento_3', 100)) + count($evaluacion->where('eval_cumplimiento_3', 75)) + count($evaluacion->where('eval_cumplimiento_3', 50)) + count($evaluacion->where('eval_cumplimiento_3', 25)) + count($evaluacion->where('eval_cumplimiento_3', 0)) ) ,1) }} %</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <div id="piechart6"></div>
+                                        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                                        <script type="text/javascript">
+                                        // Load google charts
+                                        google.charts.load('current', {'packages':['corechart']});
+                                        google.charts.setOnLoadCallback(drawChart);
+                                        function drawChart() {
+                                        var data = google.visualization.arrayToDataTable([
+                                        ['Task', 'Alternativas'],
+                                        ['No se cumplió', {{count($evaluacion->where('eval_cumplimiento_3', 0)) }}],
+                                        ['25%', {{count($evaluacion->where('eval_cumplimiento_3', 25)) }}],
+                                        ['50%', {{count($evaluacion->where('eval_cumplimiento_3', 50)) }}],
+                                        ['75%', {{count($evaluacion->where('eval_cumplimiento_3', 75)) }}],
+                                        ['100%', {{count($evaluacion->where('eval_cumplimiento_3', 100)) }}],
+                                        ]);
+                                        var options = {'width':225, 'height':200};
+                                        var chart = new google.visualization.PieChart(document.getElementById('piechart6'));
                                         chart.draw(data, options);
                                         }
                                         </script>

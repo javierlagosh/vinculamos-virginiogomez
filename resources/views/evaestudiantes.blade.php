@@ -121,7 +121,7 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label font-weight-bold">¿En qué % cree usted que se cumplirán las contribuciones?</label>
+                        <label class="form-label font-weight-bold">¿En qué % cree usted que se cumplieron las contribuciones?</label>
                         <div class="d-flex flex-wrap">
                             <div class="form-check mr-3">
                                 <input class="form-check-input" type="radio" name="cumplimientoContribucion" id="noCumplioContribucion" value="0">
