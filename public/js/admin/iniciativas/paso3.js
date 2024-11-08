@@ -251,7 +251,7 @@ function guardarDinero(enti_codigo) {
     let inic_codigo = $('#codigo').val();
     let aporteEmpresa = $('#aporteempresa').val();
     let aporteExterno = $('#aporteexterno').val();
-    let dinero, alertError, alertExito
+    let dinero, alertError, alertExito, centro;
     $('#div-alert-recursos').html('');
 
     if (enti_codigo == 1) {
@@ -261,7 +261,16 @@ function guardarDinero(enti_codigo) {
             $('#div-alert-recursos').html(alertError);
             return;
         }
+        if (
+            $("#centroInterno").val() == null ||
+            $("#centroInterno").val() == ""
+        ) {
+            alertError = `<div class="alert alert-warning alert-dismissible show fade mb-3"><div class="alert-body"><button class="close" data-dismiss="alert"><span>&times;</span></button><strong>Debe seleccionar un centro de costo asociado.</strong></div></div>`;
+            $("#div-alert-recursos").html(alertError);
+            return;
+        }
         dinero = aporteEmpresa;
+        centro = $("#centroInterno").val();
     } else {
         if (aporteExterno == '' || aporteExterno == null) {
             alertError =
@@ -269,6 +278,12 @@ function guardarDinero(enti_codigo) {
             $('#div-alert-recursos').html(alertError);
             return;
         }
+        if($('#centroExterno').val() == null || $('#centroExterno').val() == ''){
+            alertError = `<div class="alert alert-warning alert-dismissible show fade mb-3"><div class="alert-body"><button class="close" data-dismiss="alert"><span>&times;</span></button><strong>Debe seleccionar un centro de costo asociado.</strong></div></div>`;
+            $("#div-alert-recursos").html(alertError);
+            return;
+        }
+        centro = $('#centroExterno').val()
         dinero = aporteExterno;
     }
 
@@ -282,6 +297,7 @@ function guardarDinero(enti_codigo) {
         data: {
             iniciativa: inic_codigo,
             entidad: enti_codigo,
+            centro: centro,
             valorizacion: dinero
         },
         success: function(resGuardar) {
@@ -379,6 +395,7 @@ function guardarInfra() {
     let tinf_codigo = $('#codigoinfra').val();
     let coin_horas = $('#horasinfra').val();
     let coin_cantidad = $('#cantidadinfra').val();
+    let ceco_codigo = $("#centroCostos").val();
     let respuesta, alertError, alertExito;
     $('#div-alert-infraestructura').html('');
     $('#div-alert-recursos').html('');
@@ -395,6 +412,7 @@ function guardarInfra() {
             iniciativa: inic_codigo,
             entidad: enti_codigo,
             tipoinfra: tinf_codigo,
+            centro: ceco_codigo,
             horas: coin_horas,
             cantidad: coin_cantidad,
         },
@@ -570,6 +588,7 @@ function guardarRrhh() {
     let enti_codigo = $('#entidadrrhh').val();
     let trrhh_codigo = $('#codigorrhh').val();
     let corh_horas = $('#horasrrhh').val();
+    let ceco_codigo = $("#centroRrhh").val();
     let corh_cantidad = $('#cantidadhh').val();
     let respuesta, alertError, alertExito;
     $('#div-alert-rrhh').html('');
@@ -586,6 +605,7 @@ function guardarRrhh() {
             iniciativa: inic_codigo,
             entidad: enti_codigo,
             tiporrhh: trrhh_codigo,
+            centro: ceco_codigo,
             horas: corh_horas,
             cantidad: corh_cantidad,
         },

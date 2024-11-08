@@ -127,33 +127,75 @@
                             <div class="col-3 col-md-3 col-lg-3"></div>
                             <input type="hidden" id="codigo" name="codigo" value="{{ $iniciativa->inic_codigo }}">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-md small">
+                                <table class="table table-bordered table-md ">
                                     <tr>
                                         <th></th>
-                                        <th class="text-center">Dinero</th>
-                                        <th class="text-center">Infraestructura</th>
-                                        <th class="text-center">Recursos Humanos</th>
-                                        <th class="text-center">Total</th>
+                                        <th class="text-center">
+                                            <h6>Dinero</h6>
+                                        </th>
+                                        <th class="text-center">
+                                            <h6>Infraestructura</h6>
+                                        </th>
+                                        <th class="text-center">
+                                            <h6>Recursos Humanos</h6>
+                                        </th>
+                                        <th class="text-center">
+                                            <h6>Total</h6>
+                                        </th>
                                     </tr>
                                     <tr>
-                                        <td><strong>Aportado por la institución</strong></td>
+                                        <td class=""><strong>
+                                                <h6>Aportado por la institución</h6>
+                                            </strong></td>
                                         <td>
                                             <div class="row mb-2">
                                                 <div class="col-12 col-md-12 col-lg-12 text-center" id="empresadinero">
 
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 text-center">
-                                                    <input type="number" class="form-control" id="aporteempresa"
-                                                        name="aporteempresa" autocomplete="off">
-                                                    <div class="mt-2">
-                                                        <button type="button" class="btn btn-icon btn-primary"
-                                                            onclick="guardarDinero(1)"><i
-                                                                class="fas fa-save"></i></button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="number" class="form-control" id="aporteempresa"
+                                                                name="aporteempresa" autocomplete="off"
+                                                                oninput="checkNumber('aporteempresa')" min="0">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <select class="select2" style="width: 90%"
+                                                                name="centroInterno" id="centroInterno">
+                                                                <option value="" selected disabled>Seleccione...
+                                                                </option>
+                                                                @foreach ($centroCostos as $ceco)
+                                                                    <option value="{{ $ceco->ceco_codigo }}">
+                                                                        {{ $ceco->ceco_nombre }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="mt-2 text-center">
+
+                                                                <button type="button" class="btn btn-icon btn-primary"
+                                                                    onclick="guardarDinero(1)">
+                                                                    <i id="dinero-empresa-cero" class="fas fa-save"></i>
+                                                                </button>
+
+                                                                <button id="dinero-empresa-limpiar" type="button"
+                                                                    class="btn btn-icon btn-danger"
+                                                                    onclick="guardarDinero(1,true)">
+                                                                    <i class="fas fa-times"></i>
+                                                                </button>
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
                                         </td>
                                         <td>
                                             <div class="row">
@@ -167,7 +209,7 @@
                                                 </div>
                                             </div>
                                             <div class="row mt-2 mr-1 ml-1">
-                                                <table class="table table-bordered table-hover small table-sm">
+                                                <table class="table table-bordered table-hover  table-sm">
                                                     <thead>
                                                         <tr>
                                                             <th>Recurso</th>
@@ -194,7 +236,7 @@
                                                 </div>
                                             </div>
                                             <div class="row mt-2 mr-1 ml-1">
-                                                <table class="table table-bordered table-hover small table-sm">
+                                                <table class="table table-bordered table-hover  table-sm">
                                                     <thead>
                                                         <tr>
                                                             <th>Recurso</th>
@@ -218,25 +260,56 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Aportado por externos</strong></td>
+                                        <td><strong>
+                                                <h6>Aportado por externos</h6>
+                                            </strong></td>
                                         <td>
                                             <div class="row mb-2">
                                                 <div class="col-12 col-md-12 col-lg-12 text-center" id="externodinero">
+                                                </div>
+                                                <table class="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><input type="number" class="form-control"
+                                                                    id="aporteexterno" name="aporteexterno"
+                                                                    oninput="checkNumber('aporteexterno')" min="0"
+                                                                    style="display: inline-block; margin-right: 5px;"
+                                                                    autocomplete="off"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <select class="select2" style="width: 100%"
+                                                                    name="centroExterno" id="centroExterno">
+                                                                    <option value="" selected disabled>Seleccione
+                                                                        centro de costos...
+                                                                    </option>
+                                                                    @foreach ($centroCostos as $ceco)
+                                                                        <option value="{{ $ceco->ceco_codigo }}">
+                                                                            {{ $ceco->ceco_nombre }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div class="mt-2 text-center">
+                                                                    <button type="button"
+                                                                        class="btn btn-icon btn-primary"
+                                                                        onclick="guardarDinero(2)">
+                                                                        <i id="dineceroro-externo-"
+                                                                            class="fas fa-save"></i>
 
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-12 col-md-12 col-lg-12 text-center">
-                                                    <input type="number" class="form-control" id="aporteexterno"
-                                                        name="aporteexterno"
-                                                        style="display: inline-block; margin-right: 5px;"
-                                                        autocomplete="off">
-                                                    <div class="mt-2">
-                                                        <button type="button" class="btn btn-icon btn-primary"
-                                                            style="float: inline-center;" onclick="guardarDinero(2)"><i
-                                                                class="fas fa-save"></i></button>
-                                                    </div>
-                                                </div>
+                                                                    </button>
+                                                                    <button id="dinero-externo-limpiar" type="button"
+                                                                        class="btn btn-icon btn-danger"
+                                                                        onclick="guardarDinero(2,true)">
+                                                                        <i class="fas fa-times"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </td>
                                         <td>
@@ -251,7 +324,7 @@
                                                 </div>
                                             </div>
                                             <div class="row mt-2 mr-1 ml-1">
-                                                <table class="table table-bordered table-hover small table-sm">
+                                                <table class="table table-bordered table-hover  table-sm">
                                                     <thead>
                                                         <tr>
                                                             <th>Recurso</th>
@@ -278,7 +351,7 @@
                                                 </div>
                                             </div>
                                             <div class="row mt-2 mr-1 ml-1">
-                                                <table class="table table-bordered table-hover small table-sm">
+                                                <table class="table table-bordered table-hover  table-sm">
                                                     <thead>
                                                         <tr>
                                                             <th>Recurso</th>
@@ -354,6 +427,24 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label>Centro de costos</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-bank"></i>
+                                    </div>
+                                </div>
+                                <select class="select2" style="width: 90%" name="centroCostos" id="centroCostos">
+                                    <option value="" selected disabled>Seleccione...</option>
+                                    @foreach ($centroCostos as $ceco)
+                                        <option value="{{ $ceco->ceco_codigo }}">{{ $ceco->ceco_nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label>Horas de uso</label>
                             <div class="input-group">
@@ -404,7 +495,7 @@
 
     <div class="modal fade" id="modalRrhh" tabindex="-1" role="dialog" aria-labelledby="formModal"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="formModal">Agregar RRHH</h5>
@@ -413,66 +504,123 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="text-center" id="div-alert-rrhh">
-                        </div>
-                        <div class="form-group">
-                            <label>Tipo RRHH</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i class="fas fa-user-tie"></i>
+                    <div class="col-xl-12">
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <form>
+                                    <div class="text-center" id="div-alert-rrhh">
                                     </div>
-                                </div>
-                                <select class="form-control" id="codigorrhh" name="codigorrhh"
-                                    onchange="buscarTipoRrhh()">
-                                    <option value="" selected disabled>Seleccione...</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Cantidad de horas</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i class="fas fa-stopwatch"></i>
+                                    <div class="form-group">
+                                        <label>Tipo RRHH</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-user-tie"></i>
+                                                </div>
+                                            </div>
+                                            <select class="form-control" id="codigorrhh" name="codigorrhh"
+                                                onchange="buscarTipoRrhh()">
+                                                <option value="" selected disabled>Seleccione...</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <input type="number" class="form-control" id="horasrrhh" name="horasrrhh"
-                                    autocomplete="off">
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label>Cantidad de personal</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i class="fas fa-users"></i>
+                                    <div class="form-group">
+                                        <label>Centro de costos</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-bank"></i>
+                                                </div>
+                                            </div>
+                                            <select class="select2" style="width: 85%" name="centroRrhh"
+                                                id="centroRrhh">
+                                                <option value="" selected disabled>Seleccione...</option>
+                                                @foreach ($centroCostos as $ceco)
+                                                    <option value="{{ $ceco->ceco_codigo }}">{{ $ceco->ceco_nombre }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label>Cantidad de horas</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-stopwatch"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control" id="horasrrhh" name="horasrrhh"
+                                                autocomplete="off">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Cantidad de personal</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-users"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control" id="cantidadhh" name="cantidadhh"
+                                                autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Valorización</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </div>
+                                            </div>
+                                            <input type="number" class="form-control" id="valorrrhh" name="valorrrhh"
+                                                disabled>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="2">Resumen de RRHH estimados</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Total de estudiantes contemplados:</td>
+                                                <td>{{ $estudiantes != null ? $estudiantes : 'Sin registrar' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total de docentes contemplados:</td>
+                                                <td>{{ $docentes != null ? $docentes : 'Sin registrar' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total de funcionarios contemplados:</td>
+                                                <td>{{ $funcionarios != null ? $funcionarios : 'Sin registrar' }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <input type="number" class="form-control" id="cantidadhh" name="cantidadhh"
-                                    autocomplete="off">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>Valorización</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <i class="fas fa-dollar-sign"></i>
-                                    </div>
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="text-center">
+                                    <input type="hidden" id="entidadrrhh" name="entidadrrhh">
+                                    <input type="hidden" id="valorrrhh" name="valorrrhh">
+                                    <button type="button" class="btn btn-primary waves-effect"
+                                        onclick="guardarRrhh()">Guardar</button>
                                 </div>
-                                <input type="number" class="form-control" id="valorrrhh" name="valorrrhh" disabled>
                             </div>
                         </div>
-                        <div class="text-center">
-                            <input type="hidden" id="entidadrrhh" name="entidadrrhh">
-                            <input type="hidden" id="valorrrhh" name="valorrrhh">
-                            <button type="button" class="btn btn-primary waves-effect"
-                                onclick="guardarRrhh()">Guardar</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

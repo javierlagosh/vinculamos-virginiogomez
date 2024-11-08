@@ -30,6 +30,7 @@ use App\Models\Escuelas;
 use App\Models\Ods;
 use App\Models\Carreras;
 use App\Models\Iniciativas;
+use App\Models\CentroCostos;
 use App\Models\MecanismosActividades;
 use App\Models\Mecanismos;
 use App\Models\Programas;
@@ -2291,16 +2292,24 @@ class IniciativasController extends Controller
     {
         
         $iniciativa = Iniciativas::where('inic_codigo', $inic_codigo)->first();
-        // $inicEditar = Iniciativas::where('inic_codigo', $inic_codigo)->first();
-        // $listarRegiones = Regiones::select('regi_codigo', 'regi_nombre')->orderBy('regi_codigo')->get();
-        // $listarParticipantes = DB::table('participantes')
-        //     ->select('inic_codigo', 'participantes.sube_codigo', 'sube_nombre')
-        //     ->join('subentornos', 'subentornos.sube_codigo', '=', 'participantes.sube_codigo')
-        //     ->where('inic_codigo', $inic_codigo)
-        //     ->orderBy('part_creado', 'asc')
-        //     ->get();
+        $centroCostos = CentroCostos::select('ceco_codigo', 'ceco_nombre')->get();
+        $costo = CostosDinero::where('inic_codigo', $inic_codigo)->first();
+
+        $estudiantes = ParticipantesInternos::where('inic_codigo', $inic_codigo)
+            ->sum('pain_estudiantes_final');
+
+        $docentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)
+            ->sum('pain_docentes_final');
+
+        $funcionarios  = ParticipantesInternos::where('inic_codigo', $inic_codigo)
+            ->sum('pain_funcionarios_final');
         return view('admin.iniciativas.paso3', [
-            'iniciativa' => $iniciativa
+            'iniciativa' => $iniciativa,
+            'costo' => $costo,
+            'centroCostos' => $centroCostos,
+            'estudiantes' => $estudiantes,
+            'docentes' => $docentes,
+            'funcionarios' => $funcionarios,
         ]);
     }
 
@@ -2340,6 +2349,7 @@ class IniciativasController extends Controller
             $codiGuardar = CostosDinero::create([
                 'inic_codigo' => $request->iniciativa,
                 'enti_codigo' => $request->entidad,
+                'ceco_codigo' => $request->centro,
                 'codi_valorizacion' => $request->valorizacion,
                 'codi_creado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
                 'codi_actualizado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
@@ -2354,6 +2364,7 @@ class IniciativasController extends Controller
                     'enti_codigo' => $request->entidad
                 ]
             )->update([
+                        'ceco_codigo' => $request->centro,
                         'codi_valorizacion' => $request->valorizacion,
                         'codi_actualizado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
                         'codi_nickname_mod' => Session::get($rolePrefix)->usua_nickname,
@@ -2547,6 +2558,7 @@ class IniciativasController extends Controller
             'inic_codigo' => $request->iniciativa,
             'enti_codigo' => $request->entidad,
             'tinf_codigo' => $request->tipoinfra,
+            'ceco_codigo' => $request->centro,
             'coin_horas' => $request->horas,
             'coin_cantidad' => $request->cantidad,
             'coin_valorizacion' => $request->horas * $tiinConsultar->tinf_valor * $request->cantidad,
@@ -2713,6 +2725,7 @@ class IniciativasController extends Controller
             'inic_codigo' => $request->iniciativa,
             'trrhh_codigo' => $request->tiporrhh,
             'enti_codigo' => $request->entidad,
+            'ceco_codigo' => $request->centro,
             'corh_cantidad' => $request->cantidad,
             'corh_horas' => $request->horas,
             'corh_valorizacion' => $request->horas * $tirhConsultar->trrhh_valor * $request->cantidad,

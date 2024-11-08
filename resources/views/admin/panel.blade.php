@@ -49,6 +49,7 @@
                 Route::is('admin.listar.tipoinfra') ||
                 Route::is('admin.listar.tipounidad') ||
                 Route::is('admin.listar.unidades') ||
+                Route::is('admin.listar.ccostos') ||
                 Route::is('admin.listar.subunidades')
                     ? 'dropdown active'
                     : 'dropdown' }}">
@@ -56,13 +57,15 @@
                         data-feather="command"></i><span>Parámetros</span></a>
                 <ul class="dropdown-menu">
                     <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.sedes') }}">Sedes</a></li>
-                    <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.escuelas') }}">Escuelas/Unidades</a></li>
+                    <li><a style="font-size: 90%;" class="nav-link"
+                            href="{{ route('admin.listar.escuelas') }}">Escuelas/Unidades</a></li>
                     <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.carreras') }}">Carreras</a>
                     </li>
                     {{-- <li><a style="font-size: 90%;" class="nav-link" href="{{route("admin.listar.carreras")}}">Carreras</a></li> --}}
                     <li><a style="font-size: 90%;" class="nav-link"
                             href="{{ route('admin.listar.ambitos') }}">Contribución</a></li>
-                    <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.ambitosaccion') }}">Ambitos
+                    <li><a style="font-size: 90%;" class="nav-link"
+                            href="{{ route('admin.listar.ambitosaccion') }}">Ambitos
                             Acción</a></li>
                     <li><a style="font-size: 90%;" class="nav-link"
                             href="{{ route('admin.listar.programas') }}">Programas</a></li>
@@ -79,18 +82,20 @@
                             de interés</a></li>
                     <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.tipoact') }}">Tipos de
                             iniciativa</a></li>
+                    <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.ccostos') }}">Centro de
+                            costos</a></li>
                     {{-- <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.rrhh') }}">Tipos de
                             RRHH</a></li> --}}
                     {{-- <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.tipoinfra') }}">Tipos de
                             Infraestructuras</a></li> --}}
                     {{-- <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.tipounidad') }}">Tipos de --}}
-                            {{-- Unidades</a></li> --}}
+                    {{-- Unidades</a></li> --}}
                     <li><a style="font-size: 90%;" class="nav-link"
                             href="{{ route('admin.listar.unidades') }}">Unidades</a></li>
                     <li><a style="font-size: 90%;" class="nav-link"
                             href="{{ route('admin.listar.subunidades') }}">SubUnidades</a></li>
-                            <li><a style="font-size: 90%;" class="nav-link"
-                            href="{{ route('admin.listar.valores') }}">Valores</a></li>
+                    <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.listar.valores') }}">Valores</a>
+                    </li>
                     {{-- <li><a style="font-size: 90%;" class="nav-link" href="{{route("admin.listar.tematica")}}">Tematicas</a></li> --}}
                 </ul>
             </li>
@@ -123,8 +128,8 @@
                 <a href="#" class="menu-toggle nav-link has-dropdown"><i
                         data-feather="book-open"></i><span>Actividades</span></a>
                 <ul class="dropdown-menu">
-                    <li><a style="font-size: 90%;" class="nav-link"
-                            href="{{ route('admin.iniciativa.listar') }}">Listado de actividades</a></li>
+                    <li><a style="font-size: 90%;" class="nav-link" href="{{ route('admin.iniciativa.listar') }}">Listado
+                            de actividades</a></li>
                     <li><a style="font-size: 90%;" class="nav-link"
                             href="{{ route('admin.inicitiativas.crear.primero') }}">Crear actividad</a></li>
                 </ul>
@@ -150,10 +155,11 @@
                 </ul>
             </li>
         @endif
-        @if (Session::has('admin') || Session::has('digitador') )
-        <li class="dropdown">
-            <a href="{{route('descargamasiva.ver')}}" class="nav-link"><i data-feather="download"></i><span>Descarga masiva</span></a>
-        </li>
+        @if (Session::has('admin') || Session::has('digitador'))
+            <li class="dropdown">
+                <a href="{{ route('descargamasiva.ver') }}" class="nav-link"><i
+                        data-feather="download"></i><span>Descarga masiva</span></a>
+            </li>
         @endif
 
 

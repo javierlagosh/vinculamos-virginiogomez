@@ -16,6 +16,7 @@ class CostosRrhh extends Model {
         'inic_codigo',
         'enti_codigo',
         'trrhh_codigo',
+        'ceco_codigo',
         'corh_horas',
         'corh_cantidad',
         'corh_valorizacion',
