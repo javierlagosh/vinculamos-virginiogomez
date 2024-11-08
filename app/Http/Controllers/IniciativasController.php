@@ -3007,6 +3007,7 @@ class IniciativasController extends Controller
         $resultados = Resultados::where('inic_codigo', $inic_codigo)->get();
         $evaluaciones = Evaluacion::where('inic_codigo', $inic_codigo)->get();
 
+
         $evaluacion_estudiantes = EvaluacionTotal::where('evaluacion_total.evatotal_tipo', 0)
             ->where('evaluacion_total.inic_codigo', $inic_codigo)
             ->join('evaluacion_invitado', 'evaluacion_total.evatotal_codigo', '=', 'evaluacion_invitado.evatotal_codigo')
@@ -3049,14 +3050,29 @@ class IniciativasController extends Controller
             ->select('ambito.amb_nombre')
             ->where('programas.prog_nombre', '$mecanismo[0]->meca_nombre')
             ->get();
-$contribuciones = ProgramasContribuciones::join('programas', 'programas.prog_codigo', 'programas_contribuciones.prog_codigo')
-            ->join('ambito', 'ambito.amb_codigo', 'programas_contribuciones.amb_codigo')
-            ->join('iniciativas', 'iniciativas.prog_codigo', 'programas.prog_codigo')
-            ->where('iniciativas.inic_codigo', $inic_codigo)
-            ->select('ambito.amb_nombre')
-            ->get();
+        $contribuciones = ProgramasContribuciones::join('programas', 'programas.prog_codigo', 'programas_contribuciones.prog_codigo')
+                    ->join('ambito', 'ambito.amb_codigo', 'programas_contribuciones.amb_codigo')
+                    ->join('iniciativas', 'iniciativas.prog_codigo', 'programas.prog_codigo')
+                    ->where('iniciativas.inic_codigo', $inic_codigo)
+                    ->select('ambito.amb_nombre')
+                    ->get();
 
-        return view('admin.iniciativas.evapaso2', compact('iniciativa', 'invitado', 'resultados', 'evaluaciones', 'evaluacion_estudiantes', 'evaluacion_docentes', 'evaluacion_externos', 'evaEstudiantesTotal', 'evaDocentesTotal', 'evaExternosTotal', 'ambitos', 'evaluaciontotal', 'evatipoestudiantes', 'evatipodocentes', 'evatipoexternos', 'contribuciones'));
+        return view('admin.iniciativas.evapaso2', compact('iniciativa',
+         'invitado',
+          'resultados',
+           'evaluaciones',
+            'evaluacion_estudiantes',
+             'evaluacion_docentes',
+              'evaluacion_externos', 
+              'evaEstudiantesTotal', 
+              'evaDocentesTotal', 
+              'evaExternosTotal',
+               'ambitos',
+                'evaluaciontotal',
+                 'evatipoestudiantes', 
+                 'evatipodocentes', 
+                 'evatipoexternos', 
+                 'contribuciones'));
     }
     public function eliminarEvaluacionInciativa(Request $request)
     {
@@ -3736,13 +3752,14 @@ public function AutoInvitacionEvaluacion($evatotal_encriptado)
         $iniciativa = Iniciativas::where('inic_codigo', $inic_codigo)->get();
         $evaluaciones = Evaluacion::where('inic_codigo', $inic_codigo)->get();
         $resultados = Resultados::where('inic_codigo', $inic_codigo)->get();
-        $ambitos = Programas::join('programas_contribuciones', 'programas_contribuciones.prog_codigo', 'programas.prog_codigo')
-            ->join('ambito', 'ambito.amb_codigo', 'programas_contribuciones.amb_codigo')
-            ->select('ambito.amb_nombre')
-            ->where('prog_nombre', $iniciativa[0]->inic_nombre)
-            ->get();
+        $contribuciones = ProgramasContribuciones::join('programas', 'programas.prog_codigo', 'programas_contribuciones.prog_codigo')
+        ->join('ambito', 'ambito.amb_codigo', 'programas_contribuciones.amb_codigo')
+        ->join('iniciativas', 'iniciativas.prog_codigo', 'programas.prog_codigo')
+        ->where('iniciativas.inic_codigo', $inic_codigo)
+        ->select('ambito.amb_nombre')
+        ->get();
 
-        return view('evaestudiantes', compact('iniciativa', 'evaluaciones', 'inic_codigo', 'resultados', 'ambitos', 'tipo'));
+        return view('evaestudiantes', compact('iniciativa', 'evaluaciones', 'inic_codigo', 'resultados', 'contribuciones', 'tipo'));
 
     }
     public function guardarEvaluacionEstudiante(Request $request)
@@ -3780,6 +3797,9 @@ public function AutoInvitacionEvaluacion($evatotal_encriptado)
                     // resultado
                     $evaluacion->eval_conocimiento_2 = $request->conocimientoResultado;
                     $evaluacion->eval_cumplimiento_2 = $request->cumplimientoResultado;
+                    // contribuciones
+                    $evaluacion->eval_conocimiento_3 = $request->conocimientoContribucion;
+                    $evaluacion->eval_cumplimiento_3 = $request->cumplimientoContribucion;
                     // calidad plazos
                     //Revisar si calidad plazos es NA, si es así, se le asigna 999 (no puede ser 0)
                     if ($request->calidad_plazos == 'NA') {
@@ -3816,9 +3836,9 @@ public function AutoInvitacionEvaluacion($evatotal_encriptado)
 
                     //calcular el promedio total
                     //CONOCIMIENTO
-                    $conocimiento = ($request->conocimientoObjetivo + $request->conocimientoResultado) / 2;
+                    $conocimiento = ($request->conocimientoObjetivo + $request->conocimientoResultado + $request->conocimientoContribucion) / 3;
                     //CUMPLIMIENTO
-                    $cumplimiento = ($request->cumplimientoObjetivo + $request->cumplimientoResultado) / 2;
+                    $cumplimiento = ($request->cumplimientoObjetivo + $request->cumplimientoResultado + $request->cumplimientoContribucion) / 3;
 
                     //CALIDAD
                     // Si el valor es 999 (NA), no se toma en cuenta
@@ -3999,13 +4019,14 @@ public function AutoInvitacionEvaluacion($evatotal_encriptado)
         $iniciativa = Iniciativas::where('inic_codigo', $inic_codigo)->get();
         $evaluaciones = Evaluacion::where('inic_codigo', $inic_codigo)->get();
         $resultados = Resultados::where('inic_codigo', $inic_codigo)->get();
-        $ambitos = Programas::join('programas_contribuciones', 'programas_contribuciones.prog_codigo', 'programas.prog_codigo')
-            ->join('ambito', 'ambito.amb_codigo', 'programas_contribuciones.amb_codigo')
-            ->select('ambito.amb_nombre')
-            ->where('prog_nombre', $iniciativa[0]->inic_nombre)
-            ->get();
+        $contribuciones = ProgramasContribuciones::join('programas', 'programas.prog_codigo', 'programas_contribuciones.prog_codigo')
+        ->join('ambito', 'ambito.amb_codigo', 'programas_contribuciones.amb_codigo')
+        ->join('iniciativas', 'iniciativas.prog_codigo', 'programas.prog_codigo')
+        ->where('iniciativas.inic_codigo', $inic_codigo)
+        ->select('ambito.amb_nombre')
+        ->get();
 
-        return view('evaestudiantesqr', compact('iniciativa', 'evaluaciones', 'inic_codigo', 'resultados', 'ambitos', 'tipo'));
+        return view('evaestudiantesqr', compact('iniciativa', 'evaluaciones', 'inic_codigo', 'resultados', 'contribuciones', 'tipo'));
 
     }
 
@@ -4059,6 +4080,9 @@ public function AutoInvitacionEvaluacion($evatotal_encriptado)
                     // resultado
                     $evaluacion->eval_conocimiento_2 = $request->conocimientoResultado;
                     $evaluacion->eval_cumplimiento_2 = $request->cumplimientoResultado;
+                    // contribuciones
+                    $evaluacion->eval_conocimiento_3 = $request->conocimientoContribucion;
+                    $evaluacion->eval_cumplimiento_3 = $request->cumplimientoContribucion;
                     // calidad plazos
                     //Revisar si calidad plazos es NA, si es así, se le asigna 999 (no puede ser 0)
                     if ($request->calidad_plazos == 'NA') {
@@ -4095,9 +4119,9 @@ public function AutoInvitacionEvaluacion($evatotal_encriptado)
 
                     //calcular el promedio total
                     //CONOCIMIENTO
-                    $conocimiento = ($request->conocimientoObjetivo + $request->conocimientoResultado) / 2;
+                    $conocimiento = ($request->conocimientoObjetivo + $request->conocimientoResultado + $request->conocimientoContribucion) / 3;
                     //CUMPLIMIENTO
-                    $cumplimiento = ($request->cumplimientoObjetivo + $request->cumplimientoResultado) / 2;
+                    $cumplimiento = ($request->cumplimientoObjetivo + $request->cumplimientoResultado + $request->cumplimientoContribucion) / 3;
 
                     //CALIDAD
                     // Si el valor es 999 (NA), no se toma en cuenta

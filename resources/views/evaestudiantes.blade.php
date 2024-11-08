@@ -93,6 +93,60 @@
                     </div>
                 </section>
 
+                <!-- Sección Contribuciones -->
+                <section class="mb-5">
+                    <h5>Contribuciones</h5>
+                    <div class="mb-3">
+                        <label class="form-label"><span class="font-weight-bold">¿Sabía usted que las contribuciones esperadas eran?</span>
+                            @if (count($contribuciones) > 0)
+                            <ul>
+                                @foreach ($contribuciones as $contribucion)
+                                    <li>{{ $contribucion->amb_nombre }}</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <p>No hay contribuciones esperadas</p>
+                        @endif
+
+                        </label>
+                        <div class="d-flex">
+                            <div class="form-check mr-3">
+                                <input class="form-check-input" type="radio" name="conocimientoContribucion" id="siConociaContribucion" value="100">
+                                <label class="form-check-label" for="siConociaContribucion">Sí</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="conocimientoContribucion" id="noConociaContribucion" value="0">
+                                <label class="form-check-label" for="noConociaContribucion">No</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label font-weight-bold">¿En qué % cree usted que se cumplirán las contribuciones?</label>
+                        <div class="d-flex flex-wrap">
+                            <div class="form-check mr-3">
+                                <input class="form-check-input" type="radio" name="cumplimientoContribucion" id="noCumplioContribucion" value="0">
+                                <label class="form-check-label" for="noCumplioContribucion">No se cumplió</label>
+                            </div>
+                            <div class="form-check mr-3">
+                                <input class="form-check-input" type="radio" name="cumplimientoContribucion" id="cumplio25Contribucion" value="25">
+                                <label class="form-check-label" for="cumplio25Contribucion">25%</label>
+                            </div>
+                            <div class="form-check mr-3">
+                                <input class="form-check-input" type="radio" name="cumplimientoContribucion" id="cumplio50Contribucion" value="50">
+                                <label class="form-check-label" for="cumplio50Contribucion">50%</label>
+                            </div>
+                            <div class="form-check mr-3">
+                                <input class="form-check-input" type="radio" name="cumplimientoContribucion" id="cumplio75Contribucion" value="75">
+                                <label class="form-check-label" for="cumplio75Contribucion">75%</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="cumplimientoContribucion" id="cumplio100Contribucion" value="100">
+                                <label class="form-check-label" for="cumplio100Contribucion">100%</label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Sección Resultado -->
                 <section class="mb-5">
                     <h5>Resultados</h5>
