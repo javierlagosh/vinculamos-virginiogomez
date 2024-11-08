@@ -308,6 +308,7 @@
                                                 <span id="plantearObjetivoTexto">Plantear objetivos</span>
                                             </button>
                                         </div>
+                                    </div>
 
                                         <div id="objetivosPlanteados">
                                             @if (isset($iniciativa) && $editar)
@@ -605,6 +606,7 @@
                                                     },
                                                     success: function(response) {
                                                         try {
+                                                            
                                                             //Segun el contador, si su valor es 1 o mayor, elimina los valores que se agregaron
                                                             //anteriormente con el comando document.getElementById("iniciativas-paso1").appendChild(odsHiddenInput);
                                                             limpiarElementosAntiguos();
@@ -716,6 +718,10 @@
                                                             // Agregar la tabla al div
                                                             tablaDiv.appendChild(tabla);
 
+                                                            $('#asociarODSObjetivoTexto').text('Asociar ODS');
+
+
+
                                                             
 
 
@@ -725,11 +731,14 @@
                                                                 alert('Lo siento, ha surgido un error asociando ODS, por favor reinicie la página e intente nuevamente.');
                                                             }else{
                                                                 contadorerror++;
+                                                                $('#send-button').prop('disabled', true);
 
                                                             document.getElementById("asociarODSObjetivoTexto").innerText = 'Asociando ODS, intento: '+contadorerror+' ...';
                                                             // Bloque de código ejecutado si hay un error en la solicitud
 
                                                             console.error('Error en la solicitud:', error);
+                                                            
+                                                            
                                                             setTimeout(function() {
                                                             enviarMensaje();
                                                             }, 1000); // 5000 milisegundos = 5 segundos
@@ -738,7 +747,6 @@
                                                         }
 
                                                         $('#asociarODSpinner').removeClass('spinner-border spinner-border-sm');
-                                                        $('#asociarODSObjetivoTexto').text('Asociar ODS');
                                                         $('#send-button').prop('disabled', false);
                                                         $('#boton-revisar').prop('disabled', false);
                                                         
@@ -748,11 +756,14 @@
                                                             alert('Lo siento, ha surgido un error asociando ODS, por favor reinicie la página e intente nuevamente.');
                                                         } else {
                                                             contadorerror++;
+                                                            $('#send-button').prop('disabled', true);
                                                             document.getElementById("asociarODSObjetivoTexto").innerText = 'Asociando ODS, intento: '+contadorerror+' ...';
                                                             // Bloque de código ejecutado si hay un error en la solicitud
                                                             setTimeout(function() {
                                                                 enviarMensaje();
                                                             }, 1000); // 5000 milisegundos = 5 segundos
+                                                            document.getElementById("asociarODSObjetivoTexto").innerText = 'Asociar ODS';
+                                                            
                                                         }
                                                     }
                                                 });
