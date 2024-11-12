@@ -19,6 +19,7 @@
 @extends('admin.panel')
 
 @section('contenido')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <section class="section">
         <div class="section-body">
             <div class="row">
@@ -344,194 +345,63 @@
                                                     <div class="table-responsive">
                                                         <table class="table table-bordered table-sm">
                                                             <thead>
-
                                                                 <th>Sede</th>
                                                                 <th>Escuela/Unidad</th>
                                                                 <th>Carrera</th>
-                                                                <th>Docentes esperados</th>
-                                                                <th>Docentes reales</th>
-                                                                <th>Estudiantes esperados</th>
-                                                                <th>Estudiantes reales</th>
-                                                                <th>Directivos/as esperados</th>
-                                                                <th>Directivos/as reales</th>
-                                                                <th>Titulados/as esperados</th>
-                                                                <th>Titulados/as reales</th>
+                                                                <th class="tituloDocentesE">Docentes esperados</th>
+                                                                <th class="tituloDocentesR">Docentes reales</th>
+                                                                <th class="tituloEstudiantesE">Estudiantes esperados</th>
+                                                                <th class="tituloEstudiantesR">Estudiantes reales</th>
+                                                                <th class="tituloDirectivoE">Directivos/as esperados</th>
+                                                                <th class="tituloDirectivoR">Directivos/as reales</th>
+                                                                <th class="tituloTituladoE">Titulados/as esperados</th>
+                                                                <th class="tituloTituladoR">Titulados/as reales</th>
+                                                                <th class="tituloGeneralE">General esperados</th>
+                                                                <th class="tituloGeneralR">General reales</th>
                                                             </thead>
-
+                                                        
                                                             <tbody>
                                                                 @foreach ($internos as $interno)
                                                                     <tr>
-                                                                        
                                                                         <td>{{ $interno->sede_nombre }}</td>
                                                                         <td>{{ $interno->escu_nombre }}</td>
                                                                         <td>{{ $interno->care_nombre }}</td>
                                                                         
-                                                                        <td>
-                                                                            @if ($interno->pain_docentes != null)
-                                                                                {{ $interno->pain_docentes }}
-                                                                            @else
-                                                                                @if ($interno->pain_docentes == 0)
-                                                                                0
-                                                                                @endif
-                                                                            @endif
-                                                                        </td>
-
-                                                                        <td>
-                                                                            @if ($interno->pain_docentes_final != null)
-                                                                                {{ $interno->pain_docentes_final }}
-                                                                            @else
-                                                                            @if ($interno->pain_docentes_final == 0)
-                                                                            0
-                                                                            @endif
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if ($interno->pain_estudiantes != null)
-                                                                                {{ $interno->pain_estudiantes }}
-                                                                            @else
-                                                                            @if ($interno->pain_estudiantes == 0)
-                                                                            0
-                                                                            @endif
-                                                                            @endif
-                                                                        </td>
-
-                                                                        <td>
-                                                                            @if ($interno->pain_estudiantes_final != null)
-                                                                                {{ $interno->pain_estudiantes_final }}
-                                                                            @else
-                                                                            @if ($interno->pain_estudiantes_final == 0)
-                                                                            0
-                                                                            @endif
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if ($interno->pain_funcionarios != null)
-                                                                                {{ $interno->pain_funcionarios }}
-                                                                            @else
-                                                                                0
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if ($interno->pain_funcionarios_final != null)
-                                                                                {{ $interno->pain_funcionarios_final }}
-                                                                            @else
-                                                                                0
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if ($interno->pain_titulados != null)
-                                                                                {{ $interno->pain_titulados }}
-                                                                            @else
-                                                                                0
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if ($interno->pain_titulados_final != null)
-                                                                                {{ $interno->pain_titulados_final }}
-                                                                            @else
-                                                                                0
-                                                                            @endif
-                                                                        </td>
+                                                                        <td class="valueDocentesE">{{ $interno->pain_docentes ?? ($interno->pain_docentes === 0 ? 0 : '') }}</td>
+                                                                        <td class="valueDocentesR">{{ $interno->pain_docentes_final ?? ($interno->pain_docentes_final === 0 ? 0 : '') }}</td>
+                                                                        <td class="valueEstudiantesE">{{ $interno->pain_estudiantes ?? ($interno->pain_estudiantes === 0 ? 0 : '') }}</td>
+                                                                        <td class="valueEstudiantesR">{{ $interno->pain_estudiantes_final ?? ($interno->pain_estudiantes_final === 0 ? 0 : '') }}</td>
+                                                                        <td class="valueFuncionariosE">{{ $interno->pain_funcionarios ?? 0 }}</td>
+                                                                        <td class="valueFuncionariosR">{{ $interno->pain_funcionarios_final ?? 0 }}</td>
+                                                                        <td class="valueTituladosE">{{ $interno->pain_titulados ?? 0 }}</td>
+                                                                        <td class="valueTituladosR">{{ $interno->pain_titulados_final ?? 0 }}</td>
+                                                                        <td class="valueGeneralE">{{ $interno->pain_general ?? 0 }}</td>
+                                                                        <td class="valueGeneralR">{{ $interno->pain_general_final ?? 0 }}</td>
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>
                                                         </table>
+                                                        
+                                                        <script>
+                                                            $(document).ready(function() {
+                                                                const hayTodas = @json($HayTodas);
+                                                                
+                                                                if (hayTodas) {
+                                                                    $(".tituloDocentesE, .tituloDocentesR, .tituloDirectivoE, .tituloDirectivoR, .tituloEstudiantesE, .tituloEstudiantesR, .tituloTituladoE, .tituloTituladoR").hide();
+                                                                    $(".valueDocentesE, .valueDocentesR, .valueFuncionariosE, .valueFuncionariosR, .valueEstudiantesE, .valueEstudiantesR, .valueTituladosE, .valueTituladosR").hide();
+                                                                    $(".tituloGeneralE, .tituloGeneralR").show();
+                                                                    $(".valueGeneralE, .valueGeneralR").show();
+                                                                } else {
+                                                                    $(".tituloDocentesE, .tituloDocentesR, .tituloDirectivoE, .tituloDirectivoR, .tituloEstudiantesE, .tituloEstudiantesR, .tituloTituladoE, .tituloTituladoR").show();
+                                                                    $(".valueDocentesE, .valueDocentesR, .valueFuncionariosE, .valueFuncionariosR, .valueEstudiantesE, .valueEstudiantesR, .valueTituladosE, .valueTituladosR").show();
+                                                                    $(".tituloGeneralE, .tituloGeneralR").hide();
+                                                                    $(".valueGeneralE, .valueGeneralR").hide();
+                                                                }
+                                                            });
+                                                        </script>
                                                     </div>
                                                 </td>
                                             </tr>
-
-                                            {{-- <tr>
-                                                <td><strong>Total de recursos invertidos</strong></td>
-                                                <td>
-                                                    <div class="table-responsive">
-                                                        <table class="table table-bordered table-sm">
-                                                            <thead>
-                                                                <th></th>
-                                                                <th>Dinero</th>
-                                                                <th>Infraestructura</th>
-                                                                <th>Recursos humanos</th>
-                                                            </thead>
-
-                                                            <tbody>
-                                                                @php
-                                                                    $totalDinero = 0;
-                                                                    $totalInfraestructura = 0;
-                                                                    $totalRrhh = 0;
-                                                                @endphp
-                                                                @foreach ($entidades as $entidad)
-                                                                    @php
-                                                                        $entidadDinero = 0;
-                                                                        $entidadInfraestructura = 0;
-                                                                        $entidadRrhh = 0;
-                                                                    @endphp
-
-                                                                    <tr>
-                                                                        <td>{{ $entidad->enti_nombre }}</td>
-                                                                        <td>
-                                                                            @if (sizeof($recursoDinero) == 0)
-                                                                                $0
-                                                                            @else
-                                                                                @foreach ($recursoDinero as $dinero)
-                                                                                    @if ($entidad->enti_codigo == $dinero->enti_codigo)
-                                                                                        @php
-                                                                                            $entidadDinero = $dinero->suma_dinero;
-                                                                                        @endphp
-                                                                                        ${{ number_format($dinero->suma_dinero, 0, ',', '.') }}
-                                                                                    @endif
-                                                                                @endforeach
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if (sizeof($recursoInfraestructura) == 0)
-                                                                                $0
-                                                                            @else
-                                                                                @foreach ($recursoInfraestructura as $infraestructura)
-                                                                                    @if ($entidad->enti_codigo == $infraestructura->enti_codigo)
-                                                                                        @php
-                                                                                            $entidadInfraestructura = $infraestructura->suma_infraestructura;
-                                                                                        @endphp
-                                                                                        ${{ number_format($infraestructura->suma_infraestructura, 0, ',', '.') }}
-                                                                                    @endif
-                                                                                @endforeach
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if (sizeof($recursoRrhh) == 0)
-                                                                                $0
-                                                                            @else
-                                                                                @foreach ($recursoRrhh as $rrhh)
-                                                                                    @if ($entidad->enti_codigo == $rrhh->enti_codigo)
-                                                                                        @php
-                                                                                            $entidadRrhh = $rrhh->suma_rrhh;
-                                                                                        @endphp
-                                                                                        ${{ number_format($rrhh->suma_rrhh, 0, ',', '.') }}
-                                                                                    @endif
-                                                                                @endforeach
-                                                                            @endif
-                                                                        </td>
-                                                                    </tr>
-                                                                    @php
-                                                                        $totalDinero += $entidadDinero;
-                                                                        $totalInfraestructura += $entidadInfraestructura;
-                                                                        $totalRrhh += $entidadRrhh;
-                                                                    @endphp
-                                                                @endforeach
-                                                                <tr>
-                                                                    <td>Total General</td>
-                                                                    <td>${{ number_format($totalDinero, 0, ',', '.') }}
-                                                                    </td>
-                                                                    <td>${{ number_format($totalInfraestructura, 0, ',', '.') }}
-                                                                    </td>
-                                                                    <td>${{ number_format($totalRrhh, 0, ',', '.') }}</td>
-                                                                </tr>
-
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                            </tr> --}}
-
-
 
                                         </tbody>
                                     </table>
@@ -627,6 +497,7 @@
             </div>
         </div>
     </div>
+
     <script src="{{ asset('/js/admin/iniciativas/INVI.js') }}"></script>
     <script>
         function eliminarIniciativa(inic_codigo) {
@@ -634,4 +505,5 @@
             $('#modalEliminaIniciativa').modal('show');
         }
     </script>
+
 @endsection

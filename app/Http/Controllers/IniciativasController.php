@@ -508,11 +508,21 @@ class IniciativasController extends Controller
                 'participantes_internos.pain_funcionarios_final',
                 'participantes_internos.pain_titulados',
                 'participantes_internos.pain_titulados_final',
+                'participantes_internos.pain_general',
+                'participantes_internos.pain_general_total',
                 'participantes_internos.pain_ejecutora',
             )
             ->where('participantes_internos.inic_codigo', $inic_codigo)
             ->orderBy('participantes_internos.pain_ejecutora', 'desc')
             ->get();
+
+            $HayTodas = false;
+            foreach ($participantes as $interno) {
+                if($interno->escu_nombre == "Todas" || $interno->care_nombre == "Todas"){
+                    $HayTodas = true;
+                }
+            }
+    
 
         $ubicaciones = IniciativasComunas::join('comunas', 'comunas.comu_codigo', 'iniciativas_comunas.comu_codigo')
             ->join('regiones', 'regiones.regi_codigo', 'comunas.regi_codigo')
@@ -573,7 +583,8 @@ class IniciativasController extends Controller
             'recursoInfraestructura' => $coinListar,
             'recursoRrhh' => $corhListar,
             'entidades' => $entidadesRecursos,
-            'ods_array' => $ods
+            'ods_array' => $ods,
+            'HayTodas' => $HayTodas
         ]);
     }
 
