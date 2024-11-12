@@ -239,6 +239,8 @@ class IniciativasController extends Controller
                 'participantes_internos.pain_titulados',
                 'participantes_internos.pain_titulados_final',
                 'participantes_internos.pain_ejecutora',
+                'participantes_internos.pain_general',
+                'participantes_internos.pain_general_total',
             )
             ->join('sedes', 'participantes_internos.sede_codigo', '=', 'sedes.sede_codigo')
             ->join('escuelas', 'participantes_internos.escu_codigo', '=', 'escuelas.escu_codigo')
@@ -266,10 +268,21 @@ class IniciativasController extends Controller
             ->where('iniciativas.inic_codigo', $inic_codigo)
             ->get();
 
+            $HayTodas = false;
+            foreach ($resuObtener as $interno) {
+                if($interno->escu_nombre == "Todas" && $interno->care_nombre == "Todas"){
+                    $HayTodas = true;
+                }
+            }
+
+
+        
+
         return view('admin.iniciativas.coberturas', [
             'iniciativa' => $inicObtener,
             'resultados' => $resuObtener,
-            'participantes' => $participantes
+            'participantes' => $participantes,
+            'HayTodas' => $HayTodas
         ]);
     }
 
@@ -284,28 +297,53 @@ class IniciativasController extends Controller
         } elseif (Session::has('supervisor')) {
             $rolePrefix = 'supervisor';
         }
-        $docentes_final = $request->input('docentes_final');
-        $estudiantes_final = $request->input('estudiantes_final');
-        $funcionarios_final = $request->input('funcionarios_final');
-        $titulados_final = $request->input('titulados_final');
+        $docentes_final = $request->input('docentes_final') ?? [];
+        $estudiantes_final = $request->input('estudiantes_final') ?? [];
+        $funcionarios_final = $request->input('funcionarios_final') ?? [];
+        $titulados_final = $request->input('titulados_final') ?? [];
+        $general_total = $request->input('general_total') ?? [];
 
         // dd($docentes_final, $estudiantes_final);
 
-        foreach ($docentes_final as $pain_codigo => $docentes_final_value) {
-            // Obtener el resultado correspondiente según el $pain_codigo
-            $resultado = ParticipantesInternos::where('pain_codigo', $pain_codigo)
-                ->where('inic_codigo', $inic_codigo)
-                ->first();
-
-            if ($resultado) {
-                // Actualizar los valores en la base de datos
-                $resultado->pain_docentes_final = $docentes_final_value;
-                $resultado->pain_estudiantes_final = $estudiantes_final[$pain_codigo];
-                $resultado->pain_funcionarios_final = $funcionarios_final[$pain_codigo];
-                $resultado->pain_titulados_final = $titulados_final[$pain_codigo];
-                $resultado->save();
+        // si general_total no está vacio
+        if (!empty($general_total)) {
+            // recorrer general_total
+            foreach ($general_total as $pain_codigo => $general_total_value) {
+                // Obtener el resultado correspondiente según el $pain_codigo
+                $resultado = ParticipantesInternos::where('pain_codigo', $pain_codigo)
+                    ->where('inic_codigo', $inic_codigo)
+                    ->first();
+    
+                if ($resultado) {
+                    // Actualizar los valores en la base de datos
+                    $resultado->pain_general_total = $general_total[$pain_codigo] ?? 0;
+                    $resultado->save();
+                }else{
+                    return redirect()->back()->with('errorInterno', 'Ocurrió un error al actualizar la participación interna, intente más tarde.');
+                }
+            }
+        }else{
+            foreach ($docentes_final as $pain_codigo => $docentes_final_value) {
+                // Obtener el resultado correspondiente según el $pain_codigo
+                $resultado = ParticipantesInternos::where('pain_codigo', $pain_codigo)
+                    ->where('inic_codigo', $inic_codigo)
+                    ->first();
+    
+                if ($resultado) {
+                    // Actualizar los valores en la base de datos
+                    $resultado->pain_docentes_final = $docentes_final_value ?? 0;
+                    $resultado->pain_estudiantes_final = $estudiantes_final[$pain_codigo] ?? 0;
+                    $resultado->pain_funcionarios_final = $funcionarios_final[$pain_codigo] ?? 0;
+                    $resultado->pain_titulados_final = $titulados_final[$pain_codigo] ?? 0;
+                    $resultado->pain_general_total = $general_total[$pain_codigo] ?? 0;
+                    $resultado->save();
+                }else{
+                    return redirect()->back()->with('errorInterno', 'Ocurrió un error al actualizar la participación interna, intente más tarde.');
+                }
             }
         }
+
+        
         $ThisRuta = 'admin.cobertura.index';
         return redirect()->route($ThisRuta, $inic_codigo)
             ->with('exitoInterno', 'Participacion interna actualizada correctamente.');

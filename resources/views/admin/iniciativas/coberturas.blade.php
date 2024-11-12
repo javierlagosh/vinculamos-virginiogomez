@@ -102,63 +102,80 @@
                                                                 <th>Sede</th>
                                                                 <th>Escuela/Unidad</th>
                                                                 <th>Carrera</th>
-                                                                <th>Docentes esperados</th>
-                                                                <th>Docentes reales</th>
-                                                                <th>Estudiantes esperados</th>
-                                                                <th>Estudiantes reales</th>
-                                                                <th>Directivos/as esperados</th>
-                                                                <th>Directivos/as reales</th>
-                                                                <th>Titulados/as esperados</th>
-                                                                <th>Titulados/as reales</th>
+                                                                <th id="tituloDocenteE">Docentes esperados</th>
+                                                                <th id="tituloDocenteR">Docentes reales</th>
+                                                                <th id="tituloEstudianteE">Estudiantes esperados</th>
+                                                                <th id="tituloEstudianteR">Estudiantes reales</th>
+                                                                <th id="tituloDirectivoE">Directivos/as esperados</th>
+                                                                <th id="tituloDirectivoR">Directivos/as reales</th>
+                                                                <th id="tituloTituladoE">Titulados/as esperados</th>
+                                                                <th id="tituloTituladoR">Titulados/as reales</th>
+                                                                <th id="tituloGeneralE">General esperado</th>
+                                                                <th id="tituloGeneralR">General real</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="body-tabla-participantes">
                                                             {{-- {{$resultados}} --}}
                                                             @foreach ($resultados as $resultado)
-                                                                <tr>
-                                                                    {{-- <td>
-                                                                        @if ($resultado->pain_ejecutora == 1)
-                                                                            Ejecutora
-                                                                        @else
-                                                                            Colaboradora
-                                                                        @endif
-                                                                    </td> --}}
-                                                                    <td>{{ $resultado->sede_nombre }}</td>
-                                                                    <td>{{ $resultado->escu_nombre }}</td>
-                                                                    <td>{{ $resultado->care_nombre }}</td>
-                                                                    <td>{{ $resultado->pain_docentes }}</td>
-                                                                    <td>
-                                                                        <input type="number" class="form-control"
-                                                                            id="cantidad-docentes-final-{{ $resultado->pain_codigo }}"
-                                                                            name="docentes_final[{{ $resultado->pain_codigo }}]"
-                                                                            value="{{ $resultado->pain_docentes_final }}"
-                                                                            min="0">
-                                                                    </td>
-                                                                    <td>{{ $resultado->pain_estudiantes }}</td>
-                                                                    <td>
-                                                                        <input type="number" class="form-control"
-                                                                            id="cantidad-estudiantes-final-{{ $resultado->pain_codigo }}"
-                                                                            name="estudiantes_final[{{ $resultado->pain_codigo }}]"
-                                                                            value="{{ $resultado->pain_estudiantes_final }}"
-                                                                            min="0">
-                                                                    </td>
-                                                                    <td>{{ $resultado->pain_funcionarios }}</td>
-                                                                    <td>
-                                                                        <input type="number" class="form-control"
-                                                                            id="cantidad-funcionarios-final-{{ $resultado->pain_codigo }}"
-                                                                            name="funcionarios_final[{{ $resultado->pain_codigo }}]"
-                                                                            value="{{ $resultado->pain_funcionarios_final }}"
-                                                                            min="0">
-                                                                    </td>
-                                                                    <td>{{ $resultado->pain_titulados }}</td>
-                                                                    <td>
-                                                                        <input type="number" class="form-control"
-                                                                            id="cantidad-titulados-final-{{ $resultado->pain_codigo }}"
-                                                                            name="titulados_final[{{ $resultado->pain_codigo }}]"
-                                                                            value="{{ $resultado->pain_titulados_final }}"
-                                                                            min="0">
-                                                                    </td>
-                                                                </tr>
+                                                            @if ($HayTodas)
+                                                            <tr>
+                                                                <td>{{ $resultado->sede_nombre }}</td>
+                                                                <td>{{ $resultado->escu_nombre }}</td>
+                                                                <td>{{ $resultado->care_nombre }}</td>
+                                                                <td>{{ $resultado->pain_general }}</td>
+                                                                <td>
+                                                                    <input type="number" class="form-control"
+                                                                        id="cantidad-general-total-{{ $resultado->pain_codigo }}"
+                                                                        name="general_total[{{ $resultado->pain_codigo }}]"
+                                                                        value="{{ $resultado->pain_general_total }}"
+                                                                        min="0">
+                                                                </td>
+                                                            </tr>
+                                                            @else
+                                                            <tr>
+                                                                <td>{{ $resultado->sede_nombre }}</td>
+                                                                <td>{{ $resultado->escu_nombre }}</td>
+                                                                <td>{{ $resultado->care_nombre }}</td>
+                                                                <td>{{ $resultado->pain_docentes }}</td>
+                                                                <td>
+                                                                    <input type="number" class="form-control"
+                                                                        id="cantidad-docentes-final-{{ $resultado->pain_codigo }}"
+                                                                        name="docentes_final[{{ $resultado->pain_codigo }}]"
+                                                                        value="{{ $resultado->pain_docentes_final }}"
+                                                                        min="0">
+                                                                </td>
+                                                                <td>{{ $resultado->pain_estudiantes }}</td>
+                                                                <td>
+                                                                    <input type="number" class="form-control"
+                                                                        id="cantidad-estudiantes-final-{{ $resultado->pain_codigo }}"
+                                                                        name="estudiantes_final[{{ $resultado->pain_codigo }}]"
+                                                                        value="{{ $resultado->pain_estudiantes_final }}"
+                                                                        min="0">
+                                                                </td>
+                                                                <td>{{ $resultado->pain_funcionarios }}</td>
+                                                                <td>
+                                                                    <input type="number" class="form-control"
+                                                                        id="cantidad-funcionarios-final-{{ $resultado->pain_codigo }}"
+                                                                        name="funcionarios_final[{{ $resultado->pain_codigo }}]"
+                                                                        value="{{ $resultado->pain_funcionarios_final }}"
+                                                                        min="0">
+                                                                </td>
+                                                                <td>{{ $resultado->pain_titulados }}</td>
+                                                                <td>
+                                                                    <input type="number" class="form-control"
+                                                                        id="cantidad-titulados-final-{{ $resultado->pain_codigo }}"
+                                                                        name="titulados_final[{{ $resultado->pain_codigo }}]"
+                                                                        value="{{ $resultado->pain_titulados_final }}"
+                                                                        min="0">
+                                                                </td>
+                                                                
+                                                            </tr>
+
+                                                                
+
+                                                                
+                                                            @endif
+                                                                
                                                             @endforeach
                                                         </tbody>
                                                     </table>
@@ -266,4 +283,51 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="{{ asset('/js/admin/iniciativas/listar.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            const tituloEstudiantesE = document.getElementById('tituloEstudianteE');
+            const tituloEstudiantesR = document.getElementById('tituloEstudianteR');
+            const tituloDocentesE = document.getElementById('tituloDocenteE');
+            const tituloDocentesR = document.getElementById('tituloDocenteR');
+            const tituloDirectivoE = document.getElementById('tituloDirectivoE');
+            const tituloDirectivoR = document.getElementById('tituloDirectivoR');
+            const tituloTituladoE = document.getElementById('tituloTituladoE');
+            const tituloTituladoR = document.getElementById('tituloTituladoR');
+            const tituloGeneralE = document.getElementById('tituloGeneralE');
+            const tituloGeneralR = document.getElementById('tituloGeneralR');
+
+            const hayTodas = @json($HayTodas);
+
+            // Usar la variable en una condición
+            if (hayTodas) {
+                console.log("Hay una escuela y carrera con el nombre 'Todas'.");
+                // poner todas en hidden excepto generalE y generalR
+                tituloEstudiantesE.hidden = true;
+                tituloEstudiantesR.hidden = true;
+                tituloDocentesE.hidden = true;
+                tituloDocentesR.hidden = true;
+                tituloDirectivoE.hidden = true;
+                tituloDirectivoR.hidden = true;
+                tituloTituladoE.hidden = true;
+                tituloTituladoR.hidden = true;
+                tituloGeneralE.hidden = false;
+                tituloGeneralR.hidden = false;
+            } else {
+                console.log("No hay escuela y carrera con el nombre 'Todas'.");
+                // poner todas en visible
+                tituloEstudiantesE.hidden = false;
+                tituloEstudiantesR.hidden = false;
+                tituloDocentesE.hidden = false;
+                tituloDocentesR.hidden = false;
+                tituloDirectivoE.hidden = false;
+                tituloDirectivoR.hidden = false;
+                tituloTituladoE.hidden = false;
+                tituloTituladoR.hidden = false;
+                tituloGeneralE.hidden = true;
+                tituloGeneralR.hidden = true;
+
+            }
+
+        });
+    </script>
 @endsection
