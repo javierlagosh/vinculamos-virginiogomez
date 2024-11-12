@@ -344,7 +344,7 @@
                                                     <div class="table-responsive">
                                                         <table class="table table-bordered table-sm">
                                                             <thead>
-                                                                <th>Tipo</th>
+
                                                                 <th>Sede</th>
                                                                 <th>Escuela/Unidad</th>
                                                                 <th>Carrera</th>
@@ -361,13 +361,7 @@
                                                             <tbody>
                                                                 @foreach ($internos as $interno)
                                                                     <tr>
-                                                                        <td>
-                                                                            @if ($interno->pain_ejecutora == 1)
-                                                                                Ejecutora
-                                                                            @else
-                                                                                Colaboradora
-                                                                            @endif
-                                                                        </td>
+                                                                        
                                                                         <td>{{ $interno->sede_nombre }}</td>
                                                                         <td>{{ $interno->escu_nombre }}</td>
                                                                         <td>{{ $interno->care_nombre }}</td>
