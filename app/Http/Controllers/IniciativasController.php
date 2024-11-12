@@ -2126,44 +2126,34 @@ class IniciativasController extends Controller
     }
     public function listarInternos(Request $request)
     {
-
-        $internos = ParticipantesInternos::join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
+        $internos = ParticipantesInternos::join('sedes', 'sedes.sede_codigo', '=', 'participantes_internos.sede_codigo')
             ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
-            ->join('sedes', 'sedes.sede_codigo', '=', 'participantes_internos.sede_codigo')
+            ->join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
             ->where('inic_codigo', $request->inic_codigo)
-            // ->where('pain_ejecutora', true)
-            // ->orderBy('participantes_internos.pain_ejecutora', 'desc')
             ->get();
-
         return json_encode(["estado" => true, "resultado" => $internos]);
     }
 
     public function actualizarInternos(Request $request)
     {
-        $actualizarInternos = ParticipantesInternos::where(
-            [
-                'inic_codigo' => $request->inic_codigo,
-                'sede_codigo' => $request->sede_codigo,
-                'escu_codigo' => $request->escu_codigo,
-                'care_codigo' => $request->care_codigo,
 
-            ]
-        )->update([
-                    'pain_docentes' => $request->pain_docentes,
-                    'pain_estudiantes' => $request->pain_estudiantes,
-                    'pain_funcionarios' => $request->pain_funcionarios,
-                    'pain_titulados' => $request->pain_titulados,
-                    'pain_total' => $request->pain_total
-                ]);
-
-        $internos = ParticipantesInternos::join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
-            ->join('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
-            ->join('sedes', 'sedes.sede_codigo', '=', 'participantes_internos.sede_codigo')
-            ->where('inic_codigo', $request->inic_codigo)
-            ->get();
-        
-        return json_encode(["estado" => true, "resultado" => $internos, "internos" => $actualizarInternos]);
-    }
+        try {
+            $actualizar = ParticipantesInternos::where([
+                'pain_codigo' => $request->pain_codigo]
+            )->update([
+                'pain_docentes' => $request->pain_docentes,
+                'pain_estudiantes' => $request->pain_estudiantes,
+                'pain_funcionarios' => $request->pain_funcionarios,
+                'pain_titulados' => $request->pain_titulados,
+                'pain_total' => $request->pain_total
+            ]);
+    
+            return json_encode(["status" => true]);
+        }
+        catch(Exception $e){
+            return json_encode(["status" => false, "message" => $e->getMessage()]);
+        }
+   }
 
     public function escuelasBySede(Request $request)
     {

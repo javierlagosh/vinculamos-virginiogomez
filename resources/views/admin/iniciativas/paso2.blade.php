@@ -229,137 +229,18 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-xl-6 col-md-6 col-lg-6">
+                                <div class="col-xl-12 col-md-12 col-lg-12">
                                     <h5>Sección 3 - Participantes internos</h5>
+                                    <p  ><span style="color:red;">! </span>Instrucción: Ingresa el número de estudiantes, docentes y funcionarios/as en los casilleros correspondientes. Los datos se guardarán automáticamente. Finalmente el recuadro se pondrá en verde y aparecerá un mensaje de confirmación que se ha guardado correctamente. </p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-xl-4 col-lg-4 col-md-4">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Sede</label> <label for=""
-                                            style="color: red;">*</label>
-                                        <select class="form-control select2" id="sedes" name="sedes"
-                                            style="width: 100%">
-                                            <option value="" selected disabled>Seleccione...</option>
-                                            @forelse ($sedes as $sede)
-                                                <option value="{{ $sede->sede_codigo }}">
-                                                    {{ $sede->sede_nombre }}
-                                                </option>
-                                            @empty
-                                                <option value="-1">No existen registros</option>
-                                            @endforelse
 
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-4">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Escuela/Unidad</label> <label for=""
-                                            style="color: red;">*</label>
-                                        <select class="form-control select2" id="escuelas" name="escuelas"
-                                            style="width: 100%">
-                                            <option value="" selected disabled>Seleccione...</option>
-                                            @forelse ($escuelas as $escuela)
-                                                <option value="{{ $escuela->escu_codigo }}">
-                                                    {{ $escuela->escu_nombre }}
-                                                </option>
-                                            @empty
-                                                <option value="-1">No existen registros</option>
-                                            @endforelse
+                            
 
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-xl-4 col-lg-4 col-md-4">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Carrera</label> <label for=""
-                                            style="color: red;">*</label>
-                                        <select class="form-control select2" id="carreras" name="carreras"
-                                            style="width: 100%">
-                                            <option value="" disabled selected>Seleccione...</option>
-                                            @forelse ($carreras as $carrera)
-                                                <option value="{{ $carrera->care_codigo }}">
-                                                    {{ $carrera->care_nombre }}
-                                                </option>
-                                            @empty
-                                                <option value="-1">No existen registros</option>
-                                            @endforelse
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-xl-2 col-lg-2 col-md-2">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Estudiantes</label> <label for=""
-                                            style="color: red;">*</label>
-                                        <input type="number" class="form-control" id="nestudiantes"
-                                            name="nestudiantes" min="0" oninput="this.value = Math.abs(this.value)">
 
-                                        @if ($errors->has('nestudiantes'))
-                                            <div class="alert alert-warning alert-dismissible show fade mt-2">
-                                                <div class="alert-body">
-                                                    <button class="close"
-                                                        data-dismiss="alert"><span>&times;</span></button>
-                                                    <strong>{{ $errors->first('nestudiantes') }}</strong>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="col-xl-2 col-lg-2 col-md-2">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Titulados</label> <label for="ntitulados"
-                                            style="color: red;">*</label>
-                                        <input type="number" class="form-control" id="ntitulados"
-                                            name="ntitulados" min="0" oninput="this.value = Math.abs(this.value)">
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-2 col-lg-2 col-md-2">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Docentes</label> <label for=""
-                                            style="color: red;">*</label>
-                                        <input type="number" class="form-control" id="ndocentes" 
-                                            name="ndocentes" min="0" oninput="this.value = Math.abs(this.value)">
-
-                                        @if ($errors->has('ndocentes'))
-                                            <div class="alert alert-warning alert-dismissible show fade mt-2">
-                                                <div class="alert-body">
-                                                    <button class="close"
-                                                        data-dismiss="alert"><span>&times;</span></button>
-                                                    <strong>{{ $errors->first('ndocentes') }}</strong>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-2 col-lg-2 col-md-2">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Directivos/as</label> <label for=""
-                                            style="color: red;">*</label>
-                                        <input type="number" class="form-control" id="nfuncionarios"
-                                            name="nfuncionarios" min="0" oninput="this.value = Math.abs(this.value)">
-
-                                        @if ($errors->has('nfuncionarios'))
-                                            <div class="alert alert-warning alert-dismissible show fade mt-2">
-                                                <div class="alert-body">
-                                                    <button class="close"
-                                                        data-dismiss="alert"><span>&times;</span></button>
-                                                    <strong>{{ $errors->first('nfuncionarios') }}</strong>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="col-xl-2 col-lg-2 col-md-2 mt-4">
-                                    <button onclick="modificar()" class="btn btn-primary mr-1 waves-effect">
-                                        <i class="fas fa-plus"></i> Agregar
-                                    </button>
-                                </div>
-                            </div>
 
                             <div class="row mt-5 no-gutters">
-                                <div class="col-xl-2"></div>
+                                <div class="col-xl-12 col-md-12 col-lg-12"></div>
                                     <div class="card">
                                         <div class="card-body p-0">
                                             <div class="table-responsive">
@@ -371,8 +252,8 @@
                                                         <th>Carrera</th>
                                                         <th>Estudiantes</th>
                                                         <th>Docentes</th>
-                                                        <th>Titulados</th>
                                                         <th>Directivos/as</th>
+                                                        <th>Titulados</th>
                                                         {{-- <th>Total</th> --}}
                                                     </thead>
                                                     <tbody id="body-tabla-internos">
@@ -381,6 +262,14 @@
                                             </div>
                                         </div>
                                     </div>
+                            </div>
+                            <div id="tblSaved" class="alert alert-success alert-dismissible fade alert-fixed" style="display: none;" role="alert">
+                                <i class="fas fa-check pr-2"></i>
+                                ¡Participante interno guardado!
+
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
 
                             <div class="row no-gutters mt-4">
@@ -1051,66 +940,24 @@
             })
         }
 
-        function modificar() {
-
+        function modificar(data, callback) {
             $.ajax({
                 type: 'POST',
                 url: `${window.location.origin}/admin/actualizar/participantes-internos`,
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    inic_codigo: $("#idIniciativa").text(),
-                    sede_codigo: $("#sedes").val(),
-                    escu_codigo: $("#escuelas").val(),
-                    care_codigo: $("#carreras").val(),
-                    pain_docentes: $("#ndocentes").val(),
-                    pain_estudiantes: $("#nestudiantes").val(),
-                    pain_titulados: $("#ntitulados").val(),
-                    pain_funcionarios: $("#nfuncionarios").val(),
-
-                    // pain_total: $("#ntotal").val()
-                },
+                data: data,
                 success: function(resConsultar) {
-                    respuesta = JSON.parse(resConsultar);
-                    // console.log(respuesta)
-                    $('#body-tabla-internos').empty();
-
-                    datosInternos = respuesta.resultado;
-                    datosInternos.forEach(registro => {
-                        if (registro.pain_docentes == null) {
-                            registro.pain_docentes = 0
-                        }
-
-                        if (registro.pain_estudiantes == null) {
-                            registro.pain_estudiantes = 0
-                        }
-
-                        if (registro.pain_titulados == null) {
-                            registro.pain_titulados = 0
-                        }
-
-                        // if (registro.pain_total == null) {
-                        //     registro.pain_total = 0
-                        // }
-
-                        // <td>${registro.pain_total}</td><td>${registro.pain_ejecutora}</td>
-                        fila = `<tr>
-                                
-                                <td>${registro.sede_nombre}</td>
-                                <td>${registro.escu_nombre}</td>
-                                <td>${registro.care_nombre}</td>
-                                <td>${registro.pain_estudiantes}</td>
-                                <td>${registro.pain_docentes}</td>
-                                <td>${registro.pain_titulados}</td>
-                                <td>${registro.pain_funcionarios}</td>
-                                </tr>`
-                        $('#body-tabla-internos').append(fila)
-                        listarInterno()
-                    })
+                    const respuesta = JSON.parse(resConsultar);
+                    callback(null, respuesta.status);
+                },
+                error: function(error) {
+                    console.error('Error al actualizar los participantes internos.');
+                    callback(error, null);
                 }
-
-
-            })
+            });
         }
+
+
+
         window.mostrarModalEditar = function(resuCodigo, resuNombre, resuCuantificacionInicial) {
             resuCodigoParaEditar = resuCodigo;
             $('#resu_codigo').val(resuCodigo);
@@ -1216,9 +1063,74 @@
             })
         }
 
+        //Función para asignarle el evento que actualizará la lista de participantes internos
+        function bindTblInterno() {
+            const tblInternos = document.querySelectorAll('input[name="tbl_internos"]');
+
+            tblInternos.forEach((input) => {
+                input.addEventListener("blur", (event) => {
+                    const currentValue = event.target.value.trim();
+                    if (currentValue === "" || Number(currentValue) < 0) {
+                        event.target.value = 0;
+                    } 
+
+                    const fila = event.target.closest('tr');
+
+                    const painCodigo = fila.getAttribute('data-pain');
+                    const painEstudiantes = fila.querySelector('input[data-tipo="pain_estudiantes"]').value;
+                    const painDocentes = fila.querySelector('input[data-tipo="pain_docentes"]').value;
+                    const painFuncionarios = fila.querySelector('input[data-tipo="pain_funcionarios"]').value;
+                    const painTitulados = fila.querySelector('input[data-tipo="pain_titulados"]').value;
+
+                    // Construir el objeto de datos
+                    const data = {
+                        _token: '{{ csrf_token() }}',
+                        pain_codigo: painCodigo,
+                        pain_estudiantes: painEstudiantes,
+                        pain_docentes: painDocentes,
+                        pain_funcionarios: painFuncionarios,
+                        pain_titulados: painTitulados
+                    };
+
+                    // Enviar los datos a la API
+                    modificar(data, function(error, status) {
+                        if (error) {
+                            console.error('Error al modificar los datos:', error);
+                            return;
+                        }
+
+                        if (status) {
+                            event.target.classList.add('border-success');
+
+                            // Añadir la clase para la animación de desvanecimiento del borde
+                            setTimeout(() => {
+                                event.target.classList.add('border-fade');
+                            }, 100);
+
+                            
+                            // Remover las clases después de la animación
+                            event.target.addEventListener('animationend', () => {
+                                event.target.classList.remove('border-success');
+                                event.target.classList.remove('border-fade');
+                            }, { once: true });
+
+                            // Mostrar el alert con jQuery
+                            $('#tblSaved').show().addClass('show');
+
+                            // Ocultar el alert automáticamente después de 5 segundos
+                            setTimeout(() => {
+                                $('#tblSaved').removeClass('show').fadeOut('slow');
+                            }, 1000);
+
+                            
+                        }
+                    });
+                });
+            });
+        }
+
         function listarInterno() {
             console.log($('#idIniciativa').text())
-            console.log('listando...');
 
             $.ajax({
                 type: 'GET',
@@ -1242,31 +1154,60 @@
                         if (registro.pain_estudiantes == null) {
                             registro.pain_estudiantes = 0
                         }
-                        // if (registro.pain_total == null) {
-                        //     registro.pain_total = 0
-                        // }
+                        if (registro.pain_funcionarios == null) {
+                            registro.pain_funcionarios = 0
+                        }
+
+                        if (registro.pain_titulados == null) {
+                            registro.pain_titulados = 0
+                        }
+                        
                         // <td>${registro.pain_total}</td>
-                        // var ejecutora = registro.pain_ejecutora;
-                        // console.log(ejecutora);
-                        // if(ejecutora == 0 || ejecutora == null){
-                        //     ejecutora = 'Colaboradora';
-                        // }else if(ejecutora == 1){
-                        //     ejecutora = 'Ejecutora';
-                        // }else{
-                        //     ejecutora = 'No definida';
-                        // } <td>` + ejecutora + `</td>
-                        fila = `<tr>
-                                    
+                        
+                        fila = `<tr data-pain="${registro.pain_codigo}">
                                     <td>${registro.sede_nombre}</td>
                                     <td>${registro.escu_nombre}</td>
                                     <td>${registro.care_nombre}</td>
-                                    <td>${registro.pain_estudiantes}</td>
-                                    <td>${registro.pain_docentes}</td>
-                                    <td>${registro.pain_titulados}</td>
-                                    <td>${registro.pain_funcionarios}</td>
+                                    <td>
+                                        <input type="number"
+                                               min="0" 
+                                               class="form-control" 
+                                               name="tbl_internos"
+                                               data-tipo="pain_estudiantes" 
+                                               value="${registro.pain_estudiantes}" />
+                                    </td>
+                                    <td>
+                                        <input type="number"
+                                               min="0" 
+                                               class="form-control" 
+                                               name="tbl_internos"
+                                               data-tipo="pain_docentes"
+                                               value="${registro.pain_docentes}" />
+                                    </td>
+                                    <td>
+                                        <input type="number"
+                                               min="0"
+                                               class="form-control" 
+                                               name="tbl_internos"
+                                               data-tipo="pain_funcionarios" 
+                                               value="${registro.pain_funcionarios}" />
+                                    </td>
+
+                                    <td>
+                                        <input type="number"
+                                               min="0"
+                                               class="form-control" 
+                                               name="tbl_internos"
+                                               data-tipo="pain_titulados" 
+                                               value="${registro.pain_titulados}" />
+                                    </td>
+
+                                    
                                 </tr>`
                         $('#body-tabla-internos').append(fila)
                     })
+
+                    bindTblInterno();
                 }
             })
         }
