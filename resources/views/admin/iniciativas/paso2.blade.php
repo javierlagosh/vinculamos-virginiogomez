@@ -247,13 +247,14 @@
                                                 <table class="table table-bored table-md">
                                                     <thead>
                                                         {{-- <th>Tipo</th> --}}
-                                                        <th>Sede</th>
-                                                        <th>Escuela/Unidad</th>
-                                                        <th>Carrera</th>
-                                                        <th>Estudiantes</th>
-                                                        <th>Docentes</th>
-                                                        <th>Directivos/as</th>
-                                                        <th>Titulados</th>
+                                                        <th id="participantes_sede">Sede</th>
+                                                        <th id="participantes_escuela">Escuela/Unidad</th>
+                                                        <th id="participantes_carrera">Carrera</th>
+                                                        <th id="participantes_estudiante">Estudiantes</th>
+                                                        <th id="participantes_docente">Docentes</th>
+                                                        <th id="participantes_directivo">Directivos/as</th>
+                                                        <th id="participantes_titulado">Titulados</th>
+                                                        <th id="participantes_general">General</th>
                                                         {{-- <th>Total</th> --}}
                                                     </thead>
                                                     <tbody id="body-tabla-internos">
@@ -1081,6 +1082,7 @@
                     const painDocentes = fila.querySelector('input[data-tipo="pain_docentes"]').value;
                     const painFuncionarios = fila.querySelector('input[data-tipo="pain_funcionarios"]').value;
                     const painTitulados = fila.querySelector('input[data-tipo="pain_titulados"]').value;
+                    const painGeneral = fila.querySelector('input[data-tipo="pain_general"]').value;
 
                     // Construir el objeto de datos
                     const data = {
@@ -1089,7 +1091,8 @@
                         pain_estudiantes: painEstudiantes,
                         pain_docentes: painDocentes,
                         pain_funcionarios: painFuncionarios,
-                        pain_titulados: painTitulados
+                        pain_titulados: painTitulados,
+                        pain_general: painGeneral
                     };
 
                     // Enviar los datos a la API
@@ -1131,6 +1134,7 @@
 
         function listarInterno() {
             console.log($('#idIniciativa').text())
+            
 
             $.ajax({
                 type: 'GET',
@@ -1146,6 +1150,9 @@
                     $('#body-tabla-internos').empty();
 
                     datosInternos = respuesta.resultado;
+                    
+                    
+                    
                     datosInternos.forEach(registro => {
                         if (registro.pain_docentes == null) {
                             registro.pain_docentes = 0
@@ -1161,6 +1168,10 @@
                         if (registro.pain_titulados == null) {
                             registro.pain_titulados = 0
                         }
+
+                        if (registro.pain_general == null) {
+                            registro.pain_general = 0
+                        }
                         
                         // <td>${registro.pain_total}</td>
                         
@@ -1168,7 +1179,7 @@
                                     <td>${registro.sede_nombre}</td>
                                     <td>${registro.escu_nombre}</td>
                                     <td>${registro.care_nombre}</td>
-                                    <td>
+                                    <td id="valueEstudiantes">
                                         <input type="number"
                                                min="0" 
                                                class="form-control" 
@@ -1176,7 +1187,7 @@
                                                data-tipo="pain_estudiantes" 
                                                value="${registro.pain_estudiantes}" />
                                     </td>
-                                    <td>
+                                    <td id="valueDocentes">
                                         <input type="number"
                                                min="0" 
                                                class="form-control" 
@@ -1184,7 +1195,7 @@
                                                data-tipo="pain_docentes"
                                                value="${registro.pain_docentes}" />
                                     </td>
-                                    <td>
+                                    <td id="valueFuncionarios">
                                         <input type="number"
                                                min="0"
                                                class="form-control" 
@@ -1193,7 +1204,7 @@
                                                value="${registro.pain_funcionarios}" />
                                     </td>
 
-                                    <td>
+                                    <td id="valueTitulados">
                                         <input type="number"
                                                min="0"
                                                class="form-control" 
@@ -1202,12 +1213,63 @@
                                                value="${registro.pain_titulados}" />
                                     </td>
 
+                                    <td id="valueGeneral" hidden>
+                                        <input type="number"
+                                               min="0"
+                                               class="form-control" 
+                                               name="tbl_internos"
+                                               data-tipo="pain_general" 
+                                               
+                                               value="${registro.pain_general}" />
+                                    </td>
+
                                     
                                 </tr>`
                         $('#body-tabla-internos').append(fila)
+
+                        
                     })
 
+                    
+
                     bindTblInterno();
+
+                    const painEstudiantes = document.getElementById('valueEstudiantes');
+                        const painDocentes = document.getElementById('valueDocentes');
+                        const painFuncionarios = document.getElementById('valueFuncionarios');
+                        const painTitulados = document.getElementById('valueTitulados');
+                        const painGeneral = document.getElementById('valueGeneral');
+
+                        const tituloEstudiantes = document.getElementById('participantes_estudiante');
+                        const tituloDocentes = document.getElementById('participantes_docente');
+                        const tituloFuncionarios = document.getElementById('participantes_directivo');
+                        const tituloTitulados = document.getElementById('participantes_titulado');
+                        const tituloGeneral = document.getElementById('participantes_general');
+
+                        if (respuesta.HayTodas) {
+
+                        tituloEstudiantes.hidden = true;
+                        painEstudiantes.hidden = true;
+                        tituloDocentes.hidden = true;
+                        painDocentes.hidden = true;
+                        tituloFuncionarios.hidden = true;
+                        painFuncionarios.hidden = true;
+                        tituloTitulados.hidden = true;
+                        painTitulados.hidden = true;
+                        tituloGeneral.hidden = false;
+                        painGeneral.hidden = false;
+                        } else {
+                            tituloEstudiantes.hidden = false;
+                            painEstudiantes.hidden = false;
+                            tituloDocentes.hidden = false;
+                            painDocentes.hidden = false;
+                            tituloFuncionarios.hidden = false;
+                            painFuncionarios.hidden = false;
+                            tituloTitulados.hidden = false;
+                            painTitulados.hidden = false;
+                            tituloGeneral.hidden = true;
+                            painGeneral.hidden = true;
+                        }
                 }
             })
         }

@@ -2131,7 +2131,20 @@ class IniciativasController extends Controller
             ->join('carreras', 'carreras.care_codigo', '=', 'participantes_internos.care_codigo')
             ->where('inic_codigo', $request->inic_codigo)
             ->get();
-        return json_encode(["estado" => true, "resultado" => $internos]);
+        
+        //verificiar si escuelas o carreras nombre es "Todas"
+        $HayTodas = false;
+        foreach ($internos as $interno) {
+            if($interno->escu_nombre == "Todas" || $interno->care_nombre == "Todas"){
+                $HayTodas = true;
+            }
+        }
+
+
+        return json_encode(["estado" => true,
+         "resultado" => $internos,
+            "HayTodas" => $HayTodas
+         ]);
     }
 
     public function actualizarInternos(Request $request)
@@ -2145,6 +2158,7 @@ class IniciativasController extends Controller
                 'pain_estudiantes' => $request->pain_estudiantes,
                 'pain_funcionarios' => $request->pain_funcionarios,
                 'pain_titulados' => $request->pain_titulados,
+                'pain_general' => $request->pain_general,
                 'pain_total' => $request->pain_total
             ]);
     
