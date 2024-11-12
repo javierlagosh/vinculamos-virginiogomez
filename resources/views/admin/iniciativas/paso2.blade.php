@@ -244,9 +244,8 @@
                                     <div class="card">
                                         <div class="card-body p-0">
                                             <div class="table-responsive">
-                                                <table class="table table-bored table-md">
+                                                <table class="table table-bordered table-md">
                                                     <thead>
-                                                        {{-- <th>Tipo</th> --}}
                                                         <th id="participantes_sede">Sede</th>
                                                         <th id="participantes_escuela">Escuela/Unidad</th>
                                                         <th id="participantes_carrera">Carrera</th>
@@ -255,11 +254,33 @@
                                                         <th id="participantes_directivo">Directivos/as</th>
                                                         <th id="participantes_titulado">Titulados</th>
                                                         <th id="participantes_general">General</th>
-                                                        {{-- <th>Total</th> --}}
                                                     </thead>
                                                     <tbody id="body-tabla-internos">
+                                                        <!-- Placeholder content -->
+                                                        <tr class="placeholder-glow">
+                                                            <td><span class="placeholder col-6 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-8 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-10 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                        </tr>
+                                                        <tr class="placeholder-glow">
+                                                            <td><span class="placeholder col-6 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-8 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-10 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                        </tr>
+
                                                     </tbody>
                                                 </table>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -1133,146 +1154,158 @@
         }
 
         function listarInterno() {
-            console.log($('#idIniciativa').text())
-            
+    console.log($('#idIniciativa').text());
 
-            $.ajax({
-                type: 'GET',
-                url: `${window.location.origin}/admin/crear/iniciativa/listar-internos`,
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    inic_codigo: $('#idIniciativa').text()
-                },
+    // Añadir placeholder antes de hacer la solicitud AJAX
+    $('#body-tabla-internos').html(`
+        <tr class="placeholder-glow">
+            <td><span class="placeholder col-6"></span></td>
+            <td><span class="placeholder col-8"></span></td>
+            <td><span class="placeholder col-10"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td hidden><span class="placeholder col-4"></span></td>
+        </tr>
+        <tr class="placeholder-glow">
+            <td><span class="placeholder col-6"></span></td>
+            <td><span class="placeholder col-8"></span></td>
+            <td><span class="placeholder col-10"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td hidden><span class="placeholder col-4"></span></td>
+        </tr>
+    `);
 
-                success: function(resConsultar) {
-                    respuesta = JSON.parse(resConsultar);
-                    console.log(respuesta);
-                    $('#body-tabla-internos').empty();
+    $.ajax({
+        type: 'GET',
+        url: `${window.location.origin}/admin/crear/iniciativa/listar-internos`,
+        data: {
+            _token: '{{ csrf_token() }}',
+            inic_codigo: $('#idIniciativa').text()
+        },
 
-                    datosInternos = respuesta.resultado;
-                    
-                    
-                    
-                    datosInternos.forEach(registro => {
-                        if (registro.pain_docentes == null) {
-                            registro.pain_docentes = 0
-                        }
+        success: function(resConsultar) {
+            respuesta = JSON.parse(resConsultar);
+            console.log(respuesta);
+            $('#body-tabla-internos').empty(); // Limpiar el placeholder
 
-                        if (registro.pain_estudiantes == null) {
-                            registro.pain_estudiantes = 0
-                        }
-                        if (registro.pain_funcionarios == null) {
-                            registro.pain_funcionarios = 0
-                        }
+            datosInternos = respuesta.resultado;
 
-                        if (registro.pain_titulados == null) {
-                            registro.pain_titulados = 0
-                        }
-
-                        if (registro.pain_general == null) {
-                            registro.pain_general = 0
-                        }
-                        
-                        // <td>${registro.pain_total}</td>
-                        
-                        fila = `<tr data-pain="${registro.pain_codigo}">
-                                    <td>${registro.sede_nombre}</td>
-                                    <td>${registro.escu_nombre}</td>
-                                    <td>${registro.care_nombre}</td>
-                                    <td id="valueEstudiantes">
-                                        <input type="number"
-                                               min="0" 
-                                               class="form-control" 
-                                               name="tbl_internos"
-                                               data-tipo="pain_estudiantes" 
-                                               value="${registro.pain_estudiantes}" />
-                                    </td>
-                                    <td id="valueDocentes">
-                                        <input type="number"
-                                               min="0" 
-                                               class="form-control" 
-                                               name="tbl_internos"
-                                               data-tipo="pain_docentes"
-                                               value="${registro.pain_docentes}" />
-                                    </td>
-                                    <td id="valueFuncionarios">
-                                        <input type="number"
-                                               min="0"
-                                               class="form-control" 
-                                               name="tbl_internos"
-                                               data-tipo="pain_funcionarios" 
-                                               value="${registro.pain_funcionarios}" />
-                                    </td>
-
-                                    <td id="valueTitulados">
-                                        <input type="number"
-                                               min="0"
-                                               class="form-control" 
-                                               name="tbl_internos"
-                                               data-tipo="pain_titulados" 
-                                               value="${registro.pain_titulados}" />
-                                    </td>
-
-                                    <td id="valueGeneral" hidden>
-                                        <input type="number"
-                                               min="0"
-                                               class="form-control" 
-                                               name="tbl_internos"
-                                               data-tipo="pain_general" 
-                                               
-                                               value="${registro.pain_general}" />
-                                    </td>
-
-                                    
-                                </tr>`
-                        $('#body-tabla-internos').append(fila)
-
-                        
-                    })
-
-                    
-
-                    bindTblInterno();
-
-                    const painEstudiantes = document.getElementById('valueEstudiantes');
-                        const painDocentes = document.getElementById('valueDocentes');
-                        const painFuncionarios = document.getElementById('valueFuncionarios');
-                        const painTitulados = document.getElementById('valueTitulados');
-                        const painGeneral = document.getElementById('valueGeneral');
-
-                        const tituloEstudiantes = document.getElementById('participantes_estudiante');
-                        const tituloDocentes = document.getElementById('participantes_docente');
-                        const tituloFuncionarios = document.getElementById('participantes_directivo');
-                        const tituloTitulados = document.getElementById('participantes_titulado');
-                        const tituloGeneral = document.getElementById('participantes_general');
-
-                        if (respuesta.HayTodas) {
-
-                        tituloEstudiantes.hidden = true;
-                        painEstudiantes.hidden = true;
-                        tituloDocentes.hidden = true;
-                        painDocentes.hidden = true;
-                        tituloFuncionarios.hidden = true;
-                        painFuncionarios.hidden = true;
-                        tituloTitulados.hidden = true;
-                        painTitulados.hidden = true;
-                        tituloGeneral.hidden = false;
-                        painGeneral.hidden = false;
-                        } else {
-                            tituloEstudiantes.hidden = false;
-                            painEstudiantes.hidden = false;
-                            tituloDocentes.hidden = false;
-                            painDocentes.hidden = false;
-                            tituloFuncionarios.hidden = false;
-                            painFuncionarios.hidden = false;
-                            tituloTitulados.hidden = false;
-                            painTitulados.hidden = false;
-                            tituloGeneral.hidden = true;
-                            painGeneral.hidden = true;
-                        }
+            datosInternos.forEach(registro => {
+                if (registro.pain_docentes == null) {
+                    registro.pain_docentes = 0
                 }
-            })
+
+                if (registro.pain_estudiantes == null) {
+                    registro.pain_estudiantes = 0
+                }
+                if (registro.pain_funcionarios == null) {
+                    registro.pain_funcionarios = 0
+                }
+
+                if (registro.pain_titulados == null) {
+                    registro.pain_titulados = 0
+                }
+
+                if (registro.pain_general == null) {
+                    registro.pain_general = 0
+                }
+
+                fila = `<tr data-pain="${registro.pain_codigo}">
+                            <td>${registro.sede_nombre}</td>
+                            <td>${registro.escu_nombre}</td>
+                            <td>${registro.care_nombre}</td>
+                            <td id="valueEstudiantes">
+                                <input type="number"
+                                       min="0" 
+                                       class="form-control" 
+                                       name="tbl_internos"
+                                       data-tipo="pain_estudiantes" 
+                                       value="${registro.pain_estudiantes}" />
+                            </td>
+                            <td id="valueDocentes">
+                                <input type="number"
+                                       min="0" 
+                                       class="form-control" 
+                                       name="tbl_internos"
+                                       data-tipo="pain_docentes"
+                                       value="${registro.pain_docentes}" />
+                            </td>
+                            <td id="valueFuncionarios">
+                                <input type="number"
+                                       min="0"
+                                       class="form-control" 
+                                       name="tbl_internos"
+                                       data-tipo="pain_funcionarios" 
+                                       value="${registro.pain_funcionarios}" />
+                            </td>
+
+                            <td id="valueTitulados">
+                                <input type="number"
+                                       min="0"
+                                       class="form-control" 
+                                       name="tbl_internos"
+                                       data-tipo="pain_titulados" 
+                                       value="${registro.pain_titulados}" />
+                            </td>
+
+                            <td id="valueGeneral" hidden>
+                                <input type="number"
+                                       min="0"
+                                       class="form-control" 
+                                       name="tbl_internos"
+                                       data-tipo="pain_general" 
+                                       value="${registro.pain_general}" />
+                            </td>
+                        </tr>`
+                $('#body-tabla-internos').append(fila);
+            });
+
+            bindTblInterno();
+
+            const painEstudiantes = document.getElementById('valueEstudiantes');
+            const painDocentes = document.getElementById('valueDocentes');
+            const painFuncionarios = document.getElementById('valueFuncionarios');
+            const painTitulados = document.getElementById('valueTitulados');
+            const painGeneral = document.getElementById('valueGeneral');
+
+            const tituloEstudiantes = document.getElementById('participantes_estudiante');
+            const tituloDocentes = document.getElementById('participantes_docente');
+            const tituloFuncionarios = document.getElementById('participantes_directivo');
+            const tituloTitulados = document.getElementById('participantes_titulado');
+            const tituloGeneral = document.getElementById('participantes_general');
+
+            if (respuesta.HayTodas) {
+                tituloEstudiantes.hidden = true;
+                painEstudiantes.hidden = true;
+                tituloDocentes.hidden = true;
+                painDocentes.hidden = true;
+                tituloFuncionarios.hidden = true;
+                painFuncionarios.hidden = true;
+                tituloTitulados.hidden = true;
+                painTitulados.hidden = true;
+                tituloGeneral.hidden = false;
+                painGeneral.hidden = false;
+            } else {
+                tituloEstudiantes.hidden = false;
+                painEstudiantes.hidden = false;
+                tituloDocentes.hidden = false;
+                painDocentes.hidden = false;
+                tituloFuncionarios.hidden = false;
+                painFuncionarios.hidden = false;
+                tituloTitulados.hidden = false;
+                painTitulados.hidden = false;
+                tituloGeneral.hidden = true;
+                painGeneral.hidden = true;
+            }
         }
+    });
+}
+
     </script>
     <script src="{{ asset('/js/admin/iniciativas/INVI.js') }}"></script>
 
