@@ -68,8 +68,8 @@ class BitacoraController extends Controller
         // Otros campos si es necesario
         $nuevaActividad->acti_actualizado = Carbon::now()->format('Y-m-d H:i:s');
         $nuevaActividad->acti_visible = 1;
-        $nuevaActividad->acti_nickname_mod = Session::get('admin')->usua_nickname;
-        $nuevaActividad->acti_rol_mod = Session::get('admin')->rous_codigo;
+        $nuevaActividad->acti_nickname_mod = Session::get('admin')->usua_nickname ?? Session::get('digitador')->rous_codigo;
+        $nuevaActividad->acti_rol_mod = Session::get('admin')->rous_codigo ?? Session::get('digitador')->rous_codigo;
         $nuevaActividad->save();
 
         return redirect()->back()->with('exitoActividades', 'Actividad creada exitosamente');
@@ -108,8 +108,8 @@ class BitacoraController extends Controller
         $actividad->acti_fecha_cumplimiento = Carbon::createFromFormat('Y-m-d', $request->input('fecha_cumplimiento'));
         // Otros campos si es necesario
         $actividad->acti_actualizado = Carbon::now()->format('Y-m-d H:i:s');
-        $actividad->acti_nickname_mod = Session::get('admin')->usua_nickname;
-        $actividad->acti_rol_mod = Session::get('admin')->rous_codigo;
+        $actividad->acti_nickname_mod = Session::get('admin')->usua_nickname ?? Session::get('digitador')->usua_nickname;
+        $actividad->acti_rol_mod = Session::get('admin')->rous_codigo ?? Session::get('digitador')->rous_codigo;
         $actividad->save();
 
         return redirect()->back()->with('exitoActividades', 'Actividad actualizada exitosamente');
@@ -290,7 +290,7 @@ class BitacoraController extends Controller
             $ThisRuta = $role . '.listar.evidencias';
             return redirect()->route($ThisRuta, $evidencia->acti_codigo)->with('exitoEvidencia', 'La evidencia fue eliminada correctamente.');
         } catch (\Throwable $th) {
-            return redirect()->back()->with('errorEvidencia', 'Ocurrió un problema al eliminar la evidencia, intente más tarde.');
+            return redirect()->back();
         }
     }
 }

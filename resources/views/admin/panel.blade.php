@@ -134,6 +134,16 @@
                             href="{{ route('admin.inicitiativas.crear.primero') }}">Crear actividad</a></li>
                 </ul>
             </li>
+            <li class="dropdown">
+                <a href="#" class="menu-toggle nav-link has-dropdown"><i
+                        data-feather="clipboard"></i><span>Bitácora</span></a>
+                <ul class="dropdown-menu">
+                    <li><a style="font-size: 90%;" class="nav-link"
+                            href="{{ route('admin.listar.actividades') }}">Reuniones</a></li>
+                    {{-- <li><a style="font-size: 90%;" class="nav-link" href="{{route('admin.listar.donaciones')}}">Listar donación</a></li>
+                    <li><a style="font-size: 90%;" class="nav-link" href="{{route('admin.ingresar.donaciones')}}">Ingresar donación</a></li> --}}
+                </ul>
+            </li>
         @elseif (Session::has('observador'))
             <li class="menu-header fas fa-cog">Observador/a</li>
             <li class="dropdown">
