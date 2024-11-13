@@ -684,6 +684,7 @@ class IniciativasController extends Controller
             'inev_creado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
             'inev_actualizado' => Carbon::now('America/Santiago')->format('Y-m-d H:i:s'),
             'inev_rol_mod' => Session::get($rolePrefix)->rous_codigo,
+            'inev_nickname_creado' => Session::get($rolePrefix)->usua_nickname,
             'inev_nickname_mod' => Session::get($rolePrefix)->usua_nickname,
         ]);
         if (!$inevGuardar)

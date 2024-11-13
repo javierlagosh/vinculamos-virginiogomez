@@ -95,6 +95,7 @@
                                             <th>Nombre</th>
                                             {{-- <th>Tipo</th> --}}
                                             <th>Archivo original</th>
+                                            <th>Creado por</th>
                                             <th>Modificado por</th>
                                             <th>Acción</th>
                                         </tr>
@@ -106,6 +107,7 @@
                                                 <td>{{ $evidencia->inev_nombre }}</td>
                                                 {{-- <td>{{ $evidencia->inev_tipo }}</td> --}}
                                                 <td>{{ $evidencia->inev_nombre_origen }}</td>
+                                                <td>{{ $evidencia->inev_nickname_creado }}</td>
                                                 <td>{{ $evidencia->inev_nickname_mod }}</td>
                                                 <td>
                                                     <form
