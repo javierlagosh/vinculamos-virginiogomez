@@ -468,7 +468,7 @@
 
 
                                 <tr class="border">
-                                    <td><strong>¿En qué % cree usted que se cumplieron las contribuciones?</strong><br>
+                                    <td><strong>¿En qué % cree usted que se cumplirán las contribuciones?</strong><br>
                                         @if (count($contribuciones) > 0)
                                                 <ul>
                                                     @foreach ($contribuciones as $contribucion)
