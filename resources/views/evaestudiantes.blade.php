@@ -212,7 +212,6 @@
                         <li>3 = cumple totalmente</li>
                     </ul>
                     {{-- <p class="mb-3">Si considera que algunos ítemes no estaban comprometidos, marque No Aplica.</p> --}}
-                    <p class="mb-3">Con qué nota evalúa usted la calidad en la ejecución de la actividad, en las siguientes dimensiones:</p>
 
                     <div class="mb-3">
                         <label class="form-label font-weight-bold">Plazo y horarios (Inicio y término)</label>
@@ -330,7 +329,6 @@
                         <li>3 = cumple totalmente</li>
                     </ul>
 
-                    <p class="mb-3">Con qué nota evalúa usted la calidad en la ejecución de la actividad, en las siguientes dimensiones:</p>
 
                     <div class="mb-3">
                         <label class="form-label font-weight-bold">Capacidad para ejecutar las actividades.</label>
