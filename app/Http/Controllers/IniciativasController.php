@@ -63,6 +63,15 @@ use App\Models\EvaluacionInvitado;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Facades\Http;
 
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
+use PhpParser\Node\Stmt\Return_;
+
 class IniciativasController extends Controller
 {
     private function getUserRole()
@@ -212,6 +221,270 @@ class IniciativasController extends Controller
 
         return $iniciativas;
     }
+
+
+    public function generarExcel()
+    {
+        // Obtener datos de las iniciativas con todas las uniones y select del PDF
+        $iniciativas = Iniciativas::leftJoin('convenios', 'convenios.conv_codigo', '=', 'iniciativas.conv_codigo')
+            ->leftJoin('tipo_actividades', 'tipo_actividades.tiac_codigo', '=', 'iniciativas.tiac_codigo')
+            ->leftJoin('mecanismos', 'mecanismos.meca_codigo', '=', 'iniciativas.meca_codigo')
+            ->leftJoin('programas', 'programas.prog_codigo', '=', 'iniciativas.prog_codigo')
+            ->leftJoin('iniciativas_regiones', 'iniciativas_regiones.inic_codigo', '=', 'iniciativas.inic_codigo')
+            ->leftJoin('regiones', 'regiones.regi_codigo', '=', 'iniciativas_regiones.regi_codigo')
+            ->leftJoin('iniciativas_comunas', 'iniciativas_comunas.inic_codigo', '=', 'iniciativas.inic_codigo')
+            ->leftJoin('comunas', 'comunas.comu_codigo', '=', 'iniciativas_comunas.comu_codigo')
+            ->leftJoin('participantes_internos', 'participantes_internos.inic_codigo', '=', 'iniciativas.inic_codigo')
+            ->leftJoin('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
+            ->leftJoin('iniciativas_participantes', 'iniciativas_participantes.inic_codigo', '=', 'iniciativas.inic_codigo')
+            ->leftJoin('socios_comunitarios', function ($join) {
+                $join->on('socios_comunitarios.soco_codigo', '=', 'iniciativas_participantes.soco_codigo')
+                    ->on('socios_comunitarios.sugr_codigo', '=', 'iniciativas_participantes.sugr_codigo');
+            })
+            ->select(
+                'iniciativas.inic_codigo',
+                'iniciativas.inic_nombre',
+                'iniciativas.inic_descripcion',
+                'iniciativas.inic_formato',
+                'iniciativas.inic_anho',
+                'iniciativas.fecha_inicio',
+                'iniciativas.fecha_ejecucion',
+                'iniciativas.fecha_cierre',
+                'iniciativas.inic_estado',
+                'mecanismos.meca_nombre',
+                'programas.prog_nombre',
+                'tipo_actividades.tiac_nombre',
+                'convenios.conv_nombre',
+                DB::raw('GROUP_CONCAT(DISTINCT regiones.regi_nombre ORDER BY regiones.regi_nombre ASC SEPARATOR ", ") as regiones'),
+                DB::raw('GROUP_CONCAT(DISTINCT comunas.comu_nombre ORDER BY comunas.comu_nombre ASC SEPARATOR ", ") as comunas'),
+                DB::raw('GROUP_CONCAT(DISTINCT escuelas.escu_nombre ORDER BY escuelas.escu_nombre ASC SEPARATOR ", ") as unidadesEjecutoras'),
+                DB::raw('GROUP_CONCAT(DISTINCT socios_comunitarios.soco_nombre_socio ORDER BY socios_comunitarios.soco_nombre_socio ASC SEPARATOR ", ") as socioComunitario')
+            )
+            ->groupBy(
+                'iniciativas.inic_codigo',
+                'iniciativas.inic_nombre',
+                'iniciativas.inic_descripcion',
+                'iniciativas.inic_formato',
+                'iniciativas.inic_anho',
+                'iniciativas.fecha_inicio',
+                'iniciativas.fecha_ejecucion',
+                'iniciativas.fecha_cierre',
+                'iniciativas.inic_estado',
+                'mecanismos.meca_nombre',
+                'programas.prog_nombre',
+                'tipo_actividades.tiac_nombre',
+                'convenios.conv_nombre'
+            )
+            ->get();
+    
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+    
+        // Encabezados
+        $sheet->fromArray([
+            'Código',
+            'Nombre',
+            'Descripción',
+            'Formato',
+            'Año',
+            'Fecha de Inicio',
+            'Fecha de Ejecución',
+            'Fecha de Cierre',
+            'Estado',
+            'Mecanismo',
+            'Programa',
+            'Tipo de Actividad',
+            'Convenio',
+            'Regiones',
+            'Comunas',
+            'Unidades Ejecutoras',
+            'Socio Comunitario'
+        ], null, 'A1');
+    
+        // Estilo de encabezados
+        $headStyle = [
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => '2574BA']
+            ],
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => 'FFFFFF']
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical' => Alignment::VERTICAL_CENTER
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000']
+                ]
+            ]
+        ];
+    
+        $sheet->getStyle('A1:R1')->applyFromArray($headStyle);
+    
+        // Ajustar ancho automático para las columnas
+        foreach (range('A', 'R') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+    
+        // Contenido de las filas
+        $row = 2;
+        foreach ($iniciativas as $iniciativa) {
+            $sheet->fromArray([
+                $iniciativa->inic_codigo,
+                $iniciativa->inic_nombre,
+                $iniciativa->inic_descripcion,
+                $iniciativa->inic_formato,
+                $iniciativa->inic_anho,
+                $iniciativa->fecha_inicio,
+                $iniciativa->fecha_ejecucion,
+                $iniciativa->fecha_cierre,
+                $iniciativa->inic_estado,
+                $iniciativa->meca_nombre,
+                $iniciativa->prog_nombre,
+                $iniciativa->tiac_nombre,
+                $iniciativa->conv_nombre,
+                $iniciativa->regiones,
+                $iniciativa->comunas,
+                $iniciativa->unidadesEjecutoras,
+                $iniciativa->socioComunitario
+            ], null, 'A' . $row);
+            $row++;
+        }
+    
+        $writer = new Xlsx($spreadsheet);
+    
+        // Definir el nombre del archivo
+        $fileName = "iniciativas_completas.xlsx";
+    
+        // Generar el archivo en el navegador sin guardarlo
+        $response = Response::make(null, 200);
+        $response->header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $response->header('Content-Disposition', 'attachment; filename="' . $fileName . '"');
+        $response->header('Cache-Control', 'max-age=0');
+    
+        ob_start();
+        $writer->save('php://output');
+        $content = ob_get_clean();
+    
+        return $response->setContent($content);
+    }
+    
+
+
+
+    public function descargarPDF(Request $request)
+{
+    try {
+        // Extender tiempo de ejecución y memoria
+        set_time_limit(300);
+        ini_set('memory_limit', '256M');
+
+        // Obtener datos de las iniciativas
+        $iniciativas = Iniciativas::leftJoin('convenios', 'convenios.conv_codigo', '=', 'iniciativas.conv_codigo')
+        ->leftJoin('tipo_actividades', 'tipo_actividades.tiac_codigo', '=', 'iniciativas.tiac_codigo')
+        ->leftJoin('mecanismos', 'mecanismos.meca_codigo', '=', 'iniciativas.meca_codigo')
+        ->leftJoin('programas', 'programas.prog_codigo', '=', 'iniciativas.prog_codigo')
+        ->leftJoin('iniciativas_regiones', 'iniciativas_regiones.inic_codigo', '=', 'iniciativas.inic_codigo')
+        ->leftJoin('regiones', 'regiones.regi_codigo', '=', 'iniciativas_regiones.regi_codigo')
+        ->leftJoin('iniciativas_comunas', 'iniciativas_comunas.inic_codigo', '=', 'iniciativas.inic_codigo')
+        ->leftJoin('comunas', 'comunas.comu_codigo', '=', 'iniciativas_comunas.comu_codigo')
+        ->leftJoin('participantes_internos', 'participantes_internos.inic_codigo', '=', 'iniciativas.inic_codigo')
+        ->leftJoin('escuelas', 'escuelas.escu_codigo', '=', 'participantes_internos.escu_codigo')
+        ->leftJoin('iniciativas_participantes', 'iniciativas_participantes.inic_codigo', '=', 'iniciativas.inic_codigo')
+        ->leftJoin('socios_comunitarios', function ($join) {
+        $join->on('socios_comunitarios.soco_codigo', '=', 'iniciativas_participantes.soco_codigo')
+            ->on('socios_comunitarios.sugr_codigo', '=', 'iniciativas_participantes.sugr_codigo');
+        })
+        ->select(
+            'iniciativas.inic_codigo',
+            'iniciativas.inic_nombre',
+            'iniciativas.inic_descripcion',
+            'iniciativas.inic_formato',
+            'iniciativas.inic_anho',
+            'iniciativas.fecha_inicio',
+            'iniciativas.fecha_ejecucion',
+            'iniciativas.fecha_cierre',
+            'iniciativas.inic_estado',
+            'mecanismos.meca_nombre',
+            'programas.prog_nombre',
+            'tipo_actividades.tiac_nombre',
+            'convenios.conv_nombre',
+            DB::raw('GROUP_CONCAT(DISTINCT regiones.regi_nombre ORDER BY regiones.regi_nombre ASC SEPARATOR ", ") as regiones'),
+            DB::raw('GROUP_CONCAT(DISTINCT comunas.comu_nombre ORDER BY comunas.comu_nombre ASC SEPARATOR ", ") as comunas'),
+            DB::raw('GROUP_CONCAT(DISTINCT escuelas.escu_nombre ORDER BY escuelas.escu_nombre ASC SEPARATOR ", ") as unidadesEjecutoras'),
+            DB::raw('GROUP_CONCAT(DISTINCT socios_comunitarios.soco_nombre_socio ORDER BY socios_comunitarios.soco_nombre_socio ASC SEPARATOR ", ") as socioComunitario')
+        )
+        ->groupBy(
+            'iniciativas.inic_codigo',
+            'iniciativas.inic_nombre',
+            'iniciativas.inic_descripcion',
+            'iniciativas.inic_formato',
+            'iniciativas.inic_anho',
+            'iniciativas.fecha_inicio',
+            'iniciativas.fecha_ejecucion',
+            'iniciativas.fecha_cierre',
+            'iniciativas.inic_estado',
+            'mecanismos.meca_nombre',
+            'programas.prog_nombre',
+            'tipo_actividades.tiac_nombre',
+            'convenios.conv_nombre'
+        )
+        ->get();
+
+        // Array de meses para formatear fechas
+        $meses = [
+            '01' => 'Enero', '02' => 'Febrero', '03' => 'Marzo',
+            '04' => 'Abril', '05' => 'Mayo', '06' => 'Junio',
+            '07' => 'Julio', '08' => 'Agosto', '09' => 'Septiembre',
+            '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre'
+        ];
+
+        // Formatear fechas de las iniciativas
+        foreach ($iniciativas as $iniciativa) {
+            $iniciativa->fecha_inicio_formateada = $this->formatearFecha($iniciativa->fecha_inicio, $meses);
+            $iniciativa->fecha_ejecucion_formateada = $this->formatearFecha($iniciativa->fecha_ejecucion, $meses);
+            $iniciativa->fecha_cierre_formateada = $this->formatearFecha($iniciativa->fecha_cierre, $meses);
+        }
+
+        // Generar PDF con la vista correspondiente
+        $pdf = Pdf::loadView('admin.iniciativas.resumenPDF', compact('iniciativas'));
+
+        // Descargar el PDF
+        return $pdf->download('iniciativas.pdf');
+    } catch (\Exception $e) {
+        // Manejo de errores
+        return response()->json(['error' => 'Error al generar el PDF: ' . $e->getMessage()], 500);
+    }
+}
+
+/**
+ * Formatea una fecha en formato 'YYYY-MM-DD' a 'día de mes de año'.
+ *
+ * @param string|null $fecha
+ * @param array $meses
+ * @return string
+ */
+private function formatearFecha($fecha, $meses)
+{
+    if (!$fecha) {
+        return 'Sin fecha';
+    }
+
+    $partes = explode('-', $fecha);
+    if (count($partes) === 3) {
+        $dia = $partes[2];
+        $mes = $meses[$partes[1]] ?? 'Mes desconocido';
+        $anio = $partes[0];
+        return "{$dia} de {$mes} de {$anio}";
+    }
+
+    return 'Fecha inválida';
+}
+
 
     public function completarCobertura($inic_codigo)
     {
