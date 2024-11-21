@@ -245,6 +245,11 @@
                                             </tr>
 
                                             <tr>
+                                                <td><strong>Objetivo</strong></td>
+                                                <td>{{ $iniciativa->inic_objetivo ?? "No se ha seleccionado un objetivo." }}</td>
+                                            </tr>
+
+                                            <tr>
                                                 <td><strong>Mecanismo</strong></td>
                                                 <td>{{ $iniciativa->meca_nombre }}</td>
                                             </tr>
