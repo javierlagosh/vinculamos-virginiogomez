@@ -2622,14 +2622,30 @@ private function formatearFecha($fecha, $meses)
         $centroCostos = CentroCostos::select('ceco_codigo', 'ceco_nombre')->get();
         $costo = CostosDinero::where('inic_codigo', $inic_codigo)->first();
 
-        $estudiantes = ParticipantesInternos::where('inic_codigo', $inic_codigo)
-            ->sum('pain_estudiantes_final');
+        $estudiantes = [];
+        $docentes = [];
+        $funcionarios = [];
 
-        $docentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)
-            ->sum('pain_docentes_final');
+        if($iniciativa->inic_estado != 6){
+            $estudiantes = ParticipantesInternos::where('inic_codigo', $inic_codigo)
+                ->sum('pain_estudiantes');
 
-        $funcionarios  = ParticipantesInternos::where('inic_codigo', $inic_codigo)
-            ->sum('pain_funcionarios_final');
+            $docentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)
+                ->sum('pain_docentes');
+
+            $funcionarios  = ParticipantesInternos::where('inic_codigo', $inic_codigo)
+                ->sum('pain_funcionarios');
+        }else{
+            $estudiantes = ParticipantesInternos::where('inic_codigo', $inic_codigo)
+                ->sum('pain_estudiantes_final');
+
+            $docentes = ParticipantesInternos::where('inic_codigo', $inic_codigo)
+                ->sum('pain_docentes_final');
+
+            $funcionarios  = ParticipantesInternos::where('inic_codigo', $inic_codigo)
+                ->sum('pain_funcionarios_final');
+        }
+        
         return view('admin.iniciativas.paso3', [
             'iniciativa' => $iniciativa,
             'costo' => $costo,
