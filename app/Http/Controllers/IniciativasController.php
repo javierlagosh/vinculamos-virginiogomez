@@ -724,6 +724,7 @@ private function formatearFecha($fecha, $meses)
                 'programas.prog_nombre',
                 'tipo_actividades.tiac_nombre',
                 'convenios.conv_nombre',
+                'iniciativas.inic_objetivo'
             )
             ->where('iniciativas.inic_codigo', $inic_codigo)
             ->first();
@@ -1177,6 +1178,7 @@ private function formatearFecha($fecha, $meses)
             'fecha_inicio' => $request->fecha_inicio,
             'fecha_ejecucion' => $request->fecha_ejecucion,
             'fecha_cierre' => $request->fecha_cierre,
+            'inic_objetivo' => $request->inic_objetivo ?? 'No se ha seleccionado un objetivo.',
         ]);
 
         if (!$inicCrear)
@@ -1598,6 +1600,7 @@ private function formatearFecha($fecha, $meses)
             'fecha_inicio' => $request->fecha_inicio,
             'fecha_ejecucion' => $request->fecha_ejecucion,
             'fecha_cierre' => $request->fecha_cierre,
+            'inic_objetivo' => $request->inic_objetivo ?? 'No se ha seleccionado un objetivo.',
         ]);
 
 

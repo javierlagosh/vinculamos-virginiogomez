@@ -291,8 +291,10 @@
                                             <div class="input-group">
                                                 @if (isset($iniciativa) && $editar)
                                                     <textarea class="formbold-form-input" id="description" name="description" required rows="5" style="width: 100%;">{{ old('description') ?? @$iniciativa->inic_descripcion }}</textarea>
+                                                    <input type="text" name="inic_objetivo" id="inic_objetivo" class="w-100" placeholder="Plantee o escriba su objetivo" value="{{$iniciativa->inic_objetivo}}">
                                                 @else
                                                     <textarea class="formbold-form-input" id="description" name="description" required rows="5" style="width: 100%;">{{ old('description') }}</textarea>
+                                                    <input type="text" name="inic_objetivo" id="inic_objetivo" class="w-100" placeholder="Plantee o escriba su objetivo" >
                                                 @endif
                                             </div>
                                             @if ($errors->has('description'))
@@ -342,7 +344,12 @@
 
                                                     }
                                                 }
-                                                document.getElementById("ObjetivoElegido").value = arrayRespuestas[elegido-1];
+                                                document.getElementById("ObjetivoElegido").value = arrayRespuestas[elegido - 1];
+
+                                                let objetivoElegido = arrayRespuestas[elegido - 1];
+                                                //quitar primeros 3 caracteres del objetivo
+                                                objetivoElegido = objetivoElegido.substring(3);
+                                                document.getElementById("inic_objetivo").value = objetivoElegido;
                                                 $('#send-button').removeClass('d-none');
 
 
