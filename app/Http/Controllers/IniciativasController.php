@@ -2626,7 +2626,7 @@ private function formatearFecha($fecha, $meses)
         $docentes = [];
         $funcionarios = [];
 
-        if($iniciativa->inic_estado != 6){
+        if($iniciativa->inic_estado != 5){
             $estudiantes = ParticipantesInternos::where('inic_codigo', $inic_codigo)
                 ->sum('pain_estudiantes');
 
