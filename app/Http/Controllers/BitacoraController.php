@@ -250,25 +250,44 @@ class BitacoraController extends Controller
     }
 
     public function descargarEvidencia($actevi_codigo)
-    {
-        try {
-            $evidencia = ActividadesEvidencias::where('actevi_codigo', $actevi_codigo)->first();
-            if (!$evidencia)
-                return redirect()->back()->with('errorEvidencia', 'La evidencia no se encuentra registrada o vigente en el sistema.');
-
-            $archivo = public_path($evidencia->actevi_ruta);
-            $cabeceras = array(
-                'Content-Type: ' . $evidencia->actevi_mime,
-                'Cache-Control: no-cache, no-store, must-revalidate',
-                'Pragma: no-cache'
-            );
-
-            return Response::download($archivo, $evidencia->actevi_nombre, $cabeceras);
-        } catch (\Throwable $th) {
-            dd($th);
-            return redirect()->back()->with('errorEvidencia', 'Ocurrió un problema al descargar la evidencia, intente más tarde.');
+{
+    try {
+        $evidencia = ActividadesEvidencias::where('actevi_codigo', $actevi_codigo)->first();
+        if (!$evidencia) {
+            return redirect()->back()->with('errorEvidencia', 'La evidencia no se encuentra registrada o vigente en el sistema.');
         }
+
+        $archivo = public_path($evidencia->actevi_ruta);
+
+        // Asegúrate de que el nombre tenga una extensión válida
+        $nombreArchivo = $evidencia->actevi_nombre;
+        $mimeToExtension = [
+            'application/pdf' => 'pdf',
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
+        ];
+
+        if (!str_contains($nombreArchivo, '.')) {
+            $extension = $mimeToExtension[$evidencia->actevi_mime] ?? '';
+            if ($extension) {
+                $nombreArchivo .= '.' . $extension;
+            }
+        }
+
+        $cabeceras = [
+            'Content-Type' => $evidencia->actevi_mime,
+            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+            'Pragma' => 'no-cache',
+        ];
+
+        return Response::download($archivo, $nombreArchivo, $cabeceras);
+    } catch (\Throwable $th) {
+        dd($th);
+        return redirect()->back()->with('errorEvidencia', 'Ocurrió un problema al descargar la evidencia, intente más tarde.');
     }
+}
+
 
     public function eliminarEvidencia($actevi_codigo)
     {
