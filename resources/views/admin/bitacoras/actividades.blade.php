@@ -240,6 +240,7 @@
                             </div>
                         @enderror
 
+                        
                         <div class="form-group">
                             <label>Avance</label> <label for="" style="color: red;">*</label>
                             @if (isset($actividad))

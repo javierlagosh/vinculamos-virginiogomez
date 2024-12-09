@@ -45,6 +45,8 @@ class BitacoraController extends Controller
                 'actividades.acti_codigo',
                 'actividades.acti_nombre',
                 'actividades.acti_acuerdos',
+                'actividades.acti_fecha',
+                'actividades.acti_avance',
                 'actividades.acti_fecha_cumplimiento',
                 \DB::raw('GROUP_CONCAT(sedes.sede_nombre SEPARATOR ", ") as sedes')
             )
@@ -60,7 +62,10 @@ class BitacoraController extends Controller
                 'actividades.acti_codigo',
                 'actividades.acti_nombre',
                 'actividades.acti_acuerdos',
-                'actividades.acti_fecha_cumplimiento'
+                'actividades.acti_fecha_cumplimiento',
+                'actividades.acti_fecha',
+                'actividades.acti_avance'
+                
             )
             ->get();
     
