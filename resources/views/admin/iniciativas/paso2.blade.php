@@ -4,7 +4,7 @@
     @endphp
 @elseif (Session::has('digitador'))
     @php
-        $role = 'digitador';
+        $role = 'admin';
     @endphp
 @elseif (Session::has('observador'))
     @php
@@ -75,49 +75,44 @@
                             <h2 id="idIniciativa">{{ $iniciativa->inic_codigo }}</h2>
                             <h4>Iniciativa: {{ $iniciativa->inic_nombre }}</h4>
                             @if (isset($iniciativa))
-                                <div class="card-header-action">
-                                    <div class="dropdown d-inline">
+                            <div class="card-header-action">
+                                <div class="dropdown d-inline">
+                                    <button class="btn btn-info dropdown-toggle" id="dropdownMenuButton2"
+                                        data-toggle="dropdown">Actividades</button>
+                                    <div class="dropdown-menu dropright">
                                         <a href="{{ route('admin.iniciativas.detalles', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-warning icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Ver detalles de la iniciativa"><i
-                                                class="fas fa-eye"></i>Ver detalle</a>
-
-                                        {{-- <a href="{{ route('admin.editar.paso1', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-primary icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Editar iniciativa"><i
-                                                class="fas fa-edit"></i>Editar Iniciativa</a> --}}
-
-                                        <a href="javascript:void(0)" class="btn btn-icon btn-info icon-left"
-                                            data-toggle="tooltip" data-placement="top" title="Calcular INVI"
-                                            onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i
-                                                class="fas fa-tachometer-alt"></i>INVI</a>
-
-                                        <a href="{{ route($role . '.evidencias.listar', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Adjuntar evidencia"><i
-                                                class="fas fa-paperclip"></i>Evidencias</a>
-
-                                        <a href="{{ route('admin.cobertura.index', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Ingresar cobertura"><i
-                                                class="fas fa-users"></i>Cobertura</a>
-
-                                        <a href="{{ route($role . '.ver.lista.de.resultados', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Ingresar resultado"><i
-                                                class="fas fa-flag"></i>Resultado/s</a>
-
-                                        <a href="{{ route($role . '.evaluar.iniciativa', $iniciativa->inic_codigo) }}"
-                                            class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                            data-placement="top" title="Evaluar iniciativa"><i
-                                                class="fas fa-file-signature"></i>Evaluar</a>
-
-                                        <a href="{{ route($role . '.iniciativa.listar') }}"
-                                            class="btn btn-primary mr-1 waves-effect icon-left" type="button">
-                                            <i class="fas fa-angle-left"></i> Volver a listado
-                                        </a>
+                                            class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
+                                            title="Editar actividad"><i class="fas fa-eye"></i> Mostrar
+                                            actividad</a>
                                     </div>
                                 </div>
+
+                                <div class="dropdown d-inline">
+                                    <button class="btn btn-success dropdown-toggle" id="dropdownMenuButton2"
+                                        data-toggle="dropdown" title="ingresar"><i class="fas fa-plus-circle"></i>
+                                        Ingresar</button>
+                                    <div class="dropdown-menu dropright">
+                                        <a href="{{ route('admin.cobertura.index', $iniciativa->inic_codigo) }}"
+                                            class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                            title="Ingresar cobertura"><i class="fas fa-users"></i> Ingresar cobertura</a>
+                                            <a href="{{ route('admin.ver.lista.de.resultados', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                                title="Ingresar resultado"><i class="fas fa-flag"></i>Ingresar resultado/s</a>
+                                            <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
+                                                title="Adjuntar evidencia"><i class="fas fa-paperclip"></i> Ingresar
+                                                evidencias</a>
+                                                <a href="{{ route('admin.evaluar.iniciativa', $iniciativa->inic_codigo) }}"
+                                                    class="dropdown-item has-icon" data-toggle="tooltip"
+                                                    data-placement="top" title="Ingresar evaluación"><i
+                                                        class="fas fa-file-signature"></i> Ingresar evaluación</a>
+                                    </div>
+                                </div>
+                                <a href="{{ route('admin.iniciativa.listar') }}"
+                                    class="btn btn-primary mr-1 waves-effect icon-left" type="button">
+                                    <i class="fas fa-angle-left"></i> Volver a listado
+                                </a>
+                            </div>
                             @endif
                         </div>
 
@@ -155,7 +150,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-4 col-md-4 col-lg-4">
+                                <div class="col-xl-4 col-lg-4 col-md-4">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Socio/a comunitario</label> <label for=""
                                             style="color: red;">*</label>
@@ -182,11 +177,11 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-2 col-md-2 col-lg-2">
+                                <div class="col-xl-3 col-lg-3 col-md-3">
                                     <div class="form-group">
                                         <label style="font-size: 110%">Personas beneficiarias</label>
                                         <input type="number" class="form-control" id="npersonas" name="npersonas"
-                                            value="{{ old('npersonas') }}">
+                                            value="{{ old('npersonas') }}" min="0" oninput="this.value = Math.abs(this.value)">
 
                                         @if ($errors->has('npersonas'))
                                             <div class="alert alert-warning alert-dismissible show fade mt-2">
@@ -200,23 +195,20 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-2 col-md-2 col-lg-2" style="position: relative;">
-
-                                    <button class="btn btn-primary mr-1 waves-effect"
-                                        onclick="AgregarParticipantesExternos()"><i class="fas fa-plus"></i>
-                                        Agregar</button>
-
-                                        <button type="button" class="btn btn-success" data-toggle="modal"
-                                    data-target="#modalCrearSocio"><i class="fas fa-plus"></i> Nuevo socio/a
-                                    comunitario/a</button>
-
+                                <div class="col-xl-4 ol-lg-4 col-md-4 mt-4" style="position: relative;">
+                                    <button class="btn btn-primary mr-1 waves-effect" 
+                                            onclick="AgregarParticipantesExternos()"
+                                        <i class="fas fa-plus"></i> Agregar
+                                    </button>
+                                    <button type="button" class="btn btn-success" data-toggle="modal"
+                                            data-target="#modalCrearSocio">
+                                            <i class="fas fa-plus"></i> Nuevo socio/a comunitario/a
+                                    </button>
                                 </div>
-                                
-
                             </div>
                             <div class="row">
-                                <div class="col-xl-2"></div>
-                                <div class="col-xl-8">
+                                <div class="col-xl-1"></div>
+                                <div class="col-xl-10">
                                     <div class="card">
                                         <div class="card-body p-0">
                                             <div class="table-responsive">
@@ -225,232 +217,132 @@
                                                         <th>Subgrupo</th>
                                                         <th>Socio Comunitario</th>
                                                         <th>Personas beneficiarias</th>
-                                                        <th>Acción</th>
+                                                        <th width="20%">Acción</th>
                                                     </thead>
                                                     <tbody id="body-tabla-externos">
-
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
 
-
                             <div class="row">
-                                <div class="col-xl-6 col-md-6 col-lg-6">
+                                <div class="col-xl-12 col-md-12 col-lg-12">
                                     <h5>Sección 3 - Participantes internos</h5>
+                                    <p  ><span style="color:red;">! </span>Instrucción: Ingresa el número de estudiantes, docentes y funcionarios/as en los casilleros correspondientes. Los datos se guardarán automáticamente. Finalmente el recuadro se pondrá en verde y aparecerá un mensaje de confirmación que se ha guardado correctamente. </p>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-xl-2 col-md-2 col-lg-2">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Sedes</label> <label for=""
-                                            style="color: red;">*</label>
-                                        <select class="form-control select2" id="sedes" name="sedes"
-                                            style="width: 100%">
-                                            <option value="" selected disabled>Seleccione...</option>
-                                            @forelse ($sedes as $sede)
-                                                <option value="{{ $sede->sede_codigo }}">
-                                                    {{ $sede->sede_nombre }}
-                                                </option>
-                                            @empty
-                                                <option value="-1">No existen registros</option>
-                                            @endforelse
 
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-xl-2 col-md-2 col-lg-2" style="display: none;">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Escuelas</label> <label for=""
-                                            style="color: red;">*</label>
-                                        <select class="form-control select2" id="escuelas" name="escuelas"
-                                            style="width: 100%">
-                                            <option value="" selected disabled>Seleccione...</option>
-                                            @forelse ($escuelas as $escuela)
-                                                <option value="{{ $escuela->escu_codigo }}">
-                                                    {{ $escuela->escu_nombre }}
-                                                </option>
-                                            @empty
-                                                <option value="-1">No existen registros</option>
-                                            @endforelse
+                            
 
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-xl-2 div-col-md-2 col-lg-3">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Carreras</label> <label for=""
-                                            style="color: red;">*</label>
-                                        <select class="form-control select2" id="carreras" name="carreras"
-                                            style="width: 100%">
-                                            <option value="" disabled selected>Seleccione...</option>
-                                            @forelse ($carreras as $carrera)
-                                                <option value="{{ $carrera->care_codigo }}">
-                                                    {{ $carrera->care_nombre }}
-                                                </option>
-                                            @empty
-                                                <option value="-1">No existen registros</option>
-                                            @endforelse
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-xl-2 col-md-2 col-lg-2">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Estudiantes</label> <label for=""
-                                            style="color: red;">*</label>
-                                        <input type="number" class="form-control" id="nestudiantes"
-                                            name="nestudiantes">
 
-                                        @if ($errors->has('nestudiantes'))
-                                            <div class="alert alert-warning alert-dismissible show fade mt-2">
-                                                <div class="alert-body">
-                                                    <button class="close"
-                                                        data-dismiss="alert"><span>&times;</span></button>
-                                                    <strong>{{ $errors->first('nestudiantes') }}</strong>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="col-xl-2 col-md-2 col-lg-2">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Titulados</label> <label for="ntitulados"
-                                            style="color: red;">*</label>
-                                        <input type="number" class="form-control" id="ntitulados"
-                                            name="ntitulados">
 
-                                        
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-2 col-md-2 col-lg-2">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Docentes</label> <label for=""
-                                            style="color: red;">*</label>
-                                        <input type="number" class="form-control" id="ndocentes" name="ndocentes">
-
-                                        @if ($errors->has('ndocentes'))
-                                            <div class="alert alert-warning alert-dismissible show fade mt-2">
-                                                <div class="alert-body">
-                                                    <button class="close"
-                                                        data-dismiss="alert"><span>&times;</span></button>
-                                                    <strong>{{ $errors->first('ndocentes') }}</strong>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="col-xl-2 col-md-2 col-lg-2">
-                                    <div class="form-group">
-                                        <label style="font-size: 110%">Directivos/as</label> <label for=""
-                                            style="color: red;">*</label>
-                                        <input type="number" class="form-control" id="nfuncionarios"
-                                            name="nfuncionarios">
-
-                                        @if ($errors->has('nfuncionarios'))
-                                            <div class="alert alert-warning alert-dismissible show fade mt-2">
-                                                <div class="alert-body">
-                                                    <button class="close"
-                                                        data-dismiss="alert"><span>&times;</span></button>
-                                                    <strong>{{ $errors->first('nfuncionarios') }}</strong>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" style="text-align: ">
-                                <div class="col-xl-4"></div>
-                                <div class="col-xl-4">
-
-                                    <button onclick="modificar()" class="btn btn-primary mr-1 waves-effect"><i
-                                            class="fas fa-plus"></i> Agregar
-                                    </button>
-
-                                </div>
-                                <div class="col-4"></div>
-                            </div>
-
-                            <div class="row" style="margin-top:75px">
-                                <div class="col-xl-2"></div>
-                                
+                            <div class="row mt-5 no-gutters">
+                                <div class="col-xl-12 col-md-12 col-lg-12"></div>
                                     <div class="card">
                                         <div class="card-body p-0">
                                             <div class="table-responsive">
-                                                <table class="table table-bored table-md">
+                                                <table class="table table-bordered table-md">
                                                     <thead>
-                                                        <th>Sedes</th>
-                                                        <th>Escuelas</th>
-                                                        <th>Carreras</th>
-                                                        <th>Estudiantes</th>
-                                                        <th>Docentes</th>
-                                                        <th>Titulados</th>
-                                                        <th>Directivos/as</th>
-                                                        {{-- <th>Total</th> --}}
+                                                        <th id="participantes_sede">Sede</th>
+                                                        <th id="participantes_escuela">Escuela/Unidad</th>
+                                                        <th id="participantes_carrera">Carrera</th>
+                                                        <th id="participantes_estudiante">Estudiantes</th>
+                                                        <th id="participantes_docente">Docentes</th>
+                                                        <th id="participantes_directivo">Directivos/as</th>
+                                                        <th id="participantes_titulado">Titulados</th>
+                                                        <th id="participantes_general">General</th>
                                                     </thead>
                                                     <tbody id="body-tabla-internos">
+                                                        <!-- Placeholder content -->
+                                                        <tr class="placeholder-glow">
+                                                            <td><span class="placeholder col-6 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-8 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-10 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                        </tr>
+                                                        <tr class="placeholder-glow">
+                                                            <td><span class="placeholder col-6 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-8 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-10 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                            <td><span class="placeholder col-4 bg-secondary"></span></td>
+                                                        </tr>
 
                                                     </tbody>
                                                 </table>
+                                                
                                             </div>
                                         </div>
                                     </div>
-                                
+                            </div>
+                            <div id="tblSaved" class="alert alert-success alert-dismissible fade alert-fixed" style="display: none;" role="alert">
+                                <i class="fas fa-check pr-2"></i>
+                                ¡Participante interno guardado!
+
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
 
-                            <div class="row p-4">
-                                <div class="col-xl-6 col-md-6 col-lg-6">
-                                    <h6>Resultados esperados</h6>
-                                    <div class="row mt-3">
-                                        <div class="col-3 col-md-3 col-lg-3">
-                                            <div class="form-group">
-                                                <label>Cuantificación</label> <label for=""
-                                                    style="color: red;">*</label>
-                                                <input type="number" class="form-control" id="cuantificacion"
-                                                    name="cuantificacion" autocomplete="off" min="0">
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-7 col-md-7 col-lg-7">
-                                            <div class="form-group">
-                                                <label>Resultado esperado</label> <label for=""
-                                                    style="color: red;">*</label>
-                                                <input type="text" class="form-control" id="resultado"
-                                                    name="resultado" autocomplete="off">
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-2 col-md-2 col-lg-2" style="position: relative;">
-                                            <button type="button" class="btn btn-primary waves-effect"
-                                                onclick="agregarResultado()"><i class="fas fa-plus"></i></button>
-                                        </div>
-                                        <div class="col-xl-12 col-md-12 col-lg-12 text-center" id="div-alert-resultado">
+                            <div class="row no-gutters mt-4">
+                                <h5 class="col-12">Sección 4 - Resultados</h5>
+                                <div class="col-2 col-lg-2 col-md-2 pr-3">
+                                    <div class="form-group">
+                                        <label>Cuantificación</label> 
+                                        <label for=""  style="color: red;">*</label>
+                                        <input type="number" class="form-control" id="cuantificacion"
+                                               name="cuantificacion" autocomplete="off" min="0">
+                                    </div>
+                                </div>
+                                <div class="col-xl-5 col-lg-5 col-md-5 pr-2">
+                                    <div class="form-group">
+                                        <label>Resultado esperado</label> 
+                                        <label for="" style="color: red;">*</label>
+                                        <input type="text" class="form-control" id="resultado"
+                                            name="resultado" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="col-xl-2 col-md-2 col-lg-2" style="position: relative;">
+                                    <div class="form-group pt-4">
+                                        <label>&nbsp;</label> 
+                                        <button type="button" class="btn btn-primary waves-effect"
+                                        onclick="agregarResultado()"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-xl-12 col-md-12 col-lg-12 text-center" id="div-alert-resultado">
+                                </div>
+                                <div class="card" id="card-tabla-resultados" style="display: none;">
+                                    <div class="card-body p-0">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-md">
+                                                <tr>
+                                                    <th>Cuantificación</th>
+                                                    <th>Resultado</th>
+                                                    <th>Acción</th>
+                                                </tr>
+                                                <tbody id="body-tabla-resultados">
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                    <div class="card" id="card-tabla-resultados" style="display: none;">
-                                        <div class="card-body p-0">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-md">
-                                                    <tr>
-                                                        <th>Cuantificación</th>
-                                                        <th>Resultado</th>
-                                                        <th>Acción</th>
-                                                    </tr>
-                                                    <tbody id="body-tabla-resultados">
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <input type="hidden" id="iniciativa" name="iniciativa"
-                                            value="{{ $iniciativa->inic_codigo }}">
-                                    </div>
+                                    <input type="hidden" id="iniciativa" name="iniciativa"
+                                        value="{{ $iniciativa->inic_codigo }}">
+                                </div>
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row mb-3 mr-1">
                                 <div class="col-xl-12 col-md-12 col-log-12">
                                     <div class="text-right">
                                         <strong>
@@ -464,9 +356,9 @@
                                             type="button" class="btn btn-primary mr-1 waves-effect">
                                             Finalizar <i class="fas fa-chevron-right"></i></a>
                                     </div>
+                                    
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -808,7 +700,8 @@
             // TODO: petición para listar resultados asociados a la iniciativa
             $.ajax({
                 type: 'GET',
-                url: `${window.location.origin}/admin/iniciativa/listar-resultados`,
+                url: window.location.origin + '/' + @json($role)+'/iniciativa/listar-resultados',
+
                 data: {
                     _token: '{{ csrf_token() }}',
                     iniciativa: inic_codigo
@@ -835,6 +728,9 @@
                             '<td>' + registro.resu_cuantificacion_inicial + '</td>' +
                             '<td>' + registro.resu_nombre + '</td>' +
                             '<td>' +
+                            '<button type="button" class="btn btn-icon btn-warning" onclick="mostrarModalEditar(' +
+                            registro.resu_codigo + ', `' + registro.resu_nombre + '`, ' + registro.resu_cuantificacion_inicial +
+                            ')"><i class="fas fa-edit"></i></button> &nbsp;' +
                             '<button type="button" class="btn btn-icon btn-danger" onclick="eliminarResultado(' +
                             registro.resu_codigo + ', ' + registro.inic_codigo +
                             ')"><i class="fas fa-trash"></i></button>' +
@@ -1066,64 +962,31 @@
             })
         }
 
-        function modificar() {
-
+        function modificar(data, callback) {
             $.ajax({
                 type: 'POST',
                 url: `${window.location.origin}/admin/actualizar/participantes-internos`,
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    inic_codigo: $("#idIniciativa").text(),
-                    sede_codigo: $("#sedes").val(),
-                    escu_codigo: $("#escuelas").val(),
-                    care_codigo: $("#carreras").val(),
-                    pain_docentes: $("#ndocentes").val(),
-                    pain_estudiantes: $("#nestudiantes").val(),
-                    pain_titulados: $("#ntitulados").val(),
-                    pain_funcionarios: $("#nfuncionarios").val(),
-
-                    // pain_total: $("#ntotal").val()
-                },
+                data: data,
                 success: function(resConsultar) {
-                    respuesta = JSON.parse(resConsultar);
-                    // console.log(respuesta)
-                    $('#body-tabla-internos').empty();
-
-                    datosInternos = respuesta.resultado;
-                    datosInternos.forEach(registro => {
-                        if (registro.pain_docentes == null) {
-                            registro.pain_docentes = 0
-                        }
-
-                        if (registro.pain_estudiantes == null) {
-                            registro.pain_estudiantes = 0
-                        }
-
-                        if (registro.pain_titulados == null) {
-                            registro.pain_titulados = 0
-                        }
-
-                        // if (registro.pain_total == null) {
-                        //     registro.pain_total = 0
-                        // }
-
-                        // <td>${registro.pain_total}</td>
-                        fila = `<tr>
-                                <td>${registro.sede_nombre}</td>
-                                <td>${registro.escu_nombre}</td>
-                                <td>${registro.care_nombre}</td>
-                                <td>${registro.pain_estudiantes}</td>
-                                <td>${registro.pain_docentes}</td>
-                                <td>${registro.pain_titulados}</td>
-                                <td>${registro.pain_funcionarios}</td>
-                                </tr>`
-                        $('#body-tabla-internos').append(fila)
-                        listarInterno()
-                    })
+                    const respuesta = JSON.parse(resConsultar);
+                    callback(null, respuesta.status);
+                },
+                error: function(error) {
+                    console.error('Error al actualizar los participantes internos.');
+                    callback(error, null);
                 }
+            });
+        }
 
 
-            })
+
+        window.mostrarModalEditar = function(resuCodigo, resuNombre, resuCuantificacionInicial) {
+            resuCodigoParaEditar = resuCodigo;
+            $('#resu_codigo').val(resuCodigo);
+            $('#resu_inic_codigo').val($('#iniciativa').val());
+            $('#resu_nombre').val(resuNombre);
+            $('#resu_cuantificacion_inicial').val(resuCuantificacionInicial);
+            $('#modalEditarResultado').modal('show');
         }
 
         function AgregarParticipantesExternos() {
@@ -1149,10 +1012,9 @@
         }
 
         function listarExterno() {
-
             $.ajax({
                 type: 'GET',
-                url: `${window.location.origin}/admin/crear/iniciativa/listar-externos`,
+                url: window.location.origin + '/' + @json($role)+'/crear/iniciativa/listar-externos',
                 data: {
                     _token: '{{ csrf_token() }}',
                     inic_codigo: $('#idIniciativa').text()
@@ -1163,6 +1025,8 @@
                     $('#body-tabla-externos').empty();
 
                     datosInternos = respuesta.resultado;
+
+                    console.log('externos');
                     datosInternos.forEach(registro => {
 
                         fila = `<tr>
@@ -1170,6 +1034,9 @@
                                 <td>${registro.soco_nombre_socio}</td>
                                 <td>${registro.inpr_total}</td>
                                 <td>
+                                    <a href="javascript:void(0)" class="btn btn-icon btn-warning"
+                                    onclick="editarSede(${registro.sugr_codigo}, ${registro.soco_codigo}, ${registro.inpr_total})" data-toggle="tooltip"
+                                    data-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
                                     <button type='button' onclick=eliminarExterno(${registro.inic_codigo},${registro.sugr_codigo},${registro.soco_codigo}) class= 'btn btn-icon btn-danger' ><i class="fas fa-trash"></i></button>
                                 </td>
                                 </tr>`
@@ -1177,6 +1044,25 @@
                     })
                 }
             })
+        }
+
+        function editarSede(sugr_codigo, soco_nombre_socio, sugr_nombre, inpr_total) {
+            // Llenar los campos del modal con los datos recibidos
+            $('#soco_nombre_socio').val(soco_nombre_socio);
+            $('#sugr_nombre').val(sugr_nombre);
+            $('#inpr_total').val(inpr_total);
+
+
+
+            $('#socio_inic_codigo').val($('#iniciativa').val());
+            $('#soco_codigo_antiguo').val(soco_nombre_socio);
+            // seleciconar en el select socioSeleccionado el valor del socio
+            $('#socioSeleccionado').val(soco_nombre_socio).trigger('change');
+
+            $('#personasBeneficiadas').val(sugr_nombre);
+
+            // Mostrar el modal
+            $('#modalEditarSede').modal('show');
         }
 
         function eliminarExterno(inic_codigo, sugr_codigo, soco_codigo) {
@@ -1199,49 +1085,309 @@
             })
         }
 
-        function listarInterno() {
-            console.log($('#idIniciativa').text())
+        //Función para asignarle el evento que actualizará la lista de participantes internos
+        function bindTblInterno() {
+            const tblInternos = document.querySelectorAll('input[name="tbl_internos"]');
 
-            $.ajax({
-                type: 'GET',
-                url: `${window.location.origin}/admin/crear/iniciativa/listar-internos`,
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    inic_codigo: $('#idIniciativa').text()
-                },
+            tblInternos.forEach((input) => {
+                input.addEventListener("blur", (event) => {
+                    const currentValue = event.target.value.trim();
+                    if (currentValue === "" || Number(currentValue) < 0) {
+                        event.target.value = 0;
+                    } 
 
-                success: function(resConsultar) {
-                    respuesta = JSON.parse(resConsultar);
-                    console.log(respuesta);
-                    $('#body-tabla-internos').empty();
+                    const fila = event.target.closest('tr');
 
-                    datosInternos = respuesta.resultado;
-                    datosInternos.forEach(registro => {
-                        if (registro.pain_docentes == null) {
-                            registro.pain_docentes = 0
+                    const painCodigo = fila.getAttribute('data-pain');
+                    const painEstudiantes = fila.querySelector('input[data-tipo="pain_estudiantes"]').value;
+                    const painDocentes = fila.querySelector('input[data-tipo="pain_docentes"]').value;
+                    const painFuncionarios = fila.querySelector('input[data-tipo="pain_funcionarios"]').value;
+                    const painTitulados = fila.querySelector('input[data-tipo="pain_titulados"]').value;
+                    const painGeneral = fila.querySelector('input[data-tipo="pain_general"]').value;
+
+                    // Construir el objeto de datos
+                    const data = {
+                        _token: '{{ csrf_token() }}',
+                        pain_codigo: painCodigo,
+                        pain_estudiantes: painEstudiantes,
+                        pain_docentes: painDocentes,
+                        pain_funcionarios: painFuncionarios,
+                        pain_titulados: painTitulados,
+                        pain_general: painGeneral
+                    };
+
+                    // Enviar los datos a la API
+                    modificar(data, function(error, status) {
+                        if (error) {
+                            console.error('Error al modificar los datos:', error);
+                            return;
                         }
 
-                        if (registro.pain_estudiantes == null) {
-                            registro.pain_estudiantes = 0
+                        if (status) {
+                            event.target.classList.add('border-success');
+
+                            // Añadir la clase para la animación de desvanecimiento del borde
+                            setTimeout(() => {
+                                event.target.classList.add('border-fade');
+                            }, 100);
+
+                            
+                            // Remover las clases después de la animación
+                            event.target.addEventListener('animationend', () => {
+                                event.target.classList.remove('border-success');
+                                event.target.classList.remove('border-fade');
+                            }, { once: true });
+
+                            // Mostrar el alert con jQuery
+                            $('#tblSaved').show().addClass('show');
+
+                            // Ocultar el alert automáticamente después de 5 segundos
+                            setTimeout(() => {
+                                $('#tblSaved').removeClass('show').fadeOut('slow');
+                            }, 1000);
+
+                            
                         }
-                        // if (registro.pain_total == null) {
-                        //     registro.pain_total = 0
-                        // }
-                        // <td>${registro.pain_total}</td>
-                        fila = `<tr>
-                                    <td>${registro.sede_nombre}</td>
-                                    <td>${registro.escu_nombre}</td>
-                                    <td>${registro.care_nombre}</td>
-                                    <td>${registro.pain_estudiantes}</td>
-                                    <td>${registro.pain_docentes}</td>
-                                    <td>${registro.pain_titulados}</td>
-                                    <td>${registro.pain_funcionarios}</td>
-                                </tr>`
-                        $('#body-tabla-internos').append(fila)
-                    })
-                }
-            })
+                    });
+                });
+            });
         }
+
+        function listarInterno() {
+    console.log($('#idIniciativa').text());
+
+    // Añadir placeholder antes de hacer la solicitud AJAX
+    $('#body-tabla-internos').html(`
+        <tr class="placeholder-glow">
+            <td><span class="placeholder col-6"></span></td>
+            <td><span class="placeholder col-8"></span></td>
+            <td><span class="placeholder col-10"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td hidden><span class="placeholder col-4"></span></td>
+        </tr>
+        <tr class="placeholder-glow">
+            <td><span class="placeholder col-6"></span></td>
+            <td><span class="placeholder col-8"></span></td>
+            <td><span class="placeholder col-10"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td><span class="placeholder col-4"></span></td>
+            <td hidden><span class="placeholder col-4"></span></td>
+        </tr>
+    `);
+
+    $.ajax({
+        type: 'GET',
+        url: `${window.location.origin}/admin/crear/iniciativa/listar-internos`,
+        data: {
+            _token: '{{ csrf_token() }}',
+            inic_codigo: $('#idIniciativa').text()
+        },
+
+        success: function(resConsultar) {
+            respuesta = JSON.parse(resConsultar);
+            console.log(respuesta);
+            $('#body-tabla-internos').empty(); // Limpiar el placeholder
+
+            datosInternos = respuesta.resultado;
+
+            datosInternos.forEach(registro => {
+                if (registro.pain_docentes == null) {
+                    registro.pain_docentes = 0
+                }
+
+                if (registro.pain_estudiantes == null) {
+                    registro.pain_estudiantes = 0
+                }
+                if (registro.pain_funcionarios == null) {
+                    registro.pain_funcionarios = 0
+                }
+
+                if (registro.pain_titulados == null) {
+                    registro.pain_titulados = 0
+                }
+
+                if (registro.pain_general == null) {
+                    registro.pain_general = 0
+                }
+
+                fila = `<tr data-pain="${registro.pain_codigo}">
+                            <td>${registro.sede_nombre}</td>
+                            <td>${registro.escu_nombre}</td>
+                            <td>${registro.care_nombre}</td>
+                            <td id="valueEstudiantes">
+                                <input type="number"
+                                       min="0" 
+                                       class="form-control" 
+                                       name="tbl_internos"
+                                       data-tipo="pain_estudiantes" 
+                                       value="${registro.pain_estudiantes}" />
+                            </td>
+                            <td id="valueDocentes">
+                                <input type="number"
+                                       min="0" 
+                                       class="form-control" 
+                                       name="tbl_internos"
+                                       data-tipo="pain_docentes"
+                                       value="${registro.pain_docentes}" />
+                            </td>
+                            <td id="valueFuncionarios">
+                                <input type="number"
+                                       min="0"
+                                       class="form-control" 
+                                       name="tbl_internos"
+                                       data-tipo="pain_funcionarios" 
+                                       value="${registro.pain_funcionarios}" />
+                            </td>
+
+                            <td id="valueTitulados">
+                                <input type="number"
+                                       min="0"
+                                       class="form-control" 
+                                       name="tbl_internos"
+                                       data-tipo="pain_titulados" 
+                                       value="${registro.pain_titulados}" />
+                            </td>
+
+                            <td id="valueGeneral" hidden>
+                                <input type="number"
+                                       min="0"
+                                       class="form-control" 
+                                       name="tbl_internos"
+                                       data-tipo="pain_general" 
+                                       value="${registro.pain_general}" />
+                            </td>
+                        </tr>`
+                $('#body-tabla-internos').append(fila);
+            });
+
+            bindTblInterno();
+
+            const painEstudiantes = document.getElementById('valueEstudiantes');
+            const painDocentes = document.getElementById('valueDocentes');
+            const painFuncionarios = document.getElementById('valueFuncionarios');
+            const painTitulados = document.getElementById('valueTitulados');
+            const painGeneral = document.getElementById('valueGeneral');
+
+            const tituloEstudiantes = document.getElementById('participantes_estudiante');
+            const tituloDocentes = document.getElementById('participantes_docente');
+            const tituloFuncionarios = document.getElementById('participantes_directivo');
+            const tituloTitulados = document.getElementById('participantes_titulado');
+            const tituloGeneral = document.getElementById('participantes_general');
+
+            if (respuesta.HayTodas) {
+                tituloEstudiantes.hidden = true;
+                painEstudiantes.hidden = true;
+                tituloDocentes.hidden = true;
+                painDocentes.hidden = true;
+                tituloFuncionarios.hidden = true;
+                painFuncionarios.hidden = true;
+                tituloTitulados.hidden = true;
+                painTitulados.hidden = true;
+                tituloGeneral.hidden = false;
+                painGeneral.hidden = false;
+            } else {
+                tituloEstudiantes.hidden = false;
+                painEstudiantes.hidden = false;
+                tituloDocentes.hidden = false;
+                painDocentes.hidden = false;
+                tituloFuncionarios.hidden = false;
+                painFuncionarios.hidden = false;
+                tituloTitulados.hidden = false;
+                painTitulados.hidden = false;
+                tituloGeneral.hidden = true;
+                painGeneral.hidden = true;
+            }
+        }
+    });
+}
+
     </script>
     <script src="{{ asset('/js/admin/iniciativas/INVI.js') }}"></script>
+
+
+<!-- Modal de Edición -->
+<div class="modal fade" id="modalEditarSede" tabindex="-1" role="dialog" aria-labelledby="modalEditarSedeLabel" aria-hidden="true" style="z-index: 1050 !important;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarSedeLabel">Editar Socio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route($role . '.socio.paso2.actualizar') }} " method="POST" id="formEditarSede" action="#">
+                     @method('PUT')
+                    @csrf
+                    <div class="form-group">
+                        <label>Nombre del socio</label>
+                        <input hidden type="text" id="soco_codigo_antiguo" name="soco_codigo_antiguo">
+                        <input hidden type="text" id="socio_inic_codigo" name="socio_inic_codigo">
+                        <select class="form-control select2" id="socioSeleccionado" name="socioSeleccionado"
+                        style="width: 100%">
+                            @forelse ($socios as $socio)
+                                <option value="{{ $socio->soco_codigo }}">{{ $socio->soco_nombre_socio }}
+                                </option>
+                            @empty
+                                <option value="-1">No existen registros</option>
+                            @endforelse
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Personas Beneficiadas</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-calculator"></i>
+                                </div>
+                            </div>
+                            <input type="number" class="form-control" id="personasBeneficiadas" 
+                                   name="personasBeneficiadas" autocomplete="off" min="0" oninput="this.value = Math.abs(this.value)">
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary waves-effect">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+       <!-- Modal de Edición -->
+<div class="modal fade" id="modalEditarResultado" tabindex="-1" role="dialog" aria-labelledby="modalEditarResultadoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarResultadoLabel">Editar Resultado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route($role . '.resultado.actualizar') }} " method="POST" id="formEditarResultado">
+                    @method('PUT')
+                    @csrf
+                    <input id="resu_codigo" hidden name="resu_codigo">
+                    <input id="resu_inic_codigo" hidden name="resu_inic_codigo">
+                    <div class="form-group">
+                        <label for="resu_nombre">Nombre del Resultado</label>
+                        <input type="text" class="form-control" id="resu_nombre" name="resu_nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="resu_cuantificacion_inicial">Cuantificación Inicial</label>
+                        <input type="number" class="form-control" id="resu_cuantificacion_inicial" 
+                               name="resu_cuantificacion_inicial"  min="0" oninput="this.value = Math.abs(this.value)">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="btnGuardarCambios">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

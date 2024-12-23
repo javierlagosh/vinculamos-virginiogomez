@@ -10,7 +10,7 @@ class Evaluacion extends Model
     use HasFactory;
 
     protected $table = 'evaluacion';
-
+    protected $primaryKey = 'inic_codigo';
     public $timestamps = false;
 
     protected $fillable = [

@@ -44,10 +44,10 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h4>Listado de Escuelas</h4>
+                            <h4>Listado de escuelas y unidades</h4>
                             <div class="card-header-action">
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#modalCrearEscuela"><i class="fas fa-plus"></i> Nueva Escuela</button>
+                                    data-target="#modalCrearEscuela"><i class="fas fa-plus"></i> Nueva Escuela/Unidad</button>
                             </div>
                         </div>
                         <div class="card-body">
@@ -79,7 +79,7 @@
                                                         data-placement="top" title="Editar"><i class="fas fa-edit"></i></a>
                                                     <a href="javascript:void(0)" class="btn btn-icon btn-danger"
                                                         onclick="eliminarEscu({{ $escu->escu_codigo }})"
-                                                        data-toggle="tooltip" data-placement="top" title="Eliminar escu"><i
+                                                        data-toggle="tooltip" data-placement="top" title="Eliminar"><i
                                                             class="fas fa-trash"></i></a>
                                                 </td>
                                             </tr>
@@ -100,7 +100,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="formModal">Nueva Escuela</h5>
+                    <h5 class="modal-title" id="formModal">Nueva Escuela/Unidad</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -109,7 +109,7 @@
                     <form action="{{ route('admin.crear.escuelas') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label>Nombre de la escuela</label>
+                            <label>Nombre de la Escuela/Unidad</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">
@@ -264,7 +264,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalEditarEscuela">Editar Escuela</h5>
+                        <h5 class="modal-title" id="modalEditarEscuela">Editar Escuela/Unidad</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -275,7 +275,7 @@
                             @csrf
 
                             <div class="form-group">
-                                <label>Nombre de la Escuela</label>
+                                <label>Nombre de la Escuela/Unidad</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
@@ -433,14 +433,14 @@
                     @method('DELETE')
                     @csrf
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalEliminar">Eliminar carrera</h5>
+                        <h5 class="modal-title" id="modalEliminar">Eliminar unidad</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body text-center">
                         <i class="fas fa-ban text-danger" style="font-size: 50px; color"></i>
-                        <h6 class="mt-2">La carrera dejará de existir dentro del sistema. <br> ¿Desea continuar de todos
+                        <h6 class="mt-2">La unidad dejará de existir dentro del sistema. <br> ¿Desea continuar de todos
                             modos?</h6>
                         <input type="hidden" id="escu_codigo" name="escu_codigo" value="">
                     </div>

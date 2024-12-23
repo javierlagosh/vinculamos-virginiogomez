@@ -4,7 +4,7 @@
     @endphp
 @elseif (Session::has('digitador'))
     @php
-        $role = 'digitador';
+        $role = 'admin';
     @endphp
 @elseif (Session::has('observador'))
     @php
@@ -19,6 +19,7 @@
 @extends('admin.panel')
 
 @section('contenido')
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <section class="section">
         <div class="section-body">
             <div class="row">
@@ -51,7 +52,7 @@
                                                 class="fas fa-file-signature"></i>Ingresar evaluación</a>
                                     </div>
                                 </div> --}}
-
+                                @if (!Session::has('observador'))
                                 <div class="dropdown d-inline">
                                     <button class="btn btn-info dropdown-toggle" id="dropdownMenuButton2"
                                         data-toggle="dropdown">Actividades</button>
@@ -60,6 +61,13 @@
                                             class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                             title="Editar actividad"><i class="fas fa-edit"></i> Editar
                                             actividad</a>
+
+                                            <a href="{{ route('admin.iniciativas.agendaods', $iniciativa->inic_codigo)}}"
+                                                class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
+                                                title="Contribución externa"><i class="fas fa-star-half"></i> Contribución externa</a>
+                                            <a href="{{ route('admin.iniciativas.pdf', $iniciativa->inic_codigo)}}"
+                                                class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
+                                                title="Generar pdf con ODS"><i class="fas fa-file-pdf"></i> Generar pdf con ODS</a>
                                             <a href="javascript:void(0)" class="dropdown-item has-icon"
                                             data-toggle="tooltip" data-placement="top" title="Calcular INVI"
                                             onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i
@@ -72,10 +80,11 @@
                                                     class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
                                                     title="Generar pdf con ODS "><i class="fas fa-file-pdf"></i> Generar pdf con ODS</a> --}}
 
-                                        
+                                                    @if (Session::has('admin'))
                                         <a href="javascript:void(0)" class="dropdown-item has-icon" data-toggle="tooltip"
                                             onclick="eliminarIniciativa({{ $iniciativa->inic_codigo }})"
-                                            data-placement="top" title="Eliminar iniciativa"><i class="fas fa-trash"></i> Eliminar</a>
+                                            data-placement="top" title="Eliminar actividad"><i class="fas fa-trash"></i> Eliminar actividad</a>
+                                            @endif
 
                                     </div>
                                 </div>
@@ -97,7 +106,7 @@
                                                     title="Ingresar resultado"><i class="fas fa-flag"></i> Ingresar resultado/s</a>
                                             <a href="{{ route('admin.evaluar.iniciativa', $iniciativa->inic_codigo) }}"
                                                 class="dropdown-item has-icon" data-toggle="tooltip"
-                                                data-placement="top" title="Evaluar iniciativa"><i
+                                                data-placement="top" title="Ingresar evaluación"><i
                                                     class="fas fa-file-signature"></i> Evaluar
                                                 iniciativa</a>
                                         
@@ -167,6 +176,7 @@
 
                                     </div>
                                 </div>
+                                @endif
 
                                 <a href="{{ route('admin.iniciativa.listar') }}"
                                     class="btn btn-primary mr-1 waves-effect icon-left" type="button">
@@ -200,11 +210,43 @@
 
                                             <tr>
                                                 <td>
+                                                    <strong>Fecha de planificación</strong>
+                                                </td>
+                                                <td>
+                                                    {{ $iniciativa->fecha_inicio }}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <strong>Fecha de ejecución</strong>
+                                                </td>
+                                                <td>
+                                                    {{ $iniciativa->fecha_ejecucion }}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <strong>Fecha de cierre</strong>
+                                                </td>
+                                                <td>
+                                                    {{ $iniciativa->fecha_cierre }}
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
                                                     <strong>Descripción</strong>
                                                 </td>
                                                 <td>
                                                     {{ $iniciativa->inic_descripcion }}
                                                 </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><strong>Objetivo</strong></td>
+                                                <td>{{ $iniciativa->inic_objetivo ?? "No se ha seleccionado un objetivo." }}</td>
                                             </tr>
 
                                             <tr>
@@ -235,131 +277,22 @@
                                                 <td><strong>Convenio</strong></td>
                                                 <td>{{ $iniciativa->conv_nombre }}</td>
                                             </tr>
-                                            {{-- <tr>
+                                            <tr>
 
                                                 {{-- {{json_encode($ods_array)}} --}}
-                                                {{-- @if (count($ods_array) > 0)
+                                                @if (count($ods_array) > 0)
                                                     <td><strong>ODS</strong></td>
                                                 @else
-                                                @endif --}}
+                                                @endif
                                                 <td>
-                                                {{-- @forelse ($ods_array as $ods)
+                                                @forelse ($ods_array as $ods)
                                                 <!-- Código para mostrar ODS -->
-                                                    <img src="https://cftpucv.vinculamosvm02.cl/vinculamos_v5_cftpucv/app/img/ods-{{$ods->id_ods}}.png" alt="Ods {{ $ods->id_ods }}" style="width: 100px; height: 100px;">
-
-                                                {{-- <div style="display: inline-block; margin: 0; padding: 0;"> --}}
-                                                {{-- <td>
-                                                        <img src="https://cftpucv.vinculamosvm02.cl/vinculamos_v5_cftpucv/app/img/ods-{{$ods->id_ods}}.png" alt="Ods {{ $ods->id_ods }}" style="width: 100px; height: 100px;">
+                                                    <img src="https://cftpucv.vinculamos.org/img/ods/{{ $ods->id_ods }}.png" alt="Ods {{ $ods->id_ods }}" style="width: 100px; height: 100px;">
+                                                @empty
+                                                    
+                                                @endforelse
                                                 </td>
-                                                </div> --}} 
-                                                {{-- @if($ods_array->isEmpty()) --}}
-                                                {{-- @empty --}}
-                                                    {{-- <!-- Agrega el campo oculto para almacenar la descripción de la iniciativa -->
-                                                    <input type="hidden" id="descripcion_iniciativa" value="{{ $iniciativa->inic_descripcion }}">
-
-                                                    <!-- Agrega el botón "Evaluar ODS" -->
-                                                    <button id="send-button" class="btn btn-primary mr-1 text-white mt-2">Asociar ODS</button>
-                                                    <div class="mt-3" id="fotosods"></div>
-                                                    {{-- <div type="hidden" id="ods-values"></div> --}}
-                                                    {{-- <form action="{{ route('admin.iniciativas.odsGuardar', ['inic_codigo' => $iniciativa->inic_codigo]) }}" method="POST">
-                                                        @csrf
-                                                        <button id="confirmar-ods-button" class="btn btn-success mt-2" style="display: none;">Confirmar ODS</button>
-                                                        <input type="hidden" name="ods_values[]" id="ods-hidden-field" value="">
-                                                    </form> --}}
-
-
-                                                    <!-- Agrega los elementos donde se mostrarán las imágenes y valores de ODS -->
-
-                                                    <!-- Script JavaScript -->
-                                                    {{-- <script defer>
-                                                    $(document).ready(function() {
-                                                        $('#send-button').click(function(e) {
-                                                            e.preventDefault(); // Previene el comportamiento predeterminado del formulario
-                                                            enviarMensaje();
-                                                        });
-
-                                                        $('#user-input').keydown(function(event) {
-                                                            if (event.keyCode === 13) {
-                                                                event.preventDefault();
-                                                                enviarMensaje();
-                                                            }
-                                                        });
-
-                                                        function enviarMensaje() {
-                                                            var userInput = $('#descripcion_iniciativa').val().toLowerCase();
-                                                            console.log(userInput);
-
-                                                            var inicCodigo = $('#confirmar-ods-button').data('inic-codigo');
-
-                                                            // Mostrar el mensaje del usuario en la derecha
-                                                            $('#chat-messages').append(`<div>${userInput}</div>`);
-
-                                                            // Enviar el mensaje al servidor
-                                                            $.ajax({
-                                                                url: '{{ route("admin.chat.sendMessage") }}',
-                                                                type: 'POST',
-                                                                data: {
-                                                                    '_token': '{{ csrf_token() }}',
-                                                                    'message': userInput
-                                                                },
-                                                                success: function(response) {
-                                                                    try {
-
-                                                                        var ods = response.ods;
-                                                                        // ods a array
-                                                                        var odsArray = ods.split(',');
-                                                                        // if(agregarOds){
-                                                                        //     odsArray.push('4')
-                                                                        // }
-                                                                        console.log(odsArray);
-
-                                                                        // Obtener el div donde se agregarán las fotos
-                                                                        var fotosDiv = document.getElementById("fotosods");
-
-                                                                        // Limpiar el contenido actual del div
-                                                                        fotosDiv.innerHTML = '';
-
-                                                                        // Iterar sobre el arreglo
-                                                                        odsArray.forEach(function(numero) {
-                                                                            // Crear un elemento de imagen
-                                                                            var img = document.createElement("img");
-
-                                                                            // Establecer el src con el número correspondiente
-                                                                            img.src = `https://cftpucv.vinculamosvm02.cl/vinculamos_v5_cftpucv/app/img/ods-${numero.toString().trim()}.png`;
-
-                                                                            // Establecer el ancho y alto de la imagen
-                                                                            img.width = 150;
-                                                                            img.height = 150;
-
-                                                                            // Establecer estilo para mostrar las imágenes en línea
-                                                                            img.style.display = "inline-block";
-                                                                            img.style.marginRight = "10px"; // Ajusta el margen entre las imágenes
-
-                                                                            // Agregar la imagen al div
-                                                                            fotosDiv.appendChild(img);
-
-                                                                            // Agregar el valor de la ODS al campo oculto
-                                                                            var odsHiddenInput = document.createElement("input");
-                                                                            odsHiddenInput.type = "hidden";
-                                                                            odsHiddenInput.name = "ods_values[]";
-                                                                            odsHiddenInput.value = numero.trim();
-                                                                            document.getElementById("ods-hidden-field").appendChild(odsHiddenInput);
-                                                                        });
-                                                                        $('#confirmar-ods-button').show();
-                                                                        $('#send-button').hide();
-
-                                                                        // $('#ods-input').value(odsArray.join(','))
-                                                                    } catch (error) {
-                                                                        console.error('Error al procesar la respuesta del servidor:', error);
-                                                                    }
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                    </script> --}}
-                                                {{-- @endforelse --}}
-                                                {{-- </td>
-                                            </tr> --}} 
+                                            </tr>
                                             <tr>
                                                 <td><strong>Ubicaciones</strong></td>
                                                 <td>
@@ -417,157 +350,63 @@
                                                     <div class="table-responsive">
                                                         <table class="table table-bordered table-sm">
                                                             <thead>
-                                                                <th>Sedes</th>
-                                                                <th>Carreras</th>
-                                                                <th>Docentes</th>
-                                                                <th>Docentes final</th>
-                                                                <th>Estudiantes</th>
-                                                                <th>Estudiantes final</th>
+                                                                <th>Sede</th>
+                                                                <th>Escuela/Unidad</th>
+                                                                <th>Carrera</th>
+                                                                <th class="tituloDocentesE">Docentes esperados</th>
+                                                                <th class="tituloDocentesR">Docentes reales</th>
+                                                                <th class="tituloEstudiantesE">Estudiantes esperados</th>
+                                                                <th class="tituloEstudiantesR">Estudiantes reales</th>
+                                                                <th class="tituloDirectivoE">Directivos/as esperados</th>
+                                                                <th class="tituloDirectivoR">Directivos/as reales</th>
+                                                                <th class="tituloTituladoE">Titulados/as esperados</th>
+                                                                <th class="tituloTituladoR">Titulados/as reales</th>
+                                                                <th class="tituloGeneralE">General esperados</th>
+                                                                <th class="tituloGeneralR">General reales</th>
                                                             </thead>
-
+                                                        
                                                             <tbody>
                                                                 @foreach ($internos as $interno)
                                                                     <tr>
                                                                         <td>{{ $interno->sede_nombre }}</td>
                                                                         <td>{{ $interno->escu_nombre }}</td>
-                                                                        <td>
-                                                                            @if ($interno->pain_docentes != null)
-                                                                                {{ $interno->pain_docentes }}
-                                                                            @else
-                                                                                @if ($interno->pain_docentes == 0)
-                                                                                0
-                                                                                @endif
-                                                                            @endif
-                                                                        </td>
-
-                                                                        <td>
-                                                                            @if ($interno->pain_docentes_final != null)
-                                                                                {{ $interno->pain_docentes_final }}
-                                                                            @else
-                                                                            @if ($interno->pain_docentes_final == 0)
-                                                                            0
-                                                                            @endif
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if ($interno->pain_estudiantes != null)
-                                                                                {{ $interno->pain_estudiantes }}
-                                                                            @else
-                                                                            @if ($interno->pain_estudiantes == 0)
-                                                                            0
-                                                                            @endif
-                                                                            @endif
-                                                                        </td>
-
-                                                                        <td>
-                                                                            @if ($interno->pain_estudiantes_final != null)
-                                                                                {{ $interno->pain_estudiantes_final }}
-                                                                            @else
-                                                                            @if ($interno->pain_estudiantes_final == 0)
-                                                                            0
-                                                                            @endif
-                                                                            @endif
-                                                                        </td>
+                                                                        <td>{{ $interno->care_nombre }}</td>
+                                                                        
+                                                                        <td class="valueDocentesE">{{ $interno->pain_docentes ?? ($interno->pain_docentes === 0 ? 0 : '') }}</td>
+                                                                        <td class="valueDocentesR">{{ $interno->pain_docentes_final ?? ($interno->pain_docentes_final === 0 ? 0 : '') }}</td>
+                                                                        <td class="valueEstudiantesE">{{ $interno->pain_estudiantes ?? ($interno->pain_estudiantes === 0 ? 0 : '') }}</td>
+                                                                        <td class="valueEstudiantesR">{{ $interno->pain_estudiantes_final ?? ($interno->pain_estudiantes_final === 0 ? 0 : '') }}</td>
+                                                                        <td class="valueFuncionariosE">{{ $interno->pain_funcionarios ?? 0 }}</td>
+                                                                        <td class="valueFuncionariosR">{{ $interno->pain_funcionarios_final ?? 0 }}</td>
+                                                                        <td class="valueTituladosE">{{ $interno->pain_titulados ?? 0 }}</td>
+                                                                        <td class="valueTituladosR">{{ $interno->pain_titulados_final ?? 0 }}</td>
+                                                                        <td class="valueGeneralE">{{ $interno->pain_general ?? 0 }}</td>
+                                                                        <td class="valueGeneralR">{{ $interno->pain_general_final ?? 0 }}</td>
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>
                                                         </table>
+                                                        
+                                                        <script>
+                                                            $(document).ready(function() {
+                                                                const hayTodas = @json($HayTodas);
+                                                                
+                                                                if (hayTodas) {
+                                                                    $(".tituloDocentesE, .tituloDocentesR, .tituloDirectivoE, .tituloDirectivoR, .tituloEstudiantesE, .tituloEstudiantesR, .tituloTituladoE, .tituloTituladoR").hide();
+                                                                    $(".valueDocentesE, .valueDocentesR, .valueFuncionariosE, .valueFuncionariosR, .valueEstudiantesE, .valueEstudiantesR, .valueTituladosE, .valueTituladosR").hide();
+                                                                    $(".tituloGeneralE, .tituloGeneralR").show();
+                                                                    $(".valueGeneralE, .valueGeneralR").show();
+                                                                } else {
+                                                                    $(".tituloDocentesE, .tituloDocentesR, .tituloDirectivoE, .tituloDirectivoR, .tituloEstudiantesE, .tituloEstudiantesR, .tituloTituladoE, .tituloTituladoR").show();
+                                                                    $(".valueDocentesE, .valueDocentesR, .valueFuncionariosE, .valueFuncionariosR, .valueEstudiantesE, .valueEstudiantesR, .valueTituladosE, .valueTituladosR").show();
+                                                                    $(".tituloGeneralE, .tituloGeneralR").hide();
+                                                                    $(".valueGeneralE, .valueGeneralR").hide();
+                                                                }
+                                                            });
+                                                        </script>
                                                     </div>
                                                 </td>
                                             </tr>
-
-                                            {{-- <tr>
-                                                <td><strong>Total de recursos invertidos</strong></td>
-                                                <td>
-                                                    <div class="table-responsive">
-                                                        <table class="table table-bordered table-sm">
-                                                            <thead>
-                                                                <th></th>
-                                                                <th>Dinero</th>
-                                                                <th>Infraestructura</th>
-                                                                <th>Recursos humanos</th>
-                                                            </thead>
-
-                                                            <tbody>
-                                                                @php
-                                                                    $totalDinero = 0;
-                                                                    $totalInfraestructura = 0;
-                                                                    $totalRrhh = 0;
-                                                                @endphp
-                                                                @foreach ($entidades as $entidad)
-                                                                    @php
-                                                                        $entidadDinero = 0;
-                                                                        $entidadInfraestructura = 0;
-                                                                        $entidadRrhh = 0;
-                                                                    @endphp
-
-                                                                    <tr>
-                                                                        <td>{{ $entidad->enti_nombre }}</td>
-                                                                        <td>
-                                                                            @if (sizeof($recursoDinero) == 0)
-                                                                                $0
-                                                                            @else
-                                                                                @foreach ($recursoDinero as $dinero)
-                                                                                    @if ($entidad->enti_codigo == $dinero->enti_codigo)
-                                                                                        @php
-                                                                                            $entidadDinero = $dinero->suma_dinero;
-                                                                                        @endphp
-                                                                                        ${{ number_format($dinero->suma_dinero, 0, ',', '.') }}
-                                                                                    @endif
-                                                                                @endforeach
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if (sizeof($recursoInfraestructura) == 0)
-                                                                                $0
-                                                                            @else
-                                                                                @foreach ($recursoInfraestructura as $infraestructura)
-                                                                                    @if ($entidad->enti_codigo == $infraestructura->enti_codigo)
-                                                                                        @php
-                                                                                            $entidadInfraestructura = $infraestructura->suma_infraestructura;
-                                                                                        @endphp
-                                                                                        ${{ number_format($infraestructura->suma_infraestructura, 0, ',', '.') }}
-                                                                                    @endif
-                                                                                @endforeach
-                                                                            @endif
-                                                                        </td>
-                                                                        <td>
-                                                                            @if (sizeof($recursoRrhh) == 0)
-                                                                                $0
-                                                                            @else
-                                                                                @foreach ($recursoRrhh as $rrhh)
-                                                                                    @if ($entidad->enti_codigo == $rrhh->enti_codigo)
-                                                                                        @php
-                                                                                            $entidadRrhh = $rrhh->suma_rrhh;
-                                                                                        @endphp
-                                                                                        ${{ number_format($rrhh->suma_rrhh, 0, ',', '.') }}
-                                                                                    @endif
-                                                                                @endforeach
-                                                                            @endif
-                                                                        </td>
-                                                                    </tr>
-                                                                    @php
-                                                                        $totalDinero += $entidadDinero;
-                                                                        $totalInfraestructura += $entidadInfraestructura;
-                                                                        $totalRrhh += $entidadRrhh;
-                                                                    @endphp
-                                                                @endforeach
-                                                                <tr>
-                                                                    <td>Total General</td>
-                                                                    <td>${{ number_format($totalDinero, 0, ',', '.') }}
-                                                                    </td>
-                                                                    <td>${{ number_format($totalInfraestructura, 0, ',', '.') }}
-                                                                    </td>
-                                                                    <td>${{ number_format($totalRrhh, 0, ',', '.') }}</td>
-                                                                </tr>
-
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                            </tr> --}}
-
-
 
                                         </tbody>
                                     </table>
@@ -663,6 +502,7 @@
             </div>
         </div>
     </div>
+
     <script src="{{ asset('/js/admin/iniciativas/INVI.js') }}"></script>
     <script>
         function eliminarIniciativa(inic_codigo) {
@@ -670,4 +510,5 @@
             $('#modalEliminaIniciativa').modal('show');
         }
     </script>
+
 @endsection

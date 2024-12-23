@@ -28,6 +28,9 @@ class Iniciativas extends Model
         'inic_actualizado',
         'inic_nickname_mod',
         'inic_rol_mod',
-        'inic_escuela_ejecutora'
+        'inic_escuela_ejecutora',
+        'fecha_inicio',
+        'fecha_ejecucion',
+        'fecha_cierre'
     ];
 }

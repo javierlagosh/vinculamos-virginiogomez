@@ -14,6 +14,7 @@ class MetasInic extends Model
     public $timestamps = false;
     protected $fillable = [
         'inic_codigo',
+        'ods_numero',
         'meta_ods',
         'desc_meta',
         'fundamento'

@@ -16,6 +16,7 @@ class CostosInfraestructura extends Model {
         'inic_codigo',
         'enti_codigo',
         'tinf_codigo',
+        'ceco_codigo',
         'coin_horas',
         'coin_cantidad',
         'coin_valorizacion',

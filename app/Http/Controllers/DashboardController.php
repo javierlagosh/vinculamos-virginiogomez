@@ -40,6 +40,10 @@ class DashboardController extends Controller
             )
         );
     }
+    public function descargaMasiva()
+    {
+        return view('admin.descarga-masiva');
+    }
 
     public function sedesDatos(Request $request)
     {

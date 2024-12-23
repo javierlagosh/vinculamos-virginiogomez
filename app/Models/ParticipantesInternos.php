@@ -26,5 +26,8 @@ class ParticipantesInternos extends Model
         'pain_funcionarios',
         'pain_funcionarios_final',
         'pain_total',
+        'pain_ejecutora',
+        'pain_general',
+        'pain_general_total'
     ];
 }

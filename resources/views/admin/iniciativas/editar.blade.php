@@ -270,7 +270,6 @@
                                     </thead>
                                     <tbody id="tabla-calidad-1">
                                         <tr>
-                                            <th>Con qué nota evalúa usted la calidad en la ejecución de la actividad, en las siguientes dimensiones:</th>
                                             <th>Cumplimiento</th>
                                         </tr>
                                         @for ($i = 1; $i <= 4; $i++)

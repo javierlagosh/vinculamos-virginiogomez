@@ -197,7 +197,7 @@ RECUERDA AGREGAR A PANEL CON SU RESPECTIVA RUTA (href) Y ARREGLAR EL CONTROLLER
                                         </div>
                                     </div>
                                     <input type="text" class="form-control" id="responsable" name="responsable"
-                                        value="{{ $registro->unid_responsable }}" autocomplete="off">
+                                        value="{{ $registro->suni_responsable }}" autocomplete="off">
                                 </div>
                             </div>
                             {{-- CAMPO TEMPLATE PARA COPIAR Y PEGAR (es en texto, asi que cambiar segun necesidad) --}}

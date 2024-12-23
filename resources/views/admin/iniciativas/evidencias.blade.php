@@ -4,7 +4,7 @@
     @endphp
 @elseif (Session::has('digitador'))
     @php
-        $role = 'digitador';
+        $role = 'admin';
     @endphp
 @elseif (Session::has('observador'))
     @php
@@ -44,51 +44,47 @@
                         <div class="card-header">
                             <h4>{{ $iniciativas->inic_nombre }} - Listado de evidencias</h4>
                             <div class="card-header-action">
-                                
-                                            <div class="dropdown d-inline">
-                                                <a href="javascript:void(0)" class="btn btn-primary" onclick="agregar()"><i
-                                                        class="fas fa-plus"></i> Nueva evidencia</a>
-            
-                                                <a href="{{ route('admin.iniciativas.detalles', $iniciativas->inic_codigo) }}"
-                                                    class="btn btn-icon btn-warning icon-left" data-toggle="tooltip"
-                                                    data-placement="top" title="Ver detalles de la iniciativa"><i
-                                                        class="fas fa-eye"></i>Ver detalle</a>
-            
-                                                <a href="{{ route('admin.editar.paso1', $iniciativas->inic_codigo) }}"
-                                                    class="btn btn-icon btn-primary icon-left" data-toggle="tooltip"
-                                                    data-placement="top" title="Editar iniciativa"><i class="fas fa-edit"></i>Editar
-                                                    Iniciativa</a>
-            
-                                                {{-- <a href="javascript:void(0)" class="btn btn-icon btn-info icon-left"
-                                                                data-toggle="tooltip" data-placement="top" title="Calcular INVI"
-                                                                onclick="calcularIndice({{ $iniciativas->inic_codigo }})"><i
-                                                                    class="fas fa-tachometer-alt"></i>INVI</a> --}}
-            
-                                                {{-- <a href="{{ route('admin.evidencias.listar', $iniciativas->inic_codigo) }}"
-                                                    class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                                    data-placement="top" title="Adjuntar evidencia"><i
-                                                        class="fas fa-paperclip"></i>Evidencias</a> --}}
-            
-                                                <a href="{{ route('admin.cobertura.index', $iniciativas->inic_codigo) }}"
-                                                                class="btn btn-icon btn-success icon-left" data-toggle="tooltip" data-placement="top"
-                                                                title="Ingresar cobertura"><i class="fas fa-users"></i>Cobertura</a>
-            
-                                                <a href="{{ route($role . '.ver.lista.de.resultados', $iniciativas->inic_codigo) }}"
-                                                    class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                                    data-placement="top" title="Ingresar resultado"><i
-                                                        class="fas fa-flag"></i>Resultado/s</a>
-            
-                                                {{-- <a href="{{ route($role . '.evaluar.iniciativa', $iniciativas->inic_codigo) }}"
-                                                                class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                                                data-placement="top" title="Evaluar iniciativa"><i
-                                                                    class="fas fa-file-signature"></i>Evaluar</a> --}}
-            
-                                                <a href="{{ route('admin.iniciativa.listar') }}"
-                                                    class="btn btn-primary mr-1 waves-effect icon-left" type="button">
-                                                    <i class="fas fa-angle-left"></i> Volver a listado
-                                                </a>
-                                            </div>
-            
+                                <div class="dropdown d-inline">
+                                    <a href="javascript:void(0)" class="btn btn-primary" onclick="agregar()"><i
+                                        class="fas fa-plus"></i> Nueva evidencia</a>
+                                    <button class="btn btn-info dropdown-toggle" id="dropdownMenuButton2"
+                                        data-toggle="dropdown">Actividades</button>
+                                    <div class="dropdown-menu dropright">
+                                        <a href="{{ route('admin.iniciativas.detalles', $iniciativas->inic_codigo) }}"
+                                            class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
+                                            title="Editar actividad"><i class="fas fa-eye"></i> Mostrar
+                                            actividad</a>
+
+                                    </div>
+                                </div>
+
+                                <div class="dropdown d-inline">
+                                    <button class="btn btn-success dropdown-toggle" id="dropdownMenuButton2"
+                                        data-toggle="dropdown" title="ingresar"><i class="fas fa-plus-circle"></i>
+                                        Ingresar</button>
+                                    <div class="dropdown-menu dropright">
+                                        <a href="{{ route('admin.cobertura.index', $iniciativas->inic_codigo) }}"
+                                            class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                            title="Ingresar cobertura"><i class="fas fa-users"></i> Ingresar cobertura</a>
+                                            <a href="{{ route('admin.ver.lista.de.resultados', $iniciativas->inic_codigo) }}"
+                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                                title="Ingresar resultado"><i class="fas fa-flag"></i>Ingresar resultado/s</a>
+                                            <a href="{{ route('admin.evidencias.listar', $iniciativas->inic_codigo) }}"
+                                                class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
+                                                title="Adjuntar evidencia"><i class="fas fa-paperclip"></i> Ingresar
+                                                evidencias</a>
+                                                <a href="{{ route('admin.evaluar.iniciativa', $iniciativas->inic_codigo) }}"
+                                                    class="dropdown-item has-icon" data-toggle="tooltip"
+                                                    data-placement="top" title="Ingresar evaluación"><i
+                                                        class="fas fa-file-signature"></i> Ingresar evaluación</a>
+                                    </div>
+                                </div>
+
+
+                                <a href="{{ route('admin.iniciativa.listar') }}"
+                                    class="btn btn-primary mr-1 waves-effect icon-left" type="button">
+                                    <i class="fas fa-angle-left"></i> Volver a listado
+                                </a>
                             </div>
                         </div>
                         <div class="card-body">
@@ -99,6 +95,7 @@
                                             <th>Nombre</th>
                                             {{-- <th>Tipo</th> --}}
                                             <th>Archivo original</th>
+                                            <th>Creado por</th>
                                             <th>Modificado por</th>
                                             <th>Acción</th>
                                         </tr>
@@ -110,6 +107,7 @@
                                                 <td>{{ $evidencia->inev_nombre }}</td>
                                                 {{-- <td>{{ $evidencia->inev_tipo }}</td> --}}
                                                 <td>{{ $evidencia->inev_nombre_origen }}</td>
+                                                <td>{{ $evidencia->inev_nickname_creado }}</td>
                                                 <td>{{ $evidencia->inev_nickname_mod }}</td>
                                                 <td>
                                                     <form
@@ -166,7 +164,7 @@
                             <label>Nombre</label>
                             <div class="input-group">
                                 <input type="text" class="form-control" id="inev_nombre" name="inev_nombre"
-                                    placeholder="" autocomplete="off">
+                                    placeholder="" autocomplete="off" required>
                             </div>
                         </div>
                         {{-- <div class="form-group">

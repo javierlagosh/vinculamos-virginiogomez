@@ -4,7 +4,7 @@
     @endphp
 @elseif (Session::has('digitador'))
     @php
-        $role = 'digitador';
+        $role = 'admin';
     @endphp
 @elseif (Session::has('observador'))
     @php
@@ -45,45 +45,44 @@
                             <h4>{{ $iniciativa->inic_nombre }} - Registro participantes internos</h4>
                             <div class="card-header-action">
                                 <div class="dropdown d-inline">
-                                    <a href="{{ route('admin.iniciativas.detalles', $iniciativa->inic_codigo) }}"
-                                        class="btn btn-icon btn-warning icon-left" data-toggle="tooltip"
-                                        data-placement="top" title="Ver detalles de la iniciativa"><i
-                                            class="fas fa-eye"></i>Ver detalle</a>
+                                    <button class="btn btn-info dropdown-toggle" id="dropdownMenuButton2"
+                                        data-toggle="dropdown">Actividades</button>
+                                    <div class="dropdown-menu dropright">
+                                        <a href="{{ route('admin.iniciativas.detalles', $iniciativa->inic_codigo) }}"
+                                            class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
+                                            title="Editar actividad"><i class="fas fa-eye"></i> Mostrar
+                                            actividad</a>
 
-                                    <a href="{{ route('admin.editar.paso1', $iniciativa->inic_codigo) }}"
-                                        class="btn btn-icon btn-primary icon-left" data-toggle="tooltip"
-                                        data-placement="top" title="Editar iniciativa"><i
-                                            class="fas fa-edit"></i>Editar Iniciativa</a>
-
-                                    {{-- <a href="javascript:void(0)" class="btn btn-icon btn-info icon-left"
-                                        data-toggle="tooltip" data-placement="top" title="Calcular INVI"
-                                        onclick="calcularIndice({{ $iniciativa->inic_codigo }})"><i
-                                            class="fas fa-tachometer-alt"></i>INVI</a> --}}
-
-                                    <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
-                                        class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                        data-placement="top" title="Adjuntar evidencia"><i
-                                            class="fas fa-paperclip"></i>Evidencias</a>
-
-                                    {{-- <a href="{{ route('admin.cobertura.index', $iniciativa->inic_codigo) }}"
-                                        class="btn btn-icon btn-success icon-left" data-toggle="tooltip" data-placement="top"
-                                        title="Ingresar cobertura"><i class="fas fa-users"></i>Cobertura</a> --}}
-
-                                    <a href="{{ route($role . '.ver.lista.de.resultados', $iniciativa->inic_codigo) }}"
-                                        class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                        data-placement="top" title="Ingresar resultado"><i
-                                            class="fas fa-flag"></i>Resultado/s</a>
-
-                                    {{-- <a href="{{ route($role . '.evaluar.iniciativa', $iniciativa->inic_codigo) }}"
-                                        class="btn btn-icon btn-success icon-left" data-toggle="tooltip"
-                                        data-placement="top" title="Evaluar iniciativa"><i
-                                            class="fas fa-file-signature"></i>Evaluar</a> --}}
-
-                                    <a href="{{ route('admin.iniciativa.listar') }}"
-                                        class="btn btn-primary mr-1 waves-effect icon-left" type="button">
-                                        <i class="fas fa-angle-left"></i> Volver a listado
-                                    </a>
+                                    </div>
                                 </div>
+
+                                <div class="dropdown d-inline">
+                                    <button class="btn btn-success dropdown-toggle" id="dropdownMenuButton2"
+                                        data-toggle="dropdown" title="ingresar"><i class="fas fa-plus-circle"></i>
+                                        Ingresar</button>
+                                    <div class="dropdown-menu dropright">
+                                        <a href="{{ route('admin.cobertura.index', $iniciativa->inic_codigo) }}"
+                                            class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                            title="Ingresar cobertura"><i class="fas fa-users"></i> Ingresar cobertura</a>
+                                            <a href="{{ route('admin.ver.lista.de.resultados', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-icon" data-toggle="tooltip" data-placement="top"
+                                                title="Ingresar resultado"><i class="fas fa-flag"></i>Ingresar resultado/s</a>
+                                            <a href="{{ route('admin.evidencias.listar', $iniciativa->inic_codigo) }}"
+                                                class="dropdown-item has-item" data-toggle="tooltip" data-placement="top"
+                                                title="Adjuntar evidencia"><i class="fas fa-paperclip"></i> Ingresar
+                                                evidencias</a>
+                                                <a href="{{ route('admin.evaluar.iniciativa', $iniciativa->inic_codigo) }}"
+                                                    class="dropdown-item has-icon" data-toggle="tooltip"
+                                                    data-placement="top" title="Ingresar evaluación"><i
+                                                        class="fas fa-file-signature"></i> Ingresar evaluación</a>
+                                    </div>
+                                </div>
+
+
+                                <a href="{{ route('admin.iniciativa.listar') }}"
+                                    class="btn btn-primary mr-1 waves-effect icon-left" type="button">
+                                    <i class="fas fa-angle-left"></i> Volver a listado
+                                </a>
                             </div>
                         </div>
                         <div class="card-body">
@@ -99,57 +98,84 @@
                                                     <table class="table table-bordered table-md">
                                                         <thead>
                                                             <tr>
-                                                                <th scope="col">Sede</th>
-                                                                <th scope="col">Escuela</th>
-                                                                <th scope="col">Docentes inicial</th>
-                                                                <th scope="col">Docentes final</th>
-                                                                <th scope="col">Estudiantes inicial</th>
-                                                                <th scope="col">Estudiantes final</th>
-                                                                <th scope="col">Directivos/as inicial</th>
-                                                                <th scope="col">Directivos/as final</th>
-                                                                <th scope="col">Titulados inicial</th>
-                                                                <th scope="col">Titulados final</th>
+                                                                {{-- <th>Tipo</th> --}}
+                                                                <th>Sede</th>
+                                                                <th>Escuela/Unidad</th>
+                                                                <th>Carrera</th>
+                                                                <th id="tituloDocenteE">Docentes esperados</th>
+                                                                <th id="tituloDocenteR">Docentes reales</th>
+                                                                <th id="tituloEstudianteE">Estudiantes esperados</th>
+                                                                <th id="tituloEstudianteR">Estudiantes reales</th>
+                                                                <th id="tituloDirectivoE">Directivos/as esperados</th>
+                                                                <th id="tituloDirectivoR">Directivos/as reales</th>
+                                                                <th id="tituloTituladoE">Titulados/as esperados</th>
+                                                                <th id="tituloTituladoR">Titulados/as reales</th>
+                                                                <th id="tituloGeneralE">General esperado</th>
+                                                                <th id="tituloGeneralR">General real</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="body-tabla-participantes">
                                                             {{-- {{$resultados}} --}}
                                                             @foreach ($resultados as $resultado)
-                                                                <tr>
-                                                                    <td>{{ $resultado->sede_nombre }}</td>
-                                                                    <td>{{ $resultado->escu_nombre }}</td>
-                                                                    <td>{{ $resultado->pain_docentes }}</td>
-                                                                    <td>
-                                                                        <input type="number" class="form-control"
-                                                                            id="cantidad-docentes-final-{{ $resultado->pain_codigo }}"
-                                                                            name="docentes_final[{{ $resultado->pain_codigo }}]"
-                                                                            value="{{ $resultado->pain_docentes_final }}"
-                                                                            min="0">
-                                                                    </td>
-                                                                    <td>{{ $resultado->pain_estudiantes }}</td>
-                                                                    <td>
-                                                                        <input type="number" class="form-control"
-                                                                            id="cantidad-estudiantes-final-{{ $resultado->pain_codigo }}"
-                                                                            name="estudiantes_final[{{ $resultado->pain_codigo }}]"
-                                                                            value="{{ $resultado->pain_estudiantes_final }}"
-                                                                            min="0">
-                                                                    </td>
-                                                                    <td>{{ $resultado->pain_funcionarios }}</td>
-                                                                    <td>
-                                                                        <input type="number" class="form-control"
-                                                                            id="cantidad-funcionarios-final-{{ $resultado->pain_codigo }}"
-                                                                            name="funcionarios_final[{{ $resultado->pain_codigo }}]"
-                                                                            value="{{ $resultado->pain_funcionarios_final }}"
-                                                                            min="0">
-                                                                    </td>
-                                                                    <td>{{ $resultado->pain_titulados }}</td>
-                                                                    <td>
-                                                                        <input type="number" class="form-control"
-                                                                            id="cantidad-titulados-final-{{ $resultado->pain_codigo }}"
-                                                                            name="titulados_final[{{ $resultado->pain_codigo }}]"
-                                                                            value="{{ $resultado->pain_titulados_final }}"
-                                                                            min="0">
-                                                                    </td>
-                                                                </tr>
+                                                            @if ($HayTodas)
+                                                            <tr>
+                                                                <td>{{ $resultado->sede_nombre }}</td>
+                                                                <td>{{ $resultado->escu_nombre }}</td>
+                                                                <td>{{ $resultado->care_nombre }}</td>
+                                                                <td>{{ $resultado->pain_general }}</td>
+                                                                <td>
+                                                                    <input type="number" class="form-control"
+                                                                        id="cantidad-general-total-{{ $resultado->pain_codigo }}"
+                                                                        name="general_total[{{ $resultado->pain_codigo }}]"
+                                                                        value="{{ $resultado->pain_general_total }}"
+                                                                        min="0">
+                                                                </td>
+                                                            </tr>
+                                                            @else
+                                                            <tr>
+                                                                <td>{{ $resultado->sede_nombre }}</td>
+                                                                <td>{{ $resultado->escu_nombre }}</td>
+                                                                <td>{{ $resultado->care_nombre }}</td>
+                                                                <td>{{ $resultado->pain_docentes }}</td>
+                                                                <td>
+                                                                    <input type="number" class="form-control"
+                                                                        id="cantidad-docentes-final-{{ $resultado->pain_codigo }}"
+                                                                        name="docentes_final[{{ $resultado->pain_codigo }}]"
+                                                                        value="{{ $resultado->pain_docentes_final }}"
+                                                                        min="0">
+                                                                </td>
+                                                                <td>{{ $resultado->pain_estudiantes }}</td>
+                                                                <td>
+                                                                    <input type="number" class="form-control"
+                                                                        id="cantidad-estudiantes-final-{{ $resultado->pain_codigo }}"
+                                                                        name="estudiantes_final[{{ $resultado->pain_codigo }}]"
+                                                                        value="{{ $resultado->pain_estudiantes_final }}"
+                                                                        min="0">
+                                                                </td>
+                                                                <td>{{ $resultado->pain_funcionarios }}</td>
+                                                                <td>
+                                                                    <input type="number" class="form-control"
+                                                                        id="cantidad-funcionarios-final-{{ $resultado->pain_codigo }}"
+                                                                        name="funcionarios_final[{{ $resultado->pain_codigo }}]"
+                                                                        value="{{ $resultado->pain_funcionarios_final }}"
+                                                                        min="0">
+                                                                </td>
+                                                                <td>{{ $resultado->pain_titulados }}</td>
+                                                                <td>
+                                                                    <input type="number" class="form-control"
+                                                                        id="cantidad-titulados-final-{{ $resultado->pain_codigo }}"
+                                                                        name="titulados_final[{{ $resultado->pain_codigo }}]"
+                                                                        value="{{ $resultado->pain_titulados_final }}"
+                                                                        min="0">
+                                                                </td>
+                                                                
+                                                            </tr>
+
+                                                                
+
+                                                                
+                                                            @endif
+                                                                
                                                             @endforeach
                                                         </tbody>
                                                     </table>
@@ -213,7 +239,8 @@
                                                                             <input type="number"
                                                                                 name="participantes[{{ $participante->inpr_codigo }}]"
                                                                                 class="form-control"
-                                                                                value="{{ $participante->inpr_total_final }}">
+                                                                                value="{{ $participante->inpr_total_final }}"
+                                                                                min="0" oninput="this.value = Math.abs(this.value)">
                                                                         </td>
                                                                     </tr>
                                                                 @endforeach
@@ -256,4 +283,51 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="{{ asset('/js/admin/iniciativas/listar.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            const tituloEstudiantesE = document.getElementById('tituloEstudianteE');
+            const tituloEstudiantesR = document.getElementById('tituloEstudianteR');
+            const tituloDocentesE = document.getElementById('tituloDocenteE');
+            const tituloDocentesR = document.getElementById('tituloDocenteR');
+            const tituloDirectivoE = document.getElementById('tituloDirectivoE');
+            const tituloDirectivoR = document.getElementById('tituloDirectivoR');
+            const tituloTituladoE = document.getElementById('tituloTituladoE');
+            const tituloTituladoR = document.getElementById('tituloTituladoR');
+            const tituloGeneralE = document.getElementById('tituloGeneralE');
+            const tituloGeneralR = document.getElementById('tituloGeneralR');
+
+            const hayTodas = @json($HayTodas);
+
+            // Usar la variable en una condición
+            if (hayTodas) {
+                console.log("Hay una escuela y carrera con el nombre 'Todas'.");
+                // poner todas en hidden excepto generalE y generalR
+                tituloEstudiantesE.hidden = true;
+                tituloEstudiantesR.hidden = true;
+                tituloDocentesE.hidden = true;
+                tituloDocentesR.hidden = true;
+                tituloDirectivoE.hidden = true;
+                tituloDirectivoR.hidden = true;
+                tituloTituladoE.hidden = true;
+                tituloTituladoR.hidden = true;
+                tituloGeneralE.hidden = false;
+                tituloGeneralR.hidden = false;
+            } else {
+                console.log("No hay escuela y carrera con el nombre 'Todas'.");
+                // poner todas en visible
+                tituloEstudiantesE.hidden = false;
+                tituloEstudiantesR.hidden = false;
+                tituloDocentesE.hidden = false;
+                tituloDocentesR.hidden = false;
+                tituloDirectivoE.hidden = false;
+                tituloDirectivoR.hidden = false;
+                tituloTituladoE.hidden = false;
+                tituloTituladoR.hidden = false;
+                tituloGeneralE.hidden = true;
+                tituloGeneralR.hidden = true;
+
+            }
+
+        });
+    </script>
 @endsection
