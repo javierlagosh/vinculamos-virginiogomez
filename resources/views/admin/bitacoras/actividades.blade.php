@@ -65,6 +65,19 @@
                         }
                     </style>
                     <div class="card-body">
+                        <form method="GET" action="{{ route('admin.listar.actividades') }}" class="mb-3">
+                            <div class="form-group">
+                                <label for="sedeFiltro">Filtrar por Sede:</label>
+                                <select name="sede" id="sedeFiltro" class="form-control" onchange="this.form.submit()">
+                                    <option value="">Sin filtro</option>
+                                    @foreach ($sedesT as $sede)
+                                        <option value="{{ $sede->sede_codigo }}" {{ isset($sedeFiltro) && $sedeFiltro == $sede->sede_codigo ? 'selected' : '' }}>
+                                            {{ $sede->sede_nombre }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </form>
                         <div class="table-responsive">
                             <table class="table table-striped" id="table-1" style="font-size: 110%;">
                                 <thead>
@@ -73,6 +86,7 @@
                                         <th>Nombre</th>
                                         <th>Acuerdos</th>
                                         <th>Fecha cumplimiento</th>
+                                        <th>Sedes</th>
                                         {{-- <th> idcampo1  </th> --}}
                                         <th>Acciones</th>
                                     </tr>
@@ -86,7 +100,7 @@
                                             <td style="width: 20%;">{{ $actividad->acti_nombre }}</td>
                                             <td class="wrap-text">{{ $actividad->acti_acuerdos }}</td>
                                             <td>{{ $actividad->acti_fecha_cumplimiento }}</td>
-                                            {{-- <td> {{ $actividad->acti_idcampo1 }} </td> --}}
+                                            <td> {{ $actividad->sedes ?? "No se ha proporcionado sede asociada." }} </td>
                                             <td style="width: 15%;">
                                                 <a href="javascript:void(0)" class="btn btn-icon btn-warning"
                                                     onclick="editaractividad({{ $actividad->acti_codigo }})" data-toggle="tooltip"
@@ -144,6 +158,39 @@
                                 {{ $message }}
                             </div>
                         @enderror
+                        <div class="form-group" style="align-items: center;" id="sedesAsociadasContainer">
+                            <label>Sedes Asociadas</label>
+                            <div class="input-group">
+                                <select class="form-control select2" style="width: 100%" id="sedesT"
+                                    name="sedesT[]" multiple>
+                                    <option value="" disabled>Seleccione...</option>
+                                    @foreach ($sedesT as $sede)
+                                        @php
+                                            $selected = false;
+                                        @endphp
+                                        @foreach ($SedesActividades as $sedees)
+                                            @if ($sedees->sede_codigo === $sede->sede_codigo && $sedees->acti_codigo === $actividad->acti_codigo)
+                                                @php
+                                                    $selected = true;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+
+                                        <option value="{{ $sede->sede_codigo }}" {{ $selected ? 'selected' : '' }}>
+                                            {{ $sede->sede_nombre }}</option>
+                                    @endforeach
+                                </select>
+                                @if ($errors->has('sedesT'))
+                                    <div class="alert alert-warning alert-dismissible show fade mt-2 text-center"
+                                        style="width:100%">
+                                        <div class="alert-body">
+                                            <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                                            <strong>{{ $errors->first('sedesT') }}</strong>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label>Acuerdos</label>
                             <div class="input-group">
@@ -193,6 +240,7 @@
                             </div>
                         @enderror
 
+                        
                         <div class="form-group">
                             <label>Avance</label> <label for="" style="color: red;">*</label>
                             @if (isset($actividad))
@@ -272,6 +320,28 @@
                             {{ $message }}
                         </div>
                     @enderror
+
+                    <div class="form-group">
+                        <label>Sedes Asociadas</label>
+                        <div class="input-group">
+                            <select class="form-control select2" style="width: 100%" id="sedesT" name="sedesT[]"
+                                multiple>
+                                <option value="" disabled>Seleccione...</option>
+                                @foreach ($sedesT as $sede)
+                                    <option value="{{ $sede->sede_codigo }}">{{ $sede->sede_nombre }}</option>
+                                @endforeach
+                            </select>
+                            @if ($errors->has('sedesT'))
+                                <div class="alert alert-warning alert-dismissible show fade mt-2 text-center"
+                                    style="width:100%">
+                                    <div class="alert-body">
+                                        <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                                        <strong>{{ $errors->first('sedesT') }}</strong>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label>Acuerdos</label>

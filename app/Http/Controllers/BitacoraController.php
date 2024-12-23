@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Actividades;
 use App\Models\ActividadesEvidencias;
+use App\Models\Sedes;
+use App\Models\SedesActividades;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+
 
 class BitacoraController extends Controller
 {
@@ -32,11 +35,51 @@ class BitacoraController extends Controller
     }
     
     //TODO: funciones de actividades
-    public function listarActividad()
+    public function listarActividad(Request $request)
     {
-        $ACTIVIDADES = Actividades::all();
-        return view('admin.bitacoras.actividades', compact('ACTIVIDADES'));
+        $sedeFiltro = $request->input('sede');
+    
+        $ACTIVIDADES = Actividades::leftJoin('sedes_actividades', 'actividades.acti_codigo', '=', 'sedes_actividades.acti_codigo')
+            ->leftJoin('sedes', 'sedes_actividades.sede_codigo', '=', 'sedes.sede_codigo')
+            ->select(
+                'actividades.acti_codigo',
+                'actividades.acti_nombre',
+                'actividades.acti_acuerdos',
+                'actividades.acti_fecha',
+                'actividades.acti_avance',
+                'actividades.acti_fecha_cumplimiento',
+                \DB::raw('GROUP_CONCAT(sedes.sede_nombre SEPARATOR ", ") as sedes')
+            )
+            ->when($sedeFiltro, function ($query, $sedeFiltro) {
+                $query->whereIn('actividades.acti_codigo', function ($subquery) use ($sedeFiltro) {
+                    $subquery->select('acti_codigo')
+                        ->from('sedes_actividades')
+                        ->where('sede_codigo', $sedeFiltro);
+                });
+            })
+            ->orderBy('actividades.acti_fecha', 'desc')
+            ->groupBy(
+                'actividades.acti_codigo',
+                'actividades.acti_nombre',
+                'actividades.acti_acuerdos',
+                'actividades.acti_fecha_cumplimiento',
+                'actividades.acti_fecha',
+                'actividades.acti_avance'
+                
+            )
+            ->get();
+    
+        // Obtener todas las relaciones de actividades con sedes
+        $SedesActividades = SedesActividades::all();
+    
+        $sedesT = Sedes::orderBy('sede_codigo', 'asc')->get();
+    
+        return view('admin.bitacoras.actividades', compact('ACTIVIDADES', 'sedesT', 'SedesActividades', 'sedeFiltro'));
     }
+    
+    
+    
+
 
     public function crearActividad(Request $request)
     {
@@ -71,6 +114,26 @@ class BitacoraController extends Controller
         $nuevaActividad->acti_nickname_mod = Session::get('admin')->usua_nickname ?? Session::get('digitador')->rous_codigo;
         $nuevaActividad->acti_rol_mod = Session::get('admin')->rous_codigo ?? Session::get('digitador')->rous_codigo;
         $nuevaActividad->save();
+
+        $seac = [];
+        $sedes = $request->input('sedesT', []);
+
+        foreach ($sedes as $sede) {
+            array_push($seac, [
+                'sede_codigo' => $sede,
+                'acti_codigo' => $nuevaActividad->acti_codigo,
+                'seac_creado' => Carbon::now()->format('Y-m-d H:i:s'),
+                'seac_actualizado' => Carbon::now()->format('Y-m-d H:i:s'),
+                'seac_nickname_mod' => Session::get('admin')->usua_nickname,
+                'seac_rol_mod' => Session::get('admin')->rous_codigo,
+            ]);
+        }
+
+        $seacCrear = SedesActividades::insert($seac);
+        if (!$seacCrear) {
+            SedesActividades::where('escu_codigo', $escuCrear)->delete();
+            return redirect()->back()->with('error', 'Ocurrió un error durante el registro de las sedes, intente más tarde.')->withInput();
+        }
 
         return redirect()->back()->with('exitoActividades', 'Actividad creada exitosamente');
     }
@@ -111,6 +174,29 @@ class BitacoraController extends Controller
         $actividad->acti_nickname_mod = Session::get('admin')->usua_nickname ?? Session::get('digitador')->usua_nickname;
         $actividad->acti_rol_mod = Session::get('admin')->rous_codigo ?? Session::get('digitador')->rous_codigo;
         $actividad->save();
+
+        $Drop = SedesActividades::where('acti_codigo', $acti_codigo)->delete();
+
+        $seac = [];
+        $sedes = $request->input('sedesT', []);
+
+        foreach ($sedes as $sede) {
+            array_push($seac, [
+                'sede_codigo' => $sede,
+                'acti_codigo' => $acti_codigo,
+                'seac_creado' => Carbon::now()->format('Y-m-d H:i:s'),
+                'seac_actualizado' => Carbon::now()->format('Y-m-d H:i:s'),
+                'seac_nickname_mod' => Session::get('admin')->usua_nickname,
+                'seac_rol_mod' => Session::get('admin')->rous_codigo,
+            ]);
+        }
+
+        $seacCrear = SedesActividades::insert($seac);
+        if (!$seacCrear) {
+            SedesActividades::where('escu_codigo', $escuCrear)->delete();
+            return redirect()->back()->with('error', 'Ocurrió un error durante el registro de las sedes, intente más tarde.')->withInput();
+        }
+
 
         return redirect()->back()->with('exitoActividades', 'Actividad actualizada exitosamente');
     }
@@ -250,25 +336,44 @@ class BitacoraController extends Controller
     }
 
     public function descargarEvidencia($actevi_codigo)
-    {
-        try {
-            $evidencia = ActividadesEvidencias::where('actevi_codigo', $actevi_codigo)->first();
-            if (!$evidencia)
-                return redirect()->back()->with('errorEvidencia', 'La evidencia no se encuentra registrada o vigente en el sistema.');
-
-            $archivo = public_path($evidencia->actevi_ruta);
-            $cabeceras = array(
-                'Content-Type: ' . $evidencia->actevi_mime,
-                'Cache-Control: no-cache, no-store, must-revalidate',
-                'Pragma: no-cache'
-            );
-
-            return Response::download($archivo, $evidencia->actevi_nombre, $cabeceras);
-        } catch (\Throwable $th) {
-            dd($th);
-            return redirect()->back()->with('errorEvidencia', 'Ocurrió un problema al descargar la evidencia, intente más tarde.');
+{
+    try {
+        $evidencia = ActividadesEvidencias::where('actevi_codigo', $actevi_codigo)->first();
+        if (!$evidencia) {
+            return redirect()->back()->with('errorEvidencia', 'La evidencia no se encuentra registrada o vigente en el sistema.');
         }
+
+        $archivo = public_path($evidencia->actevi_ruta);
+
+        // Asegúrate de que el nombre tenga una extensión válida
+        $nombreArchivo = $evidencia->actevi_nombre;
+        $mimeToExtension = [
+            'application/pdf' => 'pdf',
+            'image/jpeg' => 'jpg',
+            'image/png' => 'png',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
+        ];
+
+        if (!str_contains($nombreArchivo, '.')) {
+            $extension = $mimeToExtension[$evidencia->actevi_mime] ?? '';
+            if ($extension) {
+                $nombreArchivo .= '.' . $extension;
+            }
+        }
+
+        $cabeceras = [
+            'Content-Type' => $evidencia->actevi_mime,
+            'Cache-Control' => 'no-cache, no-store, must-revalidate',
+            'Pragma' => 'no-cache',
+        ];
+
+        return Response::download($archivo, $nombreArchivo, $cabeceras);
+    } catch (\Throwable $th) {
+        dd($th);
+        return redirect()->back()->with('errorEvidencia', 'Ocurrió un problema al descargar la evidencia, intente más tarde.');
     }
+}
+
 
     public function eliminarEvidencia($actevi_codigo)
     {
