@@ -1130,7 +1130,15 @@ public function completarCobertura($inic_codigo)
 
     public function verificarPaso1(Request $request)
     {
-        $rolePrefix = 'admin';
+        if (Session::has('admin')) {
+            $rolePrefix = 'admin';
+        } elseif (Session::has('digitador')) {
+            $rolePrefix = 'digitador';
+        } elseif (Session::has('observador')) {
+            $rolePrefix = 'observador';
+        } elseif (Session::has('supervisor')) {
+            $rolePrefix = 'supervisor';
+        }
 
 
         $request->validate([
