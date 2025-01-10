@@ -1217,8 +1217,8 @@
 
                 fila = `<tr data-pain="${registro.pain_codigo}">
                             <td>${registro.sede_nombre}</td>
-                            <td>${registro.escu_nombre}</td>
-                            <td>${registro.care_nombre}</td>
+                            <td>${registro.escu_nombre ?? 'No asignado'}</td>
+                            <td>${registro.care_nombre ?? 'No asignado'}</td>
                             <td id="valueEstudiantes">
                                 <input type="number"
                                        min="0" 
