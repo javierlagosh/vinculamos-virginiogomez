@@ -120,8 +120,8 @@
                                                             @if ($HayTodas)
                                                             <tr>
                                                                 <td>{{ $resultado->sede_nombre }}</td>
-                                                                <td>{{ $resultado->escu_nombre }}</td>
-                                                                <td>{{ $resultado->care_nombre }}</td>
+                                                                <td>{{ $resultado->escu_nombre ?? 'No asignado' }}</td>
+                                                                <td>{{ $resultado->care_nombre ?? 'No asignado' }}</td>
                                                                 <td>{{ $resultado->pain_general }}</td>
                                                                 <td>
                                                                     <input type="number" class="form-control"
@@ -134,8 +134,8 @@
                                                             @else
                                                             <tr>
                                                                 <td>{{ $resultado->sede_nombre }}</td>
-                                                                <td>{{ $resultado->escu_nombre }}</td>
-                                                                <td>{{ $resultado->care_nombre }}</td>
+                                                                <td>{{ $resultado->escu_nombre ?? 'No asignado'  }}</td>
+                                                                <td>{{ $resultado->care_nombre ?? 'No asignado'  }}</td>
                                                                 <td>{{ $resultado->pain_docentes }}</td>
                                                                 <td>
                                                                     <input type="number" class="form-control"
