@@ -112,7 +112,7 @@
                                             <label for="asunto">
                                                 Asunto:
                                             </label>
-                                            <input type="text" class="form-control" id="asunto" name="asunto" value="Evaluación de actividad: {{$iniciativa[0]->inic_nombre}}" />
+                                            <input type="text" class="form-control" id="asunto" name="asunto" value="Evaluación actividad Vinculación con el Medio - IP Virginio Gómez" />
                                         </div>
 
                                         <div class="form-group">
