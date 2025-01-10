@@ -1,3 +1,4 @@
+
 @if (Session::has('admin'))
     @php
         $role = 'admin';
@@ -863,11 +864,10 @@
                                         <div class="col-xl-4 col-md-4 col-lg-4">
                                             <div class="form-group">
                                                 <label style="font-size: 110%">Escuela/Unidad ejecutora </label>
-                                                <label for="" style="color: red;">*</label>
-                                                <input type="checkbox" id="selectAllEscuelas" style="margin-left: 60%">
+                                                <input type="checkbox" id="selectAllEscuelas" style="margin-left: 20%">
                                                 <label for="selectAllEscuelas">Todas</label>
                                                 <select class="form-control select2" name="escuelas[]" multiple=""
-                                                    style="width: 100%" id="escuelas" required>
+                                                    style="width: 100%" id="escuelas">
                                                     @if (isset($iniciativa) && $editar)
                                                         @forelse ($escuelas as $escuela)
                                                             <option value="{{ $escuela->escu_codigo }}"
@@ -899,12 +899,11 @@
                                         </div>
                                         <div class="col-xl-4 col-md-4 col-lg-4">
                                             <div class="form-group">
-                                                <label style="font-size: 110%">Carreras</label> <label for=""
-                                                    style="color: red;">*</label><input type="checkbox" id="selectAllCarreras"
+                                                <label style="font-size: 110%">Carreras</label><input type="checkbox" id="selectAllCarreras"
                                                     style="margin-left: 60%"> <label for="selectAllCarreras">Todas</label>
                                     
                                                 <select class="form-control select2" multiple="" id="carreras"
-                                                    name="carreras[]" style="width: 100%" required>
+                                                    name="carreras[]" style="width: 100%">
                                                     @if (isset($iniciativa) && $editar)
                                                         estoy aca
                                                         {{-- <select class="form-control select2" name="sedes[]" multiple id="sedes"> --}}

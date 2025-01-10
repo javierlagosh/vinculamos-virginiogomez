@@ -369,8 +369,8 @@
                                                                 @foreach ($internos as $interno)
                                                                     <tr>
                                                                         <td>{{ $interno->sede_nombre }}</td>
-                                                                        <td>{{ $interno->escu_nombre }}</td>
-                                                                        <td>{{ $interno->care_nombre }}</td>
+                                                                        <td>{{ $interno->escu_nombre ?? 'No asignado' }}</td>
+                                                                        <td>{{ $interno->care_nombre ?? 'No asignado' }}</td>
                                                                         
                                                                         <td class="valueDocentesE">{{ $interno->pain_docentes ?? ($interno->pain_docentes === 0 ? 0 : '') }}</td>
                                                                         <td class="valueDocentesR">{{ $interno->pain_docentes_final ?? ($interno->pain_docentes_final === 0 ? 0 : '') }}</td>
